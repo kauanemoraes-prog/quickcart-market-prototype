@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Branch - DaVinci</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <!-- NOTE: Subheader is handled by canvas automatically via canvas-navigation-data.json -->
+        <!-- Do NOT add subheader HTML here - it will create duplicates -->
+        
+        <div class="station-branch-page">
+            <!-- Connection Lines SVG -->
+            <svg class="connection-lines" id="connectionLines">
+                <!-- Lines will be drawn here dynamically -->
+            </svg>
+            
+            <!-- Station Grid Layout -->
+            <div class="station-grid">
+                <!-- Header Row -->
+                <div class="station-grid__header">
+                    <div class="station-grid__column station-grid__column--input">
+                        Input
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        Output
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <img src="../../davinci/assets/icons/regular/house.svg" alt="" width="16" height="16">
+                        Station
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                        Key process
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <img src="../../davinci/assets/icons/regular/doc-viewfinder.svg" alt="" width="16" height="16">
+                        Specification
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <img src="../../davinci/assets/icons/regular/gear.svg" alt="" width="16" height="16">
+                        Equipment
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <img src="../../davinci/assets/icons/regular/drop-keypad-rectangle.svg" alt="" width="16" height="16">
+                        Consumable
+                    </div>
+                </div>
+
+                <!-- Station A -->
+                <div class="station-row" data-station="A">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="A" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="A" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--blue">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 01</span>
+                                <span class="station-card__name">Station A</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                                <span class="tag tag--tiny tag--primary">SOP file</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Station B -->
+                <div class="station-row" data-station="B">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="B" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="B" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--gray">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 02</span>
+                                <span class="station-card__name">Station B</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Station C -->
+                <div class="station-row" data-station="C">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="C" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="C" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--green">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 03</span>
+                                <span class="station-card__name">Station C</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Station D -->
+                <div class="station-row" data-station="D">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="D" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="D" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--purple">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 04</span>
+                                <span class="station-card__name">Station D</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                                <span class="tag tag--tiny tag--primary">SOP file</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Station E -->
+                <div class="station-row" data-station="E">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="E" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="E" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--teal">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 05</span>
+                                <span class="station-card__name">Station E</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Station F -->
+                <div class="station-row" data-station="F">
+                    <div class="station-grid__column station-grid__column--input">
+                        <div class="connection-dot input-dot" data-station="F" data-type="input"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--output">
+                        <div class="connection-dot output-dot" data-station="F" data-type="output"></div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--station">
+                        <div class="station-card station-card--orange">
+                            <div class="station-card__header">
+                                <span class="station-card__number"># 06</span>
+                                <span class="station-card__name">Station F</span>
+                            </div>
+                            <div class="station-card__badges">
+                                <span class="tag tag--tiny tag--success">ME</span>
+                                <span class="tag tag--tiny tag--gray">ENG: POR</span>
+                                <span class="tag tag--tiny tag--gray">MP: POR</span>
+                                <span class="tag tag--tiny tag--gray">Class 1</span>
+                                <span class="tag tag--tiny tag--primary">SOP file</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--process">
+                        <div class="process-item">
+                            <span class="process-number"># 01</span>
+                            <span class="process-name">Key process</span>
+                            <button class="process-info-btn">
+                                <img src="../../davinci/assets/icons/regular/info-square.svg" alt="" width="16" height="16">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="station-grid__column station-grid__column--specification">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--equipment">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                    <div class="station-grid__column station-grid__column--consumable">
+                        <button class="add-item-btn">
+                            <img src="../../davinci/assets/icons/regular/plus-magnifyingglass.svg" alt="" width="16" height="16">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

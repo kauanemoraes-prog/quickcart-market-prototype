@@ -1,6 +1,6 @@
 /**
  * People avatars
- * Photos of people, taken from the sample photos of the workspace (.davinci/assets/avatars): women get a photo of a woman and men a
+ * Photos of people, taken from the sample photos of the workspace (davinci/assets/avatars): women get a photo of a woman and men a
  * photo of a man (the first name decides). There are only 12 photos and a photo is never shown twice in the same list: assign()
  * gives each photo to one person of a team (the first ones of the list) and the others have no photo, so the initials are shown.
  *
@@ -12,7 +12,7 @@
 (function() {
   'use strict';
 
-  var BASE = '../../.davinci/assets/avatars/';
+  var BASE = '../../davinci/assets/avatars/';
   var FILES = { 1: 'avatar-1.png', 2: 'avatar-2.jpg', 3: 'avatar-3.jpg', 4: 'avatar-4.jpg', 5: 'avatar-5.jpg', 6: 'avatar-6.jpg', 7: 'avatar-7.jpg', 8: 'avatar-8.png', 9: 'avatar-9.png', 10: 'avatar-10.png', 11: 'avatar-11.png', 12: 'avatar-12.png' };
   var WOMEN = [1, 2, 3, 8, 10];
   var MEN = [4, 5, 6, 7, 9, 11, 12];

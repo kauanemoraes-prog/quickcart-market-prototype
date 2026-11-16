@@ -1,0 +1,157 @@
+<!-- PROJ-NESTED-TABLE -->
+<!-- Expandable multilevel table where Level 1 rows reveal Level 2 detail panels -->
+
+<!-- METADATA
+Component: Nested Table
+Category: Data Display
+Complexity: High
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap in <section class="proj-nested-table"> with MDS table-container and table inside
+- MUST use MDS table classes (table, table__head, table__row, table__header, table__cell) for base structure
+- MUST use proj-nested-table__ prefixed classes for nested table behavior (rows, expand, drag handles)
+- MUST define two Handlebars templates: one for Level 1 rows, one for Level 2 detail panel
+- MUST use data-expanded="false" attribute on Level 1 rows
+- MUST have a unique data-* attribute (e.g., data-line-id) for item lookup
+- MUST include expand button with proj-nested-table__expand-btn class and chevron icon
+
+COMMON MISTAKES TO AVOID:
+[X] Using generic table without MDS table classes
+[X] Forgetting the proj-nested-table wrapper section
+[X] Missing data-expanded attribute on Level 1 rows
+[X] Incorrect Handlebars template IDs in JS config
+[X] Not matching colspan to Level 1 column count
+
+JAVASCRIPT INTEGRATION:
+- Load proj-nested-table.js via <script> tag before your prototype's main.js
+- Factory pattern: var table = ProjNestedTable.create(config); table.init();
+- Config requires: tbodyId, level1TemplateId, level2TemplateId, data, dataKey, idField, childrenField, colspan, level1DataKey, level2DataKey
+- See JSDoc in proj-nested-table.js for full API
+
+COMPANION FILES:
+- CSS: proj-nested-table.css (auto-loaded via plugins.css)
+- JS: proj-nested-table.js (load per-prototype via script tag)
+
+CORRECT STRUCTURE TEMPLATE:
+<section class="proj-nested-table">
+  <div class="table-container">
+    <table class="table">
+      <thead class="table__head">...</thead>
+      <tbody class="table__body" id="my-table-body"></tbody>
+    </table>
+  </div>
+</section>
+
+When to prompt: When user needs an expandable table with parent-child data. Ask about: L1 columns, L2 detail layout, data structure.
+Variants: Base only — customize via use-case CSS for column widths and L2 panel layout.
+-->
+
+
+<!-- ==================== -->
+<!-- CONTAINER STRUCTURE   -->
+<!-- ==================== -->
+<!-- Place this in your page-content -->
+
+<section class="proj-nested-table">
+    <div class="table-container">
+        <table class="table">
+            <thead class="table__head">
+                <tr class="table__row">
+                    <th class="table__header proj-nested-table__col-index">#</th>
+                    <th class="table__header proj-nested-table__col-name">Name</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody class="table__body" id="my-table-body"></tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ==================== -->
+<!-- L1 ROW TEMPLATE       -->
+<!-- ==================== -->
+<!-- Handlebars template for Level 1 rows. Place inside page-content. -->
+
+<script id="my-l1-template" type="text/x-handlebars-template">
+    {{#each items}}
+    <tr class="table__row proj-nested-table__row proj-nested-table__row--level1" data-item-id="{{id}}" data-expanded="false">
+        <td class="table__cell proj-nested-table__col-index">
+            <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+            </span>
+            <span class="proj-nested-table__row-number">{{index}}</span>
+        </td>
+        <td class="table__cell proj-nested-table__col-name">
+            <button class="proj-nested-table__expand-btn" aria-label="Expand {{name}}">
+                <lucide-icon class="proj-nested-table__chevron" name="chevron.forward" style="font-size:10px"></lucide-icon>
+            </button>
+            <span>{{name}}</span>
+        </td>
+        <!-- Add more cells as needed -->
+    </tr>
+    {{/each}}
+</script>
+
+
+<!-- ==================== -->
+<!-- L2 DETAIL TEMPLATE    -->
+<!-- ==================== -->
+<!-- Handlebars template for Level 2 detail panel. Place inside page-content. -->
+<!-- Customize the inner layout for your specific use case. -->
+
+<script id="my-l2-template" type="text/x-handlebars-template">
+    <div class="my-l2-wrapper">
+        <table class="table my-l2-table">
+            <thead class="table__head">
+                <tr class="table__row">
+                    <th class="table__header">Detail Column 1</th>
+                    <th class="table__header">Detail Column 2</th>
+                </tr>
+            </thead>
+            <tbody class="table__body">
+                {{#each children}}
+                <tr class="table__row proj-nested-table__row proj-nested-table__row--level2">
+                    <td class="table__cell">{{field1}}</td>
+                    <td class="table__cell">{{field2}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+
+
+<!-- ==================== -->
+<!-- JS INITIALIZATION     -->
+<!-- ==================== -->
+<!--
+In your prototype's JS module:
+
+var table = ProjNestedTable.create({
+    tbodyId:          'my-table-body',
+    level1TemplateId: 'my-l1-template',
+    level2TemplateId: 'my-l2-template',
+    data:             myDataArray,
+    dataKey:          'data-item-id',
+    idField:          'id',
+    childrenField:    'children',
+    colspan:          2,
+    level1DataKey:    'items',
+    level2DataKey:    'children'
+});
+table.init();
+
+HTML script tags (in index.html, before main.js):
+<script src="../../davinci/plugins/proj-nested-table.js"></script>
+-->
+
+
+<!-- USAGE:
+- CSS (proj-nested-table.css) auto-loads via plugins.css — no manual linking needed
+- JS (proj-nested-table.js) must be loaded per-prototype via <script> tag
+- Base component provides: expand/collapse, card-style L1 rows, drag handles, row numbers, chevron rotation
+- Use-case CSS must define: column widths (proj-nested-table__col-*) and L2 panel layout
+- Design tokens: --nt-color-accent (blue), --nt-filter-icon-accent (SVG filter)
+- Override tokens on .proj-nested-table to customize accent color per instance
+-->
