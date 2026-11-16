@@ -1,0 +1,26 @@
+component: modal
+summary: "A focused overlay that interrupts the flow for a single task or decision, shown over a backdrop."
+anatomy:
+  - {id: overlay, required: true,  role: "backdrop wrapper that controls visibility and blocks interaction beneath"}
+  - {id: dialog,  required: true,  role: "the modal container"}
+  - {id: header,  required: true,  role: "title and dismiss affordance"}
+  - {id: title,   required: true,  role: "names the dialog"}
+  - {id: close,   required: true,  role: "dismiss control", capabilities: [dismiss]}
+  - {id: body,    required: true,  role: "the task content"}
+  - {id: footer,  required: false, role: "primary and secondary actions"}
+states: [closed, open, closing?]
+behaviors:
+  open:    "toggling the open state renders the dialog over the page and moves focus into it"
+  dismiss: "closes on the close control, the Esc key, and a backdrop click; a click inside the dialog does not close it"
+a11y:
+  - "role=dialog with aria-modal=true"
+  - "labelled by the title via aria-labelledby"
+  - "focus moves into the dialog on open and is trapped while open"
+  - "focus returns to the triggering element on close"
+  - "Esc closes the dialog"
+heuristics:
+  - {id: user-control, source: nielsen,   rule: "always provide an obvious way to dismiss", verify: [dom]}
+  - {id: hit-target,   source: apple-hig, rule: "the close control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: destructive-confirm, note: "when the dialog confirms a destructive action, the confirming action is marked as destructive and is not the default focus"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, size and width variants, backdrop appearance, glyph artwork]

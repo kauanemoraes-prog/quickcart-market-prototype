@@ -1,0 +1,35 @@
+/* Shared border colors for every prototype.
+ *   --divider-color: lines between table rows
+ *   --outline-color: outlines of fields, dropdowns and other controls
+ * Link this file LAST in <head> of each prototype page. */
+:root {
+  --divider-color: #E0E0E4;
+  --outline-color: #B6B7BD;
+}
+
+/* Table row dividers. Only the color is set, so cells and rows without a border stay without one. */
+.table .table__row,
+.table .table__cell,
+.table .table__header {
+  border-top-color: var(--divider-color) !important;
+  border-bottom-color: var(--divider-color) !important;
+}
+
+/* Field and dropdown outlines (resting state only: hover, focus, invalid and disabled keep their own colors). */
+.form-input:not(:hover):not(:focus):not(:disabled):not(.form-input--invalid),
+.form-select:not(:hover):not(:focus):not(:disabled):not(.form-select--invalid),
+.form-textarea:not(:hover):not(:focus):not(:disabled):not(.form-input--invalid),
+.programs-search__input:not(:focus),
+.view-toggle,
+.view-toggle__btn + .view-toggle__btn {
+  border-color: var(--outline-color);
+}
+
+/* The outline of the dropdowns is the color of the dividers between sections (not the darker outline of the other fields) */
+.form-select:not(:hover):not(:focus):not(:disabled):not(.form-select--invalid),
+.ms__trigger:not(:hover):not([aria-expanded="true"]) { border-color: var(--divider-color); }
+
+/* The line color many components ask for (--color-fill-quaternary) was never defined, so their dividers did not show:
+ * it is the color of the dividers of the prototypes. */
+:root { --color-fill-quaternary: #E0E0E4; }
+html.dark-mode { --color-fill-quaternary: #333538; }

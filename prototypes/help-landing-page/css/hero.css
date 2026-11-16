@@ -1,0 +1,67 @@
+/* Hero — gradient banner with title, search and chips */
+
+.help-hero {
+    background: linear-gradient(135deg, #7180AC 0%, #4ab3a8 55%, #6bc26b 100%);
+    border-radius: var(--space-m);
+    padding: var(--space-xxxl) var(--space-xl);
+    color: var(--color-fill-fixed-white);
+    text-align: center;
+}
+
+.help-hero__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.help-hero__logo {
+    margin-bottom: var(--space-m);
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+
+.help-hero__title {
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--color-fill-fixed-white);
+}
+
+.help-hero__subtitle {
+    margin: 0 0 var(--space-l) 0;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.help-hero__search {
+    width: 100%;
+    margin: 0 0 var(--space-m) 0;
+}
+
+.help-hero__chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+}
+
+.help-hero__chips-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--font-size-tiny);
+    margin-right: var(--space-xxs);
+}
+
+.help-chip {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-fill-fixed-white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    padding: var(--space-xxs) var(--space-s);
+    font-size: var(--font-size-tiny);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.help-chip:hover {
+    background: rgba(255, 255, 255, 0.3);
+}

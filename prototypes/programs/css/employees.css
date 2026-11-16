@@ -1,0 +1,154 @@
+/* Employees tab: reuses the toolbar, chips, table and drawer styles of the Products tab (products.css) */
+
+.table--employees {
+    min-width: 0;
+}
+
+.table--employees .table__row { height: 5.2rem; }
+.table--employees .table__header { position: sticky; top: 0; white-space: nowrap; }
+.table--employees .table__cell { white-space: nowrap; }
+
+.emp-who {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.emp-who__text { display: flex; flex-direction: column; }
+.emp-who__text small { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+
+.emp-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3.6rem;
+    height: 3.6rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #E6E6E6;
+    object-fit: cover;
+    object-position: center 22%;
+}
+
+/* Used only when the photo cannot be loaded */
+.emp-avatar--initials {
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-base-accent);
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+}
+
+.emp-avatar--large { width: 5.2rem; height: 5.2rem; }
+
+.emp-drawer-title { display: flex; align-items: center; gap: var(--space-m); }
+
+.emp-action { text-align: right; }
+
+/* Drawer: usual areas, week, tasks and the assign form */
+.emp-areas { margin: 0 0 var(--space-m); padding: 0; list-style: none; }
+
+.emp-areas li {
+    display: grid;
+    grid-template-columns: 16rem 1fr 4rem;
+    align-items: center;
+    gap: var(--space-s);
+    padding: 4px 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.emp-areas strong { text-align: right; font-weight: var(--font-weight-semibold); }
+
+.emp-areas__bar {
+    height: 6px;
+    border-radius: 999px;
+    background: #EEF0F3;
+    overflow: hidden;
+}
+
+.emp-areas__bar span { display: block; height: 100%; border-radius: 999px; background: var(--color-base-accent); }
+
+.emp-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+
+.emp-week__day {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px;
+    border-radius: 8px;
+    background: var(--color-base-accent-lighter-1);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray);
+    text-align: center;
+}
+
+.emp-week__day--off { background: #EEF0F3; color: var(--color-glyph-gray-secondary); }
+
+.emp-tasks li { grid-template-columns: 1fr auto; }
+.emp-tasks li span { grid-column: 1; }
+.emp-tasks li time { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.emp-late { color: #B3261E; }
+
+.emp-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-s) var(--space-m);
+}
+
+.emp-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.emp-form__field--wide,
+.emp-form__error,
+.emp-form__actions { grid-column: 1 / -1; }
+
+.emp-form__error { margin: 0; font-size: var(--font-size-xxs); color: #B3261E; }
+.emp-form__actions { display: flex; justify-content: flex-end; }
+
+.dark-mode .emp-areas__bar,
+.dark-mode .emp-week__day--off { background: var(--dm-bg-4); }
+.dark-mode .emp-areas li,
+.dark-mode .emp-week__day { color: var(--dm-text-1); }
+.dark-mode .emp-week__day { background: var(--dm-accent-soft); }
+.dark-mode .emp-who__text small,
+.dark-mode .emp-form__field { color: var(--dm-text-2); }
+
+/* The employee drawer has no backdrop (no tint, no blur) over the table; a click outside it still closes it */
+#employee-drawer.drawer-overlay {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.emp-avatar--large.emp-avatar--initials { font-size: var(--font-size-xxs); }
+
+/* Rows of the same height as the rows of the Products tab (4.4rem): the photo or initials are 2.8rem and nothing makes a row taller */
+.table--employees .table__row { height: 4.4rem; }
+.table--employees .table__cell { padding-top: 0; padding-bottom: 0; }
+.table--employees .emp-who { display: flex; }
+.table--employees .emp-avatar { display: block; width: 2.8rem; height: 2.8rem; }
+.table--employees .emp-avatar--initials { display: inline-flex; }
+.table--employees .btn { height: 3.2rem; }
+
+/* The admin of the store (its manager) stands out from the rest of the team: tinted row, accent bar, larger avatar and bolder name */
+.table--employees .emp-row--admin > .table__cell { background-color: var(--color-base-accent-lighter-1); }
+.table--employees .emp-row--admin > .table__cell:first-child { box-shadow: inset 3px 0 0 var(--color-base-accent); }
+.table--employees .emp-row--admin .products-cell--name { font-weight: var(--font-weight-semibold); }
+.table--employees .emp-row--admin .emp-avatar { box-shadow: 0 0 0 2px var(--color-base-accent); }
+.emp-admin-tag { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; background: var(--color-base-accent); color: #fff; font-size: var(--font-size-tiny); font-weight: var(--font-weight-semibold); }
+html.dark-mode .table--employees .emp-row--admin > .table__cell { background-color: var(--dm-accent-soft); }
+
+/* The copy icon after the e-mail and the phone */
+.emp-copy { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; width: 2.4rem; height: 2.4rem; margin-left: 4px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--color-glyph-gray-secondary); cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
+.emp-copy:hover { background: var(--color-fill-secondary); color: var(--color-glyph-gray); }
+.emp-copy--done { color: #1E7B34; }
+html.dark-mode .emp-copy:hover { background: var(--dm-bg-5); }
+
+/* The Add employee button sits at the right end of the filters */
+.products-toolbar .emp-add { margin-left: auto; }

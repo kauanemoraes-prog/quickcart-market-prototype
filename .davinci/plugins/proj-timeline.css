@@ -1,0 +1,246 @@
+/* ===== PROJ-TIMELINE COMPONENT ===== */
+/* Horizontal read-only milestone timeline with progress line. */
+
+.proj-timeline {
+    --tl-color-accent: var(--color-base-accent, #7180AC);
+    --tl-color-accent-dark: #5C6A94;
+    --tl-color-track: #D7DFE9;
+    --tl-color-future: #8897AE;
+    --tl-circle-container: 22px;   /* every circle sits in the same 22px box so the line passes through all centers */
+    --tl-dot-size: 16px;           /* done */
+    --tl-dot-size-future: 12px;    /* not started */
+    --tl-track-height: 2px;
+    display: inline-block;
+}
+
+/* Track: relative container */
+.proj-timeline__track {
+    position: relative;
+}
+
+/* Milestones row */
+.proj-timeline__milestones {
+    display: flex;
+    gap: 96px;
+    position: relative;
+}
+
+/* Single milestone: column (stage name -> circle -> date), everything centered on the circle */
+.proj-timeline__milestone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Stage name — above the circle */
+.proj-timeline__label {
+    order: 1;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--tl-color-accent);
+    line-height: 14px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+/* Date — below the circle */
+.proj-timeline__value {
+    order: 3;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    line-height: 14px;
+    margin-top: 4px;
+    white-space: nowrap;
+}
+
+/* Circle — one box for every state */
+.proj-timeline__circle {
+    order: 2;
+    width: var(--tl-circle-container);
+    height: var(--tl-circle-container);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    position: relative;
+    background: transparent;
+}
+
+.proj-timeline__circle::before {
+    content: '';
+    width: var(--tl-dot-size);
+    height: var(--tl-dot-size);
+    border-radius: 50%;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+/* ---- past: solid dark circle with a white check ---- */
+.proj-timeline__milestone--past .proj-timeline__circle::before {
+    background: var(--tl-color-accent-dark);
+}
+
+.proj-timeline__checkmark {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+}
+
+/* ---- current: large circle with a glow, a progress ring and a pulsing clock ---- */
+.proj-timeline__milestone--current .proj-timeline__circle {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(113, 128, 172, 0.18), 0 2px 6px rgba(92, 106, 148, 0.3);
+}
+
+.proj-timeline__milestone--current .proj-timeline__circle::before {
+    display: none;
+}
+
+.proj-timeline__ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.proj-timeline__ring circle {
+    fill: none;
+    stroke-width: 3;
+}
+
+.proj-timeline__ring-track {
+    stroke: #E3E7F0;
+}
+
+.proj-timeline__ring-value {
+    stroke: var(--tl-color-accent);
+    stroke-linecap: round;
+    animation: tl-ring-fill 0.9s ease-out;
+}
+
+.proj-timeline__clock {
+    position: relative;
+    z-index: 1;
+    color: var(--tl-color-accent);
+    animation: tl-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes tl-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(0.9); }
+}
+
+@keyframes tl-ring-fill {
+    from { stroke-dasharray: 0 100; }
+}
+
+.proj-timeline__milestone--current .proj-timeline__label {
+    font-weight: 700;
+}
+
+.proj-timeline__milestone--current .proj-timeline__value {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+/* ---- draft: current but not published ---- */
+.proj-timeline__milestone--draft .proj-timeline__circle::before {
+    width: var(--tl-dot-size);
+    height: var(--tl-dot-size);
+    background: var(--color-fill);
+    border: 1px solid var(--color-glyph-gray-tertiary);
+}
+
+.proj-timeline__milestone--draft .proj-timeline__checkmark {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+/* ---- future: hollow circle, quiet text ---- */
+.proj-timeline__milestone--future .proj-timeline__circle::before {
+    width: var(--tl-dot-size-future);
+    height: var(--tl-dot-size-future);
+    background: var(--color-fill);
+    border: 1.5px solid #C4CAD6;
+}
+
+.proj-timeline__milestone--future .proj-timeline__label {
+    font-weight: var(--font-weight-medium);
+    color: var(--tl-color-future);
+}
+
+.proj-timeline__milestone--future .proj-timeline__value {
+    color: var(--tl-color-future);
+}
+
+/* ---- Modifier: selected — 20px blue outer ring (agnostic) ---- */
+/* White bg hides the track line; dot (::before) renders on top */
+.proj-timeline__milestone--selected:not(.proj-timeline__milestone--current) .proj-timeline__circle {
+    border: 2px solid var(--tl-color-accent);
+    background: var(--color-fill);
+}
+
+/* ---- Track lines (positioned by JS to align with circle centers) ---- */
+/* Gray line — always visible, spans first to last circle */
+.proj-timeline__line {
+    position: absolute;
+    top: 50%; /* name and date have the same height, so the circles are in the middle row */
+    height: var(--tl-track-height);
+    background: var(--tl-color-track);
+    transform: translateY(-50%);
+}
+
+/* Blue progress — fills from first circle to current milestone */
+.proj-timeline__progress {
+    position: absolute;
+    top: 50%;
+    height: var(--tl-track-height);
+    background: linear-gradient(90deg, var(--tl-color-accent-dark), var(--tl-color-accent));
+    transform: translateY(-50%);
+    z-index: 1;
+    transition: width 0.8s ease;
+    border-radius: 2px;
+}
+
+/* Tooltip on hover / keyboard focus: light card with rounded corners */
+.proj-timeline__tip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 4px);
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: #fff;
+    border: 1px solid var(--divider-color, #E0E0E4);
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    color: var(--color-glyph-gray);
+    font-size: var(--font-size-tiny);
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 20;
+}
+
+.proj-timeline__milestone:hover .proj-timeline__tip,
+.proj-timeline__milestone:focus-visible .proj-timeline__tip {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.proj-timeline__milestone:focus-visible .proj-timeline__circle {
+    outline: 2px solid var(--tl-color-accent);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .proj-timeline__clock,
+    .proj-timeline__ring-value { animation: none; }
+    .proj-timeline__progress { transition: none; }
+}

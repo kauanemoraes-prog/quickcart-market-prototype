@@ -1,0 +1,271 @@
+/* Process Flow — Lines table L2 (SOP, info icon, stats). Split from lines-table.css. */
+
+/* Header info icon (next to "Cond. SOP") */
+.line-info-btn {
+    background: none;
+    border: none;
+    padding: 0 0 0 4px;
+    cursor: pointer;
+    color: var(--color-glyph-gray-tertiary);
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+.line-info-btn:hover { color: var(--color-base-accent); }
+
+/* Cond. SOP body cell — download button */
+.line-cond-sop-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--color-base-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+.line-cond-sop-btn:hover { background-color: var(--color-fill-tertiary); }
+.line-cond-sop-btn img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(82%) saturate(2236%) hue-rotate(205deg) brightness(96%) contrast(101%);
+}
+
+/* Stats column — 2x3 grid of metrics inside the rightmost cell */
+.proj-nested-table__col-stats {
+    white-space: nowrap;
+    /* Pull stats hard against the PCNs column so the table fits without horizontal scroll */
+    padding-left: 0 !important;
+}
+
+.line-stats {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: var(--space-m);
+    row-gap: 0;
+    font-size: var(--font-size-tiny);
+    line-height: 1.3;
+    margin-left: -7px;
+}
+
+.line-stats__col {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: var(--space-m);
+    row-gap: 0;
+    width: 100px;
+    align-items: baseline;
+}
+
+.line-stats__row {
+    display: contents;
+}
+
+.line-stats__row span {
+    color: var(--color-glyph-gray-secondary);
+}
+
+.line-stats__row strong {
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-medium);
+    text-align: right;
+}
+
+/* Header variant — tighter line-height + smaller font for compact header height */
+.line-stats--header {
+    padding: 0;
+    line-height: 1.1;
+    font-size: 11px;
+}
+
+/* ============================================================
+ * Process Flow 2 — separate stat columns
+ * Each header has an icon (or label "PCN's") with the totals number below.
+ * Body cells just show the per-line number, accent-colored.
+ * ============================================================ */
+.proj-nested-table__col-stat-num {
+    text-align: center;
+    white-space: nowrap;
+    min-width: 50px;
+}
+
+.stat-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    line-height: 1.1;
+}
+
+.stat-col__icon {
+    display: block;
+    filter: brightness(0) saturate(100%) invert(45%);
+}
+
+.stat-col__label {
+    font-size: 14px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.stat-col__total {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-base-accent);
+}
+
+.table--lines-v2 td.proj-nested-table__col-stat-num,
+.table--lines:not(.table--lines-v2) td.proj-nested-table__col-stat-num {
+    color: var(--color-base-accent);
+    font-size: 14px;
+    text-align: left;
+}
+
+/* Tooltips on the stat-column totals — allow long labels to wrap to 2 lines.
+ * Default proj-tooltip uses `white-space: nowrap`; here we lift that for stat headers. */
+.table--lines-v2 .stat-col__total[data-proj-tooltip]::after,
+.table--lines:not(.table--lines-v2) .stat-col__total[data-proj-tooltip]::after {
+    white-space: normal;
+    width: 200px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* ============================================================
+ * Line Grouping rows — header rows that group level-1 lines.
+ * Card-style (rounded, subtle shadow) like L1 rows, but use a single merged cell
+ * for the chevron + group name so the row reads as a section header.
+ * ============================================================ */
+.table--lines .proj-nested-table__row--group {
+    background: #F3F3F3;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Keep the group row gray on hover — it reads as a section header, not an actionable row. */
+.table--lines .proj-nested-table__row--group:hover,
+.table--lines-v2 .proj-nested-table__row--group:hover {
+    background-color: #F3F3F3;
+}
+
+.table--lines .proj-nested-table__row--group td {
+    height: 32px;
+    border-top: 1px solid var(--color-fill-tertiary);
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+
+.table--lines .proj-nested-table__row--group td:first-child {
+    border-left: 1px solid var(--color-fill-tertiary);
+    border-radius: 8px 0 0 8px;
+}
+
+.table--lines .proj-nested-table__row--group td:last-child {
+    border-right: 1px solid var(--color-fill-tertiary);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Merged cell that holds the chevron toggle + group name. Pulls slightly left so
+ * the chevron aligns with the line-name chevron beneath it. */
+.table--lines td.proj-nested-table__col-group {
+    padding-left: 0;
+    vertical-align: middle;
+}
+
+.table--lines td.proj-nested-table__col-group > * {
+    transform: translateX(-20px);
+}
+
+.proj-nested-table__group-expand-btn {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(--space-xs);
+    vertical-align: middle;
+}
+
+.proj-nested-table__group-name {
+    display: inline-block;
+    /* Mirror the line-name input's box (transparent border + 4px/8px padding) so the
+     * "Line group:" text starts at the same horizontal position as the line-name text below. */
+    border: 1px solid transparent;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+    vertical-align: middle;
+    line-height: 1;
+    /* Fixed width so the divider + "Line type:" cluster lands at the col-desc boundary
+     * (aligning visually with the Description header below). Sized so the chevron +
+     * group-name + divider span equals col-index + col-name (60 + 220 = 280px). */
+    min-width: 193px;
+}
+
+.proj-nested-table__group-label {
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-regular);
+    margin-right: 2px;
+}
+
+/* Used by the group-collapse handler to hide all level-1 rows (and any open L2
+ * detail rows) that belong to a collapsed group. */
+.proj-nested-table__row--hidden {
+    display: none;
+}
+
+/* Bump chevron size for Process Flow 2 only (group + line expand toggles).
+ * Overrides the inline width/height="10" attributes set on each <img>. */
+.table--lines-v2 .proj-nested-table__chevron {
+    width: 12px;
+    height: 12px;
+}
+
+/* Toast container for line-grouping move confirmations. Top-center fixed stack —
+ * stays out of the way of the table content but visible enough for the user to
+ * confirm their action succeeded. */
+.lines-notifications {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-s);
+    pointer-events: none;
+    max-width: 360px;
+}
+
+.lines-notifications .notification {
+    pointer-events: auto;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Vertical divider between the group name and the inline meta (Line type, etc.) */
+.proj-nested-table__group-divider {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    background: #E8E8ED;
+    margin: 0 var(--space-m);
+    vertical-align: middle;
+}
+
+/* Inline cluster: "Line type:" label + dropdown trigger, sitting on the same baseline
+ * as the group name. */
+.proj-nested-table__group-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Dropdowns inside group headers always show a visible border (instead of the
+ * transparent-until-hover treatment used in line rows) — they read as the row's
+ * primary control rather than an "editable on hover" affordance. */
+.table--lines .proj-nested-table__row--group .equip-dropdown__trigger {
+    background-color: #FFFFFF;
+    border-color: #D9D9D9;
+}

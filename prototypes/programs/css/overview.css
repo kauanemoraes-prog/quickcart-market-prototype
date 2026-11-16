@@ -1,0 +1,474 @@
+/* Store Overview tab: indicators, attention lists, orders and the other stores of the city */
+
+.store-overview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-m) 0;
+}
+
+.ov-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+}
+
+.ov-header__title {
+    margin: 0;
+    font-size: var(--font-size-large, 20px);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.ov-header__meta {
+    margin: 2px 0 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-kpis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ov-kpi {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "icon value" "label label" "note note";
+    align-items: center;
+    column-gap: var(--space-s);
+    row-gap: 2px;
+    padding: var(--space-m);
+    background: #fff;
+    border-radius: 16px;
+}
+
+.ov-kpi__icon {
+    grid-area: icon;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: #E6E6E6;
+    color: var(--color-base-accent);
+}
+
+.ov-kpi__value {
+    grid-area: value;
+    justify-self: end;
+    font-size: 28px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    color: var(--color-glyph-gray);
+}
+
+.ov-kpi__label {
+    grid-area: label;
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-kpi__note {
+    grid-area: note;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.ov-kpi--warning .ov-kpi__icon { background: #FFF4D6; color: #8A5A00; }
+.ov-kpi--danger .ov-kpi__icon { background: #FDE7E7; color: #B3261E; }
+.ov-kpi--info .ov-kpi__icon { background: var(--color-base-accent-lighter-1); }
+
+.ov-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.ov-card {
+    padding: var(--space-m) var(--space-ml, 20px);
+    background: #fff;
+    border-radius: 20px;
+}
+
+.ov-card__title {
+    margin: 0;
+    font-size: var(--font-size-small, 14px);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.ov-card__subtitle {
+    margin: 2px 0 var(--space-s);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ov-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    border-top: 1px solid var(--color-fill-quaternary);
+}
+
+.ov-row:first-child { border-top: 0; }
+
+.ov-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.ov-row__link { color: inherit; text-decoration: none; }
+.ov-row__link:hover .ov-row__title { color: var(--color-base-accent); }
+
+.ov-row__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.ov-row__meta {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-row__current {
+    margin-left: var(--space-xs);
+    font-size: var(--font-size-tiny);
+    color: var(--color-base-accent);
+}
+
+.ov-empty {
+    padding: var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-badge {
+    flex-shrink: 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+}
+
+.ov-badge--success { background: #E6F4EA; color: #1E7B34; }
+.ov-badge--warning { background: #FFF4D6; color: #8A5A00; }
+.ov-badge--danger  { background: #FDE7E7; color: #B3261E; }
+.ov-badge--info    { background: var(--color-base-accent-lighter-1); color: var(--color-base-accent); }
+.ov-badge--muted   { background: #EEF0F3; color: var(--color-glyph-gray-secondary); }
+
+.dark-mode .ov-kpi,
+.dark-mode .ov-card { background-color: var(--dm-bg-2); }
+.dark-mode .ov-header__title,
+.dark-mode .ov-card__title,
+.dark-mode .ov-kpi__value,
+.dark-mode .ov-row__title { color: var(--dm-text-1); }
+.dark-mode .ov-header__meta,
+.dark-mode .ov-card__subtitle,
+.dark-mode .ov-kpi__label,
+.dark-mode .ov-kpi__note,
+.dark-mode .ov-row__meta,
+.dark-mode .ov-empty { color: var(--dm-text-2); }
+.dark-mode .ov-row { border-top-color: var(--dm-divider); }
+.dark-mode .ov-badge--muted { background: var(--dm-bg-4); color: var(--dm-text-2); }
+
+/* Six indicators, card header with action, clickable area rows, inventory health, blocked reason */
+.ov-kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+.ov-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.ov-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
+}
+
+.ov-card__link {
+    flex-shrink: 0;
+    font-size: var(--font-size-tiny);
+    color: var(--color-base-accent);
+    text-decoration: none;
+}
+
+.ov-card__link:hover { text-decoration: underline; }
+
+button.ov-row__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ov-row__go { display: inline-flex; color: var(--color-glyph-gray-tertiary); }
+
+.ov-row__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #EEF0F3;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-row__time {
+    flex-shrink: 0;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-row__reason {
+    font-size: var(--font-size-tiny);
+    color: #B3261E;
+}
+
+.ov-health { padding: var(--space-xs) 0; }
+
+.ov-health__bar {
+    display: flex;
+    height: 10px;
+    margin-bottom: var(--space-m);
+    overflow: hidden;
+    border-radius: 999px;
+    background: #EEF0F3;
+}
+
+.ov-health__seg--ok { background: #34A853; }
+.ov-health__seg--low { background: #F5B400; }
+.ov-health__seg--out { background: #D93025; }
+
+.ov-health__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-xs) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.ov-health__row strong { margin-left: auto; font-weight: var(--font-weight-semibold); }
+.ov-health__row small { width: 3.6rem; text-align: right; color: var(--color-glyph-gray-secondary); }
+.ov-health__row--note { margin-top: var(--space-xs); color: var(--color-glyph-gray-secondary); font-size: var(--font-size-tiny); }
+
+.ov-health__dot { width: 8px; height: 8px; border-radius: 50%; }
+.ov-health__dot--ok { background: #34A853; }
+.ov-health__dot--low { background: #F5B400; }
+.ov-health__dot--out { background: #D93025; }
+
+.dark-mode .ov-health__bar,
+.dark-mode .ov-row__icon { background: var(--dm-bg-4); }
+.dark-mode .ov-health__row { color: var(--dm-text-1); }
+.dark-mode .ov-health__row small,
+.dark-mode .ov-health__row--note,
+.dark-mode .ov-row__time { color: var(--dm-text-2); }
+
+/* Operational summary: five clickable indicators, Needs attention with shortcuts, Tasks today, sales summary */
+.ov-header__side { display: flex; align-items: center; gap: var(--space-m); }
+
+.ov-period { display: flex; align-items: center; gap: var(--space-s); font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.ov-period .form-select { min-width: 14rem; }
+
+.ov-scope { margin: calc(var(--space-s) * -1) 0 0; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+
+.ov-kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* The indicators filter the Needs attention list, with the same three states as the indicators of the Dashboard:
+ * default (plain), hover (soft outline, tint and lift) and selected (strong outline, accent tint, solid icon) */
+button.ov-kpi {
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px transparent;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+button.ov-kpi:hover,
+button.ov-kpi:focus-visible {
+    background-color: #F7F8FB;
+    box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 6px 16px rgba(113, 128, 172, 0.16);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+button.ov-kpi.ov-kpi--active,
+button.ov-kpi.ov-kpi--active:hover,
+button.ov-kpi.ov-kpi--active:focus-visible {
+    background-color: var(--color-base-accent-lighter-1);
+    box-shadow: inset 0 0 0 2px var(--color-base-accent);
+    transform: none;
+}
+
+button.ov-kpi.ov-kpi--active .ov-kpi__icon { background: var(--color-base-accent); color: #fff; }
+button.ov-kpi.ov-kpi--active .ov-kpi__value { color: var(--color-base-accent-darker-2); }
+
+.ov-card__actions { display: inline-flex; align-items: center; gap: var(--space-m); flex-shrink: 0; }
+
+.ov-grid--main { grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: stretch; }
+/* The two blocks span 3 and 2 of the 5 columns of the indicators above, so their edges line up with the indicators */
+.ov-grid--main > :first-child { grid-column: span 3; }
+.ov-grid--main > :last-child { grid-column: span 2; }
+
+.ov-attn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    border-top: 1px solid var(--color-fill-quaternary);
+}
+
+.ov-attn:first-child { border-top: 0; }
+
+.ov-attn__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: #E6E6E6;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-attn__icon--danger { background: #FDE7E7; color: #B3261E; }
+.ov-attn__icon--warning { background: #FFF4D6; color: #8A5A00; }
+
+.ov-attn__action {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font: inherit;
+    font-size: var(--font-size-tiny);
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.ov-attn__action:hover { background: var(--color-base-accent-lighter-1); }
+
+button.ov-card__link { border: 0; background: none; font: inherit; font-size: var(--font-size-tiny); cursor: pointer; }
+
+.ov-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-s); padding-bottom: var(--space-s); }
+
+.ov-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-s) var(--space-m);
+    border-radius: 12px;
+    background: var(--color-fill-secondary);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-stat strong { font-size: 22px; line-height: 1.1; color: var(--color-glyph-gray); }
+.ov-stat--warning strong { color: #8A5A00; }
+.ov-stat--danger strong { color: #B3261E; }
+
+.ov-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--color-fill-quaternary);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-note span { flex: 1; }
+
+.ov-subhead {
+    padding: var(--space-s) 0 0;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.ov-sales { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-m); }
+
+.ov-sale { display: flex; flex-direction: column; gap: 2px; padding: var(--space-s) 0; }
+.ov-sale__label { font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+
+.ov-sale__value {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 24px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.ov-sale__value--up { color: #1E7B34; }
+.ov-sale__value--down { color: #B3261E; }
+.ov-sale__note { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-tertiary); }
+
+.dark-mode .ov-stat { background: var(--dm-bg-3); }
+.dark-mode .ov-attn,
+.dark-mode .ov-note { border-top-color: var(--dm-divider); }
+
+.ov-period span { white-space: nowrap; }
+.ov-stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.ov-header__line { display: flex; align-items: baseline; gap: var(--space-m); flex-wrap: wrap; }
+.ov-header__address { font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+
+/* Store, address, manager and opening hours on one row, the details separated by thin dividers */
+.ov-header__line { flex-wrap: nowrap; gap: 0; white-space: nowrap; }
+.ov-header__title { margin-right: var(--space-m); }
+
+.ov-header__item {
+    padding-left: var(--space-m);
+    margin-left: var(--space-m);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    line-height: 1.6;
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* The right column grows to the height of Needs attention: its last card takes the leftover space */
+.ov-stack > .ov-card:last-child { flex: 1; }
+
+/* The indicators and the cards below share one rhythm: 16px between everything, the same corner radius */
+.ov-kpis { gap: 16px; }
+.ov-kpi { border-radius: 20px; }
+.ov-header .ov-scope { margin: 0; }
+#store-overview { padding-top: 8px; }
+
+.ov-subtitle { padding: var(--space-m) 0 var(--space-s); border-top: 1px solid var(--color-fill-quaternary); font-size: var(--font-size-tiny); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray-secondary); list-style: none; }
+html.dark-mode .ov-subtitle { border-color: var(--dm-divider); color: var(--dm-text-2); }
+
+/* The Sales summary shares the right column with the Expiry alerts: its four figures go two by two and the card takes the space that was left */
+.ov-grid--2 > .ov-stack > .ov-card--sales { flex: 1; }
+.ov-grid--2 > .ov-stack .ov-sales { grid-template-columns: repeat(2, minmax(0, 1fr)); }

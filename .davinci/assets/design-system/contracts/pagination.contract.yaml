@@ -1,0 +1,40 @@
+component: pagination
+summary: "Navigates a large data set across pages, exposing page selection, previous/next controls, a per-page size selector, and a total count."
+anatomy:
+  - {id: nav,            required: true,  role: "the pagination navigation landmark region"}
+  - {id: controls,       required: true,  role: "left group holding the per-page selector and total count"}
+  - {id: per-page,       required: false, role: "grouping for the per-page selector and its label"}
+  - {id: per-page-select,required: false, role: "selector for how many records show per page", capabilities: [change-page-size]}
+  - {id: per-page-label, required: "if per-page-select is present", role: "text label for the per-page selector"}
+  - {id: total,          required: false, role: "shows the total record count"}
+  - {id: total-number,   required: "if total is present", role: "the numeric total, updated as data changes"}
+  - {id: navigation,     required: true,  role: "right group holding prev/next and the page list"}
+  - {id: prev,           required: true,  role: "goes to the previous page", capabilities: [paginate]}
+  - {id: list,           required: true,  role: "the ordered list of page entries"}
+  - {id: item,           required: true,  multiple: true, role: "one page-list entry (a page link or an ellipsis)"}
+  - {id: link,           required: true,  multiple: true, role: "a selectable page number; must be an anchor, never a button", capabilities: [paginate]}
+  - {id: ellipsis,       required: "if page ranges are truncated", multiple: true, role: "indicates omitted page numbers; not interactive"}
+  - {id: next,           required: true,  role: "goes to the next page", capabilities: [paginate]}
+states: [default, active, disabled, hover?, focus?]
+behaviors:
+  paginate:      "activating a page link, prev, or next changes the current page and updates the visible records; only one page link is active at a time"
+  boundary:      "on the first page the prev control is disabled; on the last page the next control is disabled"
+  change-size:   "changing the per-page selector re-pages the data and updates the total-driven page list"
+  update-total:  "the total count reflects the current record set"
+a11y:
+  - "wrapped in a nav landmark with an accessible name such as aria-label=Pagination"
+  - "page numbers are anchors inside an ordered list, not buttons, so they are navigable page links"
+  - "the current page link exposes aria-current=page"
+  - "prev and next are real buttons; when a boundary is reached they set the disabled attribute and are marked non-interactive"
+  - "prev, next, and the per-page selector each carry an accessible name (aria-label or associated label)"
+  - "the ellipsis is decorative or announced as omitted pages, and is not focusable"
+  - "keyboard operable: Tab reaches every enabled control and Enter activates it"
+heuristics:
+  - {id: system-status, source: nielsen,   rule: "the current page and the total scope (total count and available pages) are visible", verify: [checklist, dom]}
+  - {id: user-control,  source: nielsen,   rule: "boundary controls are disabled rather than dead-ends, and page size is adjustable", verify: [dom]}
+  - {id: recognition,   source: nielsen,   rule: "the active page is visibly distinguished from other page links", verify: [dom]}
+  - {id: hit-target,    source: apple-hig, rule: "page links and prev/next controls meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: active-page,   note: "exactly one page link is the active current page and is marked as current"}
+  - {id: boundary-disabled, note: "prev at the first page and next at the last page are structurally disabled, distinct from a merely styled inactive state"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, glyph artwork, prev/next label glyphs, layout of the two groups]

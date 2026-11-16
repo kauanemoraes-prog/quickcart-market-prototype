@@ -1,0 +1,74 @@
+/* Video tutorials — 3-column thumbnails */
+
+.help-videos__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-m);
+}
+
+.help-video {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    text-decoration: none;
+    color: var(--color-glyph-gray);
+    transition: transform 0.15s ease;
+}
+
+.help-video:hover {
+    transform: translateY(-2px);
+}
+
+.help-video:hover .help-video__title {
+    color: var(--color-accent);
+}
+
+.help-video__thumb {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--space-s);
+    background: linear-gradient(135deg, #7180AC 0%, #7180AC 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.help-video__thumb--alt {
+    background: linear-gradient(135deg, #f5a623 0%, #e85d75 100%);
+}
+
+.help-video__thumb--alt2 {
+    background: linear-gradient(135deg, #4ab3a8 0%, #6bc26b 100%);
+}
+
+.help-video__play {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-video__duration {
+    position: absolute;
+    bottom: var(--space-s);
+    right: var(--space-s);
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--color-fill-fixed-white);
+    font-size: var(--font-size-xxxs);
+    padding: 2px var(--space-xs);
+    border-radius: var(--space-xxs);
+}
+
+.help-video__title {
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--space-xs);
+}
+
+.help-video__meta {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}

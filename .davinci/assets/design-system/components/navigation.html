@@ -1,0 +1,97 @@
+<!-- NAVIGATION MENU -->
+<!-- Horizontal navigation menu with multi-level dropdown support -->
+<!-- Copy the exact HTML you need -->
+
+<!-- NAVIGATION WITH MULTI-LEVEL DROPDOWNS -->
+<nav class="nav-menu">
+  <ul class="nav-menu__list">
+    <li class="nav-menu__item">
+      <a href="#" class="nav-menu__link">Home</a>
+    </li>
+    <li class="nav-menu__item nav-menu__item--has-dropdown">
+      <button class="nav-menu__link nav-menu__link--dropdown">
+        Products
+        <span class="nav-menu__chevron"><sf-symbol name="chevron.down" style="font-size:10px"></sf-symbol></span>
+      </button>
+      <ul class="nav-menu__dropdown">
+        <li class="nav-menu__dropdown-item">
+          <a href="#" class="nav-menu__dropdown-link">All Products</a>
+        </li>
+        <li class="nav-menu__dropdown-item nav-menu__dropdown-item--has-submenu">
+          <button class="nav-menu__dropdown-link nav-menu__dropdown-link--submenu">
+            Categories
+            <span class="nav-menu__chevron"><sf-symbol name="chevron.right" style="font-size:10px"></sf-symbol></span>
+          </button>
+          <ul class="nav-menu__submenu">
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Electronics</a>
+            </li>
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Clothing</a>
+            </li>
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Home & Garden</a>
+            </li>
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Sports</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-menu__dropdown-item">
+          <a href="#" class="nav-menu__dropdown-link">Featured Items</a>
+        </li>
+        <li class="nav-menu__dropdown-item">
+          <a href="#" class="nav-menu__dropdown-link">New Arrivals</a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-menu__item nav-menu__item--has-dropdown">
+      <button class="nav-menu__link nav-menu__link--dropdown">
+        Services
+        <span class="nav-menu__chevron"><sf-symbol name="chevron.down" style="font-size:10px"></sf-symbol></span>
+      </button>
+      <ul class="nav-menu__dropdown">
+        <li class="nav-menu__dropdown-item">
+          <a href="#" class="nav-menu__dropdown-link">Consulting</a>
+        </li>
+        <li class="nav-menu__dropdown-item nav-menu__dropdown-item--has-submenu">
+          <button class="nav-menu__dropdown-link nav-menu__dropdown-link--submenu">
+            Support
+            <span class="nav-menu__chevron"><sf-symbol name="chevron.right" style="font-size:10px"></sf-symbol></span>
+          </button>
+          <ul class="nav-menu__submenu">
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Technical Support</a>
+            </li>
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Customer Service</a>
+            </li>
+            <li class="nav-menu__submenu-item">
+              <a href="#" class="nav-menu__submenu-link">Documentation</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-menu__dropdown-item">
+          <a href="#" class="nav-menu__dropdown-link">Training</a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-menu__item">
+      <a href="#" class="nav-menu__link">About</a>
+    </li>
+    <li class="nav-menu__item">
+      <a href="#" class="nav-menu__link">Contact</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- USAGE:
+- Horizontal navigation menu with support for multi-level dropdowns
+- Use nav-menu__item--has-dropdown for items with dropdown menus
+- Use button with nav-menu__link--dropdown for dropdown triggers
+- Include nav-menu__chevron span with SF Symbol img (chevron-down.svg for main, chevron-right.svg for submenu)
+- Use nav-menu__dropdown-item--has-submenu for items with submenus
+- Submenus appear to the right of dropdown items
+- MDS JavaScript automatically handles dropdown interactions
+- Perfect for main site navigation with nested categories
+-->

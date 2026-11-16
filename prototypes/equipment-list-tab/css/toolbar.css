@@ -1,0 +1,107 @@
+/* Toolbar */
+.process-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    background-color: var(--color-fill-white);
+    margin: 0 calc(var(--space-mp) * -1);
+    padding-left: var(--space-mp);
+    padding-right: var(--space-mp);
+    border-bottom: 1px solid var(--color-fill-quaternary);
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.search-bar {
+    position: relative;
+    width: 340px;
+}
+
+.search-bar__icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+.search-bar__input {
+    width: 100%;
+    padding: 6px 44px 6px 28px;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--color-glyph-gray);
+    background-color: var(--color-fill-white);
+}
+
+.search-bar__input::placeholder { color: var(--color-glyph-gray-tertiary); }
+
+.search-bar__input:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 2px rgba(113, 128, 172, 0.1);
+}
+
+.search-bar__shortcut {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    background-color: var(--color-fill-white);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 5px;
+    font-size: 13px;
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+}
+
+.toolbar-btn:hover {
+    background-color: var(--color-fill-secondary);
+}
+
+.toolbar-btn svg, .toolbar-btn img { opacity: 0.65; }
+
+.toolbar-btn--icon { padding: 4px; width: 28px; height: 28px; }
+
+.tag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background-color: var(--color-fill-white);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 14px;
+    font-size: 12px;
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.tag-btn:hover {
+    background-color: var(--color-fill-secondary);
+}
+
+.tag-btn svg { width: 14px; height: 14px; }

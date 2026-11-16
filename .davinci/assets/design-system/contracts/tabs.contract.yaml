@@ -1,0 +1,23 @@
+component: tabs
+summary: "Tab navigation that organizes content into mutually exclusive views, one visible at a time."
+anatomy:
+  - {id: tabs,    required: true, role: "root container"}
+  - {id: nav,     required: true, role: "holds the tab controls"}
+  - {id: tab,     required: true, multiple: true, role: "one control per view; links to its panel", capabilities: [select]}
+  - {id: content, required: true, role: "holds the panels"}
+  - {id: panel,   required: true, multiple: true, role: "one view per tab; its id matches a tab"}
+states: [tab-active, tab-inactive, panel-active, panel-hidden]
+behaviors:
+  tab-switch: "activating a tab makes it and its matching panel active and deactivates the previous; exactly one tab and one panel are active at all times"
+a11y:
+  - "tabs are button elements, never links"
+  - "the nav has role=tablist; each control has role=tab; each panel has role=tabpanel"
+  - "the active tab is marked aria-selected=true and points to its panel via aria-controls"
+  - "each panel is associated back to its tab via aria-labelledby"
+  - "arrow keys move between tabs (roving tabindex); only the active tab is in the tab order"
+heuristics:
+  - {id: single-active, source: nielsen,   rule: "exactly one tab and one panel are active at a time", verify: [checklist, dom]}
+  - {id: recognition,   source: nielsen,   rule: "every tab has a visible text label", verify: [checklist, dom]}
+  - {id: hit-target,    source: apple-hig, rule: "tab controls meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, active-indicator styling, panel show and hide styling]

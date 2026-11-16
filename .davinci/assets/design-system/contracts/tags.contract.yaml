@@ -1,0 +1,21 @@
+component: tags
+summary: "A small, non-interactive label that conveys a status, category, or classification, commonly used inside tables."
+anatomy:
+  - {id: tag, required: true, role: "the label container"}
+  - {id: label, required: true, role: "the text naming the status or category"}
+states: [default]
+behaviors: {}
+a11y:
+  - "the tag's meaning is carried by its text label, not by color alone"
+  - "when the tag conveys a status, that status is available to assistive tech via the visible text or an accessible name"
+  - "a tag is not focusable or interactive; it exposes no control semantics"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "the tag carries a visible text label so its meaning is recognizable", verify: [checklist, dom]}
+  - {id: not-color-only, source: wcag, rule: "status meaning is not conveyed by color alone", verify: [checklist, dom]}
+semantics:
+  - {id: success, note: "conveys an active, completed, or positive status"}
+  - {id: warning, note: "conveys a pending or attention-needed status"}
+  - {id: danger, note: "conveys an error, inactive, or failed status"}
+  - {id: info, note: "conveys an informational or featured status"}
+  - {id: neutral, note: "conveys a default, draft, or unclassified status"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, color variants]

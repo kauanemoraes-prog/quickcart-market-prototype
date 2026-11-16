@@ -1,0 +1,23 @@
+component: forms-input
+summary: "A single-line text input paired with a label, with optional character count and validation feedback."
+anatomy:
+  - {id: group,         required: true,  role: "wrapper grouping the label and input"}
+  - {id: label,         required: true,  role: "names the input; programmatically associated"}
+  - {id: input,         required: true,  role: "the text control"}
+  - {id: char-count,    required: false, role: "remaining-character indicator; requires a maxlength"}
+  - {id: error-message, required: "if invalid", role: "explains the validation error in text"}
+states: [default, focus, disabled, invalid?]
+behaviors:
+  validate:   "toggle the invalid state from the validation result"
+  char-count: "on input, update the count as maxlength minus current length"
+a11y:
+  - "the label is programmatically associated with the input via matching for/id"
+  - "on invalid, the input is marked aria-invalid and references the error message via aria-describedby"
+  - "the error message is announced (aria-live or role=alert)"
+heuristics:
+  - {id: recognition,     source: nielsen, rule: "the field has a visible, persistent label, not a placeholder used as the label", verify: [checklist, dom]}
+  - {id: error-recovery,  source: nielsen, rule: "validation errors appear as text near the field, not by color alone", verify: [dom]}
+  - {id: accessible-name, source: wcag,    rule: "the input has an accessible name", verify: [checklist, dom]}
+semantics:
+  - {id: required, note: "a required field is marked required (attribute plus a visible indication)"}
+excludes: [class names, tokens, spacing, color, typography, borders, size and layout variants, floating-label motion]

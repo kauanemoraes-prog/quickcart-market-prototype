@@ -1,0 +1,265 @@
+<!-- Header -->
+<header>
+    {{#if ribbon.enabled}}
+    <!-- Prototype Ribbon. The modifier classes gate CSS that must NOT apply when unconfigured:
+         --bordered draws the bottom hairline (off by default), and --btn-bg / --btn-text / --btn-border
+         hand the buttons over to ribbon.buttonBackground / buttonTextColor / buttonBorderColor. The
+         matching colours are set as custom properties on this element by davinci-canvas.js, which adds
+         one more class, --tab-continued, when the tab has a gradient to continue. See canvas-styles.css. -->
+    <div class="prototype-ribbon{{#if ribbon.collapsed}} prototype-ribbon--collapsed{{/if}}{{#if ribbon.border}} prototype-ribbon--bordered{{/if}}{{#if ribbon.buttonBackground}} prototype-ribbon--btn-bg{{/if}}{{#if ribbon.buttonTextColor}} prototype-ribbon--btn-text{{/if}}{{#if ribbon.buttonBorderColor}} prototype-ribbon--btn-border{{/if}}" id="prototypeRibbon">
+        <div class="prototype-ribbon__body">
+            <div class="prototype-ribbon__grid">
+                <!-- Left Column: Notes Section -->
+                <div class="prototype-ribbon__cell">
+                    {{#if ribbon.features.notes}}
+                        <!-- One bordered group: label, then the three icon controls. Each control
+                             carries data-tip="<id>" and its tooltip follows it as the next sibling
+                             (position:fixed, so it is not a flex item and adds no gap). -->
+                        <div class="davinci-note-group">
+                            <span class="davinci-note-group__label">
+                                <sf-symbol name="note.text"></sf-symbol>
+                                Notes
+                            </span>
+                            <button class="davinci-note-icon" id="addNoteBtn" data-tip="addNoteTip" aria-describedby="addNoteTip" aria-label="Add note">
+                                <sf-symbol name="plus"></sf-symbol>
+                            </button>
+                            <span class="davinci-note-tip" id="addNoteTip" role="tooltip">Add Note</span>
+                            <!-- Still a checkbox, just painted as a bare icon: the whole notes system
+                                 keys off `.checked` and its `change` event. The icon names the STATE
+                                 (eye = notes on screen), the tooltip names the action. -->
+                            <label class="davinci-note-icon davinci-note-visibility" data-tip="hideNotesTip" aria-describedby="hideNotesTip">
+                                <input type="checkbox" id="hideNotesToggle" aria-label="Hide notes" checked>
+                                <sf-symbol name="eye"></sf-symbol>
+                            </label>
+                            <span class="davinci-note-tip" id="hideNotesTip" role="tooltip">Hide notes</span>
+                            <!-- Hidden until notes-plus.js has something to copy: it shows the button
+                                 only while a note is on screen, so if the module never loads there is
+                                 no dead control left in the ribbon. -->
+                            <button class="davinci-note-icon" id="davinci-note-copy" data-tip="copyNotesTip" aria-describedby="copyNotesTip" aria-label="Copy every note on this page" style="display: none">
+                                <sf-symbol name="doc.on.doc"></sf-symbol>
+                            </button>
+                            <span class="davinci-note-tip" id="copyNotesTip" role="tooltip">Copy Notes to Clipboard</span>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Center Column: Prototype Message (the info icon is mandatory) -->
+                <div class="prototype-ribbon__message">
+                    <span class="prototype-ribbon__message-text">{{{ribbon.message}}}</span>
+                    <a class="prototype-ribbon__message-icon" id="prototypeInfoBtn" aria-label="Prototype Information">
+                        <sf-symbol name="info.circle"></sf-symbol>
+                    </a>
+                    {{#if ribbon.countdown}}
+                    <!-- First-visit auto-hide notice. aria-hidden: a number changing every second is
+                         noise for a screen reader, and the info icon above carries the real content. -->
+                    <span class="prototype-ribbon__countdown" id="ribbonCountdown" aria-hidden="true">This message will be automatically hidden in <span class="prototype-ribbon__countdown-n">{{ribbon.countdown}}</span>…</span>
+                    {{/if}}
+                </div>
+
+                <!-- Right Column: Live Editor (a plain on/off) + Change History (only when the
+                     prototype has a changelog). Live Editor sits FIRST so it keeps a stable
+                     position whether or not the Change History button is there. -->
+                <div class="prototype-ribbon__cell">
+                    {{#if ribbon.showLiveEditor}}
+                    <button class="btn btn--small btn--secondary" id="liveEditorBtn" title="Live Editor (⌘I) — arm the crosshair to select an element · hold Option and click to select just one · hold Option to keep selecting · hold Control to measure · ⌃R for rulers">
+                        <sf-symbol name="lines.measurement.horizontal"></sf-symbol>
+                        Live Editor
+                    </button>
+                    {{/if}}
+                    {{#if ribbon.showChangeHistory}}
+                    <button class="btn btn--small btn--secondary" id="changeHistoryBtn" title="View change history">
+                        <sf-symbol name="clock"></sf-symbol>
+                        Change History
+                    </button>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{#if ribbon.collapsible}}
+        <!-- Pull tab: sits OUTSIDE __body so it stays visible when the body collapses to zero height.
+             The --{{tabPosition}} modifier carries the positioning; the base rule has none. -->
+        <button class="prototype-ribbon__handle prototype-ribbon__handle--{{ribbon.tabPosition}}" id="ribbonToggle" type="button"
+                aria-controls="prototypeRibbon"
+                aria-expanded="{{#if ribbon.collapsed}}false{{else}}true{{/if}}"
+                title="{{#if ribbon.collapsed}}Show prototype toolbar{{else}}Hide prototype toolbar{{/if}}">
+            <sf-symbol name="{{#if ribbon.collapsed}}chevron.down{{else}}chevron.up{{/if}}"></sf-symbol>
+        </button>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    {{#if ribbon.enabled}}
+    <!-- Prototype Information Modal -->
+    <div class="modal-overlay" id="prototypeInfoModal">
+        <div class="modal" style="max-width: 75rem; max-height: 95vh;">
+            <div class="modal__header">
+                <h3 class="modal__title">About These Prototypes</h3>
+                <button class="modal__close" id="closePrototypeInfoModal">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="notification notification--info" style="margin-bottom: var(--space-m);">
+                    <div class="notification__icon">⚠️</div>
+                    <div class="notification__content">
+                        <div class="notification__message">
+                            <strong>Important:</strong> These are static prototypes for demonstration purposes only.
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">About DaVinci</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; line-height: var(--line-height-default);">
+                    <strong>DaVinci is the prototyping tool</strong> used to create these demonstrations. All prototypes created with DaVinci are <strong>static HTML/CSS/JavaScript demonstrations</strong>. They showcase UI components, layouts, and basic interactions but do not connect to real databases or backend services.
+                </p>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">No Data Persistence</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; line-height: var(--line-height-default);">
+                    <strong>Nothing you enter or modify is saved.</strong> All data is temporary and exists only in your browser's memory during the current session. Refreshing the page will reset everything to its initial state.
+                </p>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">Workflow Complexity</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; line-height: var(--line-height-default);">
+                    Some prototypes may include complete workflows and complex functionality scenarios, while others focus on simple interactions. <strong>This depends entirely on the designer responsible for each prototype</strong> and the specific use case being demonstrated. Complex workflows are implemented on-demand for specific prototypes, not built into the tool itself.
+                </p>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">Purpose</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; line-height: var(--line-height-default);">
+                    These prototypes are designed to:
+                </p>
+                <ul style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; padding-left: var(--space-ml); line-height: var(--line-height-default);">
+                    <li style="margin-bottom: var(--space-xs);">Demonstrate UI/UX concepts and design patterns</li>
+                    <li style="margin-bottom: var(--space-xs);">Facilitate design reviews and stakeholder feedback</li>
+                    <li style="margin-bottom: var(--space-xs);">Serve as reference for developers in terms of workflows, validation scenarios, and User Experience</li>
+                </ul>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">What You Can Expect</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0 0 var(--space-m) 0; line-height: var(--line-height-default);">
+                    <span style="color: var(--color-fill-green);">✓</span> Visual design and layout demonstrations<br>
+                    <span style="color: var(--color-fill-green);">✓</span> Interactive UI components (buttons, forms, modals, dropdowns)<br>
+                    <span style="color: var(--color-fill-green);">✓</span> Client-side functionality (sorting, filtering, form validation)<br>
+                </p>
+                
+                <h4 style="font-size: var(--font-size-xs); color: var(--color-glyph-gray); margin: var(--space-m) 0 var(--space-s) 0;">What You Should NOT Expect</h4>
+                <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0; line-height: var(--line-height-default);">
+                    <span style="color: var(--color-fill-red);">✗</span> Data persistence or saved information<br>
+                    <span style="color: var(--color-fill-red);">✗</span> Backend integration or database connections<br>
+                    <span style="color: var(--color-fill-red);">✗</span> Real authentication or user authorization<br>
+                    <span style="color: var(--color-fill-red);">✗</span> Server-side processing or external API calls
+                </p>
+            </div>
+            <div class="modal__footer">
+                <span style="display: flex; align-items: center;">Developed and mantained by <img src="{{filesBase}}/Venturus_Horizontal_Blue_Violet.png" alt="Venturus" class="logo-venturus" height="36px" style="margin: 0 16px"></span>
+                <button class="btn btn--primary btn--medium" id="closePrototypeInfoModalBtn">OK</button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- Top Navbar -->
+    <!-- navbar.visible is canvas.navbar.enabled from config (default true). Hidden only for a product
+         with no top bar — note this also removes navigation between the prototype's screens. -->
+    {{#if navbar.visible}}
+    <div class="top-navbar">
+        <div class="top-navbar__left">
+            <div class="top-navbar__brand">
+                <span class="top-navbar__logo"><img src="{{filesBase}}/icon.png" width="32" height="32"></span>
+                <h3 class="top-navbar__title"><a href="{{homeUrl}}">{{{siteTitle}}}</a></h3>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-menu__list">
+                    {{#each mainNavigation}}
+                    <li class="nav-menu__item {{#if subItems}}nav-menu__item--has-dropdown{{/if}}" {{#if subItems}}id="menuItem{{@index}}"{{/if}}>
+                        {{#if subItems}}
+                        <button class="nav-menu__link nav-menu__link--dropdown">
+                            {{label}}
+                            <span class="nav-menu__chevron"><sf-symbol name="chevron.down"></sf-symbol></span>
+                        </button>
+                        <ul class="nav-menu__dropdown">
+                            {{#each subItems}}
+                            {{#if sectionTitle}}
+                            <li class="nav-menu__dropdown-section-title">{{sectionTitle}}</li>
+                            {{else}}
+                            <li class="nav-menu__dropdown-item">
+                                <a href="{{url}}" class="nav-menu__dropdown-link">{{label}}</a>
+                            </li>
+                            {{/if}}
+                            {{/each}}
+                        </ul>
+                        {{else}}
+                        <a href="{{url}}" class="nav-menu__link">{{label}}</a>
+                        {{/if}}
+                    </li>
+                    {{/each}}
+                </ul>
+            </nav>
+        </div>
+        <div class="top-navbar__right">
+            {{#if navbarRight.replace}}
+            {{{navbarRight.htmlContent}}}
+            {{else}}
+            {{#if navbarRight.before}}
+            <div class="top-navbar__actions">{{{navbarRight.htmlContent}}}</div>
+            {{/if}}
+            <div class="top-navbar__user-dropdown nav-menu__item nav-menu__item--has-dropdown" id="userMenu">
+                <button class="top-navbar__user-menu nav-menu__link nav-menu__link--dropdown">
+                    <div class="avatar avatar--medium">
+                        {{#if user.avatarImage}}
+                        <img src="{{user.avatarImage}}" alt="{{user.username}} avatar" class="avatar__image">
+                        {{else}}
+                        {{user.avatarInitials}}
+                        {{/if}}
+                    </div>
+                    <span class="top-navbar__user-name">{{user.username}}</span>
+                    <span class="nav-menu__chevron"><sf-symbol name="chevron.down"></sf-symbol></span>
+                </button>
+                <ul class="nav-menu__dropdown">
+                    {{#if hasImpersonationUsers}}
+                    <li class="nav-menu__dropdown-section-title">Impersonate</li>
+                    {{#each impersonationUsers}}
+                    <li class="nav-menu__dropdown-item">
+                        <a href="#" class="nav-menu__dropdown-link nav-menu__dropdown-link--user{{#if isActive}} nav-menu__dropdown-link--active{{/if}}" data-davinci-impersonate="{{id}}">
+                            <div class="avatar avatar--small">
+                                {{#if avatarImage}}
+                                <img src="{{avatarImage}}" alt="{{name}} avatar" class="avatar__image">
+                                {{else}}
+                                {{avatarInitials}}
+                                {{/if}}
+                            </div>
+                            <div class="nav-menu__user-info">
+                                <span class="nav-menu__user-name">{{name}}</span>
+                                <span class="nav-menu__user-role">{{role}}</span>
+                            </div>
+                        </a>
+                    </li>
+                    {{/each}}
+                    {{#if hasUserMenu}}
+                    <li class="nav-menu__dropdown-divider" role="separator"></li>
+                    {{/if}}
+                    {{/if}}
+                    {{#each userMenu}}
+                    <li class="nav-menu__dropdown-item">
+                        <a href="{{url}}" class="nav-menu__dropdown-link">{{label}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{#if navbarRight.after}}
+            <div class="top-navbar__actions">{{{navbarRight.htmlContent}}}</div>
+            {{/if}}
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- Sub Header -->
+    {{#if hasSubheader}}
+    <div class="sub-header">
+        <div class="sub-header__content">
+            {{#if subHeader.htmlContent}}
+                {{{subHeader.htmlContent}}}
+            {{else}}
+                <h2 class="sub-header__subtitle">{{subHeader.title}}</h2>
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+</header>

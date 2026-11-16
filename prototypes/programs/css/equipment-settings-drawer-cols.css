@@ -1,0 +1,184 @@
+/* Equipment Settings Drawer — column groups, expanded list, footer. Split from equipment-settings-drawer.css. */
+
+/* Columns groups */
+.equip-settings__column-groups {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.equip-settings__column-group {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.equip-settings__group-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-s) 0;
+}
+
+.equip-settings__group-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    flex: 1;
+    text-align: left;
+}
+
+.equip-settings__group-chevron {
+    color: var(--color-base-accent);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.equip-settings__group-toggle.is-open .equip-settings__group-chevron {
+    transform: rotate(90deg);
+}
+
+.equip-settings__group-name {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+}
+
+.equip-settings__group-count {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-tiny);
+    margin-left: var(--space-s);
+    padding-left: var(--space-s);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.equip-settings__group-count img {
+    filter: brightness(0) saturate(100%) invert(60%);
+}
+
+.equip-settings__reset-link {
+    color: var(--color-base-accent);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.equip-settings__reset-link:hover {
+    text-decoration: underline;
+}
+
+/* Expanded column list */
+.equip-settings__column-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--space-s);
+}
+
+.equip-settings__column-list[hidden] {
+    display: none;
+}
+
+.equip-settings__col-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-s) 0;
+    min-height: 32px;
+}
+
+.equip-settings__col-label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.equip-settings__col-item--locked .equip-settings__col-label {
+    color: var(--color-glyph-gray);
+    opacity: 0.55;
+}
+
+.equip-settings__col-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    flex-shrink: 0;
+}
+
+.equip-settings__col-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    transition: opacity 0.15s ease;
+}
+
+.equip-settings__col-toggle:hover {
+    opacity: 0.7;
+}
+
+.equip-settings__col-toggle img {
+    width: 18px;
+    height: 18px;
+}
+
+.equip-settings__col-toggle.is-visible .equip-settings__col-eye-on {
+    display: inline;
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.equip-settings__col-toggle.is-visible .equip-settings__col-eye-off {
+    display: none;
+}
+
+.equip-settings__col-toggle:not(.is-visible) .equip-settings__col-eye-on {
+    display: none;
+}
+
+.equip-settings__col-toggle:not(.is-visible) .equip-settings__col-eye-off {
+    display: inline;
+    filter: brightness(0) saturate(100%) invert(60%);
+}
+
+.equip-settings__col-drag {
+    width: 14px;
+    height: 18px;
+    cursor: grab;
+    background-image: radial-gradient(circle, #6E6E73 1px, transparent 1.2px);
+    background-size: 5px 5px;
+    background-position: 1px 2px;
+    background-repeat: round;
+}
+
+.equip-settings__col-drag:active {
+    cursor: grabbing;
+}
+
+/* Footer */
+.equip-settings-drawer__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l);
+    border-top: 1px solid var(--color-fill-gray-quaternary);
+    background-color: #FFFFFF;
+}
+
+#equip-settings-drawer-save {
+    background-color: rgba(113, 128, 172, 0.55);
+    border-color: rgba(113, 128, 172, 0.55);
+}

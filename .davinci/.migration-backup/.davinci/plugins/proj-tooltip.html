@@ -1,0 +1,70 @@
+<!-- PROJ-TOOLTIP -->
+<!-- Lightweight hover tooltip via data attribute (CSS-only) -->
+
+<!-- METADATA
+Component: Tooltip
+Category: Overlays
+Complexity: Low
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- Apply `data-proj-tooltip="<text>"` to ANY host element (button, link, icon, span)
+- Tooltip text comes from the attribute value — no separate markup
+- Optional `data-proj-tooltip-placement` modifier: `top` (default), `bottom`, `left`, `right`
+- Host element will be set to `position: relative` by the plugin
+
+COMMON MISTAKES TO AVOID:
+[X] Forgetting the data-proj-tooltip attribute (the text won't render)
+[X] Wrapping host inside another `position: absolute` parent that clips overflow
+[X] Using long tooltip text (kept on a single line — keep concise)
+[X] Using on disabled inputs (browser blocks hover events on disabled controls)
+
+JAVASCRIPT INTEGRATION:
+- No JS required — pure CSS hover behavior
+- Tooltip appears on `:hover` of the host element
+
+COMPANION FILES:
+- CSS: proj-tooltip.css
+- JS: none
+
+CORRECT STRUCTURE TEMPLATE:
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Tooltip text">
+  Trigger
+</button>
+
+When to prompt: Ask only if the placement is ambiguous (default: top)
+Variants: top (default), bottom, left, right
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- DEFAULT (TOP PLACEMENT) -->
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Tooltip text">
+  Hover me
+</button>
+
+<!-- BOTTOM PLACEMENT -->
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Tooltip text" data-proj-tooltip-placement="bottom">
+  Hover me
+</button>
+
+<!-- LEFT PLACEMENT -->
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Tooltip text" data-proj-tooltip-placement="left">
+  Hover me
+</button>
+
+<!-- RIGHT PLACEMENT -->
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Tooltip text" data-proj-tooltip-placement="right">
+  Hover me
+</button>
+
+<!-- ICON BUTTON -->
+<button class="btn btn--secondary btn--small" data-proj-tooltip="Settings">
+  <img src="../assets/icons/regular/gearshape.svg" alt="" width="16" height="16">
+</button>
+
+<!-- USAGE:
+- Pure CSS — no JS, no extra markup
+- Host receives `position: relative`; tooltip renders via `::after` + `::before` pseudos
+- Single-line text only — wrap with manual line breaks if a multi-line variant is needed later
+- Keep text concise (under ~35 chars) for predictable layout
+-->

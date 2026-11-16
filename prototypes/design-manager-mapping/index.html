@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Manager Mapping - DaVinci</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <!-- NOTE: Subheader is handled by canvas automatically via canvas-navigation-data.json -->
+        <!-- Do NOT add subheader HTML here - it will create duplicates -->
+        
+        <div class="design-manager-mapping-page">
+            <!-- Main content area with button to open drawer -->
+            <div class="page-section">
+                <h1 style="margin-bottom: var(--space-m); color: var(--color-glyph-gray);">Design Manager Mapping</h1>
+                <p style="margin-bottom: var(--space-l); color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+                    Manage the mapping between Design Managers and QuickCart Market Vendors organized by Incline Projects.
+                </p>
+
+                <button class="btn btn--primary btn--medium" id="open-mapping-drawer">
+                    <lucide-icon name="list.bullet.clipboard" style="font-size:16px"></lucide-icon>
+                    Open Design Manager Mapping
+                </button>
+            </div>
+
+            <!-- Summary stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card__value" id="total-projects">3</div>
+                    <div class="stat-card__label">Incline Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="total-managers">12</div>
+                    <div class="stat-card__label">Design Managers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="mapped-count">8</div>
+                    <div class="stat-card__label">Mapped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="unmapped-count">4</div>
+                    <div class="stat-card__label">Unmapped</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Manager Mapping Drawer -->
+        <div class="drawer-overlay" id="mapping-drawer">
+            <div class="drawer drawer--right drawer--large">
+                <div class="drawer__header">
+                    <button class="drawer__close" id="close-mapping-drawer">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                    <h3 class="drawer__title">Design Manager Mapping</h3>
+                    <div class="drawer__actions">
+                        <button class="btn btn--secondary btn--small" id="import-csv-btn">
+                            <lucide-icon name="square.and.arrow.down.on.square" style="font-size:14px"></lucide-icon>
+                            Import CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="drawer__body">
+                    <!-- Incline Projects Sections -->
+                    <div id="incline-projects-container">
+                        <!-- Projects will be dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Import CSV Modal -->
+        <div class="modal-overlay" id="import-modal">
+            <div class="modal modal--medium">
+                <div class="modal__header">
+                    <h3 class="modal__title">Import Design Managers</h3>
+                    <button class="modal__close" id="close-import-modal" aria-label="Close">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                </div>
+                <div class="modal__body">
+                    <div class="form-group" style="margin-bottom: var(--space-m);">
+                        <label class="form-label" for="target-project">Target Incline Project</label>
+                        <select id="target-project" class="form-select">
+                            <option value="">Select Incline Project</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="csv-file">CSV File</label>
+                        <input type="file" id="csv-file" class="form-input" accept=".csv" />
+                        <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxxs); margin-top: var(--space-xs);">
+                            Expected format: name, description (optional)
+                        </p>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button class="btn btn--secondary btn--medium" id="cancel-import">Cancel</button>
+                    <button class="btn btn--primary btn--medium" id="confirm-import" disabled>Import</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Handlebars Templates -->
+        <script id="incline-project-template" type="text/x-handlebars-template">
+            {{#each projects}}
+            <div class="incline-project-section" data-project-id="{{inclineId}}">
+                <div class="section-header" data-project-id="{{inclineId}}">
+                    <div class="section-header__content">
+                        <div class="section-header__info">
+                            <h4 class="section-title">{{inclineId}}</h4>
+                            <div class="section-description-container">
+                                <span class="section-description {{#unless description}}section-description--empty{{/unless}}" data-project-id="{{inclineId}}">
+                                    {{#if description}}{{description}}{{else}}No description{{/if}}
+                                </span>
+                                <button class="btn-edit-description" data-project-id="{{inclineId}}" title="Edit description">
+                                    <lucide-icon name="pencil" style="font-size:12px"></lucide-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="section-header__controls">
+                            <span class="section-stats">{{designManagers.length}} managers</span>
+                            <button class="section-toggle" data-project-id="{{inclineId}}">
+                                <lucide-icon class="chevron-icon" name="chevron.down" style="font-size:16px"></lucide-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content" data-project-id="{{inclineId}}" style="display: none;">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead class="table__head">
+                                <tr class="table__row">
+                                    <th class="table__header">Design Manager</th>
+                                    <th class="table__header">Mapping Status</th>
+                                    <th class="table__header table__cell--center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table__body">
+                                {{#each designManagers}}
+                                <tr class="table__row {{#if isAutoMatched}}table__row--locked{{/if}}" data-manager-id="{{id}}">
+                                    <td class="table__cell">
+                                        <div class="manager-info">
+                                            <div class="manager-name">{{name}}</div>
+                                            {{#if description}}
+                                            <div class="manager-description">{{description}}</div>
+                                            {{/if}}
+                                        </div>
+                                    </td>
+                                    <td class="table__cell">
+                                        {{#if mappedVendor}}
+                                            <div class="mapping-status mapping-status--mapped">
+                                                <span class="tag tag--medium tag--success">{{mappedVendor}}</span>
+                                                {{#if isAutoMatched}}
+                                                <lucide-icon class="lock-icon" name="lock" style="font-size:12px"></lucide-icon>
+                                                {{/if}}
+                                            </div>
+                                        {{else}}
+                                            <div class="mapping-status mapping-status--unmapped">
+                                                <select class="form-select form-select--table-cell vendor-select" data-manager-id="{{id}}" data-project-id="{{../inclineId}}">
+                                                    <option value="">Select Vendor</option>
+                                                    <!-- Options populated dynamically -->
+                                                </select>
+                                            </div>
+                                        {{/if}}
+                                    </td>
+                                    <td class="table__cell table__cell--center">
+                                        {{#if mappedVendor}}
+                                            {{#unless isAutoMatched}}
+                                            <div class="action-controls">
+                                                <button class="btn-action btn-edit" data-manager-id="{{id}}" title="Edit mapping">
+                                                    <lucide-icon name="square.and.pencil" style="font-size:12px"></lucide-icon>
+                                                </button>
+                                                <button class="btn-action btn-remove" data-manager-id="{{id}}" title="Remove mapping">
+                                                    <lucide-icon name="trash" style="font-size:12px"></lucide-icon>
+                                                </button>
+                                            </div>
+                                            {{else}}
+                                            <span class="locked-indicator" title="Auto-matched - cannot be edited">
+                                                <lucide-icon name="lock" style="font-size:12px"></lucide-icon>
+                                            </span>
+                                            {{/unless}}
+                                        {{else}}
+                                        <span class="no-actions">—</span>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript modules -->
+    <script src="js/drawer-manager.js"></script>
+    <script src="js/project-sections.js"></script>
+    <script src="js/mapping-controls.js"></script>
+    <script src="js/csv-import.js"></script>
+    <script src="js/main.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

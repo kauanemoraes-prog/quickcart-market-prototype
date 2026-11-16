@@ -1,0 +1,252 @@
+/* Finance of the whole network (finance-network.js). Cards, chips, period bar and the table look come from programs/css. */
+
+.content:has(.nf-page) { background-color: #F6F7F9 !important; }   /* the grey of the store pages */
+
+.nf-page { margin-top: calc(var(--space-mp) * -1); margin-bottom: calc(var(--space-mp) * -1); padding-bottom: 0; }
+
+.nf-header {
+    position: sticky;
+    top: var(--nav-bottom, 8rem);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin: 0 calc(var(--space-mp) * -1) var(--space-m);
+    padding: var(--space-m) var(--space-mp);
+    background-color: var(--color-fill-white, #fff);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+.nf-header h1 { margin: 0; color: var(--color-glyph-gray); }
+.nf-header__line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0; }
+.nf-header__line h1 { margin-right: var(--space-m); }
+.nf-header__items { display: flex; align-items: baseline; flex-wrap: wrap; }
+.nf-header__item {
+    padding-left: var(--space-m);
+    margin-left: var(--space-m);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    line-height: 1.6;
+    color: var(--color-glyph-gray-secondary);
+}
+.nf-header__item:first-child { margin-left: 0; }
+.nf-header__tools { display: flex; align-items: center; gap: var(--space-m); }
+.nf-access, .nf-compare { display: flex; align-items: center; gap: var(--space-s); font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); white-space: nowrap; }
+.nf-access .form-group, .nf-compare .form-group { margin: 0; }
+.nf-access select, .nf-compare select { min-width: 18rem; margin: 0; }
+
+/* Period and geography filters */
+.nf-filters { display: flex; flex-direction: column; gap: var(--space-s); margin-bottom: var(--space-m); }
+.nf-filters .fin-period { margin-bottom: 0; }
+.nf-geo { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-s) var(--space-m); }
+.nf-geo .products-area { width: 17rem; margin: 0; }
+.nf-extra { display: contents; }
+.nf-extra .products-area { width: 17rem; }
+.nf-subtabs { margin-bottom: var(--space-m); }
+[data-tab-panel][hidden] { display: none; }
+
+/* Indicators: cards that open the list behind them */
+.nf-kpis { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin-bottom: var(--space-m); }
+/* Three states, the same as the indicators of the Dashboard: default (plain), hover (soft outline, tint and lift), selected (strong outline and accent tint) */
+button.nf-kpi {
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px transparent;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+button.nf-kpi:hover,
+button.nf-kpi:focus-visible {
+    background-color: #F7F8FB;
+    box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 6px 16px rgba(113, 128, 172, 0.16);
+    transform: translateY(-1px);
+    outline: none;
+}
+button.nf-kpi.nf-kpi--active,
+button.nf-kpi.nf-kpi--active:hover,
+button.nf-kpi.nf-kpi--active:focus-visible {
+    background-color: var(--color-base-accent-lighter-1);
+    box-shadow: inset 0 0 0 2px var(--color-base-accent);
+    transform: none;
+}
+button.nf-kpi.nf-kpi--active .fin-kpi__value { color: var(--color-base-accent-darker-2); }
+button.nf-kpi:not([data-go]) { cursor: default; }
+button.nf-kpi:not([data-go]):hover { background-color: #fff; box-shadow: inset 0 0 0 2px transparent; transform: none; }
+.fin-delta--watch { color: #8A5A00; }
+
+.nf-card { margin-bottom: var(--space-m); }
+.nf-card__head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: var(--space-m); margin-bottom: var(--space-s); }
+.nf-card__sub { margin: 2px 0 0; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.nf-card__tools { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-s) var(--space-m); }
+.nf-search { flex: 0 1 28rem; height: 4rem; }
+.nf-card .products-chips { margin-bottom: 0; }
+.nf-empty { margin: var(--space-m) 0; text-align: center; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.nf-callout { margin-bottom: var(--space-s); padding: var(--space-s) var(--space-m); border-radius: 10px; background: #FFF4D6; font-size: var(--font-size-xxs); color: #8A5A00; }
+.nf-callout[hidden] { display: none; }
+.nf-hot { color: #B3261E; font-weight: var(--font-weight-semibold); }
+.nf-warm { color: #8A5A00; font-weight: var(--font-weight-medium); }
+.nf-more { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+
+/* Trend chart */
+.nf-legend { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+.nf-legend__item { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--divider-color, #E0E0E4); border-radius: 8px; background: #fff; font: inherit; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); cursor: pointer; }
+.nf-legend__item i { width: 10px; height: 10px; border-radius: 50%; opacity: 0.35; }
+.nf-legend__item.is-on { color: var(--color-glyph-gray); border-color: var(--color-base-accent-lighter-3); }
+.nf-legend__item.is-on i { opacity: 1; }
+.nf-chart { position: relative; }
+.nf-svg { display: block; width: 100%; height: auto; }
+.nf-grid { stroke: var(--color-fill-quaternary); stroke-width: 1; }
+.nf-axis { fill: var(--color-glyph-gray-secondary); font-size: 11px; font-family: inherit; }
+.nf-cursor { stroke: #B6B7BD; stroke-dasharray: 3 3; }
+.nf-hit { cursor: pointer; }
+.nf-tip { position: absolute; top: 8px; z-index: 5; width: 220px; padding: 8px 12px; border-radius: 10px; background: #2B3441; color: #fff; font-size: var(--font-size-tiny); pointer-events: none; display: flex; flex-direction: column; gap: 4px; }
+.nf-tip[hidden] { display: none; }
+.nf-tip span { display: flex; align-items: center; gap: 6px; }
+.nf-tip i { width: 8px; height: 8px; border-radius: 50%; }
+.nf-tip b { margin-left: auto; font-weight: var(--font-weight-semibold); }
+
+/* Tables: the look of the Products table of a store, with two fixed columns */
+.table--netfin { min-width: 0; }
+.table--netfin .table__row { height: 4.4rem; }
+.table--netfin .table__header { position: sticky; top: 0; white-space: nowrap; }
+.table--netfin .table__cell { white-space: nowrap; }
+.table--netfin .sortable { cursor: pointer; user-select: none; }
+.table--netfin .products-row { cursor: pointer; }
+
+.table--netfin--sticky2 .table__header:nth-child(1),
+.table--netfin--sticky2 .table__header:nth-child(2),
+.table--netfin--sticky2 .table__cell:nth-child(1),
+.table--netfin--sticky2 .table__cell:nth-child(2) { position: sticky; z-index: 2; background-color: #fff; }
+.table--netfin--sticky2 .table__header:nth-child(1),
+.table--netfin--sticky2 .table__cell:nth-child(1) { left: 0; }
+.table--netfin--sticky2 .table__header:nth-child(2),
+.table--netfin--sticky2 .table__cell:nth-child(2) { left: var(--sticky-1, 190px); }
+.table--netfin--sticky2 .table__header:nth-child(1),
+.table--netfin--sticky2 .table__header:nth-child(2) { z-index: 4; }
+.table--netfin--sticky2 .table__row:nth-child(even) > .table__cell:nth-child(1),
+.table--netfin--sticky2 .table__row:nth-child(even) > .table__cell:nth-child(2) { background-color: #F3F3F3; }
+
+/* Bars: a ranking where every line opens its list */
+.nf-bars { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.nf-bar { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr) auto 3.6rem; align-items: center; gap: var(--space-s); width: 100%; padding: 6px 4px; border: 0; border-radius: 8px; background: none; font: inherit; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); text-align: left; cursor: pointer; }
+.nf-bar:hover:not(:disabled) { background: var(--color-base-accent-lighter-1); }
+.nf-bar:disabled { cursor: default; }
+.nf-bar__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nf-bar__track { height: 8px; border-radius: 4px; background: var(--color-fill-quaternary); overflow: hidden; }
+.nf-bar__fill { display: block; height: 100%; border-radius: 4px; }
+.nf-bar__value { text-align: right; font-variant-numeric: tabular-nums; }
+.nf-bar__share { text-align: right; color: var(--color-glyph-gray-secondary); font-variant-numeric: tabular-nums; }
+
+.nf-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-m); }
+.nf-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-m); }
+.nf-trio .nf-card, .nf-duo .nf-card { margin-bottom: var(--space-m); }
+
+.nf-stack { display: flex; height: 14px; margin: var(--space-s) 0 var(--space-m); border-radius: 7px; overflow: hidden; gap: 2px; }
+.nf-stack span { display: block; min-width: 3px; }
+.nf-dot { display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%; }
+.nf-cattable td, .nf-cattable th { padding-right: 16px; }
+.nf-inline { padding: 0; border: 0; background: none; font: inherit; color: var(--color-glyph-gray); cursor: pointer; text-align: left; }
+.nf-inline:hover { color: var(--color-base-accent); text-decoration: underline; }
+.nf-links { display: flex; gap: var(--space-s); flex-wrap: wrap; }
+
+.nf-lock { display: flex; flex-direction: column; align-items: center; gap: var(--space-s); padding: var(--space-mp); text-align: center; color: var(--color-glyph-gray-secondary); }
+.nf-lock h3 { margin: 0; color: var(--color-glyph-gray); }
+.nf-lock p { margin: 0; max-width: 56rem; font-size: var(--font-size-xxs); }
+.nf-lock__note { color: #8A5A00; }
+.nf-format { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-s); font-size: var(--font-size-xxs); }
+.nf-format legend { padding: 0; margin-bottom: 4px; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.nf-format label { display: flex; align-items: center; gap: 8px; }
+
+#nf-drawer.drawer-overlay { z-index: 9500; }
+.nf-page .np-pager { padding: var(--space-s) 0 0; }
+
+.dark-mode .nf-legend__item, .dark-mode .nf-bar__track { background: var(--dm-bg-3); border-color: var(--dm-divider); }
+.dark-mode .table--netfin--sticky2 .table__header:nth-child(1), .dark-mode .table--netfin--sticky2 .table__header:nth-child(2),
+.dark-mode .table--netfin--sticky2 .table__cell:nth-child(1), .dark-mode .table--netfin--sticky2 .table__cell:nth-child(2) { background-color: var(--dm-bg-2); }
+
+/* Rows per page: label and a small dropdown on one line (the design system stretches a dropdown to the full width) */
+.np-pager__controls label { display: flex; align-items: center; gap: var(--space-s); margin: 0; white-space: nowrap; }
+.np-pager__controls .form-select-stylized__wrapper { width: 9rem; }
+.np-pager__controls .form-select { margin: 0; }
+
+/* Side by side cards: the dropdown of "Group by" may wrap under its title when the card is narrow */
+.nf-duo > .nf-card { min-width: 0; }
+.nf-duo .fin-seg { flex-wrap: wrap; }
+
+/* Same 16px gap between indicators as between the cards below */
+.nf-kpis { gap: 16px; }
+
+/* One spacing for everything of the filter bars: 16px */
+.nf-filters, .nf-geo, .fin-period { gap: 16px; }
+.nf-filters { margin-bottom: 16px; }
+.nf-subtabs { margin-bottom: 16px; }
+.nf-card__tools, .nf-card__head, .nf-legend { gap: 16px; }
+
+/* The tabs and the period selector share one line (the filters of the geography are the second line) */
+.nf-row1 { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+.nf-row1 .nf-subtabs { margin: 0; padding: 0; border-bottom: 0; }
+.nf-row1 .nf-subtabs .rq-subtab { margin-bottom: 0; padding-bottom: 8px; }
+.nf-row1__sep { align-self: center; width: 1px; height: 2.4rem; background: var(--divider-color, #E0E0E4); }
+html.dark-mode .nf-row1__sep { background: var(--dm-divider); }
+
+/* The cost split as a donut that fills the card; the department bars give more room to the bars */
+.nf-card--donut { display: flex; flex-direction: column; }
+.nf-donut { position: relative; width: min(100%, 26rem); aspect-ratio: 1; margin: 0 auto var(--space-m); }
+.nf-donut svg { width: 100%; height: 100%; display: block; }
+.nf-donut__center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+.nf-donut__center strong { font-size: 22px; font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray); }
+.nf-donut__center span { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+html.dark-mode .nf-donut__track { stroke: var(--dm-bg-3); }
+html.dark-mode .nf-donut__center strong { color: var(--dm-text-1); }
+.nf-bar { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr) auto 3.6rem; }
+
+/* The title of a card and the line under it stay close together */
+.nf-card__head .fin-card__title { margin-bottom: 0; line-height: 1.4; }
+.nf-card__head .nf-card__sub { margin: 0; line-height: 1.4; }
+
+/* As in the Finance tab of a store: the tabs on their own line, with the line under them from one side of the page to the other, then the period and the filters */
+.nf-subtabs { margin-bottom: var(--space-m); }
+.nf-subtabs .rq-subtab:first-child { padding-left: 0; }
+
+/* Line 1: the tabs on the left, "Compare with" on the right, with the line under both. Line 2: the filters of the geography on the left, the period on the right. */
+.nf-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 calc(var(--space-mp) * -1) 16px; padding: 0 var(--space-mp); border-bottom: 1px solid var(--divider-color, #E0E0E4); }
+.nf-top .nf-subtabs { margin: 0; padding: 0; border-bottom: 0; }
+.nf-filters { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.nf-filters .nf-geo { flex: 0 1 auto; }
+.nf-filters #nf-period { margin-left: auto; }
+.nf-geo .products-area, .nf-extra .products-area { width: 14rem; }
+.nf-filters .fin-nav__label { min-width: 17rem; }
+html.dark-mode .nf-top { border-color: var(--dm-divider); }
+
+/* The row of tabs sits right under the page header, like the sub-tabs of the stores */
+.nf-header { margin-bottom: 0; }
+.nf-top { padding-top: 0; }
+
+/* The filters of the geography are narrower so the period fits on the same line, also when a tab adds filters of its own (Labor, Spend) */
+.nf-geo .products-area { width: 11rem; }
+.nf-geo .nf-extra .products-area, .nf-extra .products-area { width: 13rem; }
+.nf-filters .fin-nav__label { min-width: 13rem; }
+.nf-filters .fin-seg__btn { padding: 4px 10px; }
+.nf-filters .fin-period { gap: 12px; }
+.nf-geo .products-area { width: 10rem; }
+.nf-geo .nf-extra .products-area, .nf-extra .products-area { width: 12.5rem; }
+.nf-extra [data-extra="pcat"], .nf-extra [data-extra="psup"], .nf-extra [data-extra="ecat"], .nf-extra [data-extra="esup"] { width: 10.5rem; }
+.nf-filters .fin-nav__label { min-width: 12rem; }
+.nf-extra .products-area { display: block; margin: 0; }
+.nf-geo .nf-extra .products-area[data-extra]:not([data-extra="dept"]) { width: 10.5rem; }
+
+/* Readable filters first: the period goes to its own line when everything does not fit (Spend has two filters of its own) */
+.nf-geo .products-area { width: 12.5rem; }
+.nf-geo .nf-extra .products-area[data-extra]:not([data-extra="dept"]) { width: 12.5rem; }
+.nf-filters .fin-nav__label { min-width: 11rem; }
+.nf-filters .fin-seg__btn { padding: 4px 9px; }
+
+/* Every tab has the same top: tabs and Compare with, then the filters of the geography and the period on one line.
+ * The filters that belong to one tab (Spend, Labor) go on their own line under that block. */
+.nf-geo .products-area { width: 14rem; }
+.nf-extra.nf-extra--bar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 0 0 16px; }
+.nf-extra.nf-extra--bar:empty { display: none; }
+.nf-extra.nf-extra--bar .products-area, .nf-extra.nf-extra--bar .products-area[data-extra]:not([data-extra="dept"]) { width: 14rem; }
+.nf-filters .fin-nav__label { min-width: 13rem; }

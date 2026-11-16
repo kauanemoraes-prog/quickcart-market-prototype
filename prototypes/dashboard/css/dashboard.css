@@ -1,0 +1,660 @@
+/* Dashboard */
+
+/* Same soft grey page as the exhibitions page */
+.content:has(.dashboard-page) {
+    background-color: #F5F7F9;
+    padding-bottom: var(--space-m);
+}
+
+.dashboard-page {
+    margin-top: calc(var(--space-mp) * -1);
+    padding-bottom: 0;
+}
+
+/* The last block sits one step above the footer, with no extra space under it */
+.dashboard-page > :last-child { margin-bottom: 0; }
+
+/* Sticky header with the page title and the primary action */
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin: 0 calc(var(--space-mp) * -1) var(--space-m);
+    padding: var(--space-m) var(--space-mp);
+    background-color: var(--color-fill-white, #fff);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: var(--color-glyph-gray);
+}
+
+.dashboard-header__subtitle {
+    margin: 2px 0 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.dashboard-header__action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    height: 36px;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Overview */
+.dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.kpi-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-m);
+    padding: var(--space-m) var(--space-ml);
+    background: #fff;
+    border-radius: 20px;
+    color: inherit;
+    text-decoration: none;
+    transition: box-shadow 0.15s ease;
+}
+
+.kpi-card:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.kpi-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: #E6E6E6;
+    color: var(--color-base-accent);
+}
+
+.kpi-card--warning .kpi-card__icon {
+    background: #FFF4D6;
+    color: #8A5A00;
+}
+
+.kpi-card--info .kpi-card__icon {
+    background: var(--color-base-accent-lighter-1);
+}
+
+/* The wrapper is transparent: label, value and note are placed directly on the card grid */
+.kpi-card__body {
+    display: contents;
+}
+
+.kpi-card__label {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.kpi-card__note {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.kpi-card__icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+.kpi-card__value {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    font-size: 32px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    color: var(--color-glyph-gray);
+}
+
+/* Cards and grids */
+.dashboard-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.dashboard-grid--main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.dashboard-grid--support {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dashboard-card {
+    padding: var(--space-ml);
+    background: #fff;
+    border-radius: 20px;
+    min-width: 0;
+}
+
+.dashboard-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+}
+
+.dashboard-card__title {
+    margin: 0;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.dashboard-card__subtitle {
+    margin: 2px 0 0;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.dashboard-card__link,
+.dashboard-link {
+    color: var(--color-base-accent);
+    text-decoration: none;
+}
+
+.dashboard-card__link {
+    flex-shrink: 0;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+}
+
+.dashboard-card__link:hover,
+.dashboard-link:hover {
+    text-decoration: underline;
+}
+
+/* Needs Attention table */
+.dashboard-table-wrap {
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-xxs);
+}
+
+.dashboard-table th {
+    padding: var(--space-s) var(--space-s);
+    text-align: left;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-glyph-gray-secondary);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+    white-space: nowrap;
+}
+
+.dashboard-table td {
+    padding: var(--space-sm, 12px) var(--space-s);
+    color: var(--color-glyph-gray);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+    white-space: nowrap;
+}
+
+.dashboard-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.dashboard-table__action {
+    width: 4rem;
+    text-align: right;
+}
+
+.icon-link {
+    display: inline-flex;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.icon-link:hover {
+    color: var(--color-base-accent);
+}
+
+.issue-badge {
+    display: inline-block;
+    padding: 2px var(--space-s);
+    border-radius: 999px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+}
+
+.issue-badge--danger  { background: #FDE7E7; color: #B3261E; }
+.issue-badge--warning { background: #FFF4D6; color: #8A5A00; }
+.issue-badge--info    { background: var(--color-base-accent-lighter-1); color: var(--color-glyph-blue); }
+
+.dashboard-empty {
+    padding: var(--space-m);
+    color: var(--color-glyph-gray-secondary);
+    text-align: center;
+}
+
+/* Portfolio timeline: the card stretches to the height of Needs Attention, so the phases are spread over it. */
+#timeline-title { margin: 0; }
+
+.dashboard-grid--main > .dashboard-card:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.phase-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.phase-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 12px);
+}
+
+.phase-row__step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: #E6E6E6;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.phase-row__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.phase-row__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-xxs);
+}
+
+.phase-row__name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+}
+
+.phase-row__count {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.phase-row__count small {
+    font-weight: 400;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.phase-row__bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-fill-gray-quaternary);
+    overflow: hidden;
+}
+
+.phase-row__fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-base-accent);
+}
+
+/* Recent updates and upcoming openings */
+.update-list,
+.opening-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.update-row,
+.opening-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 12px);
+    padding: var(--space-sm, 12px) 0;
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+    font-size: var(--font-size-xxs);
+}
+
+.update-row:last-child,
+.opening-row:last-child {
+    border-bottom: 0;
+}
+
+.update-row__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: #E6E6E6;
+    color: var(--color-base-accent);
+}
+
+.update-row__body,
+.opening-row__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.update-row__body a,
+.opening-row__body a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.update-row__meta,
+.opening-row__meta {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.update-row__date,
+.opening-row__in {
+    flex-shrink: 0;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.opening-row__date {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 12px;
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-base-accent);
+    line-height: 1.1;
+}
+
+.opening-row__date strong {
+    font-size: var(--font-size-xs);
+}
+
+.opening-row__date small {
+    font-size: var(--font-size-tiny);
+    text-transform: uppercase;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dashboard-grid--main,
+    .dashboard-grid--support { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Exhibition codes under each phase bar */
+.phase-row__codes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-s);
+}
+
+.phase-row__code,
+.phase-row__more {
+    padding: 1px var(--space-s);
+    border-radius: 999px;
+    background: #E6E6E6;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.phase-row__more {
+    background: transparent;
+    padding-left: 0;
+}
+
+/* Highlighted next opening, above the list of the dates that follow */
+.next-opening {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-bottom: var(--space-s);
+    padding: var(--space-m);
+    border-radius: 16px;
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-glyph-gray);
+    text-decoration: none;
+}
+
+.next-opening__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--color-base-accent);
+}
+
+.next-opening__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    font-size: var(--font-size-xxs);
+}
+
+.next-opening__body small,
+.next-opening__when small {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.next-opening__body strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-xs);
+}
+
+.next-opening__when {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.next-opening__when strong {
+    font-size: var(--font-size-sm);
+    color: var(--color-base-accent);
+}
+
+/* Supermarket dashboard: header tools, five clickable indicators, store code */
+.dashboard-header__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.dashboard-scope {
+    width: 16rem;
+    margin: 0;
+}
+
+.dashboard-kpis--five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.dashboard-kpis--five .kpi-card {
+    padding: var(--space-m);
+    column-gap: var(--space-s);
+}
+
+.dashboard-kpis--five .kpi-card__icon {
+    width: 3.2rem;
+    height: 3.2rem;
+}
+
+.dashboard-kpis--five .kpi-card__value {
+    font-size: 28px;
+}
+
+/* Indicators are buttons that select which stores the list shows */
+button.kpi-card {
+    width: 100%;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Three states: default (plain), hover (soft outline, tint and lift) and selected (strong outline, tinted card, solid icon) */
+button.kpi-card {
+    box-shadow: inset 0 0 0 2px transparent;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+button.kpi-card:hover,
+button.kpi-card:focus-visible {
+    background-color: #F7F8FB;
+    box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 6px 16px rgba(113, 128, 172, 0.16);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+button.kpi-card.kpi-card--active,
+button.kpi-card.kpi-card--active:hover,
+button.kpi-card.kpi-card--active:focus-visible {
+    background-color: var(--color-base-accent-lighter-1);
+    box-shadow: inset 0 0 0 2px var(--color-base-accent);
+    transform: none;
+}
+
+button.kpi-card.kpi-card--active .kpi-card__icon { background: var(--color-base-accent); color: #fff; }
+button.kpi-card.kpi-card--active .kpi-card__value { color: var(--color-base-accent-darker-2); }
+
+.kpi-card--danger .kpi-card__icon {
+    background: #FDE7E7;
+    color: #B3261E;
+}
+
+.store-code {
+    margin-left: var(--space-xs);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Seven indicators: they share the row, and wrap to a second one on narrow screens */
+.dashboard-kpis--seven {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+}
+
+.dashboard-kpis--seven .kpi-card { padding: var(--space-m); column-gap: var(--space-s); }
+.dashboard-kpis--seven .kpi-card__icon { width: 3.2rem; height: 3.2rem; }
+.dashboard-kpis--seven .kpi-card__value { font-size: 28px; }
+
+.issue-more { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); white-space: nowrap; }
+
+/* The cities under each region are links to the Location page */
+a.phase-row__code { text-decoration: none; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
+a.phase-row__code:hover, a.phase-row__code:focus-visible { background-color: var(--color-base-accent-lighter-1); color: var(--color-base-accent-darker-2); outline: none; }
+.phase-row__code--extra { display: none; }
+.phase-row--expanded .phase-row__code--extra { display: inline-flex; }
+button.phase-row__more { padding: 0 4px; border: 0; background: none; font: inherit; font-size: var(--font-size-tiny); color: var(--color-base-accent); cursor: pointer; }
+button.phase-row__more:hover { text-decoration: underline; }
+
+/* Scope: the checkbox dropdown of the regions */
+.dashboard-scope { width: 20rem; margin: 0; }
+.dashboard-scope .ms__panel { right: 0; left: auto; }
+
+/* The scope dropdown and the Add Store button share one height and one centre line (no bottom margin from the form group) */
+.dashboard-header__tools > .form-group.dashboard-scope { margin: 0 !important; }
+.dashboard-header__tools { align-items: center; }
+.dashboard-scope .ms__trigger { box-sizing: border-box; height: 32px; }   /* the height of the Add Store button */
+
+/* The title and what the page shows (scope, stores, date of the data) on one row, separated by thin dividers */
+.dashboard-header__line { display: flex; align-items: baseline; flex-wrap: wrap; }
+.dashboard-header__line h1 { margin-right: var(--space-m); }
+.dashboard-header__items { display: flex; align-items: baseline; flex-wrap: wrap; }
+.dashboard-header__item {
+    padding-left: var(--space-m);
+    margin-left: var(--space-m);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    line-height: 1.6;
+    color: var(--color-glyph-gray-secondary);
+}
+.dashboard-header__item:first-child { margin-left: 0; }
+
+/* Seven indicators in a row: the icon and the number share the first line, the label and the note use the whole width below */
+.dashboard-kpis--seven .kpi-card { grid-template-columns: auto minmax(0, 1fr); row-gap: 2px; }
+.dashboard-kpis--seven .kpi-card__icon { grid-column: 1; grid-row: 1; }
+.dashboard-kpis--seven .kpi-card__value { grid-column: 2; grid-row: 1; justify-self: end; }
+.dashboard-kpis--seven .kpi-card__label { grid-column: 1 / -1; grid-row: 2; margin-top: var(--space-s); }
+.dashboard-kpis--seven .kpi-card__note { grid-column: 1 / -1; grid-row: 3; }
+.dashboard-kpis--seven .kpi-card { align-content: start; }
+.dashboard-kpis--seven .kpi-card__label { align-self: start; }
+
+/* Same 16px gap between indicators as between the cards below */
+.dashboard-kpis--seven { gap: 16px; }
+
+/* The columns keep their width whatever the indicator selected: a fixed layout, so the numbers and badges of each list do not move them */
+.dashboard-table { table-layout: fixed; width: 100%; }
+.dt-col--store { width: 27%; }
+.dt-col--city { width: 21%; }
+.dt-col--issue { width: 31%; }
+.dt-col--manager { width: 17%; }
+.dt-col--open { width: 4%; }
+.dashboard-table td, .dashboard-table th { overflow: hidden; text-overflow: ellipsis; }
+.dashboard-table td:nth-child(3) { white-space: nowrap; }

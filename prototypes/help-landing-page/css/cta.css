@@ -1,0 +1,78 @@
+/* CTA — single full-width card with two action paths */
+
+.help-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-xl);
+    align-items: center;
+    padding: var(--space-xl);
+    background: var(--color-fill-secondary);
+    border: 1px solid var(--color-fill-tertiary);
+    border-radius: var(--space-m);
+}
+
+.help-cta__intro {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.help-cta__icon {
+    flex-shrink: 0;
+}
+
+.help-cta__title {
+    margin: 0 0 var(--space-xxs) 0;
+}
+
+.help-cta__text {
+    margin: 0;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.help-cta__actions {
+    display: flex;
+    gap: var(--space-s);
+}
+
+.help-cta__action {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-s) var(--space-l);
+    border-radius: var(--space-s);
+    background: var(--color-fill-fixed-white);
+    border: 1px solid var(--color-fill-tertiary);
+    text-decoration: none;
+    color: var(--color-glyph-gray);
+    min-width: 160px;
+    transition: border-color 0.15s ease;
+}
+
+.help-cta__action:hover {
+    border-color: var(--color-accent);
+}
+
+.help-cta__action--primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-fill-fixed-white);
+}
+
+.help-cta__action--primary:hover {
+    border-color: var(--color-fill-fixed-white);
+}
+
+.help-cta__action-title {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xxs);
+}
+
+.help-cta__action-meta {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.help-cta__action--primary .help-cta__action-meta {
+    color: rgba(255, 255, 255, 0.85);
+}

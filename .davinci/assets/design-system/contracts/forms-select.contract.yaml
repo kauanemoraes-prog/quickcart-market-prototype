@@ -1,0 +1,26 @@
+component: forms-select
+summary: "A single-choice dropdown paired with a label; a native select is always the source of truth for the value."
+anatomy:
+  - {id: group,              required: true,  role: "wrapper grouping the label and select"}
+  - {id: label,              required: true,  role: "names the select; programmatically associated"}
+  - {id: select,             required: true,  role: "the native select; the source of truth for the value", capabilities: [validate]}
+  - {id: placeholder-option, required: "if no value is pre-selected",  role: "an empty-value option as the first child; present when the select opens with no chosen value so the empty choice is explicit"}
+  - {id: option,             required: true,  multiple: true, role: "a selectable choice"}
+  - {id: empty-state,        required: false, role: "shown when there are no selectable options"}
+states: [default, focus, disabled, invalid?, open?, empty?]
+behaviors:
+  select:   "choosing an option writes back to the native select value and dispatches a native change event"
+  open:     "if a custom panel is presented, opening builds it from the options and closing removes it; the native select stays authoritative"
+  validate: "toggle the invalid state from the validation result"
+a11y:
+  - "the label is programmatically associated with the select via matching for/id"
+  - "value and keyboard operation are driven by a real native select"
+  - "if a custom panel is presented, it exposes listbox and option semantics and is fully keyboard operable"
+  - "on invalid, the select is marked aria-invalid"
+heuristics:
+  - {id: recognition,     source: nielsen, rule: "the control has a visible label and a clear placeholder for the empty choice", verify: [checklist, dom]}
+  - {id: accessible-name, source: wcag,    rule: "the select has an accessible name", verify: [checklist, dom]}
+semantics:
+  - {id: required, note: "a required select is marked required"}
+  - {id: single-choice, note: "single-choice only; multi-select is a different pattern and not this contract"}
+excludes: [class names, tokens, spacing, color, typography, borders, size and layout variants, custom-panel appearance, avatar rendering]

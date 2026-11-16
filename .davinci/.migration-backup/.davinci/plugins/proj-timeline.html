@@ -1,0 +1,127 @@
+<!-- PROJ-TIMELINE -->
+<!-- Horizontal read-only milestone timeline with progress line -->
+
+<!-- METADATA
+Component: Timeline
+Category: Data Display
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST have a container div with a unique ID for the timeline to render into
+- Built-in template handles all HTML structure automatically — no Handlebars template needed
+- If custom markup is needed, provide a templateId pointing to a Handlebars template (optional)
+- MUST include proj-timeline__circle container (20px layout box) for each milestone (handled by built-in)
+- MUST include proj-timeline__checkmark img only for current and draft states (handled by built-in)
+
+COMMON MISTAKES TO AVOID:
+[X] Forgetting to load proj-timeline.js via script tag (CSS auto-loads, JS does not)
+[X] Setting fixed widths — component uses inline-block + flex for dynamic sizing
+[X] Missing container div — the component needs an empty div with an ID to render into
+
+JAVASCRIPT INTEGRATION:
+- Load proj-timeline.js via <script> tag before your prototype's main.js
+- Minimal: ProjTimeline.create({ containerId: 'my-id', milestones: [...] }).init();
+- Config: containerId (string), milestones (array), templateId (string, optional), iconsPath (string, optional)
+- Milestone object: { label, value, current, selected, draft }
+- JS computes base states from milestone data, positions track lines, handles click selection
+
+COMPANION FILES:
+- CSS: proj-timeline.css (auto-loaded via plugins.css)
+- JS: proj-timeline.js (load per-prototype via script tag)
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="proj-timeline">
+  <div class="proj-timeline__track">
+    <div class="proj-timeline__milestones">
+      <div class="proj-timeline__line"></div>
+      <div class="proj-timeline__progress"></div>
+      <div class="proj-timeline__milestone proj-timeline__milestone--[state]">...</div>
+    </div>
+  </div>
+</div>
+
+When to prompt: When user needs a horizontal milestone/phase timeline. Ask about: milestone labels, which is current, whether selection is needed.
+Variants: Base only — states (past, current, draft, future) and selected modifier are automatic via JS.
+-->
+
+
+<!-- ==================== -->
+<!-- QUICK START (RECOMMENDED) -->
+<!-- ==================== -->
+<!-- Just add a container div in your page-content and init via JS. -->
+<!-- No Handlebars template needed — the component builds its own HTML. -->
+
+<!-- In page-content: -->
+<div id="my-timeline-container"></div>
+
+
+<!-- ==================== -->
+<!-- JS INITIALIZATION     -->
+<!-- ==================== -->
+<!--
+Minimal usage (built-in template):
+
+ProjTimeline.create({
+    containerId: 'my-timeline-container',
+    milestones: [
+        { label: 'P1', value: '04/01/2026', current: true,  selected: true },
+        { label: 'P2', value: '04/15/2026', current: false, selected: false },
+        { label: 'MP', value: '04/30/2026', current: false, selected: false }
+    ]
+}).init();
+
+HTML script tags (in index.html, before main.js):
+<script src="../../.davinci/plugins/proj-timeline.js"></script>
+-->
+
+
+<!-- ==================== -->
+<!-- CUSTOM TEMPLATE (OPTIONAL) -->
+<!-- ==================== -->
+<!-- Only needed if you want custom markup. Provide templateId in config. -->
+
+<script id="my-timeline-template" type="text/x-handlebars-template">
+    <div class="proj-timeline">
+        <div class="proj-timeline__track">
+            <div class="proj-timeline__milestones">
+                <div class="proj-timeline__line"></div>
+                <div class="proj-timeline__progress"></div>
+                {{#each milestones}}
+                <div class="proj-timeline__milestone proj-timeline__milestone--{{base}}{{#if isSelected}} proj-timeline__milestone--selected{{/if}}">
+                    <span class="proj-timeline__label">{{label}}</span>
+                    <div class="proj-timeline__circle">
+                        {{#if hasCheck}}
+                        <img src="../../.davinci/assets/icons/regular/checkmark.svg" alt="" width="8" height="8" class="proj-timeline__checkmark">
+                        {{/if}}
+                    </div>
+                    <span class="proj-timeline__value">{{value}}</span>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--
+Custom template usage:
+
+ProjTimeline.create({
+    containerId: 'my-timeline-container',
+    templateId:  'my-timeline-template',
+    milestones: [...]
+}).init();
+-->
+
+
+<!-- USAGE:
+- CSS (proj-timeline.css) auto-loads via plugins.css — no manual linking needed
+- JS (proj-timeline.js) must be loaded per-prototype via <script> tag
+- Built-in template works out of the box — just provide containerId + milestones
+- Custom Handlebars template is optional (provide templateId to override)
+- iconsPath config overrides default icon path (default: '../../.davinci/assets/icons/regular/')
+- Base states: past (blue dot), current (blue dot + checkmark), draft (gray dot + gray check), future (white dot, gray border)
+- Selected modifier: blue outer ring, overlays any base state
+- Click interaction: clicking a milestone selects it and updates the progress line
+- Design tokens: --tl-color-accent (blue), --tl-color-track (gray), --tl-circle-container (20px), --tl-dot-size (10/14px)
+- Override tokens on .proj-timeline to customize colors per instance
+-->

@@ -1,0 +1,17 @@
+component: avatars
+summary: "Represents a user or entity as a compact circular token showing either a photo or initials."
+anatomy:
+  - {id: avatar, required: true, role: "the avatar container that holds either an image or initials text"}
+  - {id: image, required: "if a photo is available", role: "the user photo rendered inside the avatar"}
+  - {id: initials, required: "if no photo is available", role: "fallback text (typically initials) shown when there is no image"}
+states: [with-image, with-initials]
+behaviors: {}
+a11y:
+  - "an avatar carrying an image provides an accessible name via alt text (e.g. the person's name); if purely decorative and duplicated by adjacent text, the image is marked decorative with empty alt and aria-hidden"
+  - "an initials-only avatar exposes the full name to assistive tech (e.g. via aria-label or adjacent visible text) since two-letter initials are not meaningful when read aloud"
+  - "the avatar is not a focusable or interactive element unless the consumer wraps it in a control, in which case that control carries its own accessible name"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "an avatar must resolve to a human-readable identity (name), never rely on initials or image alone for identification", verify: [checklist, dom]}
+  - {id: fallback, source: nielsen, rule: "when no image is present the avatar must show an initials fallback rather than a broken or empty token", verify: [checklist, dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, shape, size variants, image cropping, background fill]

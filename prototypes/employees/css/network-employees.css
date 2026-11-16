@@ -1,0 +1,8 @@
+/* Employees of the whole network. Page, toolbar, table and pager come from the Products page of the network (products/css) and the Employees tab of a store. */
+.ne-page .ne-row { cursor: pointer; }
+.ne-page .ne-row:hover > td { background-color: var(--color-fill-secondary); }
+.ne-page .products-toolbar .rq-chip-sep { align-self: center; }
+.ne-page .table--network-employees .table__cell { white-space: nowrap; }
+
+
+.ne-page .products-toolbar .np-chips { order: 3; }

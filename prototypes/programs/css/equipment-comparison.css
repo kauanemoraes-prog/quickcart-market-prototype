@@ -1,0 +1,8 @@
+/* Products tab: the list is the only view */
+.equip-view {
+    display: none;
+}
+
+.equip-view--active {
+    display: block;
+}

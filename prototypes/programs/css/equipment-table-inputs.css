@@ -1,0 +1,250 @@
+/* Equipment table — editable inputs, custom dropdown, description button, description popover. Split from equipment-table.css. */
+
+/* Equipment editable inputs — appear styled on row hover */
+.equip-input {
+    width: 100%;
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+    font-family: inherit;
+    cursor: default;
+}
+
+.table--equipment .table__row:hover .equip-input {
+    background-color: #FFFFFF;
+    border-color: #D9D9D9;
+    cursor: text;
+}
+
+.equip-input:focus {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+    cursor: text;
+}
+
+.equip-input::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.equip-input--name {
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Custom dropdown — replaces native <select> in equipment-list rows */
+.equip-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.equip-dropdown__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    width: 100%;
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    cursor: default;
+    text-align: left;
+    font-family: inherit;
+    transition: var(--transition-basic);
+}
+
+.table--equipment .table__row:hover .equip-dropdown__trigger {
+    background-color: #FFFFFF;
+    border-color: #D9D9D9;
+    cursor: pointer;
+}
+
+.equip-dropdown__trigger:focus,
+.equip-dropdown--open .equip-dropdown__trigger {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.equip-dropdown__value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.equip-dropdown__chevron {
+    flex-shrink: 0;
+    color: var(--color-glyph-gray-secondary);
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    opacity: 0;
+}
+
+/* Chevron stays hidden by default and only surfaces on row hover or when the
+ * dropdown is open/focused. Keeps the equipment table visually calmer at rest. */
+.table--equipment .table__row:hover .equip-dropdown__chevron,
+.equip-dropdown--open .equip-dropdown__chevron,
+.equip-dropdown__trigger:focus .equip-dropdown__chevron,
+.equip-dropdown__trigger:focus-visible .equip-dropdown__chevron {
+    opacity: 1;
+}
+
+.equip-dropdown--open .equip-dropdown__chevron {
+    transform: rotate(180deg);
+}
+
+.equip-dropdown__menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: var(--space-xs) 0;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-xs);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.equip-dropdown--open .equip-dropdown__menu {
+    display: block;
+}
+
+.equip-dropdown__option {
+    padding: var(--space-xs) var(--space-m);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.equip-dropdown__option:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.equip-dropdown__option--selected {
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-medium);
+}
+
+.equip-select:focus {
+    outline: none;
+    background-color: var(--color-fill-white);
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+/* Equipment description button */
+.table__cell--description {
+    text-align: left;
+}
+
+.equip-desc-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+}
+
+.equip-desc-btn:hover {
+    background-color: rgba(113, 128, 172, 0.08);
+}
+
+.equip-desc-icon {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+/* Equipment description popover */
+.equip-desc-popover {
+    position: absolute;
+    z-index: 100;
+}
+
+.equip-desc-popover__content {
+    background-color: var(--color-fill-white);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-s);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    padding: var(--space-m);
+    width: 360px;
+}
+
+.equip-desc-popover__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+}
+
+.equip-desc-popover__title {
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.equip-desc-popover__counter {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.equip-desc-popover__textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-xs);
+    padding: var(--space-s);
+    font-size: var(--font-size-xxs);
+    font-family: inherit;
+    color: var(--color-glyph-gray);
+    resize: vertical;
+    transition: var(--transition-basic);
+}
+
+.equip-desc-popover__textarea:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.equip-desc-popover__textarea::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.equip-desc-popover__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+}
+
+.table__row--equip-expanded-active {
+    background-color: var(--color-fill-secondary);
+}
+
+.table__row--equip-expanded {
+    background-color: var(--color-fill-tertiary);
+}
+
+.table__cell--equip-expanded {
+    padding: 0 !important;
+    background-color: var(--color-fill-white);
+    border-top: 1px solid var(--color-fill-quaternary);
+}

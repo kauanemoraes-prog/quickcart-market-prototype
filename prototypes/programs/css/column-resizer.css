@@ -1,0 +1,64 @@
+/* Column Resizer Styles */
+.column-resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 1;
+}
+
+.column-resize-handle:hover {
+    background-color: var(--color-base-accent);
+    opacity: 0.3;
+}
+
+.column-resize-handle:active {
+    background-color: var(--color-base-accent);
+    opacity: 0.5;
+}
+
+body.column-resizing {
+    cursor: col-resize !important;
+    user-select: none;
+}
+
+body.column-resizing * {
+    cursor: col-resize !important;
+}
+
+.table__header.column-resizing {
+    background-color: var(--color-fill-secondary);
+}
+
+/* Ensure table layout supports resizing */
+.table--pcn {
+    table-layout: fixed;
+}
+
+.table--pcn .table__header,
+.table--pcn .table__cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tables resized with js/table-resize.js: widths come from the <colgroup>, long content is cut with an ellipsis */
+.table--resizable {
+    table-layout: fixed;
+}
+
+.table--resizable .table__header,
+.table--resizable .table__cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table--resizable .table__header { position: sticky; }
+
+.column-resize-handle:focus-visible {
+    background-color: var(--color-base-accent);
+    opacity: 0.5;
+    outline: none;
+}

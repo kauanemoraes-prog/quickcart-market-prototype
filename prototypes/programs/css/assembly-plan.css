@@ -1,0 +1,622 @@
+/* Assembly Plan tab: area rows (level 1) and the workstation rows under each area (level 2).
+ * Both tables use a fixed layout with the same column widths, so column N of the workstation table
+ * sits under column N of the area table:
+ *   expand | Area Name / Station Name | Gallery, Zone / Area (spans both) | Purpose / Function |
+ *   Stations / Operations | Area Lead / Station Lead | Status / Readiness | Last Updated
+ * Purpose / Function takes the remaining width. */
+
+#process-flow table.table--lines,
+#process-flow table.ap-l2,
+#process-flow table.ap-ops {
+    table-layout: fixed;
+    width: 100%;
+}
+
+#process-flow table.table--lines > thead > tr > th:nth-child(1),
+#process-flow table.table--lines > tbody > tr > td:nth-child(1),
+#process-flow .ap-l2 .ap-l2-spacer {
+    width: 82px;
+    min-width: 82px;
+    max-width: 82px;
+    padding-left: var(--space-s, 8px);
+    padding-right: 0;
+    text-align: left;
+}
+
+/* In the area rows the icons carry the 8px themselves (see .ap-row-controls). The card's 1px left edge is
+ * drawn with an inset shadow instead of a border, so it does not take space from the 50px column. */
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1 > td:first-child {
+    padding-left: 0;
+    border-left: 0;
+    box-shadow: inset 1px 0 0 var(--color-fill-tertiary);
+}
+
+/* Column widths come from the <colgroup> of each table (the workstation table has a cell that spans two columns).
+   Column 5 (Purpose / Function) takes the remaining width. */
+#process-flow table.table--lines > colgroup > col:nth-child(1),
+#process-flow table.ap-l2 > colgroup > col:nth-child(1),
+#process-flow table.ap-ops > colgroup > col:nth-child(1) { width: 82px; }
+#process-flow table.table--lines > colgroup > col:nth-child(2),
+#process-flow table.ap-l2 > colgroup > col:nth-child(2),
+#process-flow table.ap-ops > colgroup > col:nth-child(2) { width: 220px; }
+#process-flow table.table--lines > colgroup > col:nth-child(3),
+#process-flow table.ap-l2 > colgroup > col:nth-child(3),
+#process-flow table.ap-ops > colgroup > col:nth-child(3) { width: 150px; }
+#process-flow table.table--lines > colgroup > col:nth-child(4),
+#process-flow table.ap-l2 > colgroup > col:nth-child(4),
+#process-flow table.ap-ops > colgroup > col:nth-child(4) { width: 120px; }
+#process-flow table.table--lines > colgroup > col:nth-child(6),
+#process-flow table.ap-l2 > colgroup > col:nth-child(6),
+#process-flow table.ap-ops > colgroup > col:nth-child(6) { width: 110px; }
+#process-flow table.table--lines > colgroup > col:nth-child(7),
+#process-flow table.ap-l2 > colgroup > col:nth-child(7),
+#process-flow table.ap-ops > colgroup > col:nth-child(7) { width: 170px; }
+#process-flow table.table--lines > colgroup > col:nth-child(8),
+#process-flow table.ap-l2 > colgroup > col:nth-child(8),
+#process-flow table.ap-ops > colgroup > col:nth-child(8) { width: 130px; }
+#process-flow table.table--lines > colgroup > col:nth-child(9),
+#process-flow table.ap-l2 > colgroup > col:nth-child(9),
+#process-flow table.ap-ops > colgroup > col:nth-child(9) { width: 140px; }
+
+#process-flow table.table--lines > thead .table__header,
+#process-flow .ap-l2 .table__header {
+    white-space: nowrap;
+}
+
+#process-flow table.table--lines > tbody > tr > td,
+#process-flow .ap-l2 td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Workstation table header: small and quiet, like the subtables on the exhibitions page */
+#process-flow .ap-l2 .table__header {
+    font-size: var(--font-size-tiny, 12px);
+    font-weight: var(--font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Status and readiness badges (same look as the exhibitions page) */
+.status-badge {
+    display: inline-block;
+    padding: 2px var(--space-s, 8px);
+    border-radius: 999px;
+    font-size: var(--font-size-tiny, 12px);
+    font-weight: var(--font-weight-medium, 500);
+    background: var(--color-fill-gray-quaternary, #E9EFF6);
+    color: var(--color-glyph-gray-secondary, #5E718D);
+}
+
+.status-badge[data-status="On track"], .status-badge[data-readiness="Ready"]       { background: #E6F4EA; color: #1E7B34; }
+.status-badge[data-status="At risk"],  .status-badge[data-readiness="In progress"] { background: #FFF4D6; color: #8A5A00; }
+.status-badge[data-status="Delayed"],  .status-badge[data-readiness="Blocked"]     { background: #FDE7E7; color: #B3261E; }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---- Left alignment and the gap after the chevron ----
+ * The first column is 50px wide: 8px, the 16px drag handle, the 16px chevron (the size used on the exhibitions
+ * page) in a 22px button. The chevron is drawn from 5.3px to 10.7px inside its 16px box, so its right edge is at
+ * 8 + 16 + 3 + 10.7 = 37.7px and text starting at 50px is about 12px away; the 4px outline of an open field
+ * still leaves 8px of clear space before the chevron. Headers and cells use the same padding. */
+#process-flow table.table--lines > thead > tr > th,
+#process-flow table.table--lines > tbody > tr > td,
+#process-flow .ap-l2 th,
+#process-flow .ap-l2 td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+#process-flow table.table--lines > thead > tr > th:nth-child(1),
+#process-flow table.table--lines > tbody > tr > td:nth-child(1),
+#process-flow .ap-l2 .ap-l2-spacer {
+    text-align: left;
+}
+
+#process-flow .ap-l2 th,
+#process-flow .ap-l2 td {
+    padding: var(--space-s, 8px) var(--space-m, 16px);
+}
+
+/* First text column (Area Name / Station Name): no left padding */
+#process-flow table.table--lines > tbody > tr > td:nth-child(2),
+#process-flow .ap-l2 td:nth-child(2) {
+    padding-left: 0;
+}
+
+/* The Station Name header spans the spacer and the name column and starts at the same left edge as the
+ * Area Name header above it (8px from the table edge), not above the names. */
+#process-flow .ap-l2 th.ap-l2-head-first {
+    padding-left: var(--space-s, 8px);
+}
+
+/* The Area Name header spans the handle/chevron column and the name column, and starts at the same left edge as
+ * the drag handle (8px from the table edge). */
+#process-flow table.table--lines > thead > tr > th:nth-child(1) {
+    padding-left: var(--space-s, 8px);
+    text-align: left;
+}
+
+/* Area Name and Purpose are editable. The field has no padding or border at rest so its text lines up with
+ * the header; on hover / focus it shows a white halo and an outline (4px around the text) instead of a bordered box. The halo
+ * is smaller than the 8px gap to the chevron, so the open field never covers an icon. */
+#process-flow table.table--lines > tbody > tr > td.proj-nested-table__col-name,
+#process-flow table.table--lines > tbody > tr > td.proj-nested-table__col-desc {
+    overflow: visible;
+}
+
+#process-flow table.table--lines .proj-nested-table__col-name .equip-input,
+#process-flow table.table--lines .proj-nested-table__col-desc .equip-input {
+    padding: var(--space-xs, 4px) 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+}
+
+#process-flow table.table--lines .proj-nested-table__col-name .equip-input:hover,
+#process-flow table.table--lines .proj-nested-table__col-desc .equip-input:hover {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--outline-color, #B6B7BD);
+}
+
+#process-flow table.table--lines .proj-nested-table__col-name .equip-input:focus,
+#process-flow table.table--lines .proj-nested-table__col-desc .equip-input:focus {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--color-base-accent);
+}
+
+#process-flow table.table--lines .proj-nested-table__col-name .line-name {
+    display: block;
+}
+
+/* ---- Operations of a workstation (Operation, Sequence, Duration) ---- */
+.ap-op-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.ap-op-toggle lucide-icon {
+    transition: transform 0.2s ease;
+}
+
+.ap-op-toggle[aria-expanded="true"] lucide-icon {
+    transform: rotate(90deg);
+}
+
+#process-flow .ap-op-row[hidden] {
+    display: none;
+}
+
+/* Soft grey background for the whole page (the canvas content area and the page wrapper), not just the
+ * strip behind the tabs. The dark-mode stylesheets are imported after this file and still win. */
+.content:has(.program-detail-page) {
+    background-color: #F6F7F9 !important;
+}
+
+.program-detail-page {
+    background-color: #F6F7F9;
+}
+
+/* Distance between the tabs and the filter bar: 8px, which is the padding at the top of the toolbar itself */
+.program-detail-content {
+    padding-top: 0;
+}
+
+/* Expand chevron: the exhibitions-page size, centered in its column, in the accent color */
+#process-flow .proj-nested-table__expand-btn {
+    margin-right: 0;
+    padding: 4px;
+}
+
+#process-flow .proj-nested-table__chevron {
+    filter: none;
+    color: var(--color-base-accent);
+}
+
+/* Back arrow in the page header: it sits at the left edge of the content (aligned with the tabs and the tables
+ * below). The Lucide arrow has about 3px of empty space inside its 16px box, which is pulled back with a
+ * negative margin; the drawn arrow is then ~9.7px wide, and the Exhibition dropdown starts 16px after it
+ * (16px box + 10px margin = 26px from the content edge, and no left padding on the dropdown). */
+.back-btn {
+    width: 16px;
+    margin-right: 10px;
+    justify-content: flex-start;
+}
+
+.back-btn lucide-icon {
+    margin-left: -3px;
+}
+
+.back-btn + .header-dropdown {
+    padding-left: 0;
+}
+
+/* Phase timeline in the page header: room above the stage names (at least 8px from the top of the header). The
+ * layout itself (name, circle, date) lives in the plugin stylesheet. */
+.program-detail-page .proj-timeline {
+    --tl-color-accent: var(--color-base-accent, #7180AC);
+    padding-top: var(--space-s, 8px);
+}
+
+/* ---- Reorder handle + expand chevron ---- */
+.ap-row-controls {
+    display: flex;
+    align-items: center;
+    padding-left: var(--space-s, 8px);
+}
+
+/* Row number sits between the drag handle and the chevron */
+#process-flow .ap-row-controls .proj-nested-table__row-number,
+#process-flow .ap-row-controls .ap-l2-num {
+    flex-shrink: 0;
+    min-width: 20px;
+    margin: 0 var(--space-xs, 4px);
+    font-size: var(--font-size-small, 14px);
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-base-accent);
+    text-align: center;
+}
+
+/* Drag handle: 16px, followed by the chevron button. The drawn dots of the grip and the chevron are each inset
+ * a few px in their boxes, so the visible gap between the two icons is well over 8px. */
+#process-flow .proj-nested-table__drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-right: 0;
+    color: var(--color-glyph-gray-tertiary);
+    cursor: grab;
+    /* the plugin hides the handle until the row is hovered and tints it with a filter; here it is always visible */
+    opacity: 1;
+    filter: none;
+}
+
+#process-flow .proj-nested-table__drag-handle:hover {
+    color: var(--color-glyph-gray-secondary);
+}
+
+#process-flow .proj-nested-table__drag-handle:active {
+    cursor: grabbing;
+}
+
+#process-flow .proj-nested-table__expand-btn {
+    padding: 3px;
+}
+
+/* Workstation rows: drag handle and operations chevron sit exactly under the area row's handle and chevron */
+#process-flow .ap-l2 .ap-l2-spacer {
+    padding-left: 0;
+}
+
+/* Placeholder that keeps the drag handle in place when a workstation has no operations (no chevron) */
+.ap-op-toggle-spacer {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+
+#process-flow .ap-op-toggle {
+    width: 22px;
+    height: 22px;
+}
+
+/* Row being dragged / drop position */
+#process-flow tr.is-dragging { opacity: 0.5; }
+#process-flow tr.drop-before { box-shadow: 0 -2px 0 var(--color-base-accent); }
+#process-flow tr.drop-after  { box-shadow: 0 2px 0 var(--color-base-accent); }
+
+/* ---- Gallery and Zone: dropdowns that only show as a dropdown on hover ----
+ * At rest they look like the other text cells (no border, no padding, no chevron); on row hover the chevron
+ * appears, and hovering / opening the field shows a white halo with an outline, like the editable text fields. */
+#process-flow table.table--lines > tbody > tr > td.ap-col-gallery,
+#process-flow table.table--lines > tbody > tr > td.ap-col-zone {
+    overflow: visible;
+}
+
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown__trigger,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown__trigger {
+    padding: var(--space-xs, 4px) 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--color-glyph-gray);
+}
+
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown__trigger:hover,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown__trigger:hover {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--outline-color, #B6B7BD);
+}
+
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown--open .equip-dropdown__trigger,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown--open .equip-dropdown__trigger,
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown__trigger:focus,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown__trigger:focus {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--color-base-accent);
+}
+
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown__chevron,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown__chevron {
+    opacity: 0;
+}
+
+#process-flow table.table--lines tr:hover .ap-col-gallery .equip-dropdown__chevron,
+#process-flow table.table--lines tr:hover .ap-col-zone .equip-dropdown__chevron,
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown--open .equip-dropdown__chevron,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown--open .equip-dropdown__chevron {
+    opacity: 1;
+}
+
+#process-flow table.table--lines .ap-col-gallery .equip-dropdown__menu,
+#process-flow table.table--lines .ap-col-zone .equip-dropdown__menu {
+    left: -8px;
+    min-width: calc(100% + 16px);
+}
+
+/* Area rows are 6px shorter than the default 56px */
+#process-flow .table--lines .proj-nested-table__row--level1 td {
+    height: 50px;
+}
+
+
+/* ======================================================================================================
+ * Three levels of information: Area (level 1) > Station (level 2) > Operation (level 3)
+ * Areas and stations are rounded cards with a light blue tint and a small "01 | Area" / "01 | Station" label
+ * above their name; the operations of a station are a white table attached under its card, with a "+" in the
+ * header to add an operation and a drag handle on every row.
+ * ====================================================================================================== */
+
+#process-flow .ap-label {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 12px;
+    font-weight: var(--font-weight-medium, 500);
+    line-height: 14px;
+    color: var(--color-base-accent);
+}
+
+#process-flow .ap-label .proj-nested-table__row-number,
+#process-flow .ap-label .ap-l2-num {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+
+/* The row-number the plugin styles for the old layout keeps its look inside the label */
+#process-flow .ap-l2-name-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-glyph-gray);
+}
+
+/* The gap between two area cards (the table's row spacing) shows the table's own background, so the table and its
+ * wrappers are transparent and the gap reads as the grey page. */
+#process-flow .proj-nested-table,
+#process-flow .proj-nested-table .table-container,
+#process-flow table.table--lines {
+    background: transparent;
+}
+
+/* Level 1: area cards */
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1 {
+    background-color: #FFFFFF;
+}
+
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1 > td {
+    border-top: 1px solid #D5DAE8;
+    border-bottom: 1px solid #D5DAE8;
+}
+
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1 > td:first-child {
+    border-left: 0;
+}
+
+/* The expanded block under an area continues the card: same tint, same side borders */
+#process-flow table.table--lines .proj-nested-table__detail-row {
+    background: #FFFFFF;
+}
+
+#process-flow table.table--lines .proj-nested-table__detail-row > td {
+    border: 1px solid #D5DAE8 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 8px 8px;
+}
+
+/* An expanded area has no gap before its station table: the table's row spacing is filled with the card tint
+ * and side borders */
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1[data-expanded="true"] > td {
+    border-bottom-color: transparent;
+    box-shadow: 0 var(--space-s) 0 0 #FFFFFF;
+}
+
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1[data-expanded="true"] > td:first-child {
+    box-shadow: 0 var(--space-s) 0 0 #FFFFFF, -1px var(--space-s) 0 0 #D5DAE8;
+}
+
+#process-flow table.table--lines > tbody > tr.proj-nested-table__row--level1[data-expanded="true"] > td:last-child {
+    box-shadow: 0 var(--space-s) 0 0 #FFFFFF, 1px var(--space-s) 0 0 #D5DAE8;
+}
+
+/* Level 2: station cards, separated by a gap row */
+#process-flow table.ap-l2 {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#process-flow .ap-l2 > thead th {
+    background: transparent;
+}
+
+#process-flow .ap-l2 tr.ap-gap td {
+    height: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+#process-flow .ap-l2 tr.ap-station-row {
+    background: transparent;
+}
+
+#process-flow .ap-l2 tr.ap-station-row > td {
+    height: 52px;
+    background-color: #F8F9FC;
+    border-top: 1px solid #D5DAE8;
+    border-bottom: 1px solid #D5DAE8;
+}
+
+#process-flow .ap-l2 tr.ap-station-row > td:first-child {
+    border-left: 1px solid #D5DAE8;
+    border-radius: 8px 0 0 8px;
+}
+
+#process-flow .ap-l2 tr.ap-station-row > td:last-child {
+    border-right: 1px solid #D5DAE8;
+    border-radius: 0 8px 8px 0;
+}
+
+/* When the operations are open the card and the table below it are one block */
+#process-flow .ap-l2 tr.ap-station-row:has(+ .ap-op-row:not([hidden])) > td {
+    border-bottom-color: transparent;
+}
+
+#process-flow .ap-l2 tr.ap-station-row:has(+ .ap-op-row:not([hidden])) > td:first-child {
+    border-bottom-left-radius: 0;
+}
+
+#process-flow .ap-l2 tr.ap-station-row:has(+ .ap-op-row:not([hidden])) > td:last-child {
+    border-bottom-right-radius: 0;
+}
+
+/* Level 3: the operations table */
+#process-flow .ap-l2 td.ap-op-cell {
+    padding: 0;
+    overflow: visible;
+    white-space: normal;
+    background: #fff;
+    border: 1px solid #D5DAE8;
+    border-top: 0;
+    border-radius: 0 0 8px 8px;
+}
+
+#process-flow table.ap-ops {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+}
+
+#process-flow .ap-ops th,
+#process-flow .ap-ops td {
+    padding: 8px var(--space-m, 16px);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+#process-flow .ap-ops tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+#process-flow .ap-ops th {
+    font-size: var(--font-size-tiny, 12px);
+    font-weight: var(--font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-glyph-gray-secondary);
+    background: #fff;
+}
+
+#process-flow .ap-ops td {
+    font-size: var(--font-size-xxs, 14px);
+    color: var(--color-glyph-gray);
+}
+
+/* First column: the "+" in the header, the drag handle in the rows (same 8px inset as the levels above) */
+#process-flow .ap-ops th:nth-child(1),
+#process-flow .ap-ops td:nth-child(1) {
+    padding-left: var(--space-s, 8px);
+    padding-right: 0;
+}
+
+/* Operation names start where the station names start */
+#process-flow .ap-ops th:nth-child(2),
+#process-flow .ap-ops td:nth-child(2) {
+    padding-left: 0;
+}
+
+#process-flow .ap-ops tr.drop-before { box-shadow: 0 -2px 0 var(--color-base-accent); }
+#process-flow .ap-ops tr.drop-after  { box-shadow: 0 2px 0 var(--color-base-accent); }
+
+.ap-ops__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.ap-ops__add:hover {
+    opacity: 0.8;
+}
+
+/* No focus outline on the expand button and drag handle in the area and station rows */
+#process-flow .proj-nested-table__expand-btn:focus,
+#process-flow .proj-nested-table__expand-btn:focus-visible,
+#process-flow .proj-nested-table__drag-handle:focus,
+#process-flow .proj-nested-table__drag-handle:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+/* No outlines around the station cards, the operations table or the expanded block (borders kept transparent so
+ * the sizes do not change) */
+#process-flow table.table--lines .proj-nested-table__detail-row > td {
+    border-color: transparent !important;
+}
+
+#process-flow .ap-l2 tr.ap-station-row > td,
+#process-flow .ap-l2 tr.ap-station-row > td:first-child,
+#process-flow .ap-l2 tr.ap-station-row > td:last-child,
+#process-flow .ap-l2 td.ap-op-cell {
+    border-color: transparent;
+}

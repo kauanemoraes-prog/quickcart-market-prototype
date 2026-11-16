@@ -1,0 +1,53 @@
+<!-- PROGRESS DRAWER -->
+<!-- Bottom-anchored drawer showing progress of a long-running fake/real operation -->
+
+<!-- METADATA
+Component: Progress Drawer
+Category: Feedback
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- Rendered programmatically via JS — call window.ProjProgressDrawer.show(config)
+- DO NOT copy this markup into prototypes; the JS creates and removes it
+- Fixed at the bottom of the viewport, full-width
+- Non-dismissible while running (no close affordance)
+- Auto-removes itself when the total duration elapses, then fires onComplete
+
+CONFIG:
+{
+  message: string,         // Top-row message (full sentence)
+  steps: string[],         // Step labels — each shown for duration / steps.length ms
+  duration: number,        // Total duration in ms (default 5000)
+  onComplete: function     // (optional) Called after the drawer slides out
+}
+
+JAVASCRIPT API:
+- window.ProjProgressDrawer.show(config) — Show the drawer; returns void
+- Only one drawer can be visible at a time (calling show again replaces it)
+
+USAGE EXAMPLE:
+ProjProgressDrawer.show({
+  message: "Target build event P2 - MBP-2024 - H99 is being mirrored to MP.",
+  steps: ["Locating target", "Filtering POR items", "Mirroring", "Finalizing"],
+  duration: 5000,
+  onComplete: function() {
+    showNotification('success', 'Mirror complete');
+  }
+});
+
+When to prompt: User wants progress feedback during a non-instant operation
+Variants: None — single canonical layout
+-->
+
+<!-- STRUCTURE PRODUCED BY JS (reference only — DO NOT copy into prototypes): -->
+<div class="proj-progress-drawer">
+  <div class="proj-progress-drawer__top">
+    <span class="proj-progress-drawer__spinner"></span>
+    <span class="proj-progress-drawer__message">Operation in progress...</span>
+  </div>
+  <div class="proj-progress-drawer__bottom">
+    <span class="proj-progress-drawer__step-label">Step label</span>
+    <div class="proj-progress-drawer__bar"><div class="proj-progress-drawer__bar-fill"></div></div>
+    <span class="proj-progress-drawer__step-counter">1/4</span>
+  </div>
+</div>

@@ -1,0 +1,218 @@
+/* programs/dark-mode.css */
+/* Dark mode overrides for the Programs prototype. */
+/* Active when <html class="dark-mode">. Color tokens defined in plugins/proj-dark-mode.css. */
+
+.dark-mode .programs-page {
+    color: var(--dm-text-1);
+}
+
+/* Programs header (sticky) */
+.dark-mode .programs-header {
+    background-color: var(--dm-bg-2);
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .programs-header h1 {
+    color: var(--dm-text-1);
+}
+
+/* Toolbar (search + favorites switch) */
+.dark-mode .programs-toolbar {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .programs-search {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .programs-search__input {
+    background-color: transparent;
+    color: var(--dm-text-1);
+}
+
+.dark-mode .programs-search__input::placeholder {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .programs-search__icon {
+    color: var(--dm-text-3);
+}
+
+/* Table */
+.dark-mode .table-container {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--expandable {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table--expandable .table__head,
+.dark-mode .table__head--sticky {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--expandable .table__header,
+.dark-mode .table__header--chevron {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table__head--sticky::after {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .table--expandable .table__row {
+    background-color: var(--dm-bg-2);
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(4n+3):not(.table__row--expanded-active) {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .table--expandable .table__row:hover {
+    background-color: var(--dm-row-hover);
+}
+
+.dark-mode .table--expandable .table__cell {
+    color: var(--dm-text-1);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table__row--expanded,
+.dark-mode .table__row--expanded-active {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .table__cell--expanded {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .chevron-btn {
+    color: var(--dm-text-2);
+}
+
+.dark-mode .chevron-btn:hover {
+    color: var(--dm-text-1);
+}
+
+/* Nested table */
+.dark-mode .nested-table-container {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .table--nested {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table--nested .table__head {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .table--nested .table__row {
+    background-color: transparent;
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .table--nested .table__row:hover {
+    background-color: var(--dm-row-hover);
+}
+
+/* Drawer (right-side program detail) */
+.dark-mode .drawer--right {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-left: 1px solid var(--dm-divider);
+}
+
+.dark-mode .drawer-section__title {
+    color: var(--dm-text-2);
+}
+
+.dark-mode .drawer-tabs .tabs__nav {
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .drawer-tabs .tabs__tab {
+    color: var(--dm-text-2);
+}
+
+.dark-mode .drawer-tabs .tabs__tab:hover {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .drawer-tabs .tabs__tab--active {
+    color: var(--dm-accent);
+    border-bottom-color: var(--dm-accent);
+}
+
+.dark-mode .drawer-table-header {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .drawer__footer {
+    background-color: var(--dm-bg-2);
+    border-top: 1px solid var(--dm-divider);
+}
+
+.dark-mode .add-site-btn {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .add-site-btn:hover {
+    background-color: var(--dm-bg-4);
+}
+
+/* Form controls inside the drawer / page */
+.dark-mode .form-input,
+.dark-mode .form-select,
+.dark-mode .form-textarea {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .form-input::placeholder,
+.dark-mode .form-textarea::placeholder {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .form-input:focus,
+.dark-mode .form-select:focus,
+.dark-mode .form-textarea:focus {
+    border-color: var(--dm-accent);
+}
+
+.dark-mode .form-label {
+    color: var(--dm-text-2);
+}
+
+/* Buttons — keep MDS variants legible on dark surfaces */
+.dark-mode .btn--secondary {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .btn--secondary:hover {
+    background-color: var(--dm-bg-4);
+}
+
+.dark-mode .btn--ghost {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .btn--ghost:hover {
+    background-color: var(--dm-bg-3);
+}
+.dark-mode .store-code { color: var(--dm-text-2); }
+.dark-mode .metric-count { color: var(--dm-text-1); }

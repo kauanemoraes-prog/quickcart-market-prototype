@@ -1,0 +1,70 @@
+<!-- PILL -->
+<!-- METADATA:
+  Name: Pill
+  Description: Compact labels with color variants and optional close action
+  Variants: grey, blue, orange, yellow, red
+  States: default, selected
+  When to prompt: When color is not obvious from context
+  Conventions: grey = neutral/default, blue = info/primary, orange = warning, yellow = attention, red = danger/error
+-->
+
+<!-- DEFAULT PILLS -->
+<span class="pill pill--grey">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--blue">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--orange">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--yellow">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--red">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<!-- SELECTED PILLS -->
+<span class="pill pill--grey pill--selected">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--blue pill--selected">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--orange pill--selected">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--yellow pill--selected">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<span class="pill pill--red pill--selected">
+  <span class="pill__label">Label</span>
+  <button class="pill__close"><sf-symbol name="xmark" style="font-size:12px"></sf-symbol></button>
+</span>
+
+<!-- USAGE:
+- Use pill--[color] for the color variant
+- Add pill--selected for the solid/selected state
+- Close button is optional — remove if pill is not dismissible
+- Close icon: <sf-symbol name="xmark"> (sized via .pill__close, 12px)
+- Default: light background, colored icon, gray text
+- Selected: solid background, white icon, white text
+-->

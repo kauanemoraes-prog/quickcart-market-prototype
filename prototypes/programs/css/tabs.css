@@ -1,0 +1,47 @@
+/* Tabs section - uses MDS defaults, only wrapper layout is customized here */
+.program-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.program-tabs .tabs__nav {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+/* Center-align text + adjacent icons/badges in every tab */
+.program-tabs .tabs__tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+}
+
+/* Tabs actions (buttons on the right) */
+.tabs-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tabs-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.tabs-actions .btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Content area */
+.program-detail-content {
+    padding: 0;
+}
+
+.program-detail-content .tabs__content {
+    padding: 0;
+}

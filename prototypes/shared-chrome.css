@@ -1,0 +1,601 @@
+/* Top navigation bar: make the current tab clearly visible.
+ * The current tab is marked by prototypes/active-nav.js (class nav-menu__link--current). */
+.top-navbar .nav-menu__link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.top-navbar .nav-menu__link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.top-navbar .nav-menu__link.nav-menu__link--current,
+.top-navbar .nav-menu__link.nav-menu__link--current:hover {
+  color: #fff;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Bar under the current tab */
+.top-navbar .nav-menu__link.nav-menu__link--current::after {
+  content: '';
+  position: absolute;
+  left: var(--space-m, 16px);
+  right: var(--space-m, 16px);
+  bottom: -0.6rem;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background-color: var(--color-base-accent, #7180AC);
+}
+
+/* QuickCart Market logo in the navbar: the mark and the name (bold, white) replace the default icon */
+.top-navbar__logo { display: none; }
+
+.bn-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bn-logo__mark {
+    display: block;
+    flex-shrink: 0;
+}
+
+.bn-logo__name {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #fff;
+}
+
+.top-navbar__title a .bn-logo__name { color: #fff; font-weight: 600; }
+
+/* Headers and subheaders are in sentence case (sentence-case.js): no capitals forced by the styles */
+th, .tt-head, .dashboard-table th, .drawer-section__title, .table--nested .table__header, .pf-opts__title, #process-flow .ap-l2 .table__header, #process-flow .ap-ops th { text-transform: none !important; }
+
+/* Every button presses in and springs back when it is clicked (button-motion.js) */
+.md-press { animation: md-press 0.36s cubic-bezier(0.3, 0.7, 0.4, 1.4); }
+@keyframes md-press {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(113, 128, 172, 0.35); }
+    35% { transform: scale(0.94); }
+    100% { transform: scale(1); box-shadow: 0 0 0 8px rgba(113, 128, 172, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .md-press { animation: none; } }
+
+/* The user menu ends where the page content ends: its chevron lines up with the right edge of the buttons below (Add Store...) */
+.top-navbar .top-navbar__user-dropdown .top-navbar__user-menu { padding-right: 0; padding-left: 0; }
+
+/* What a page shows, next to its title: plain text separated by dots (vertical dividers made it look like a row of tabs) */
+.np-header__item, .nf-header__item, .dashboard-header__item, .programs-header__item, .ov-header__item {
+    padding-left: 0;
+    margin-left: 0;
+    border-left: 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+.np-header__item + .np-header__item::before, .nf-header__item + .nf-header__item::before, .dashboard-header__item + .dashboard-header__item::before,
+.programs-header__item + .programs-header__item::before, .ov-header__item + .ov-header__item::before {
+    content: '·';
+    margin: 0 8px;
+    color: var(--color-glyph-gray-tertiary);
+}
+.np-header__line h1, .nf-header__line h1, .dashboard-header__line h1, .programs-header__line h1 { margin-right: var(--space-m); }
+.ov-header__title { margin-right: var(--space-m); }
+
+/* One line of text, the parts separated by commas: "QuickCart Market, entire network, 83 stores, data as of 20 February 2026" */
+.np-header__item + .np-header__item::before, .nf-header__item + .nf-header__item::before, .dashboard-header__item + .dashboard-header__item::before,
+.programs-header__item + .programs-header__item::before, .ov-header__item + .ov-header__item::before { content: none; margin: 0; }
+.np-header__item:not(:last-child)::after, .nf-header__item:not(:last-child)::after, .dashboard-header__item:not(:last-child)::after,
+.programs-header__item:not(:last-child)::after, .ov-header__item:not(:last-child)::after { content: ','; }
+.np-header__item:not(:last-child), .nf-header__item:not(:last-child), .dashboard-header__item:not(:last-child),
+.programs-header__item:not(:last-child), .ov-header__item:not(:last-child) { margin-right: 0.3em; }
+
+/* The text next to the title is centred on it vertically (not on its baseline) */
+.np-header__line, .nf-header__line, .dashboard-header__line, .programs-header__line, .ov-header__line,
+.np-header__items, .nf-header__items, .dashboard-header__items, .programs-header__items { align-items: center; }
+.np-header__item, .nf-header__item, .dashboard-header__item, .programs-header__item, .ov-header__item { line-height: 1.2; position: relative; top: 0.085em; }  /* the middle of the lowercase letters (x-height) of the text lines up with the middle of the lowercase letters of the title */
+
+/* Dark mode button of the top bar: a moon in the light mode, a sun in the dark mode. The toolbar on the right no longer has one. */
+:is(button[title="Dark mode"], button[data-bn-title="Dark mode"]) .bn-sun { display: none; }
+html.dark-mode :is(button[title="Dark mode"], button[data-bn-title="Dark mode"]) .bn-moon { display: none; }
+html.dark-mode :is(button[title="Dark mode"], button[data-bn-title="Dark mode"]) .bn-sun { display: inline; }
+:is(button[title="Dark mode"], button[data-bn-title="Dark mode"]):hover, :is(button[title="Help"], button[data-bn-title="Help"]):hover { background: #5A5B60 !important; }
+.proj-right-toolbar__item[data-item-id="dark-mode"] { display: none; }
+
+/* Loading when a tab changes (tab-loading.js): the waves of the logo move like water, in the same place */
+.bn-loading {
+    position: fixed;
+    left: 0;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F6F7F9;
+    animation: bn-loading-in 0.12s ease-out;
+}
+.bn-loading[hidden] { display: none; }
+.bn-loading.is-leaving { opacity: 0; transition: opacity 0.22s ease; pointer-events: none; }
+/* The cart of the logo runs in place: it bounces and leans, the wheels spin and speed lines slip backwards */
+.bn-loading__mark svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.bn-cart { transform-box: fill-box; transform-origin: 50% 100%; animation: bn-cart-run 0.5s ease-in-out infinite; }
+.bn-wheel { transform-box: fill-box; transform-origin: center; animation: bn-wheel-spin 0.42s linear infinite; }
+.bn-blobs { transform-box: fill-box; transform-origin: center; animation: bn-blobs-breathe 1s ease-in-out infinite; }
+.bn-speed { animation: bn-speed 0.5s linear infinite; }
+.bn-speed--1 { animation-delay: 0.17s; }
+.bn-speed--2 { animation-delay: 0.33s; }
+@keyframes bn-cart-run {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    25% { transform: translateY(-3px) rotate(-3.5deg); }
+    50% { transform: translateY(0) rotate(-2deg); }
+    75% { transform: translateY(-2px) rotate(-3deg); }
+}
+@keyframes bn-wheel-spin { to { transform: rotate(360deg); } }
+@keyframes bn-blobs-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes bn-speed { 0% { transform: translateX(10px); opacity: 0; } 30% { opacity: 0.9; } 100% { transform: translateX(-16px); opacity: 0; } }
+@keyframes bn-loading-in { from { opacity: 0; } to { opacity: 1; } }
+html.dark-mode .bn-loading { background-color: var(--dm-bg-1); }
+@media (prefers-reduced-motion: reduce) { .bn-loading { display: none !important; } }
+
+/* The skeleton behind the water: grey blocks that shimmer */
+.bn-loading { overflow: hidden; align-items: center; }
+.bn-sk { position: absolute; inset: 0; padding: 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+.bn-sk__filters { display: flex; gap: 16px; }
+.bn-sk__bar { display: block; border-radius: 8px; background: linear-gradient(90deg, #E7EAF0 0%, #F3F5F8 50%, #E7EAF0 100%); background-size: 200% 100%; animation: bn-sk-shimmer 1.4s ease-in-out infinite; }
+.bn-sk__search { width: 36rem; height: 4rem; background-color: #fff; }
+.bn-sk__select { width: 17rem; height: 4rem; }
+.bn-sk__table { flex: 1; padding: 8px 0; border-radius: 12px; background: #fff; overflow: hidden; }
+.bn-sk__row { display: flex; align-items: center; height: 5.2rem; border-top: 1px solid #EEF0F4; }
+.bn-sk__row--head { border-top: 0; height: 5.6rem; }
+.bn-sk__cell { display: block; padding: 0 16px; box-sizing: border-box; }
+.bn-sk__cell .bn-sk__bar { height: 1.2rem; border-radius: 6px; }
+.bn-sk__row--head .bn-sk__cell .bn-sk__bar { height: 1.4rem; opacity: 0.8; }
+.bn-loading__mark { position: relative; z-index: 1; display: block; width: 18rem; height: 14.4rem; padding: 12px 24px; border-radius: 24px; background: rgba(246, 247, 249, 0.82); backdrop-filter: blur(6px); }
+@keyframes bn-sk-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+html.dark-mode .bn-sk__bar { background: linear-gradient(90deg, #2A2B2C 0%, #353637 50%, #2A2B2C 100%); background-size: 200% 100%; }
+html.dark-mode .bn-sk__search, html.dark-mode .bn-sk__table { background-color: var(--dm-bg-2); }
+html.dark-mode .bn-sk__row { border-color: var(--dm-divider); }
+html.dark-mode .bn-loading__mark { background: rgba(20, 20, 21, 0.78); }
+@media (prefers-reduced-motion: reduce) { .bn-sk__bar { animation: none; } }
+
+/* The toolbar on the right: a round badge on the top left of the People icon */
+.proj-right-toolbar__item-icon { position: relative; }
+.bn-rt-badge { position: absolute; top: 3px; left: 5px; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 999px; background: #1E6BFF; color: #fff; font-size: 10px; font-weight: 600; line-height: 16px; text-align: center; }
+
+/* A smaller loading, without the square behind the cart */
+.bn-loading__mark { width: 12rem; height: 9.6rem; padding: 0; border-radius: 0; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }
+html.dark-mode .bn-loading__mark { background: none; }
+
+/* The loading covers everything of the tab, also the card headers of the pages, which are sticky with z-index 999 */
+.bn-loading { z-index: 1200; }
+
+/* Skeleton in the shape of the page: cards for the big numbers, a chart, lists and tables */
+.bn-loading__back { position: absolute; inset: 0; }
+.bn-sk__kpis { display: grid; gap: 16px; }
+.bn-sk__kpi, .bn-sk__card { padding: 16px; border-radius: 20px; background: #fff; display: flex; flex-direction: column; gap: 12px; }
+.bn-sk__kpi-top { display: flex; align-items: center; justify-content: space-between; }
+.bn-sk__round { border-radius: 50%; }
+.bn-sk__cards { display: grid; gap: 16px; flex: 1; min-height: 0; }
+.bn-sk__cards--main { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.bn-sk__stack { display: flex; flex-direction: column; gap: 16px; }
+.bn-sk__stack .bn-sk__card { flex: 1; }
+.bn-sk__item { display: flex; align-items: center; gap: 16px; padding: 6px 0; }
+.bn-sk__lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.bn-sk__card--chart { padding-bottom: 12px; }
+.bn-sk__chart { display: flex; align-items: flex-end; gap: 8px; height: 16rem; }
+.bn-sk__chart .bn-sk__bar { flex: 1; border-radius: 6px 6px 0 0; }
+.bn-sk__row--tall { height: 6.4rem; }
+html.dark-mode .bn-sk__kpi, html.dark-mode .bn-sk__card { background-color: var(--dm-bg-2); }
+
+
+/* The name of the market is set in Coolvetica. The font is not bundled: install it on the machine, or drop the file at prototypes/fonts/coolvetica.woff2 */
+@font-face { font-family: 'Coolvetica'; font-weight: 400; font-style: normal; font-display: swap;
+    src: local('Coolvetica'), local('Coolvetica Rg'), local('CoolveticaRg-Regular'), url('fonts/coolvetica.woff2') format('woff2'); }
+.bn-logo__name { font-family: 'Coolvetica', 'Helvetica Neue', Helvetica, Inter, sans-serif; font-weight: 400; letter-spacing: 0.01em; }
+
+/* The icons of the toolbar on the right use the soft blue of the prototype (#7180AC), not the bright system blue */
+html .proj-right-toolbar__chevron, html .proj-right-toolbar__item-icon img, html.dark-mode .proj-right-toolbar__chevron, html.dark-mode .proj-right-toolbar__item-icon img {
+    filter: brightness(0) saturate(100%) invert(53%) sepia(19%) saturate(870%) hue-rotate(193deg) brightness(90%) contrast(88%);
+}
+.bn-rt-badge { background: #7180AC; }
+
+/* The photo of the user: no outline, and the dark corners of the picture are cropped so it fills the circle */
+.top-navbar .avatar { border: 0 !important; outline: 0 !important; box-shadow: none !important; overflow: hidden; }
+.top-navbar .avatar .avatar__image { transform: scale(1.2); object-fit: cover; }
+
+/* A thin vertical divider between the AI assistant button and the user */
+.top-navbar__user-dropdown { position: relative; margin-left: 16px; }
+.top-navbar__user-dropdown::before { content: ''; position: absolute; left: -16px; top: 50%; width: 1px; height: 2.4rem; transform: translateY(-50%); background: rgba(255, 255, 255, 0.22); pointer-events: none; }
+
+/* The toolbar on the right when it is open: Settings and Open fullscreen mode in the soft blue, Change log and Active users in grey with a chevron that shows or hides their lines */
+.proj-right-toolbar__item .proj-right-toolbar__item-label { font-size: var(--font-size-xxs); color: #7180AC; }
+.proj-right-toolbar__item[data-item-id="history"] .proj-right-toolbar__item-label,
+.proj-right-toolbar__item[data-item-id="people"] .proj-right-toolbar__item-label { color: var(--color-glyph-gray-secondary); }
+.bn-rt-chev { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: 0 12px 0 auto; border-radius: 6px; color: #7180AC; transition: transform 0.2s ease, background-color 0.15s ease; }
+.bn-rt-chev:hover { background: var(--color-fill-secondary); }
+.bn-rt-chev--closed { transform: rotate(180deg); }
+.bn-rt-section { margin: 0; padding: 0 16px 8px 40px; list-style: none; width: 260px; box-sizing: border-box; }
+.bn-rt-section--closed { display: none; }
+.bn-rt-section li { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; padding: 6px 0; border-top: 1px solid var(--divider-color, #E0E0E4); font-size: var(--font-size-tiny); color: var(--color-glyph-gray); }
+.bn-rt-section li:first-child { border-top: 0; }
+.bn-rt-section li em { flex-basis: 100%; font-style: normal; color: var(--color-glyph-gray-secondary); }
+.bn-rt-section[data-for="people"] li em { flex-basis: auto; margin-left: auto; }
+.bn-rt-section li i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+html.dark-mode .proj-right-toolbar__item[data-item-id="history"] .proj-right-toolbar__item-label,
+html.dark-mode .proj-right-toolbar__item[data-item-id="people"] .proj-right-toolbar__item-label { color: var(--dm-text-2); }
+html.dark-mode .bn-rt-section li { border-color: var(--dm-divider); color: var(--dm-text-1); }
+html.dark-mode .bn-rt-section li em { color: var(--dm-text-2); }
+
+/* A line of Active users: the photo (or initials, in the colour of the person), the name and what they are editing */
+.bn-rt-section[data-for="people"] li { flex-wrap: nowrap; align-items: flex-start; gap: 10px; padding: 8px 0; }
+.bn-rt-av { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; overflow: hidden; background: var(--c, #B6B7BD); box-shadow: 0 0 0 2px var(--c, #B6B7BD); color: #fff; font-size: 11px; font-weight: 600; }
+.bn-rt-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bn-rt-who { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
+.bn-rt-who strong { font-weight: var(--font-weight-semibold); }
+.bn-rt-section[data-for="people"] li .bn-rt-who em { flex-basis: auto; margin: 0; line-height: 1.35; overflow-wrap: anywhere; }
+
+/* Closed toolbar: no section takes room between the icons, they stay close together */
+.proj-right-toolbar:not(.proj-right-toolbar--open) .bn-rt-section { display: none; }
+.proj-right-toolbar:not(.proj-right-toolbar--open) .bn-rt-chev { display: none; }
+
+
+
+/* Someone else editing a row (presence.js): the row itself is outlined in the colour of the person, the name sits on a tag over the bottom line
+ * of the outline and the cell being edited is tinted and has a blinking cursor. It is part of the row, so it moves with it when the table scrolls. */
+tr.bn-edit > td { box-shadow: inset 0 2px 0 var(--presence), inset 0 -2px 0 var(--presence); transition: box-shadow 0.8s ease-in-out; }
+tr.bn-edit > td:first-child { box-shadow: inset 2px 0 0 var(--presence), inset 0 2px 0 var(--presence), inset 0 -2px 0 var(--presence); z-index: 3; }
+tr.bn-edit > td:last-child { box-shadow: inset -2px 0 0 var(--presence), inset 0 2px 0 var(--presence), inset 0 -2px 0 var(--presence); }
+tr.bn-edit > td:only-child { box-shadow: inset 0 0 0 2px var(--presence); }
+tr.bn-edit > td.bn-edit-cell {
+    box-shadow: inset 0 0 0 2px var(--presence);
+    background-image: linear-gradient(color-mix(in srgb, var(--presence) 16%, transparent), color-mix(in srgb, var(--presence) 16%, transparent)), linear-gradient(var(--presence), var(--presence));
+    background-repeat: no-repeat;
+    background-position: 0 0, right 10px center;
+    background-size: 100% 100%, 2px 52%;
+    animation: bn-caret 1s steps(1) infinite;
+}
+@keyframes bn-caret { 0% { background-size: 100% 100%, 2px 52%; } 50% { background-size: 100% 100%, 0 0; } }
+.bn-edit-tag { position: absolute; left: 10px; top: -7px; z-index: 6; max-width: 14rem; padding: 0 8px; border-radius: 4px; background: var(--presence); color: #fff; font-size: 11px; font-weight: 600; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { tr.bn-edit > td, tr.bn-edit > td.bn-edit-cell { transition: none; animation: none; } }
+/* The cell that holds the name tag must not cut it */
+tr.bn-edit > td:first-child { overflow: visible !important; }
+
+/* Tooltips of the top bar buttons: the last one is at the right edge of the page, so its bubble grows to the left */
+:is(button[data-bn-title="Smart Assistant"])[data-proj-tooltip]::after { left: auto; right: 0; transform: none; }
+:is(button[data-bn-title="Smart Assistant"])[data-proj-tooltip]::before { left: auto; right: 14px; transform: none; }
+
+/* Every drawer opens under the ribbon, over the navbar (see navbar-tools.js) */
+.drawer-overlay { top: var(--drawer-top, 0px) !important; }
+.drawer-overlay .drawer { top: var(--drawer-top, 0px) !important; }
+
+/* Back to top: floating button at the top of a scrolled list or of the cards (see sticky-tables.js) */
+.bn-top {
+    position: fixed; z-index: 700; width: 36px; height: 36px; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--color-fill-quaternary, #E8E8ED); border-radius: 50%;
+    background: #fff; color: var(--color-base-accent, #0071E3); cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
+    transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.bn-top[hidden] { display: none; }
+.bn-top:hover, .bn-top:focus-visible { background: #F7F8FB; transform: translateY(-1px); box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3, #8EC0F3), 0 6px 16px rgba(113, 128, 172, .24); outline: none; }
+.dark-mode .bn-top { background: var(--dm-bg-2, #2C2C2E); border-color: var(--dm-divider, #3A3A3C); color: var(--dm-accent, #7FA6FF); }
+.dark-mode .bn-top:hover, .dark-mode .bn-top:focus-visible { background: var(--dm-bg-3, #3A3A3C); }
+
+/* The footer stays above everything (sticky table headers, drawers, menus). Its three regions share the width, so the centre text stays centred when the links on the left are added. */
+.footer { z-index: 10000 !important; }
+.footer__region--left { flex: 1; }
+.footer__region--center { text-align: center; }
+
+/* The main header stays in front of everything that scrolls (tables, sticky headers, open dropdowns of the rows, the toolbar on the right).
+ * Only the drawers (9500), the modals and the footer sit above it. */
+/* Only the page header of the canvas (it has no class); the <header> of a card or a table must not rise with it */
+header:not([class]) { z-index: 9300 !important; }
+[class*="modal-overlay"], #perform-index-modal { z-index: 9400 !important; }
+
+/* Distance between the components of a tab: 16px. Below the tabs, between the rows of the filter bar, and between the bar and the table or the cards. */
+.program-detail-content .products-view { padding-top: var(--space-m); }
+#finance .products-view { padding-top: 0; }
+.products-toolbar, .np-toolbar { gap: var(--space-m); row-gap: var(--space-m); margin-bottom: var(--space-m); }
+.areas-toolbar { padding: var(--space-m) 0; margin-bottom: 0; }
+.store-map { margin-top: 0; }
+
+/* Pager under a table (Showing x of y, Rows per page, Previous, Next): one line, the count on the left and the controls on the right */
+.np-pager { display: flex; align-items: center; justify-content: space-between; gap: var(--space-m); padding: var(--space-s) 0 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.np-pager__controls { display: flex; align-items: center; gap: var(--space-s); }
+.np-pager__controls label { display: flex; align-items: center; gap: var(--space-s); margin: 0; white-space: nowrap; }
+.np-pager__controls .form-select, .np-pager select { width: 9rem; height: 3.2rem; margin: 0; }
+
+/* ---------- Top bar in the style of the reference: light bar, a white pill for the tabs, soft round buttons, a white pill for the user ---------- */
+html .top-navbar {
+    height: 6.4rem; padding: 0 var(--space-mp);
+    background-color: #EFF0F3; box-shadow: 0 1px 0 rgba(29, 29, 31, 0.06);
+}
+html .top-navbar__left { gap: var(--space-mp); }
+html .top-navbar__title a .bn-logo__name { color: #1D1D1F; font-weight: 700; }
+html .top-navbar__title a { color: #1D1D1F; }
+
+/* The tabs live in one white pill; the current one is filled with the accent colour */
+html .top-navbar .nav-menu__list { gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); }
+html .top-navbar .nav-menu__link { padding: 8px 18px; border-radius: 999px; color: #3A3A3F; font-weight: 500; }
+html .top-navbar .nav-menu__link:hover { color: #1D1D1F; background-color: #F1F2F5; }
+html .top-navbar .nav-menu__link.nav-menu__link--current,
+html .top-navbar .nav-menu__link.nav-menu__link--current:hover { color: #fff; font-weight: 600; background-color: var(--color-base-accent, #7180AC); }
+html .top-navbar .nav-menu__link.nav-menu__link--current::after { content: none; }
+
+/* Dark mode, help and the assistant: round soft buttons inside a white pill */
+html .top-navbar__actions { gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); }
+html .top-navbar__actions button { border-radius: 50% !important; background: #F1F2F5 !important; color: #2B2B30 !important; }
+html .top-navbar__actions button:hover { background: #E6E8EE !important; }
+html .top-navbar__actions :is(button[title="Smart Assistant"], button[data-bn-title="Smart Assistant"]) { background: var(--color-base-accent, #7180AC) !important; color: #fff !important; }
+html .top-navbar__actions :is(button[title="Smart Assistant"], button[data-bn-title="Smart Assistant"]):hover { background: #5F6E9A !important; }
+
+/* The user: avatar and name in a white pill */
+html .top-navbar__user-dropdown { margin-left: 0; }
+html .top-navbar__user-dropdown::before { content: none; }
+html .top-navbar .top-navbar__user-dropdown .top-navbar__user-menu { padding: 4px 14px 4px 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); color: #1D1D1F; }
+html .top-navbar .top-navbar__user-dropdown .top-navbar__user-menu:hover { background: #F7F8FA; color: #1D1D1F; }
+html .top-navbar__user-name { color: #1D1D1F; font-weight: 500; }
+html .top-navbar .nav-menu__link--dropdown, html .top-navbar .nav-menu__link--dropdown:hover { color: #1D1D1F; }
+html .top-navbar__right { gap: var(--space-s); }
+
+/* Wide windows: the tabs are centred in the bar, as in the reference */
+@media (min-width: 1560px) {
+    html .top-navbar { position: relative; }
+    html .top-navbar .nav-menu { position: absolute; left: 50%; transform: translateX(-50%); }
+}
+
+/* Dark mode keeps a dark bar */
+html.dark-mode .top-navbar { background-color: #1D1D1F; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06); }
+html.dark-mode .top-navbar__title a .bn-logo__name, html.dark-mode .top-navbar__title a { color: #fff; }
+html.dark-mode .top-navbar .nav-menu__list, html.dark-mode .top-navbar__actions, html.dark-mode .top-navbar .top-navbar__user-dropdown .top-navbar__user-menu { background: #2C2C2E; box-shadow: none; }
+html.dark-mode .top-navbar .nav-menu__link { color: rgba(255, 255, 255, 0.7); }
+html.dark-mode .top-navbar .nav-menu__link:hover { color: #fff; background-color: rgba(255, 255, 255, 0.08); }
+html.dark-mode .top-navbar__actions button { background: #3A3A3C !important; color: #fff !important; }
+html.dark-mode .top-navbar .top-navbar__user-dropdown .top-navbar__user-menu, html.dark-mode .top-navbar__user-name, html.dark-mode .top-navbar .nav-menu__link--dropdown { color: #fff; }
+html.dark-mode .top-navbar .top-navbar__user-dropdown .top-navbar__user-menu:hover { background: #3A3A3C; }
+
+/* Nothing behind the pills: the nav element has a dark fill of its own that showed at the corners of the pill */
+html .top-navbar nav, html .top-navbar .nav-menu, html .top-navbar .nav-menu__item, html .top-navbar__left, html .top-navbar__right { background: transparent !important; box-shadow: none; }
+
+/* The title of a page (Stores, Products, Employees, Finance, Network overview) sits straight on the page: no white band, no line under it, and it scrolls away with
+ * the page, which gives the tables and the cards more room. The space above and below it is 16px. */
+.np-header, .nf-header, .dashboard-header, .programs-header {
+    position: static;
+    background-color: transparent;
+    border-bottom: 0;
+    padding: var(--space-m) var(--space-mp) 0;
+    margin-bottom: var(--space-m);
+}
+.nf-header { margin-bottom: var(--space-s); }
+html.dark-mode .np-header, html.dark-mode .nf-header, html.dark-mode .dashboard-header, html.dark-mode .programs-header { background-color: transparent; border-color: transparent; }
+
+
+/* The name of the store is an image (transparent, black letters); in the dark mode it turns white */
+.bn-logo__wordmark { display: block; height: 2.2rem; width: auto; }
+html.dark-mode .bn-logo__wordmark { filter: invert(1); }
+
+/* ---------- Store header (City, Store, tabs) joined to the top bar: same light bar, same white pills ---------- */
+html .program-detail-header { background-color: #EFF0F3; border-bottom: 1px solid rgba(29, 29, 31, 0.06); padding-bottom: 12px; }
+html .program-detail-header .program-detail-header__nav { min-height: 0; align-items: center; gap: 12px; border-bottom: 0; }
+
+/* City and Store: a white pill each */
+html .program-detail-header .header-dropdown { min-width: 15rem; padding: 6px 20px 6px 18px; border-left: 0; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); }
+
+/* The tabs: one white pill, the open tab in the soft accent (the top bar keeps the solid accent for its own tab) */
+html .program-detail-header .program-tabs { align-self: center; flex: 0 1 auto; padding: 0; border-left: 0; }
+html .program-detail-header .program-tabs .tabs, html .program-detail-header .program-tabs .tabs__nav { height: auto; }
+html .program-detail-header .program-tabs .tabs__nav { align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); }
+html .program-detail-header .program-tabs .tabs__tab { height: auto; margin: 0; padding: 8px 16px; border: 0; border-radius: 999px; box-shadow: none; color: #3A3A3F; }
+html .program-detail-header .program-tabs .tabs__tab:hover { background: #F1F2F5; color: #1D1D1F; }
+html .program-detail-header .program-tabs .tabs__tab::after, html .program-detail-header .program-tabs .tabs__tab::before { content: none; }
+html .program-detail-header .program-tabs .tabs__tab--active, html .program-detail-header .program-tabs .tabs__tab--active:hover { background: #E4E8F3; color: var(--color-base-accent, #7180AC); font-weight: 600; }
+
+html.dark-mode .program-detail-header { background-color: #1D1D1F; border-bottom-color: rgba(255, 255, 255, 0.06); }
+html.dark-mode .program-detail-header .header-dropdown, html.dark-mode .program-detail-header .program-tabs .tabs__nav { background: #2C2C2E; box-shadow: none; }
+html.dark-mode .program-detail-header .program-tabs .tabs__tab { color: rgba(255, 255, 255, 0.7); }
+html.dark-mode .program-detail-header .program-tabs .tabs__tab:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+html.dark-mode .program-detail-header .program-tabs .tabs__tab--active, html.dark-mode .program-detail-header .program-tabs .tabs__tab--active:hover { background: rgba(113, 128, 172, 0.28); color: #B9C4EE; }
+
+html .top-navbar__user-menu .nav-menu__chevron { color: #1D1D1F; margin-left: 2px; }
+html.dark-mode .top-navbar__user-menu .nav-menu__chevron { color: #fff; }
+
+/* The white pill of the tabs hugs the open tab with the same space on all sides (4px): top, bottom and left */
+html .program-detail-header .program-tabs .tabs { min-height: 0; padding: 0; }
+html .program-detail-header .program-tabs .tabs__nav { min-height: 0 !important; height: auto !important; box-sizing: border-box; padding: 4px !important; margin: 0 !important; }
+html .program-detail-header .program-tabs .tabs__tab { min-height: 0; margin: 0 !important; padding-top: 8px; padding-bottom: 8px; line-height: 2rem; }
+
+/* Every button is a pill, like the open tab: fully rounded ends */
+html .btn, html button.btn, html a.btn,
+html .products-chip, html .pc-toggle__btn, html .areas-view-toggle__btn,
+html .store-map__peg, html .af-btn, html .np-add__trigger { border-radius: 999px; }
+html .pc-toggle, html .areas-view-toggle { border-radius: 999px; }
+html .btn--small, html .btn--medium, html .btn--large { border-radius: 999px; }
+
+/* Buttons that a page styles on its own still end in a pill */
+html .programs-header .btn, html .add-program-hover__trigger, html .toolbar-add, html .emp-add, html button.btn.btn--primary, html button.btn.btn--secondary, html a.btn.btn--primary, html a.btn.btn--secondary { border-radius: 999px !important; }
+html .btn[class*="btn--"], html [class*="chip"][role="button"], html button.products-chip { border-radius: 999px !important; }
+.bn-logo__mark { overflow: visible; }
+
+/* The logo and the name sit on a white pill, like the tabs */
+html .top-navbar .bn-logo { padding: 4px 18px 4px 10px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08); }
+html.dark-mode .top-navbar .bn-logo { background: #2C2C2E; box-shadow: none; }
+
+/* Filter bars are tighter: 8px between the search line and the quick filters, and 8px between the filters and the table or the cards */
+.products-toolbar, .np-toolbar, .products-toolbar--stacked, .products-toolbar--stacked:has(> .pc-toggle) { row-gap: var(--space-s); }
+.products-toolbar, .np-toolbar { margin-bottom: var(--space-s); }
+.areas-toolbar { padding: var(--space-s) 0; }
+.nf-page .products-toolbar, .nf-filters { row-gap: var(--space-s); }
+
+/* Back arrow on a white round button, like the pills next to it. Its left edge is the left edge of the content (the tables below). */
+html .program-detail-header .back-btn {
+    width: 4.4rem; height: 4.4rem; margin: 0; flex: 0 0 auto; justify-content: center;
+    border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08);
+}
+html .program-detail-header .back-btn:hover { background: #F7F8FA; opacity: 1; }
+html .program-detail-header .back-btn lucide-icon { margin-left: 0; }
+html .program-detail-header .back-btn + .header-dropdown { padding-left: 18px; }
+html.dark-mode .program-detail-header .back-btn { background: #2C2C2E; box-shadow: none; }
+
+/* The main header is a little darker than the bars below it, so no divider is needed between them */
+html .top-navbar { background-color: #E5E7EC; box-shadow: none; border-bottom: 0; }
+html.dark-mode .top-navbar { background-color: #1D1D1F; box-shadow: none; }
+
+/* ---------- The toolbar on the right: floating round buttons, centred on the screen ---------- */
+html .proj-right-toolbar {
+    top: 50% !important; right: 16px; left: auto; width: auto !important; height: auto !important; max-height: calc(100vh - 16rem);
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; align-items: stretch; gap: 8px;
+    overflow: visible; background: transparent !important; border: 0 !important; box-shadow: none !important;
+}
+html .proj-right-toolbar .proj-right-toolbar__header,
+html .proj-right-toolbar .proj-right-toolbar__nav,
+html .proj-right-toolbar .proj-right-toolbar__panel { position: static !important; top: auto !important; width: auto !important; height: auto !important; border: 0 !important; }
+html .proj-right-toolbar .proj-right-toolbar__nav { display: flex; flex-direction: column; gap: 8px; }
+html .proj-right-toolbar .proj-right-toolbar__panel { display: none; }
+
+html .proj-right-toolbar .proj-right-toolbar__toggle,
+html .proj-right-toolbar .proj-right-toolbar__item {
+    width: 4.4rem; height: 4.4rem; border-radius: 50%; justify-content: center;
+    background: #fff; box-shadow: 0 2px 10px rgba(29, 29, 31, 0.16);
+    transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+html .proj-right-toolbar .proj-right-toolbar__toggle:hover,
+html .proj-right-toolbar .proj-right-toolbar__item:hover { background: #F7F8FB; transform: translateY(-1px); box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3, #8EC0F3), 0 6px 16px rgba(113, 128, 172, .26); }
+html .proj-right-toolbar .proj-right-toolbar__item-icon { width: 4.4rem; height: 4.4rem; }
+html .proj-right-toolbar .proj-right-toolbar__item-label, html .proj-right-toolbar .bn-rt-chev { display: none; }
+html .proj-right-toolbar .proj-right-toolbar__item { position: relative; }
+
+/* Open: the buttons become one card with their names and the content below */
+html .proj-right-toolbar.proj-right-toolbar--open {
+    width: 30rem !important; padding: 8px; gap: 0; border-radius: 20px; overflow: hidden;
+    background: #fff !important; box-shadow: 0 12px 32px rgba(29, 29, 31, 0.22) !important;
+}
+html .proj-right-toolbar--open .proj-right-toolbar__toggle,
+html .proj-right-toolbar--open .proj-right-toolbar__item { width: 100%; height: 4rem; border-radius: 12px; justify-content: flex-start; background: transparent; box-shadow: none; transform: none; }
+html .proj-right-toolbar--open .proj-right-toolbar__toggle { justify-content: flex-end; padding-right: 12px; }
+html .proj-right-toolbar--open .proj-right-toolbar__item:hover, html .proj-right-toolbar--open .proj-right-toolbar__toggle:hover { background: var(--color-fill-secondary); box-shadow: none; }
+html .proj-right-toolbar--open .proj-right-toolbar__item-icon { width: 4rem; height: 4rem; }
+html .proj-right-toolbar--open .proj-right-toolbar__item-label { display: block; }
+html .proj-right-toolbar--open .bn-rt-chev { display: inline-flex; }
+html .proj-right-toolbar--open .proj-right-toolbar__nav { gap: 0; }
+html .proj-right-toolbar--open .proj-right-toolbar__panel { display: block; max-height: 40vh; overflow-y: auto; }
+
+html.dark-mode .proj-right-toolbar .proj-right-toolbar__toggle,
+html.dark-mode .proj-right-toolbar .proj-right-toolbar__item { background: var(--dm-bg-2, #2C2C2E); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+html.dark-mode .proj-right-toolbar.proj-right-toolbar--open { background: var(--dm-bg-2, #2C2C2E) !important; }
+html.dark-mode .proj-right-toolbar--open .proj-right-toolbar__toggle, html.dark-mode .proj-right-toolbar--open .proj-right-toolbar__item { background: transparent; box-shadow: none; }
+html .proj-right-toolbar .proj-right-toolbar__header { display: none !important; }
+
+/* The floating buttons sit at the bottom right corner, in a column right above the assistant button */
+html .proj-right-toolbar { top: auto !important; bottom: 10.4rem; right: 1.8rem; transform: none; max-height: none; justify-content: flex-end; }
+
+/* Full screen moved to the top bar: the round button next to dark mode; the one in the floating column is hidden */
+html .proj-right-toolbar .proj-right-toolbar__item[data-item-id="expand"] { display: none; }
+html .top-navbar__actions .bn-full { border-radius: 50%; background: #F1F2F5; color: #2B2B30; }
+html .top-navbar__actions .bn-full:hover { background: #E6E8EE; }
+html.dark-mode .top-navbar__actions .bn-full { background: #3A3A3C; color: #fff; }
+
+/* Two states for the round buttons of the top bar. Default: soft grey. Pressed (full screen on, dark mode on, help page open): a light accent tint with an accent ring and icon.
+ * The assistant keeps its solid accent, so the pressed ones never look like it. */
+html .top-navbar__actions :is(.bn-full, button[title="Dark mode"], button[data-bn-title="Dark mode"], button[title="Help"], button[data-bn-title="Help"])[aria-pressed="true"],
+html.dark-mode .top-navbar__actions .bn-full[aria-pressed="true"],
+html.dark-mode .top-navbar__actions :is(button[title="Dark mode"], button[data-bn-title="Dark mode"]) {
+    background: #E4E8F3 !important; color: #5F6E9A !important; box-shadow: inset 0 0 0 2px var(--color-base-accent, #7180AC);
+}
+html.dark-mode .top-navbar__actions :is(.bn-full[aria-pressed="true"], button[title="Dark mode"], button[data-bn-title="Dark mode"], button[title="Help"][aria-pressed="true"], button[data-bn-title="Help"][aria-pressed="true"]) {
+    background: rgba(113, 128, 172, 0.30) !important; color: #C9D2F3 !important; box-shadow: inset 0 0 0 2px #7180AC;
+}
+html .top-navbar__actions :is(.bn-full, button[title="Dark mode"], button[data-bn-title="Dark mode"], button[title="Help"], button[data-bn-title="Help"])[aria-pressed="true"]:hover { background: #D9DFF0 !important; }
+
+/* The store header: the pills are centred in the bar, with the same space above and below them */
+html .program-detail-header { padding-top: 12px; padding-bottom: 12px; }
+
+/* ---------- The toolbar docked in the store header: round soft buttons in a white pill, at the right end of the row of the tabs ---------- */
+html .proj-right-toolbar.proj-right-toolbar--docked {
+    position: static !important; transform: none; top: auto !important; right: auto; bottom: auto; margin-left: auto; z-index: auto;
+    flex-direction: row; align-items: center; gap: 4px; width: auto !important; height: auto !important; max-height: none; overflow: visible;
+    padding: 4px; border-radius: 999px; background: #fff !important; box-shadow: 0 1px 3px rgba(29, 29, 31, 0.08) !important;
+}
+html .proj-right-toolbar--docked .proj-right-toolbar__nav { flex-direction: row; gap: 4px; }
+html .proj-right-toolbar--docked .proj-right-toolbar__item { width: 3.2rem; height: 3.2rem; background: #F1F2F5; box-shadow: none; }
+html .proj-right-toolbar--docked .proj-right-toolbar__item:hover { background: #E6E8EE; box-shadow: none; transform: none; }
+html .proj-right-toolbar--docked .proj-right-toolbar__item-icon { width: 3.2rem; height: 3.2rem; }
+html.dark-mode .proj-right-toolbar.proj-right-toolbar--docked { background: #2C2C2E !important; box-shadow: none !important; }
+html.dark-mode .proj-right-toolbar--docked .proj-right-toolbar__item { background: #3A3A3C; }
+html.dark-mode .proj-right-toolbar--docked .proj-right-toolbar__item:hover { background: #48484A; }
+
+/* Order of the buttons: users, change log, settings */
+html .proj-right-toolbar__item[data-item-id="people"] { order: 1; }
+html .proj-right-toolbar__item[data-item-id="history"] { order: 2; }
+html .proj-right-toolbar__item[data-item-id="settings"] { order: 3; }
+
+/* The icons of the docked buttons are dark, like the ones of the top bar (they were still in the old soft blue of the side toolbar) */
+html .proj-right-toolbar--docked .proj-right-toolbar__item-icon img { filter: brightness(0) opacity(0.82); }
+html.dark-mode .proj-right-toolbar--docked .proj-right-toolbar__item-icon img { filter: brightness(0) invert(1) opacity(0.9); }
+
+/* Selects and the search / filter field: rounded corners, but not a pill (12px) */
+html .form-select, html select.form-select, html .ms__trigger, html .products-area .form-select,
+html .products-search, html .products-search.fs, html .programs-search__input, html .form-select-stylized__wrapper,
+html .header-dropdown__select-wrapper select { border-radius: 12px; }
+html .ms__panel, html .ms__menu, html .fs__panel, html .fs__options { border-radius: 12px; }
+
+/* Tick boxes of the tables: soft grey outline and the accent colour of the system, instead of the heavy native box */
+html .products-check {
+    -webkit-appearance: none; appearance: none; flex: 0 0 auto;
+    width: 1.8rem; height: 1.8rem; margin: 0; border: 1.5px solid #C4C6CD; border-radius: 5px; background-color: #fff; background-position: center; background-repeat: no-repeat; background-size: 12px;
+    cursor: pointer; vertical-align: middle; transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+html .products-check:hover { border-color: var(--color-base-accent, #7180AC); }
+html .products-check:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.28); }
+html .products-check:checked, html .products-check:indeterminate { background-color: var(--color-base-accent, #7180AC); border-color: var(--color-base-accent, #7180AC); }
+html .products-check:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.4 2.4 4.8-5.2' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+html .products-check:indeterminate { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.8 6h6.4' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E"); }
+html.dark-mode .products-check { background-color: transparent; border-color: #6B6C73; }
+html.dark-mode .products-check:checked, html.dark-mode .products-check:indeterminate { background-color: #7180AC; border-color: #7180AC; }
+
+/* ---------- The Stores list in the look of the Areas list: white rounded card, small grey headers, tall rows, soft expand button, light tint and a guide line for what is inside ---------- */
+.programs-page .table-container { border-radius: 20px; background: #fff; overflow-x: auto; }
+.programs-page .table--expandable { --tt-guide: #D5D9E8; border-collapse: collapse; color: var(--color-glyph-gray); font-size: var(--font-size-xxs); }
+
+.programs-page .table--expandable > thead .table__header,
+.programs-page .table--nested .table__header {
+    padding: 12px 12px; background: #fff; border-bottom: 1px solid var(--color-fill-quaternary);
+    font-size: var(--font-size-tiny); font-weight: var(--font-weight-semibold); letter-spacing: 0.04em;
+    color: var(--color-glyph-gray-secondary); text-align: left; white-space: nowrap;
+}
+.programs-page .table--expandable > thead .table__head--sticky::after, .programs-page .table__head--sticky::after { content: none; }
+
+/* Rows: tall, white, no stripes; a clear line between one city (or store) and the next */
+.programs-page .table--expandable > tbody > .table__row--parent,
+.programs-page .table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(4n+3):not(.table__row--expanded-active),
+.programs-page .table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(even) { height: 5.6rem; background-color: #fff; border-top: 1px solid #D9DDE9; border-bottom: 0; }
+.programs-page .table--expandable > tbody > .table__row--parent:first-child { border-top: 0; }
+.programs-page .table--expandable > tbody > .table__row--parent:hover { background-color: #F7F8FB !important; }
+.programs-page .table--expandable > tbody > .table__row--expanded-active { background-color: #fff; }
+.programs-page .table--expandable .table__cell { padding: 0 12px; border-bottom: 0; }
+.programs-page .table--expandable .table__cell--chevron { padding: 0; }
+
+/* The expand button: a soft square with the accent chevron */
+.programs-page .chevron-btn { width: 2.4rem; height: 2.4rem; padding: 0; border-radius: 8px; background: var(--color-base-accent-lighter-1); color: var(--color-base-accent); opacity: 1; }
+.programs-page .chevron-btn:hover { background: #D8DEF0; opacity: 1; }
+
+/* What is inside a city: on a light tint, with the vertical guide line under the expand button */
+.programs-page .table__row--expanded, .programs-page .table--expandable > tbody > .table__row--expanded:nth-child(even) { background-color: #F9FAFC; }
+.programs-page .table--nested .table__head { background-color: #F9FAFC; }
+.programs-page .table--nested .table__header { background: #F9FAFC; }
+.programs-page .table--nested .table__row { height: 4.6rem; background-color: #F9FAFC; }
+.programs-page .table--nested .table__cell { padding: 0 12px; border-bottom: 1px solid var(--color-fill-quaternary); }
+.programs-page .table--nested tbody .table__row:last-child .table__cell { border-bottom: 0; }
+.programs-page .table--nested .table__body .table__row:hover { background-color: #F1F3F8 !important; }
+.programs-page .table--nested .table__cell--nested-spacer, .programs-page .table--nested .table__header--nested-spacer {
+    background-image: linear-gradient(var(--tt-guide, #D5D9E8), var(--tt-guide, #D5D9E8)); background-position: 15px 0; background-size: 1px 100%; background-repeat: no-repeat;
+}
+html.dark-mode .programs-page .table-container { background: var(--dm-bg-2); }
+html.dark-mode .programs-page .table--expandable > thead .table__header, html.dark-mode .programs-page .table--nested .table__header { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+html.dark-mode .programs-page .table--expandable > tbody > .table__row--parent, html.dark-mode .programs-page .table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(4n+3):not(.table__row--expanded-active), html.dark-mode .programs-page .table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(even) { background-color: var(--dm-bg-2); border-top-color: var(--dm-divider); }
+html.dark-mode .programs-page .table--expandable > tbody > .table__row--parent:hover { background-color: var(--dm-bg-3) !important; }
+html.dark-mode .programs-page .table__row--expanded, html.dark-mode .programs-page .table--nested .table__row, html.dark-mode .programs-page .table--nested .table__head, html.dark-mode .programs-page .table--nested .table__header { background-color: var(--dm-bg-3); }
+
+/* The loading cart sits in the middle of the screen (not of the area under the tabs) */
+.bn-loading__mark { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); }

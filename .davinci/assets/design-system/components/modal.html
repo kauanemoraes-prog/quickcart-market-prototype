@@ -1,0 +1,124 @@
+<!-- MODAL -->
+<!-- Modal dialogs that display content in a layer above the app -->
+
+<!-- METADATA
+Component: Modal
+Category: Overlay
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use modal-overlay wrapper div (provides backdrop)
+- MUST add modal-overlay--open class to show modal
+- MUST use three-section structure: modal__header, modal__body, modal__footer
+- MUST include modal__close button in header
+- Size variants: modal--small (320px), modal--medium (600px - default), modal--large (800px)
+
+COMMON MISTAKES TO AVOID:
+❌ Forgetting modal-overlay wrapper
+❌ Missing modal-overlay--open class (modal won't be visible)
+❌ Omitting modal__header, modal__body, or modal__footer divs
+❌ Not including close button
+❌ Creating custom modal structure instead of using MDS classes
+
+JAVASCRIPT INTEGRATION:
+- Toggle modal-overlay--open class to show/hide modal
+- Add click handler to modal__close button to remove modal-overlay--open
+- Add click handler to modal-overlay (backdrop) to close on outside click
+- Prevent clicks inside modal from closing (event.stopPropagation())
+- Consider adding escape key handler to close modal
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="modal-overlay modal-overlay--open">
+  <div class="modal modal--medium">
+    <div class="modal__header">
+      <h3 class="modal__title">Title</h3>
+      <button class="modal__close">×</button>
+    </div>
+    <div class="modal__body">
+      # Content - Remove this line # 
+    </div>
+    <div class="modal__footer">
+      # Action buttons - Remove this line #
+    </div>
+  </div>
+</div>
+
+When to prompt: Ask for size only if context doesn't make it clear (default: medium)
+Variants: Small (320px - alerts), Medium (600px - default), Large (800px - forms/data)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- LARGE MODAL (800px) -->
+<div class="modal-overlay modal-overlay--open">
+  <div class="modal modal--large">
+    <div class="modal__header">
+      <h3 class="modal__title">Large Modal (800px)</h3>
+      <button class="modal__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0;">
+        This is a large modal with 800px max-width. Perfect for displaying detailed content, complex forms, or data-rich interfaces.
+      </p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary btn--medium">Cancel</button>
+      <button class="btn btn--primary btn--medium">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIUM MODAL (600px) - DEFAULT -->
+<div class="modal-overlay modal-overlay--open">
+  <div class="modal modal--medium">
+    <div class="modal__header">
+      <h3 class="modal__title">Medium Modal (600px)</h3>
+      <button class="modal__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0;">
+        This is a medium modal with 600px max-width. The default size, ideal for most use cases.
+      </p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary btn--medium">Cancel</button>
+      <button class="btn btn--primary btn--medium">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- SMALL MODAL (320px) -->
+<div class="modal-overlay modal-overlay--open">
+  <div class="modal modal--small">
+    <div class="modal__header">
+      <h3 class="modal__title">Small Modal (320px)</h3>
+      <button class="modal__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); margin: 0;">
+        This is a small modal with 320px max-width. Compact for simple confirmations or alerts.
+      </p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary btn--medium">Cancel</button>
+      <button class="btn btn--primary btn--medium">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- USAGE:
+- Three sizes: large (800px), medium (600px - default), small (320px)
+- modal-overlay wraps the modal and provides the backdrop
+- Add modal-overlay--open class to show the modal
+- modal__header contains title and close button
+- modal__body contains the main content
+- modal__footer typically contains action buttons
+- Close button can use SVG icon or × character
+- All sections (header, body, footer) are optional
+-->

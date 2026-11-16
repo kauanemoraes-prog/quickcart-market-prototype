@@ -1,0 +1,63 @@
+<!-- EMPTY STATE -->
+<!-- Canonical empty-state pattern used across MDS: icon + line 1 + (optional) line 2. -->
+<!-- Every empty state surface in MDS components reuses this look — only the copy changes. -->
+
+<!-- METADATA
+Component: Empty State
+Category: Feedback
+Complexity: Low
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap in .empty-state container
+- MUST include .empty-state__icon (sf-symbol or div+svg, 20px, glyph-gray-secondary)
+- MUST include .empty-state__title (line 1 — body style, glyph-gray-secondary)
+- MAY include .empty-state__subtitle (line 2 — caption style, glyph-gray-tertiary). Default behavior: include line 2; omit only when designer explicitly opts out.
+- White background and 16px padding all around are baked in. Use --no-background to remove the background.
+- Icon defaults to "tray" at runtime: a <sf-symbol class="empty-state__icon"> with no `name` (or empty `name`) is auto-set to `name="tray"` by MDS. Set an explicit name only when the context calls for a different glyph (e.g., "magnifyingglass" for empty search, "line.3.horizontal.decrease.circle" for empty filter).
+
+COMMON MISTAKES TO AVOID:
+❌ Custom font sizes/colors for title or subtitle (use the BEM classes — they already match spec)
+❌ Larger icons (the canonical size is 20px / font-size 2rem)
+❌ Adding margins around the container (the white card carries the padding; place it directly inside the parent)
+❌ Skipping line 1 (title is required)
+
+CORRECT STRUCTURE TEMPLATES:
+
+Default (icon + line 1 + line 2):
+<div class="empty-state">
+  <sf-symbol class="empty-state__icon" name="tray"></sf-symbol>
+  <div class="empty-state__title">No items found</div>
+  <div class="empty-state__subtitle">Subtitle with more details.</div>
+</div>
+
+Without line 2 (icon + line 1 only):
+<div class="empty-state">
+  <sf-symbol class="empty-state__icon" name="tray"></sf-symbol>
+  <div class="empty-state__title">No items found</div>
+</div>
+
+Transparent background (when nesting inside another card / panel):
+<div class="empty-state empty-state--no-background">
+  <sf-symbol class="empty-state__icon" name="tray"></sf-symbol>
+  <div class="empty-state__title">No items found</div>
+  <div class="empty-state__subtitle">Subtitle with more details.</div>
+</div>
+
+When to prompt: ask the designer for the icon name (SF Symbols), line 1 copy, and whether line 2 should appear; otherwise use sensible defaults.
+Variants: Default, --no-background, --no-padding (drops the 16px padding when wrapping with custom layout)
+-->
+
+<!-- DEFAULT EMPTY STATE -->
+<div class="empty-state">
+  <sf-symbol class="empty-state__icon" name="tray"></sf-symbol>
+  <div class="empty-state__title">No items found</div>
+  <div class="empty-state__subtitle">Subtitle with more details.</div>
+</div>
+
+<!-- USAGE:
+- Use whenever a surface has no content to display (lists, tables, dropdowns, search results, dashboards).
+- Always reuse .empty-state — every MDS component embeds this same pattern (e.g., the Stylized Select dropdown empty state is the same component).
+- Line 2 is optional but visible by default. Omit only when the designer explicitly says not to show it.
+- Icon defaults to <sf-symbol> with name from SF Symbols. The canonical default is "tray" — if you omit the `name` attribute, MDS auto-applies `name="tray"` at runtime. Override only when the context calls for a more specific glyph (e.g., "magnifyingglass" for search, "line.3.horizontal.decrease.circle" for filters). Inline SVGs also work — just keep them inside .empty-state__icon (they'll inherit currentColor and the 20px box).
+- Add action buttons after the subtitle when guiding the user to a next step.
+-->

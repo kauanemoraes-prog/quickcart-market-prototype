@@ -1,0 +1,259 @@
+/* Requests tab: sub-tabs, summary, the requests tables with a fixed Actions column, the drawer timeline and the reject dialog */
+
+.requests-legacy { display: none !important; }
+
+.rq-subtabs {
+    display: flex;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-fill-quaternary);
+}
+
+.rq-subtab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: -1px;
+    padding: 8px 4px 10px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    font: inherit;
+    font-family: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+}
+
+.rq-subtab:hover { color: var(--color-glyph-gray); }
+
+.rq-subtab--active,
+.rq-subtab--active:hover {
+    border-bottom-color: var(--color-base-accent);
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-semibold);
+}
+
+.rq-subtab__count {
+    min-width: 2rem;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--color-base-accent-lighter-1);
+    font-size: var(--font-size-tiny);
+    line-height: 2rem;
+    text-align: center;
+}
+
+.rq-urgent { align-self: center; margin-left: var(--space-s); font-size: var(--font-size-xxs); color: #B3261E; }
+
+/* The table scrolls sideways; the Actions column stays fixed on the right */
+.rq-container { overflow-x: auto; }
+.rq-container[hidden] { display: none; }
+
+.table--requests { min-width: 0; }
+.table--requests .table__header { position: sticky; top: 0; white-space: nowrap; }
+
+.rq-cell {
+    height: 5.6rem;
+    padding: 0 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.rq-cell--num { padding-right: 24px; text-align: right; font-variant-numeric: tabular-nums; }
+.rq-cell--mono { color: var(--color-glyph-gray-secondary); font-variant-numeric: tabular-nums; }
+.table--requests .table__header.rq-cell--num { padding-right: 24px; text-align: right; }
+
+/* The first two columns (request ID and item) stay in view while the table scrolls sideways */
+.table--requests .table__header:nth-child(1),
+.table--requests .table__header:nth-child(2),
+.table--requests .rq-cell:nth-child(1),
+.table--requests .rq-cell:nth-child(2) {
+    position: sticky;
+    z-index: 2;
+    background-color: #fff;
+}
+
+.table--requests .table__header:nth-child(1),
+.table--requests .rq-cell:nth-child(1) { left: 0; }
+
+.table--requests .table__header:nth-child(2),
+.table--requests .rq-cell:nth-child(2) {
+    left: var(--sticky-1, 130px);
+    overflow: visible;
+}
+
+.table--requests .table__header:nth-child(1),
+.table--requests .table__header:nth-child(2) { z-index: 4; }
+
+.table--requests .table__row:nth-child(even) > .rq-cell:nth-child(1),
+.table--requests .table__row:nth-child(even) > .rq-cell:nth-child(2) { background-color: #F3F3F3; }
+.table--requests .rq-row:hover > .rq-cell:nth-child(1),
+.table--requests .rq-row:hover > .rq-cell:nth-child(2) { background-color: var(--color-fill-secondary); }
+
+.rq-row { cursor: pointer; }
+.rq-row:hover > .rq-cell { background-color: var(--color-fill-secondary); }
+
+.rq-two { display: inline-flex; flex-direction: column; gap: 2px; max-width: 100%; }
+.rq-two small { overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.rq-late { color: #B3261E; }
+.rq-empty { padding: var(--space-l); text-align: center; color: var(--color-glyph-gray-secondary); }
+
+.table--requests .rq-cell--actions,
+.table--requests .table__header.rq-cell--actions {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background-color: #fff;
+    overflow: visible;
+}
+
+.table--requests .table__row:nth-child(even) > .rq-cell--actions { background-color: #F3F3F3; }
+.table--requests .rq-row:hover > .rq-cell--actions { background-color: var(--color-fill-secondary); }
+
+.table--requests .rq-cell--actions { padding-right: 8px; }
+.rq-actions { display: flex; gap: var(--space-s); }
+.rq-reject { color: #B3261E; }
+.rq-decided { display: block; white-space: normal; line-height: 1.3; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+
+/* Drawer: status history */
+.rq-timeline { margin: 0; padding: 0; list-style: none; }
+
+.rq-timeline__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-s);
+    padding: 0 0 var(--space-m) 24px;
+    font-size: var(--font-size-xxs);
+}
+
+.rq-timeline__item::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 14px;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-fill-quaternary);
+}
+
+.rq-timeline__item:last-child::before { display: none; }
+
+.rq-timeline__dot { position: absolute; left: 0; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: #B6B7BD; }
+.rq-timeline__item--warning .rq-timeline__dot { background: #F5B400; }
+.rq-timeline__item--info .rq-timeline__dot { background: var(--color-base-accent); }
+.rq-timeline__item--success .rq-timeline__dot { background: #34A853; }
+.rq-timeline__item--danger .rq-timeline__dot { background: #D93025; }
+
+.rq-timeline__item div { display: flex; flex-direction: column; gap: 2px; }
+.rq-timeline__item span,
+.rq-timeline__item time { color: var(--color-glyph-gray-secondary); }
+
+.rq-drawer-actions { display: flex; gap: var(--space-s); padding-top: var(--space-m); }
+
+/* Reject dialog */
+.rq-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.rq-dialog-overlay[hidden] { display: none; }
+
+.rq-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    width: 44rem;
+    max-width: calc(100% - 32px);
+    padding: var(--space-l);
+    border-radius: 16px;
+    background: #fff;
+}
+
+.rq-dialog__title { margin: 0; font-size: var(--font-size-small, 14px); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray); }
+.rq-dialog__text { margin: 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.rq-dialog__field { display: flex; flex-direction: column; gap: 4px; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.rq-dialog__actions { display: flex; justify-content: flex-end; gap: var(--space-s); }
+
+.dark-mode .rq-subtabs { border-color: var(--dm-divider); }
+.dark-mode .rq-subtab { color: var(--dm-text-2); }
+.dark-mode .rq-subtab--active { color: var(--dm-accent); border-bottom-color: var(--dm-accent); }
+.dark-mode .rq-dialog { background-color: var(--dm-bg-2); }
+.dark-mode .rq-dialog__text,
+.dark-mode .rq-dialog__field,
+.dark-mode .rq-decided,
+.dark-mode .rq-two small,
+.dark-mode .rq-timeline__item span,
+.dark-mode .rq-timeline__item time { color: var(--dm-text-2); }
+.dark-mode .rq-cell,
+.dark-mode .rq-dialog__title { color: var(--dm-text-1); }
+.dark-mode .rq-cell { border-color: var(--dm-divider); }
+.dark-mode .table--requests .rq-cell--actions,
+.dark-mode .table--requests .table__header.rq-cell--actions { background-color: var(--dm-bg-2); }
+.dark-mode .table--requests .table__row:nth-child(even) > .rq-cell--actions { background-color: var(--dm-bg-3); }
+.dark-mode .table--requests .table__header:nth-child(1),
+.dark-mode .table--requests .table__header:nth-child(2),
+.dark-mode .table--requests .rq-cell:nth-child(1),
+.dark-mode .table--requests .rq-cell:nth-child(2) { background-color: var(--dm-bg-2); }
+.dark-mode .table--requests .table__row:nth-child(even) > .rq-cell:nth-child(1),
+.dark-mode .table--requests .table__row:nth-child(even) > .rq-cell:nth-child(2) { background-color: var(--dm-bg-3); }
+
+.table--requests .sortable { cursor: pointer; user-select: none; }
+.table--requests .products-sort { margin-left: 4px; color: var(--color-glyph-gray-tertiary); }
+.table--requests .products-sort--active { color: var(--color-base-accent); }
+
+/* Edge shadows of the fixed columns, drawn with a gradient so every browser paints them */
+.table--requests .table__header:nth-child(2)::after,
+.table--requests .rq-cell:nth-child(2)::after,
+.table--requests .rq-cell--actions::before,
+.table--requests .table__header.rq-cell--actions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 14px;
+    pointer-events: none;
+}
+
+.table--requests .table__header:nth-child(2)::after,
+.table--requests .rq-cell:nth-child(2)::after {
+    left: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0));
+}
+
+.table--requests .rq-cell--actions::before,
+.table--requests .table__header.rq-cell--actions::before {
+    right: 100%;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0));
+}
+
+/* The second column no longer clips itself, so its own text is cut here */
+.table--requests .rq-cell:nth-child(2) > strong,
+.table--requests .rq-cell:nth-child(2) .rq-two > strong { display: block; overflow: hidden; text-overflow: ellipsis; }
+.table--requests .rq-cell:nth-child(2) .rq-two { display: flex; width: 100%; }
+
+/* The line under a row of sub-tabs runs from one side of the screen to the other (a drawer: from one side of the drawer to the other) */
+.rq-subtabs { border-bottom: 1px solid var(--divider-color, #E0E0E4); }
+.equip-view > .rq-subtabs, .nf-subtabs { margin-left: calc(var(--space-mp) * -1); margin-right: calc(var(--space-mp) * -1); padding: 0 var(--space-mp); }
+.drawer__body > .rq-subtabs { margin-left: -32px; margin-right: -32px; padding: 0 32px; }
+
+/* The first sub-tab starts on the left edge of the content below it */
+.rq-subtab:first-child { padding-left: 0; }
+
+/* The Urgent button: its number is in the red of the urgent badges */
+.rq-chip-urgent strong { color: #B3261E; }
+.rq-chip-urgent.products-chip--active strong { color: #B3261E; }
+
+/* A small divider between the groups of buttons */
+.rq-chip-sep { align-self: center; width: 1px; height: 2.4rem; background: var(--divider-color, #E0E0E4); }
+html.dark-mode .rq-chip-sep { background: var(--dm-divider); }

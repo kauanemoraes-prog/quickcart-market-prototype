@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Overview - QuickCart Market</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="css/dashboard.css?v=99">
+    <link rel="stylesheet" href="../programs/css/multi-select.css?v=3">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Page content -->
+    <script id="page-content" type="text/html">
+        <div class="dashboard-page">
+            <div class="dashboard-header">
+                <div class="dashboard-header__line">
+                    <h1 data-keep-case>Network Overview</h1>
+                    <div class="dashboard-header__items" id="dashboard-scope-text"><span class="dashboard-header__item">QuickCart Market</span><span class="dashboard-header__item">entire network</span></div>
+                </div>
+                <div class="dashboard-header__tools">
+                    <div class="form-group dashboard-scope" id="dashboard-scope"></div>
+                    <a class="btn btn--primary btn--medium dashboard-header__action" href="../programs/index.html?add=scratch">
+                        <lucide-icon name="plus" style="font-size:16px"></lucide-icon>
+                        Add Store
+                    </a>
+                </div>
+            </div>
+
+            <!-- Overview: each indicator lists the stores behind the number -->
+            <section class="dashboard-kpis dashboard-kpis--seven" aria-label="Overview" id="dashboard-kpis"></section>
+
+            <!-- Main area: stores behind the selected indicator + where the problems concentrate -->
+            <div class="dashboard-grid dashboard-grid--main">
+                <section class="dashboard-card" aria-labelledby="needs-attention-title">
+                    <header class="dashboard-card__header">
+                        <div>
+                            <h2 class="dashboard-card__title" id="needs-attention-title">Stores needing attention</h2>
+                            <p class="dashboard-card__subtitle" id="needs-attention-subtitle"></p>
+                        </div>
+                        <a class="dashboard-card__link" href="../programs/index.html">View all stores</a>
+                    </header>
+                    <div class="dashboard-table-wrap">
+                        <table class="dashboard-table">
+                            <colgroup><col class="dt-col dt-col--store"><col class="dt-col dt-col--city"><col class="dt-col dt-col--issue"><col class="dt-col dt-col--manager"><col class="dt-col dt-col--open"></colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Store</th>
+                                    <th>City</th>
+                                    <th>Issue</th>
+                                    <th>Store Manager</th>
+                                    <th><span class="visually-hidden">Open</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="needs-attention-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="dashboard-card" aria-labelledby="timeline-title">
+                    <header class="dashboard-card__header">
+                        <div>
+                            <h2 class="dashboard-card__title" id="timeline-title">Where it concentrates</h2>
+                            <p class="dashboard-card__subtitle" id="concentration-subtitle"></p>
+                        </div>
+                    </header>
+                    <ol class="phase-list" id="phase-list"></ol>
+                </section>
+            </div>
+
+            <!-- Supporting information -->
+            <div class="dashboard-grid dashboard-grid--support">
+                <section class="dashboard-card" aria-labelledby="recent-title">
+                    <header class="dashboard-card__header">
+                        <div>
+                            <h2 class="dashboard-card__title" id="recent-title">Recent Activity</h2>
+                            <p class="dashboard-card__subtitle">Latest operations recorded by the stores</p>
+                        </div>
+                    </header>
+                    <ul class="update-list" id="recent-updates"></ul>
+                </section>
+
+                <section class="dashboard-card" aria-labelledby="openings-title">
+                    <header class="dashboard-card__header">
+                        <div>
+                            <h2 class="dashboard-card__title" id="openings-title">Upcoming Deliveries</h2>
+                            <p class="dashboard-card__subtitle">The next delivery, then the ones that follow</p>
+                        </div>
+                    </header>
+                    <div id="next-opening"></div>
+                    <ul class="opening-list" id="upcoming-openings"></ul>
+                </section>
+            </div>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+
+    <!-- Shared mock data (same as the Stores page) -->
+    <script src="../programs/js/data.js?v=35"></script>
+    <script src="../programs/js/multi-select.js?v=3"></script>
+    <script src="js/dashboard.js?v=200"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

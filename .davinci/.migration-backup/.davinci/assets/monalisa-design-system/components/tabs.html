@@ -1,0 +1,90 @@
+<!-- TABS -->
+<!-- Tab navigation for organizing content into separate views -->
+
+<!-- METADATA
+Component: Tabs
+Category: Navigation
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use tabs wrapper div
+- MUST have two main sections: tabs__nav (navigation) and tabs__content (panels)
+- MUST use button elements for tabs with tabs__tab class
+- MUST use data-tab attribute to link tabs with panels
+- MUST mark active tab with tabs__tab--active class
+- MUST mark active panel with tabs__panel--active class
+- Only ONE tab and ONE panel should be active at a time
+
+COMMON MISTAKES TO AVOID:
+❌ Missing tabs wrapper div
+❌ Using <a> tags instead of <button> for tabs
+❌ Forgetting data-tab attribute (breaks tab switching)
+❌ Multiple tabs or panels marked as active
+❌ Missing tabs__nav or tabs__content divs
+❌ Not matching data-tab value with panel id
+
+JAVASCRIPT INTEGRATION:
+- MDS automatically handles tab switching
+- Click on tabs__tab toggles tabs__tab--active class
+- Matching panel gets tabs__panel--active class
+- Use data-tab attribute to identify which tab was clicked
+- For custom behavior: Listen for clicks on .tabs__tab elements
+- Remove --active from all tabs/panels, then add to clicked tab and matching panel
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="tabs">
+  <div class="tabs__nav">
+    <button class="tabs__tab tabs__tab--active" data-tab="tab1">Tab 1</button>
+    <button class="tabs__tab" data-tab="tab2">Tab 2</button>
+  </div>
+  <div class="tabs__content">
+    <div class="tabs__panel tabs__panel--active" id="tab1">
+      # Content 1 - remove this line #
+    </div>
+    <div class="tabs__panel" id="tab2">
+      # Content 2 - remove this line #
+    </div>
+  </div>
+</div>
+
+When to prompt: Never - structure is fixed, only tab labels and content vary
+Variants: Standard tabs (only one variant)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- BASIC TABS -->
+<div class="tabs">
+  <div class="tabs__nav">
+    <button class="tabs__tab tabs__tab--active" data-tab="tab1">Overview</button>
+    <button class="tabs__tab" data-tab="tab2">Details</button>
+    <button class="tabs__tab" data-tab="tab3">Settings</button>
+  </div>
+  <div class="tabs__content">
+    <div class="tabs__panel tabs__panel--active" id="tab1">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is the overview tab content. Tabs help organize related information into separate views.
+      </p>
+    </div>
+    <div class="tabs__panel" id="tab2">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is the details tab content. Each tab can contain any type of content.
+      </p>
+    </div>
+    <div class="tabs__panel" id="tab3">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is the settings tab content. Tabs provide a clean way to organize complex interfaces.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- USAGE:
+- tabs__nav contains the tab buttons
+- tabs__tab--active marks the currently active tab
+- tabs__content contains all tab panels
+- tabs__panel--active marks the currently visible panel
+- Use data-tab attribute to link tabs with panels
+- MDS JavaScript automatically handles tab switching
+- Only one tab and panel should be active at a time
+-->

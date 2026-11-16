@@ -1,0 +1,71 @@
+<!-- BADGE COUNTER -->
+<!-- Numeric counter badge overlaid on buttons, icons, checkboxes, or any anchor element -->
+<!-- Copy the exact HTML you need -->
+
+<!-- METADATA
+Component: Badge Counter
+Category: Data Display
+Complexity: Low
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap anchor element and badge in a badge-counter__anchor container
+- MUST use <span class="badge-counter"> for the badge element
+- Anchor container provides position: relative context for absolute badge placement
+
+COMMON MISTAKES TO AVOID:
+[X] Forgetting badge-counter__anchor wrapper (badge won't position correctly)
+[X] Using on elements that already have position: relative (use badge-counter directly without anchor wrapper)
+[X] Setting badge content to empty string (hide the badge instead with display: none)
+
+JAVASCRIPT INTEGRATION:
+- No JS required — pure CSS component
+- Update counter: set textContent on the .badge-counter element
+- Hide when zero: add style="display: none" or remove the badge element
+
+COMPANION FILES:
+- CSS: included in monalisa.min.css
+- JS: none
+
+CORRECT STRUCTURE TEMPLATE:
+<span class="badge-counter__anchor">
+  <button class="btn btn--ghost btn--small">...</button>
+  <span class="badge-counter">3</span>
+</span>
+
+When to prompt: Never — only one variant, context always clear
+Variants: default (top-right positioned counter badge)
+-->
+
+<!-- ON A BUTTON (most common — notification bell, action button) -->
+<span class="badge-counter__anchor">
+    <button class="btn btn--ghost btn--small" title="Notifications">
+        <img src="../../assets/icons/regular/bell.svg" alt="" width="16" height="16">
+    </button>
+    <span class="badge-counter">3</span>
+</span>
+
+<!-- ON A CHECKBOX (table selection counter) -->
+<span class="badge-counter__anchor">
+    <label class="form-checkbox">
+        <input type="checkbox" checked>
+        <span class="form-checkbox__checkmark"></span>
+    </label>
+    <span class="badge-counter">55</span>
+</span>
+
+<!-- ON AN ICON BUTTON WITH LARGE COUNT -->
+<span class="badge-counter__anchor">
+    <button class="btn btn--ghost btn--small" title="Messages">
+        <img src="../../assets/icons/regular/envelope.svg" alt="" width="16" height="16">
+    </button>
+    <span class="badge-counter">128</span>
+</span>
+
+<!-- USAGE:
+- Wrap the anchor element (button, checkbox, icon) and badge in badge-counter__anchor
+- The badge auto-positions at top-right of the anchor
+- Badge is pointer-events: none so it doesn't interfere with clicks on the anchor
+- Counter adapts width to content (min-width ensures small numbers look circular)
+- Use for: unread counts, selection counts, notification badges, pending item counts
+- Hide when count is 0: add style="display: none" on the badge-counter element
+-->

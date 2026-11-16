@@ -1,0 +1,192 @@
+/* Publish Process Flow Wizard
+ * Outer wrapper, header, body and footer use MDS modal classes.
+ * Wizard-specific stepper, panels, and footer layout live below. */
+
+/* Stepper */
+.publish-wizard__stepper {
+    list-style: none;
+    margin: 0 0 var(--space-l);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.publish-wizard__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-shrink: 0;
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+}
+
+.publish-wizard__step:not(:last-child)::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-glyph-gray-secondary);
+    min-width: 60px;
+    margin-left: var(--space-s);
+}
+
+.publish-wizard__stepper {
+    /* Allow connectors to expand */
+}
+
+.publish-wizard__step:not(:last-child) {
+    flex: 1;
+}
+
+.publish-wizard__step-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-glyph-gray-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray-secondary);
+    background-color: #FFFFFF;
+    flex-shrink: 0;
+}
+
+.publish-wizard__step.is-active .publish-wizard__step-circle {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    color: #FFFFFF;
+}
+
+.publish-wizard__step.is-active .publish-wizard__step-label {
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+}
+
+.publish-wizard__step.is-completed .publish-wizard__step-circle {
+    background-color: #F56300;
+    border-color: #F56300;
+    color: #FFFFFF;
+    font-size: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 6.25L5 8.75L9.5 3.75' stroke='white' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.publish-wizard__step.is-completed .publish-wizard__step-label {
+    color: var(--color-glyph-gray);
+}
+
+/* Body / panels */
+.publish-wizard__body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: var(--space-l);
+}
+
+.publish-wizard__panel {
+    display: none;
+}
+
+.publish-wizard__panel.is-active {
+    display: block;
+}
+
+.publish-wizard__text {
+    margin: 0 0 var(--space-m);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.6;
+}
+
+.publish-wizard__text:last-child {
+    margin-bottom: 0;
+}
+
+/* Step 2 — checkbox options */
+.publish-wizard__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin: var(--space-m) 0 var(--space-l);
+}
+
+.publish-wizard__checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    cursor: pointer;
+}
+
+.publish-wizard__checkbox-label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.publish-wizard__warning {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    color: #F56300;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+}
+
+.publish-wizard__warning-icon {
+    flex-shrink: 0;
+    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(2127%) hue-rotate(2deg) brightness(101%) contrast(101%);
+}
+
+/* Footer — modal__footer provides padding/border-top; we override layout to two-group */
+.publish-wizard__footer {
+    justify-content: space-between;
+}
+
+.publish-wizard__footer-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.publish-wizard__footer-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.publish-wizard__link {
+    color: var(--color-base-accent);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+}
+
+.publish-wizard__link:hover {
+    text-decoration: underline;
+}
+
+.publish-wizard__back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-base-accent);
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.15s ease;
+}
+
+.publish-wizard__back:hover {
+    background-color: rgba(113, 128, 172, 0.08);
+}
+
+/* Disabled-looking primary button (e.g., Publish before checkbox confirmation) */
+.publish-wizard__publish--disabled {
+    background-color: rgba(245, 99, 0, 0.45);
+    border-color: rgba(245, 99, 0, 0.45);
+    cursor: not-allowed;
+    color: #FFFFFF;
+}

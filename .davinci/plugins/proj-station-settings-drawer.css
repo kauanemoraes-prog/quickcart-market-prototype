@@ -1,0 +1,178 @@
+/* proj-station-settings-drawer.css */
+/* Plugin component: Station Settings Drawer                             */
+/* Uses MDS drawer + form-group/form-input/form-select shells; this file */
+/* only adds prototype-scoped layout for the header row, section         */
+/* separators, dropzone, and upload history list. No overrides of MDS.   */
+
+/* Header: close button pinned left, "Process Step" link pinned right. */
+.proj-station-settings-drawer .proj-station-settings-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+}
+.proj-station-settings-drawer__step-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-base-accent);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+.proj-station-settings-drawer__step-link:hover { text-decoration: underline; }
+.proj-station-settings-drawer__step-link lucide-icon { font-size: 14px; }
+
+/* Title lives at the top of the body per screenshot, not in drawer__header. */
+.proj-station-settings-drawer__title {
+  margin: 0 0 var(--space-m) 0;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-lg, 22px);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Body owns the vertical rhythm between fields + separators. */
+.proj-station-settings-drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+.proj-station-settings-drawer__sep {
+  border: 0;
+  border-top: 1px solid var(--color-separator, #E5E5EA);
+  margin: var(--space-xs) 0;
+}
+
+/* Row = form-group + trailing action button (info icon / clear X). */
+.proj-station-settings-drawer__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+.proj-station-settings-drawer__row .form-group { flex: 1; }
+.proj-station-settings-drawer__info,
+.proj-station-settings-drawer__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  cursor: pointer;
+  padding: 0;
+}
+.proj-station-settings-drawer__info { color: var(--color-base-accent); }
+.proj-station-settings-drawer__info lucide-icon,
+.proj-station-settings-drawer__clear lucide-icon { font-size: 18px; }
+.proj-station-settings-drawer__clear:hover { color: var(--color-glyph-gray); }
+
+/* SOP dropzone — dashed area, single-line copy per the spec. */
+.proj-station-settings-drawer__sop-label {
+  margin: var(--space-s) 0 var(--space-xs) 0;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+}
+.proj-station-settings-drawer__dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  border: 1px dashed var(--color-separator, #C7C7CC);
+  border-radius: 6px;
+  padding: var(--space-l) var(--space-m);
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+  background: var(--color-fill-tertiary, #FAFAFA);
+  min-height: 88px;
+  text-align: center;
+}
+.proj-station-settings-drawer__dropzone.is-drag-over {
+  border-color: var(--color-base-accent);
+  background: var(--color-base-accent-lighter-1, #E5F0FC);
+}
+.proj-station-settings-drawer__dropzone lucide-icon { font-size: 18px; color: var(--color-glyph-gray); }
+.proj-station-settings-drawer__dropzone .btn { padding: 0; }
+
+/* Upload history — collapsible section with a chevron toggle. */
+.proj-station-settings-drawer__history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  margin-top: var(--space-s);
+}
+.proj-station-settings-drawer__history-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  align-self: flex-start;
+}
+.proj-station-settings-drawer__history-toggle lucide-icon {
+  font-size: 14px;
+  color: var(--color-base-accent);
+  transition: transform 0.15s ease;
+}
+.proj-station-settings-drawer__history[data-history-open="false"] .proj-station-settings-drawer__history-toggle lucide-icon {
+  transform: rotate(180deg);
+}
+.proj-station-settings-drawer__history[data-history-open="false"] .proj-station-settings-drawer__history-list {
+  display: none;
+}
+.proj-station-settings-drawer__history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-separator, #E5E5EA);
+}
+.proj-station-settings-drawer__history-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding: var(--space-s) 0;
+}
+.proj-station-settings-drawer__history-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.proj-station-settings-drawer__history-name {
+  color: var(--color-base-accent);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+.proj-station-settings-drawer__history-name:hover { text-decoration: underline; }
+.proj-station-settings-drawer__history-meta {
+  margin: 0;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+}
+.proj-station-settings-drawer__history-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--color-base-accent);
+  cursor: pointer;
+  padding: 0;
+}
+.proj-station-settings-drawer__history-download lucide-icon { font-size: 16px; }
+
+/* Footer: right-align Cancel + Update Station. */
+.proj-station-settings-drawer .proj-station-settings-drawer__footer {
+  justify-content: flex-end;
+}

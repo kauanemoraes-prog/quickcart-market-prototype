@@ -1,0 +1,111 @@
+<!-- DRAWER -->
+<!-- Drawer panels that slide in from the edge of the screen -->
+
+<!-- METADATA
+Component: Drawer
+Category: Overlay
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use drawer-overlay wrapper div (provides backdrop)
+- MUST add drawer-overlay--open class to show drawer
+- MUST specify position: drawer--right (default) or drawer--left
+- MUST use two-section structure: drawer__header, drawer__body
+- MUST include drawer__close button in header
+- Size variants: drawer--small (400px), drawer--medium (600px - default), drawer--large (904px)
+
+COMMON MISTAKES TO AVOID:
+❌ Forgetting drawer-overlay wrapper
+❌ Missing drawer-overlay--open class (drawer won't be visible)
+❌ Not specifying position (drawer--right or drawer--left)
+❌ Omitting drawer__header or drawer__body divs
+❌ Not including close button
+❌ Creating custom drawer structure instead of using MDS classes
+
+JAVASCRIPT INTEGRATION:
+- Toggle drawer-overlay--open class to show/hide drawer
+- Add click handler to drawer__close button to remove drawer-overlay--open
+- Add click handler to drawer-overlay (backdrop) to close on outside click
+- Prevent clicks inside drawer from closing (event.stopPropagation())
+- Consider adding escape key handler to close drawer
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="drawer-overlay drawer-overlay--open">
+  <div class="drawer drawer--right drawer--medium">
+    <div class="drawer__header">
+      <button class="drawer__close">×</button>
+      <h3 class="drawer__title">Title</h3>
+    </div>
+    <div class="drawer__body">
+      # Content - Remove this line #
+    </div>
+  </div>
+</div>
+
+When to prompt: Ask for size/position only if context doesn't make it clear (default: right, medium)
+Variants: Small (400px), Medium (600px - default), Large (904px) × Right/Left positions
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- LARGE DRAWER (904px) - RIGHT SIDE -->
+<div class="drawer-overlay drawer-overlay--open">
+  <div class="drawer drawer--right drawer--large">
+    <div class="drawer__header">
+      <button class="drawer__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+      <h3 class="drawer__title">Large Drawer (904px)</h3>
+    </div>
+    <div class="drawer__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is a large drawer with 904px width. Perfect for displaying detailed content, complex forms, or comprehensive information.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIUM DRAWER (600px) - RIGHT SIDE (DEFAULT) -->
+<div class="drawer-overlay drawer-overlay--open">
+  <div class="drawer drawer--right drawer--medium">
+    <div class="drawer__header">
+      <button class="drawer__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+      <h3 class="drawer__title">Medium Drawer (600px)</h3>
+    </div>
+    <div class="drawer__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is a medium drawer with 600px width. The default size, ideal for most use cases.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SMALL DRAWER (400px) - RIGHT SIDE -->
+<div class="drawer-overlay drawer-overlay--open">
+  <div class="drawer drawer--right drawer--small">
+    <div class="drawer__header">
+      <button class="drawer__close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+      </button>
+      <h3 class="drawer__title">Small Drawer (400px)</h3>
+    </div>
+    <div class="drawer__body">
+      <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+        This is a small drawer with 400px width. Compact for quick actions or simple navigation.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- USAGE:
+- Three sizes: large (904px), medium (600px - default), small (400px)
+- Two positions: drawer--right (default) or drawer--left
+- drawer-overlay wraps the drawer and provides the backdrop
+- Add drawer-overlay--open class to show the drawer
+- drawer__header contains close button and title
+- drawer__body contains the main content
+- Close button can use SVG icon or × character
+- All size variations work with both left and right positions
+-->

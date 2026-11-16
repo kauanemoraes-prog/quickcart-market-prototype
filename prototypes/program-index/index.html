@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exhibition Index - DaVinci</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script id="page-content" type="text/html">
+        <div class="program-index-page">
+            <div class="program-index-page__intro">
+                <h1 class="program-index-page__title">Path to access the Index in this prototype</h1>
+                <div class="program-index-page__body">
+                    <div class="program-index-page__text">
+                        <p class="program-index-page__lede">
+                            The Index can be accessed from the Exhibition Settings button. Next to this text, you'll find the button to open this prototype.
+                        </p>
+                        <p class="program-index-page__lede">
+                            In this scenario, a new exhibition has already been created with multiple Project Phases, where the first Project Phase has no publications (Draft or Empty).
+                        </p>
+                        <p class="program-index-page__lede">
+                            Click the access button to open the Exhibition drawer, then select <strong>Edit</strong> on a site's Preparation Schedule. From there, use the <strong>Index</strong> button to bring data forward from a previous generation.
+                        </p>
+                    </div>
+                    <div class="program-index-page__actions">
+                        <span class="program-index-page__cta">Click here to start →</span>
+                        <button class="btn btn--medium program-index-page__settings-btn" id="open-program-drawer-btn" aria-label="Open exhibition settings">
+                            <lucide-icon name="gearshape"></lucide-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <h2 class="feature-compare__heading">Differences Between Features</h2>
+                <div class="feature-compare">
+                    <div class="feature-compare__row">
+                        <div class="feature-compare__label">Index</div>
+                        <div class="feature-compare__desc">Index is used to create the next Product Year from an existing one. It copies the selected Workstations, Tools, and Materials, then lets you choose which items should be retrofitted or converted for the new Product Year. Once complete, all required relationships are created automatically.</div>
+                    </div>
+                    <div class="feature-compare__row">
+                        <div class="feature-compare__label">Copy</div>
+                        <div class="feature-compare__desc">Creates an exact copy of an exhibition and puts it at a new site. It copies over some of the related parent information but doesn't account for retrofit / conversion of tools.</div>
+                    </div>
+                    <div class="feature-compare__row">
+                        <div class="feature-compare__label">Carry Forward</div>
+                        <div class="feature-compare__desc">Takes information from one project phase and moves it to the next to continue development of the process. Maintains and keeps the key relationships from the previous build. Used when P1 may still have some changes left but you need to start working on changes for P2 and beyond.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-index-card">
+                <h2 class="program-index-card__heading">Access Point</h2>
+                <p class="program-index-card__intro">Once implemented, the path to access the Index will be:</p>
+
+                <div class="program-index-card__category">
+                    <h3 class="program-index-card__category-heading">First Step</h3>
+                    <div class="program-index-card__category-body">
+                        <h4 class="program-index-card__subheading">Access Point 1</h4>
+                        <div class="program-index-card__image-wrap">
+                            <img src="access-point-one.png" alt="Exhibitions list reference" class="program-index-card__image">
+                        </div>
+                        <h4 class="program-index-card__subheading">Access Point 2</h4>
+                        <div class="program-index-card__image-wrap">
+                            <img src="acc-point-2.png" alt="Exhibition page settings reference" class="program-index-card__image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="program-index-card__category">
+                    <h3 class="program-index-card__category-heading">Second Step</h3>
+                    <div class="program-index-card__category-body">
+                        <div class="program-index-card__image-wrap">
+                            <img src="access-point-two.png" alt="Second step reference" class="program-index-card__image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="program-index-card__category">
+                    <h3 class="program-index-card__category-heading">Third Step</h3>
+                    <div class="program-index-card__category-body">
+                        <div class="program-index-card__image-wrap">
+                            <img src="access-point-three.png" alt="Third step reference" class="program-index-card__image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Drawer -->
+        <div class="drawer-overlay" id="program-drawer">
+            <div class="drawer drawer--right drawer--large program-drawer">
+                <div class="drawer__header">
+                    <button class="drawer__close" id="program-drawer-close" aria-label="Close drawer">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                    <h3 class="drawer__title">Exhibition H11 - Settings</h3>
+                </div>
+
+                <div class="drawer__body">
+                    <div class="drawer-section">
+                        <p class="drawer-section__label">Exhibition details</p>
+                        <div class="drawer-form-row">
+                            <div class="form-group form-group--medium">
+                                <label class="form-label" for="pgm-name">Exhibition Name (Optional)</label>
+                                <input type="text" id="pgm-name" class="form-input" value="QA Testing 11">
+                            </div>
+                            <div class="form-group form-group--medium">
+                                <label class="form-label" for="pgm-admin">Exhibition Admin</label>
+                                <input type="text" id="pgm-admin" class="form-input" value="Loki Doe">
+                            </div>
+                            <div class="disclosure-block">
+                                <span class="disclosure-block__label">Disclosure:</span>
+                                <span class="disclosure-tag">
+                                    <lucide-icon name="checkmark"></lucide-icon> H11
+                                </span>
+                            </div>
+                        </div>
+                        <div class="drawer-form-row">
+                            <div class="form-group form-group--medium">
+                                <label class="form-label" for="pgm-lob">Line of Business</label>
+                                <input type="text" id="pgm-lob" class="form-input" value="LOB-004" readonly>
+                            </div>
+                            <div class="form-group form-group--medium">
+                                <label class="form-label" for="pgm-pl">Collection</label>
+                                <input type="text" id="pgm-pl" class="form-input" value="LOB-04 - Studio Pen" readonly>
+                            </div>
+                            <div class="form-group form-group--medium">
+                                <label class="form-label" for="pgm-arch">Exhibition Architecture</label>
+                                <input type="text" id="pgm-arch" class="form-input" value="v1.0" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="drawer-tabs-row">
+                        <div class="drawer-tabs">
+                            <button class="drawer-tab drawer-tab--active" data-drawer-tab="sites">Sites</button>
+                            <button class="drawer-tab" data-drawer-tab="users">Exhibition Users</button>
+                            <button class="drawer-tab" data-drawer-tab="pcn">PCR Settings</button>
+                        </div>
+                        <label class="drawer-color-toggle">
+                            <input type="checkbox" id="color-code-dept" checked>
+                            <span class="drawer-color-toggle__slider"></span>
+                            <span class="drawer-color-toggle__label">Color-code Departments</span>
+                        </label>
+                    </div>
+
+                    <div class="drawer-tab-content drawer-tab-content--active" id="drawer-sites">
+                        <div class="sites-table">
+                            <div class="sites-table__head">
+                                <div class="sites-table__cell sites-table__cell--site">
+                                    Site
+                                    <button class="sites-table__add" aria-label="Add new site">
+                                        <lucide-icon name="plus.circle"></lucide-icon>
+                                    </button>
+                                </div>
+                                <div class="sites-table__cell sites-table__cell--alias">
+                                    Exhibition Alias
+                                    <lucide-icon name="info.circle" class="sites-table__info"></lucide-icon>
+                                </div>
+                                <div class="sites-table__cell sites-table__cell--build">
+                                    Preparation Schedule (Optional)
+                                </div>
+                                <div class="sites-table__cell sites-table__cell--users">
+                                    Site Users
+                                </div>
+                            </div>
+                            <div id="drawer-sites-body"></div>
+                        </div>
+                    </div>
+
+                    <div class="drawer-tab-content" id="drawer-users">
+                        <div class="users-toolbar">
+                            <div class="form-group users-toolbar__filter">
+                                <input type="text" class="form-input" placeholder="Filter by name or ID">
+                                <lucide-icon name="magnifyingglass" class="users-toolbar__icon"></lucide-icon>
+                            </div>
+                            <select class="form-select">
+                                <option>All accesses</option>
+                            </select>
+                            <select class="form-select">
+                                <option>All departments</option>
+                            </select>
+                        </div>
+                        <div class="users-table">
+                            <div class="users-table__head">
+                                <div class="users-table__cell users-table__cell--name">
+                                    Name
+                                    <button class="users-table__add" aria-label="Add user">
+                                        <lucide-icon name="plus.circle"></lucide-icon>
+                                    </button>
+                                </div>
+                                <div class="users-table__cell">ID</div>
+                                <div class="users-table__cell">Company</div>
+                                <div class="users-table__cell">Access</div>
+                                <div class="users-table__cell">User Department</div>
+                                <div class="users-table__cell users-table__cell--remove"></div>
+                            </div>
+                            <div id="drawer-users-body"></div>
+                        </div>
+                    </div>
+
+                    <div class="drawer-tab-content" id="drawer-pcn">
+                        <div class="pcn-layout">
+                            <aside class="pcn-sidebar">
+                                <button class="pcn-sidebar__item pcn-sidebar__item--active">Exhibition Level</button>
+                                <button class="pcn-sidebar__item">
+                                    <span>ABCE</span>
+                                </button>
+                                <button class="pcn-sidebar__item">
+                                    <span>ABCD</span>
+                                    <lucide-icon name="lock.fill" class="pcn-sidebar__lock"></lucide-icon>
+                                </button>
+                            </aside>
+                            <div class="pcn-main">
+                                <div class="pcn-main__head">
+                                    <span class="pcn-main__title">Sites</span>
+                                    <div class="pcn-main__locks">
+                                        <label class="pcn-toggle">
+                                            <input type="checkbox" class="pcn-toggle__input">
+                                            <span class="pcn-toggle__slider"></span>
+                                            <lucide-icon name="lock.fill" class="pcn-toggle__icon"></lucide-icon>
+                                            <span class="pcn-toggle__label">CM Lock</span>
+                                            <lucide-icon name="info.circle" class="pcn-toggle__info"></lucide-icon>
+                                        </label>
+                                        <label class="pcn-toggle">
+                                            <input type="checkbox" class="pcn-toggle__input">
+                                            <span class="pcn-toggle__slider"></span>
+                                            <lucide-icon name="lock.fill" class="pcn-toggle__icon"></lucide-icon>
+                                            <span class="pcn-toggle__label">General Lock</span>
+                                            <lucide-icon name="info.circle" class="pcn-toggle__info"></lucide-icon>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="pcn-main__body">
+                                    <div class="pcn-row">ABCE</div>
+                                    <div class="pcn-row">ABCD</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="drawer__footer program-drawer__footer">
+                    <button class="btn btn--secondary btn--medium" id="program-drawer-close-btn">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Build Schedule Drawer (drawer-on-drawer) -->
+        <div class="drawer-overlay" id="build-schedule-drawer">
+            <div class="drawer drawer--right drawer--large build-schedule-drawer">
+                <div class="drawer__header build-schedule-drawer__header">
+                    <button class="drawer__close" id="build-schedule-close" aria-label="Close preparation schedule">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                    <h3 class="drawer__title" id="build-schedule-title">Preparation schedule for ABCE</h3>
+                    <div class="build-schedule-drawer__actions">
+                        <lucide-icon name="info.circle" class="build-schedule-drawer__info" data-proj-tooltip="Index lets you bring data forward from a previous generation program into this empty build event." data-proj-tooltip-placement="left"></lucide-icon>
+                        <button class="btn btn--primary btn--medium build-schedule-drawer__index" id="build-schedule-index-btn">Index</button>
+                    </div>
+                </div>
+                <div class="drawer__body">
+                    <div class="bs-table">
+                        <div class="bs-table__head">
+                            <div class="bs-table__cell bs-table__cell--handle"></div>
+                            <div class="bs-table__cell bs-table__cell--name">Phase Name</div>
+                            <div class="bs-table__cell bs-table__cell--status"></div>
+                            <div class="bs-table__cell">Start Date</div>
+                            <div class="bs-table__cell">End Date</div>
+                            <div class="bs-table__cell">REIHD <lucide-icon name="info.circle" class="bs-table__info"></lucide-icon></div>
+                            <div class="bs-table__cell">CIH <lucide-icon name="info.circle" class="bs-table__info"></lucide-icon></div>
+                            <div class="bs-table__cell">UPH Target</div>
+                            <div class="bs-table__cell">Assembly Plan Status</div>
+                            <div class="bs-table__cell bs-table__cell--gear"></div>
+                        </div>
+                        <div id="build-schedule-body"></div>
+                        <button class="bs-table__add">
+                            <lucide-icon name="plus.circle"></lucide-icon>
+                            Add new project phase
+                        </button>
+                    </div>
+                </div>
+                <div class="drawer__footer">
+                    <button class="btn btn--secondary btn--medium" id="build-schedule-close-btn">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Index Wizard Modal -->
+        <div class="modal-overlay" id="wizard-modal">
+            <div class="modal modal--large wizard">
+                <div class="modal__header wizard__header">
+                    <div class="wizard__title-block">
+                        <h3 class="modal__title">Exhibition Index</h3>
+                        <p class="wizard__context" id="wizard-context">H11 · ABCE</p>
+                    </div>
+                    <button class="modal__close" id="wizard-close" aria-label="Close wizard">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                </div>
+
+                <div class="wizard__stepper" id="wizard-stepper">
+                    <button class="wizard-step is-active" data-step="1">
+                        <span class="wizard-step__indicator">1</span>
+                        <span class="wizard-step__label">Source</span>
+                    </button>
+                    <span class="wizard-step__connector"></span>
+                    <button class="wizard-step" data-step="2">
+                        <span class="wizard-step__indicator">2</span>
+                        <span class="wizard-step__label">Assembly areas + Workstations</span>
+                    </button>
+                    <span class="wizard-step__connector"></span>
+                    <button class="wizard-step" data-step="3">
+                        <span class="wizard-step__indicator">3</span>
+                        <span class="wizard-step__label">Tools</span>
+                    </button>
+                    <span class="wizard-step__connector"></span>
+                    <button class="wizard-step" data-step="4">
+                        <span class="wizard-step__indicator">4</span>
+                        <span class="wizard-step__label">Materials</span>
+                    </button>
+                    <span class="wizard-step__connector"></span>
+                    <button class="wizard-step" data-step="5">
+                        <span class="wizard-step__indicator">5</span>
+                        <span class="wizard-step__label">Review</span>
+                    </button>
+                </div>
+
+                <div class="modal__body wizard__body">
+                    <div class="wizard-panel is-active" data-panel="1">
+                        <p class="wizard-panel__hint">Choose a previous generation exhibition, then drill down to a published version. Drafts cannot be used as a source.</p>
+                        <div class="wizard-form-grid">
+                            <div class="form-group">
+                                <div class="proj-select" id="src-program">
+                                    <span class="proj-select__label">Source Exhibition</span>
+                                    <button type="button" class="proj-select__trigger">
+                                        <span class="proj-select__value is-placeholder" data-placeholder="Select exhibition…">Select exhibition…</span>
+                                        <lucide-icon name="chevron.down" class="proj-select__chevron"></lucide-icon>
+                                    </button>
+                                    <div class="proj-select__menu" hidden></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="proj-select is-disabled" id="src-site">
+                                    <span class="proj-select__label">Site</span>
+                                    <button type="button" class="proj-select__trigger" disabled>
+                                        <span class="proj-select__value is-placeholder" data-placeholder="Select site…">Select site…</span>
+                                        <lucide-icon name="chevron.down" class="proj-select__chevron"></lucide-icon>
+                                    </button>
+                                    <div class="proj-select__menu" hidden></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="proj-select is-disabled" id="src-event">
+                                    <span class="proj-select__label">Project Phase</span>
+                                    <button type="button" class="proj-select__trigger" disabled>
+                                        <span class="proj-select__value is-placeholder" data-placeholder="Select event…">Select event…</span>
+                                        <lucide-icon name="chevron.down" class="proj-select__chevron"></lucide-icon>
+                                    </button>
+                                    <div class="proj-select__menu" hidden></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="proj-select is-disabled" id="src-version">
+                                    <span class="proj-select__label">Version</span>
+                                    <button type="button" class="proj-select__trigger" disabled>
+                                        <span class="proj-select__value is-placeholder" data-placeholder="Select version…">Select version…</span>
+                                        <lucide-icon name="chevron.down" class="proj-select__chevron"></lucide-icon>
+                                    </button>
+                                    <div class="proj-select__menu" hidden></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wizard-scope-block">
+                            <h5 class="wizard-scope-block__title">What to bring forward</h5>
+                            <p class="wizard-scope-block__hint">Select the groups you want to index. You'll pick the individual items in the next steps.</p>
+
+                            <label class="scope-toggle">
+                                <input type="checkbox" class="form-checkbox" id="scope-lines">
+                                <span class="scope-toggle__label">Assembly areas + Workstations</span>
+                                <span class="scope-toggle__count" id="count-lines">— items</span>
+                            </label>
+                            <label class="scope-toggle">
+                                <input type="checkbox" class="form-checkbox" id="scope-equipment">
+                                <span class="scope-toggle__label">Tools</span>
+                                <span class="scope-toggle__count" id="count-equipment">— items</span>
+                            </label>
+                            <label class="scope-toggle">
+                                <input type="checkbox" class="form-checkbox" id="scope-consumables">
+                                <span class="scope-toggle__label">Materials</span>
+                                <span class="scope-toggle__count" id="count-consumables">— items</span>
+                            </label>
+                            <label class="scope-toggle scope-toggle--locked" id="scope-sop-row">
+                                <input type="checkbox" class="form-checkbox" id="scope-sop" disabled>
+                                <span class="scope-toggle__label">SOP Files</span>
+                                <span class="scope-toggle__count" id="scope-sop-note">Not transferable across sites</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="wizard-panel" data-panel="2">
+                        <p class="wizard-panel__hint">Pick the items to bring forward and classify each as carry over or retrofit.</p>
+                        <div class="wizard-items-toolbar">
+                            <div class="form-group form-group--inline">
+                                <input type="text" class="form-input" placeholder="Search items…" data-items-search="lines">
+                            </div>
+                            <div class="wizard-bulk-actions">
+                                <button class="btn-link" data-bulk-action="all-retrofit" data-group="lines">Mark all as Retrofit</button>
+                                <button class="btn-link" data-bulk-action="all-carry" data-group="lines">Mark all Carry Over</button>
+                            </div>
+                        </div>
+                        <div class="table-container wizard-items-table-container">
+                            <table class="table wizard-items-table wizard-items-table--lines">
+                                <thead>
+                                    <tr class="table__row">
+                                        <th class="table__header table__header--checkbox">
+                                            <input type="checkbox" class="form-checkbox" data-master-check="lines">
+                                        </th>
+                                        <th class="table__header table__header--chevron"></th>
+                                        <th class="table__header">Assembly area name</th>
+                                        <th class="table__header">Group</th>
+                                        <th class="table__header">Status</th>
+                                        <th class="table__header">Type</th>
+                                        <th class="table__header">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-items-tbody="lines"></tbody>
+                            </table>
+                        </div>
+                        <div class="wizard-items-footer" data-items-footer="lines">0 of 0 selected</div>
+                    </div>
+
+                    <div class="wizard-panel" data-panel="3">
+                        <p class="wizard-panel__hint">Pick the items to bring forward and classify each as carry over or retrofit.</p>
+                        <div class="wizard-items-toolbar">
+                            <div class="form-group form-group--inline">
+                                <input type="text" class="form-input" placeholder="Search items…" data-items-search="equipment">
+                            </div>
+                            <div class="wizard-bulk-actions">
+                                <button class="btn-link" data-bulk-action="all-retrofit" data-group="equipment">Mark all as Retrofit</button>
+                                <button class="btn-link" data-bulk-action="all-carry" data-group="equipment">Mark all Carry Over</button>
+                            </div>
+                        </div>
+                        <div class="table-container wizard-items-table-container">
+                            <table class="table wizard-items-table wizard-items-table--equipment">
+                                <thead>
+                                    <tr class="table__row">
+                                        <th class="table__header table__header--checkbox">
+                                            <input type="checkbox" class="form-checkbox" data-master-check="equipment">
+                                        </th>
+                                        <th class="table__header">Tools name</th>
+                                        <th class="table__header">Short name</th>
+                                        <th class="table__header">Eng Intent</th>
+                                        <th class="table__header">MP Intent</th>
+                                        <th class="table__header">Description</th>
+                                        <th class="table__header">Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-items-tbody="equipment"></tbody>
+                            </table>
+                        </div>
+                        <div class="wizard-items-footer" data-items-footer="equipment">0 of 0 selected</div>
+                    </div>
+
+                    <div class="wizard-panel" data-panel="4">
+                        <p class="wizard-panel__hint">Pick the items to bring forward and classify each as carry over or retrofit.</p>
+                        <div class="wizard-items-toolbar">
+                            <div class="form-group form-group--inline">
+                                <input type="text" class="form-input" placeholder="Search items…" data-items-search="consumables">
+                            </div>
+                            <div class="wizard-bulk-actions">
+                            </div>
+                        </div>
+                        <div class="table-container wizard-items-table-container">
+                            <table class="table wizard-items-table wizard-items-table--consumables">
+                                <thead>
+                                    <tr class="table__row">
+                                        <th class="table__header table__header--checkbox">
+                                            <input type="checkbox" class="form-checkbox" data-master-check="consumables">
+                                        </th>
+                                        <th class="table__header">Application name</th>
+                                        <th class="table__header">Material name</th>
+                                        <th class="table__header">Eng Intent</th>
+                                        <th class="table__header">MP Intent</th>
+                                        <th class="table__header">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-items-tbody="consumables"></tbody>
+                            </table>
+                        </div>
+                        <div class="wizard-items-footer" data-items-footer="consumables">0 of 0 selected</div>
+                    </div>
+
+                    <div class="wizard-panel" data-panel="5">
+                        <p class="wizard-panel__hint">Confirm the selection below. Indexing can only happen once on this project phase.</p>
+
+                        <div class="wizard-review-route" id="review-route">
+                            <div>
+                                <span class="wizard-route-card__label">Source</span>
+                                <span class="wizard-route-card__value" id="review-source">—</span>
+                            </div>
+                            <lucide-icon name="arrow.right" class="wizard-route-card__arrow"></lucide-icon>
+                            <div>
+                                <span class="wizard-route-card__label">Destination</span>
+                                <span class="wizard-route-card__value" id="review-destination">—</span>
+                            </div>
+                        </div>
+
+                        <div class="wizard-review-grid" id="review-grid"></div>
+
+                        <div class="wizard-review-warnings" id="review-warnings"></div>
+                    </div>
+                </div>
+
+                <div class="modal__footer wizard__footer">
+                    <button class="btn btn--link btn--medium" id="wizard-cancel">Cancel</button>
+                    <div class="wizard__footer-spacer"></div>
+                    <button class="btn btn--secondary btn--medium" id="wizard-back" hidden>Back</button>
+                    <button class="btn btn--primary btn--medium" id="wizard-next">Next</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Handlebars templates: SIBLINGS of page-content (HTML5 forbids nested <script>) -->
+    <script id="sites-row-template" type="text/x-handlebars-template">
+        {{#each sites}}
+        <div class="sites-table__row{{#if indexed}} sites-table__row--indexed{{/if}}">
+            <div class="sites-table__cell sites-table__cell--site">{{code}}</div>
+            <div class="sites-table__cell sites-table__cell--alias">{{alias}}</div>
+            <div class="sites-table__cell sites-table__cell--build">
+                <span class="build-flow">
+                    {{#each buildEvents}}<span class="build-flow__event{{#if locked}} build-flow__event--locked{{/if}}">{{name}}</span>{{#unless @last}}<lucide-icon name="arrow.right" class="build-flow__arrow"></lucide-icon>{{/unless}}{{/each}}
+                </span>
+                <button class="edit-link" data-edit-build-schedule="{{code}}">
+                    <lucide-icon name="pencil" class="edit-link__icon"></lucide-icon>
+                    {{#if indexed}}Indexed{{else}}Edit{{/if}}
+                </button>
+            </div>
+            <div class="sites-table__cell sites-table__cell--users">
+                <button class="edit-link">
+                    <lucide-icon name="pencil" class="edit-link__icon"></lucide-icon> Edit
+                </button>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="users-row-template" type="text/x-handlebars-template">
+        {{#each users}}
+        <div class="users-table__row">
+            <div class="users-table__cell users-table__cell--name"><a href="#" class="user-link">{{name}}</a></div>
+            <div class="users-table__cell">{{userId}}</div>
+            <div class="users-table__cell">{{company}}</div>
+            <div class="users-table__cell users-table__cell--access">
+                {{access}}
+                {{#if accessInfo}}<lucide-icon name="info.circle" class="users-table__info"></lucide-icon>{{/if}}
+            </div>
+            <div class="users-table__cell users-table__cell--dept"><span class="users-dept-select">{{userDept}}</span></div>
+            <div class="users-table__cell users-table__cell--remove">
+                {{#if removable}}<button class="users-remove-btn" aria-label="Remove user"><lucide-icon name="minus.circle.fill"></lucide-icon></button>{{else}}<lucide-icon name="info.circle" class="users-table__info"></lucide-icon>{{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="bs-row-template" type="text/x-handlebars-template">
+        {{#each events}}
+        <div class="bs-table__row{{#if locked}} bs-table__row--locked{{/if}}">
+            <div class="bs-table__cell bs-table__cell--handle">
+                {{#if locked}}<lucide-icon name="lock.fill"></lucide-icon>{{else}}<lucide-icon name="line.3.horizontal" class="bs-table__handle"></lucide-icon>{{/if}}
+            </div>
+            <div class="bs-table__cell bs-table__cell--name">
+                <input type="text" class="form-input form-input--table-cell bs-input" value="{{name}}" {{#if locked}}readonly placeholder="{{name}}"{{/if}}>
+            </div>
+            <div class="bs-table__cell bs-table__cell--status">
+                {{#if active}}<span class="bs-status-tag">Active</span>{{/if}}
+            </div>
+            <div class="bs-table__cell">
+                <input type="text" class="form-input form-input--table-cell bs-input" placeholder="TBD">
+            </div>
+            <div class="bs-table__cell">
+                <input type="text" class="form-input form-input--table-cell bs-input" placeholder="TBD">
+            </div>
+            <div class="bs-table__cell">
+                <input type="text" class="form-input form-input--table-cell bs-input" placeholder="TBD">
+            </div>
+            <div class="bs-table__cell">
+                <input type="text" class="form-input form-input--table-cell bs-input" placeholder="TBD">
+            </div>
+            <div class="bs-table__cell">
+                <input type="text" class="form-input form-input--table-cell bs-input" placeholder="TBD">
+            </div>
+            <div class="bs-table__cell bs-table__cell--pf">
+                <span class="bs-pf-tag bs-pf-tag--{{lowercase pfStatus}}">{{pfStatus}}</span>
+            </div>
+            <div class="bs-table__cell bs-table__cell--gear">
+                {{#if locked}}<lucide-icon name="info.circle" class="bs-table__info"></lucide-icon>{{else}}<lucide-icon name="gearshape" class="bs-table__gear"></lucide-icon>{{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="lines-row-template" type="text/x-handlebars-template">
+        {{#each items}}
+        <tr class="table__row wizard-item-row wizard-item-row--parent" data-item-row="lines-{{id}}">
+            <td class="table__cell table__cell--checkbox">
+                <input type="checkbox" class="form-checkbox" data-item-check="lines" data-item-id="{{id}}" {{#if selected}}checked{{/if}}>
+            </td>
+            <td class="table__cell table__cell--chevron">
+                <button class="wizard-row-chevron{{#if expanded}} is-expanded{{/if}}" data-toggle-stations="lines-{{id}}" aria-label="Expand workstations" type="button">
+                    <lucide-icon name="chevron.right"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell">
+                <div class="wizard-item-row__primary">{{name}}</div>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag">Group {{group}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag">{{status}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag">{{type}}</span>
+            </td>
+            <td class="table__cell wizard-item-row__description">{{description}}</td>
+        </tr>
+        <tr class="table__row wizard-station-subheader" data-station-of="lines-{{id}}" {{#unless expanded}}hidden{{/unless}}>
+            <td class="table__cell table__cell--checkbox">
+                <input type="checkbox" class="form-checkbox" data-station-master="lines" data-station-line="{{id}}">
+            </td>
+            <td class="table__cell wizard-station-subheader__cell wizard-station-subheader__cell--name" colspan="2">Workstation name</td>
+            <td class="table__cell wizard-station-subheader__cell">Workstation type</td>
+            <td class="table__cell wizard-station-subheader__cell">Eng intent</td>
+            <td class="table__cell wizard-station-subheader__cell">MP intent</td>
+            <td class="table__cell wizard-station-subheader__cell">Revision Category</td>
+        </tr>
+        {{#each stations}}
+        <tr class="table__row wizard-station-row" data-station-of="lines-{{lineId}}" data-station-id="{{id}}" {{#unless ../expanded}}hidden{{/unless}}>
+            <td class="table__cell table__cell--checkbox">
+                <input type="checkbox" class="form-checkbox" data-station-check="lines" data-station-line="{{lineId}}" data-station-id="{{id}}" {{#if selected}}checked{{/if}}>
+            </td>
+            <td class="table__cell wizard-station-row__name" colspan="2">
+                <div class="wizard-station-row__primary">{{name}}</div>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--discipline-{{lowercase discipline}}">{{discipline}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass engIntent}}" data-intent-label="Eng">{{engIntent}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass mpIntent}}" data-intent-label="MP">{{mpIntent}}</span>
+            </td>
+            <td class="table__cell">
+                <select class="wizard-class-select" data-station-class="lines" data-station-line="{{lineId}}" data-station-id="{{id}}" aria-label="Revision Category">
+                    <option value="carry" {{#unless retrofit}}selected{{/unless}}>Carry Over</option>
+                    <option value="retrofit" {{#if retrofit}}selected{{/if}}>Retrofit</option>
+                </select>
+            </td>
+        </tr>
+        {{/each}}
+        {{/each}}
+    </script>
+
+    <script id="equipment-row-template" type="text/x-handlebars-template">
+        {{#each items}}
+        <tr class="table__row wizard-item-row" data-item-row="equipment-{{id}}">
+            <td class="table__cell table__cell--checkbox">
+                <input type="checkbox" class="form-checkbox" data-item-check="equipment" data-item-id="{{id}}" {{#if selected}}checked{{/if}}>
+            </td>
+            <td class="table__cell">
+                <div class="wizard-item-row__primary">{{name}}</div>
+            </td>
+            <td class="table__cell">
+                <span class="wizard-item-row__short">{{shortName}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass engIntent}}">{{engIntent}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass mpIntent}}">{{mpIntent}}</span>
+            </td>
+            <td class="table__cell wizard-item-row__description">{{description}}</td>
+            <td class="table__cell">
+                <select class="wizard-class-select" data-item-class="equipment" data-item-id="{{id}}" aria-label="Classification">
+                    <option value="carry" {{#unless retrofit}}selected{{/unless}}>Carry Over</option>
+                    <option value="retrofit" {{#if retrofit}}selected{{/if}}>Retrofit</option>
+                </select>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script id="consumables-row-template" type="text/x-handlebars-template">
+        {{#each items}}
+        <tr class="table__row wizard-item-row" data-item-row="consumables-{{id}}">
+            <td class="table__cell table__cell--checkbox">
+                <input type="checkbox" class="form-checkbox" data-item-check="consumables" data-item-id="{{id}}" {{#if selected}}checked{{/if}}>
+            </td>
+            <td class="table__cell">
+                <div class="wizard-item-row__primary">{{applicationName}}</div>
+            </td>
+            <td class="table__cell">
+                <div class="wizard-item-row__primary">{{name}}</div>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass engIntent}}">{{engIntent}}</span>
+            </td>
+            <td class="table__cell">
+                <span class="meta-tag meta-tag--intent-{{intentClass mpIntent}}">{{mpIntent}}</span>
+            </td>
+            <td class="table__cell wizard-item-row__description">{{description}}</td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script id="review-card-template" type="text/x-handlebars-template">
+        {{#each groups}}
+        <div class="wizard-review-card">
+            <div class="wizard-review-card__head">
+                <h5 class="wizard-review-card__title">{{title}}</h5>
+                <button class="btn-link wizard-review-card__edit" data-review-edit="{{step}}">Edit</button>
+            </div>
+            {{#if disabled}}
+            <p class="wizard-review-card__disabled">Excluded from this index</p>
+            {{else if simple}}
+            <div class="wizard-review-card__counts">
+                <div class="wizard-review-card__count">
+                    <span class="wizard-review-card__count-value">{{selectedCount}}</span>
+                    <span class="wizard-review-card__count-label">Selected</span>
+                </div>
+                <div class="wizard-review-card__count wizard-review-card__count--muted">
+                    <span class="wizard-review-card__count-value">{{excluded}}</span>
+                    <span class="wizard-review-card__count-label">Excluded</span>
+                </div>
+            </div>
+            {{else}}
+            <div class="wizard-review-card__counts">
+                <div class="wizard-review-card__count">
+                    <span class="wizard-review-card__count-value">{{carry}}</span>
+                    <span class="wizard-review-card__count-label">Carry Over</span>
+                </div>
+                <div class="wizard-review-card__count">
+                    <span class="wizard-review-card__count-value">{{retrofit}}</span>
+                    <span class="wizard-review-card__count-label">Retrofit</span>
+                </div>
+                <div class="wizard-review-card__count wizard-review-card__count--muted">
+                    <span class="wizard-review-card__count-value">{{excluded}}</span>
+                    <span class="wizard-review-card__count-label">Excluded</span>
+                </div>
+                {{#if extra}}
+                {{#each extra}}
+                <div class="wizard-review-card__count">
+                    <span class="wizard-review-card__count-value">{{value}}</span>
+                    <span class="wizard-review-card__count-label">{{label}}</span>
+                </div>
+                {{/each}}
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="review-details-template" type="text/x-handlebars-template">
+        {{#each sections}}
+        <div class="review-section">
+            <h5 class="review-section__title">{{title}} <span class="review-section__count">({{count}})</span></h5>
+            {{#if items.length}}
+            <table class="table review-table">
+                <thead>
+                    <tr class="table__row">
+                        {{#each columns}}<th class="table__header">{{this}}</th>{{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each items}}
+                    <tr class="table__row">
+                        {{#each cells}}<td class="table__cell">{{{this}}}</td>{{/each}}
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <p class="review-section__empty">No items selected.</p>
+            {{/if}}
+        </div>
+        {{/each}}
+    </script>
+
+    <!-- Canvas + JS -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/drawer.js"></script>
+    <script src="js/build-schedule-drawer.js"></script>
+    <script src="js/wizard-source.js"></script>
+    <script src="js/wizard-scope.js"></script>
+    <script src="js/wizard-items.js"></script>
+    <script src="js/wizard-review.js"></script>
+    <script src="js/wizard.js"></script>
+    <script src="js/main.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

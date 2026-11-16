@@ -1,0 +1,139 @@
+/* Process Flow — Lines table L2 (fields: cycle time, DRI, SOP, dropdowns, stats). Split from lines-table.css. */
+
+/* Cycle time cell — main value on top, two detail lines below in muted small text */
+.l2__cycle-time {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.2;
+}
+.l2__cycle-main {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+.l2__cycle-detail {
+    font-size: 11px;
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Cycle time row with prefix label + input (Handling CT, Machine CT) */
+.l2__cycle-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.l2__cycle-prefix {
+    font-size: 11px;
+    color: var(--color-glyph-gray-secondary);
+    flex-shrink: 0;
+}
+.l2__cycle-main-input {
+    font-size: var(--font-size-xxs) !important;
+    color: var(--color-glyph-gray);
+}
+.l2__cycle-sub-input {
+    font-size: 11px !important;
+    width: 60px;
+}
+
+/* DRI inputs — show value as accent blue (link-look) by default */
+.l2__dri-input {
+    color: var(--color-base-accent);
+}
+
+/* SOP cell — file-icon link */
+.l2__sop-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-base-accent);
+}
+.l2__sop-link img {
+    filter: brightness(0) saturate(100%) invert(33%) sepia(100%) saturate(1500%) hue-rotate(200deg) brightness(100%);
+}
+
+/* DRI cells — show the assignee name as a blue link */
+.l2__dri-link {
+    color: var(--color-base-accent);
+    text-decoration: none;
+}
+.l2__dri-link:hover { text-decoration: underline; }
+
+/* L2 dropdowns — let the equip-dropdown trigger fill the cell tightly */
+.l2__col-dept .equip-dropdown,
+.l2__col-cm .equip-dropdown,
+.l2__col-metric .equip-dropdown {
+    width: auto;
+    min-width: 100px;
+}
+
+/* Hide the entire UPH..Last Update column range when "Station info" toggle is off.
+ * Affects all relevant column classes (dept, metric, cm) inside the panel's L2 tables. */
+.tabs__panel--no-station-info .l2__col-dept,
+.tabs__panel--no-station-info .l2__col-metric,
+.tabs__panel--no-station-info .l2__col-cm {
+    display: none;
+}
+
+/* When ANY equip-dropdown inside the lines table is open, raise the host row above
+ * subsequent rows so the menu doesn't render behind them. */
+.table--lines tr:has(.equip-dropdown--open),
+.table--lines tr:has(.equip-dropdown--open) td {
+    position: relative;
+    z-index: 100;
+}
+
+/* The specific cell that owns the open dropdown wins over sticky neighbors
+ * (which have their own z-index: 2/3 stacking) and any other row content. */
+.table--lines td:has(.equip-dropdown--open),
+.l2__table td:has(.equip-dropdown--open) {
+    position: relative !important;
+    z-index: 9000 !important;
+}
+
+/* The dropdown wrapper itself also gets a stacking bump so its absolutely
+ * positioned menu has a high reference. */
+.table--lines .equip-dropdown--open,
+.l2__table .equip-dropdown--open {
+    position: relative;
+    z-index: 9500;
+}
+
+/* Every overflow ancestor of the open dropdown must release its clip so the
+ * menu can paint over rows that come after it in document order. */
+.l2:has(.equip-dropdown--open),
+.proj-nested-table__detail-row:has(.equip-dropdown--open),
+.proj-nested-table__detail-row:has(.equip-dropdown--open) > td {
+    overflow: visible !important;
+}
+
+/* Force the menu itself to be 100% opaque (defensive — base rule already
+ * sets #FFFFFF, but some inherited rules try to add transparency). */
+.table--lines .equip-dropdown__menu,
+.l2__table .equip-dropdown__menu {
+    background-color: #FFFFFF !important;
+    z-index: 10000 !important;
+}
+
+/* Reuse equip-input / equip-dropdown styling inside the lines table —
+ * transparent by default, editable look on row hover. */
+.table--lines .table__row:hover .equip-input,
+.table--lines .table__row:hover .equip-dropdown__trigger {
+    background-color: #FFFFFF;
+    border-color: #D9D9D9;
+}
+
+.table--lines .equip-input:focus {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.table--lines .equip-dropdown__trigger:focus,
+.table--lines .equip-dropdown--open .equip-dropdown__trigger {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+

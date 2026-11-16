@@ -1,0 +1,221 @@
+/* ===== Sites table ===== */
+
+.sites-table {
+    width: 100%;
+}
+
+.sites-table__head {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2.4fr 0.8fr;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    border-bottom: 1px solid var(--color-stroke-gray);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: 400;
+}
+
+.sites-table__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2.4fr 0.8fr;
+    gap: var(--space-m);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-stroke-gray);
+    align-items: center;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.sites-table__row--indexed .sites-table__cell--site {
+    color: var(--color-glyph-gray-secondary);
+}
+
+.sites-table__cell {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.sites-table__cell--site {
+    font-weight: 500;
+}
+
+.sites-table__cell--alias {
+    color: var(--color-glyph-gray);
+}
+
+.sites-table__cell--build {
+    flex-wrap: wrap;
+    gap: var(--space-s);
+}
+
+.sites-table__cell--users {
+    justify-content: flex-end;
+}
+
+.sites-table__add {
+    background: none;
+    border: none;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.sites-table__info {
+    color: var(--color-glyph-gray-secondary);
+    font-size: 14px;
+}
+
+/* Build flow (events with arrows) */
+.build-flow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    color: var(--color-glyph-gray);
+}
+
+.build-flow__event {
+    font-size: var(--font-size-xxs);
+}
+
+.build-flow__event--locked {
+    color: var(--color-glyph-gray);
+}
+
+.build-flow__arrow {
+    color: var(--color-glyph-gray-secondary);
+    font-size: 12px;
+}
+
+/* Edit link with pencil icon */
+.edit-link {
+    background: none;
+    border: none;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    font-size: var(--font-size-xxs);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+.edit-link__icon {
+    font-size: 12px;
+    color: var(--color-base-accent);
+}
+
+/* ===== Program Users tab ===== */
+
+.users-toolbar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+}
+
+.users-toolbar__filter {
+    position: relative;
+    margin: 0;
+}
+
+.users-toolbar__filter .form-input {
+    padding-right: 32px;
+}
+
+.users-toolbar__icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-secondary);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.users-table {
+    width: 100%;
+}
+
+.users-table__head {
+    display: grid;
+    grid-template-columns: 1.4fr 1.2fr 1.2fr 1.6fr 1.2fr 40px;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    border-bottom: 1px solid var(--color-stroke-gray);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.users-table__row {
+    display: grid;
+    grid-template-columns: 1.4fr 1.2fr 1.2fr 1.6fr 1.2fr 40px;
+    gap: var(--space-m);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-stroke-gray);
+    align-items: center;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.users-table__cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.users-table__cell--access {
+    color: var(--color-glyph-gray);
+}
+
+.users-table__add {
+    background: none;
+    border: none;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+.users-table__info {
+    color: var(--color-base-accent);
+    font-size: 14px;
+}
+
+.user-link {
+    color: var(--color-base-accent);
+    text-decoration: none;
+}
+
+.user-link:hover {
+    text-decoration: underline;
+}
+
+.users-dept-select {
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+}
+
+.users-remove-btn {
+    background: none;
+    border: none;
+    color: #d32f2f;
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    display: flex;
+}
+

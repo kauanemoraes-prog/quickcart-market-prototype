@@ -1,0 +1,12 @@
+# Plugin Components Index
+
+| Component | File | CSS | JS | Variants | Notes |
+|-----------|------|-----|-----|----------|-------|
+| **Nested Table** | [`proj-nested-table.html`](proj-nested-table.html) | [`proj-nested-table.css`](proj-nested-table.css) | [`proj-nested-table.js`](proj-nested-table.js) | base | Expandable multilevel table — L1 rows expand to L2 detail panels. Factory: `ProjNestedTable.create(config)` |
+| **Timeline** | [`proj-timeline.html`](proj-timeline.html) | [`proj-timeline.css`](proj-timeline.css) | [`proj-timeline.js`](proj-timeline.js) | base | Horizontal read-only milestone timeline with progress line. Factory: `ProjTimeline.create(config)` |
+| **Right Toolbar** | [`proj-right-toolbar.html`](proj-right-toolbar.html) | [`proj-right-toolbar.css`](proj-right-toolbar.css) | [`proj-right-toolbar.js`](proj-right-toolbar.js) | base | Fixed right-side collapsible toolbar (30px→300px). Auto-init: `ProjRightToolbar.init()`. Default items include Settings (gear) and Dark Mode (moon). |
+| **Tooltip** | [`proj-tooltip.html`](proj-tooltip.html) | [`proj-tooltip.css`](proj-tooltip.css) | — | top, bottom, left, right | Hover tooltip via `data-proj-tooltip="text"` (CSS-only, no JS) |
+| **Progress Drawer** | [`proj-progress-drawer.html`](proj-progress-drawer.html) | [`proj-progress-drawer.css`](proj-progress-drawer.css) | [`proj-progress-drawer.js`](proj-progress-drawer.js) | base | Bottom-anchored drawer for long-running operations. Non-dismissible while running. API: `window.ProjProgressDrawer.show(config)` |
+| **Dark Mode** | — (no HTML) | [`proj-dark-mode.css`](proj-dark-mode.css) | inlined in `plugins.js` | n/a | Global theme toggle. Adds `.dark-mode` class on `<html>`, persisted to `localStorage` (`davinci:dark-mode`). Toggle via `window.ProjDarkMode.toggle()` or click the moon item in `proj-right-toolbar`. Color tokens `--dm-bg-1`..`--dm-bg-5`, `--dm-text-1`..`--dm-text-4`, `--dm-accent` available inside `.dark-mode`. |
+| **Station Settings Drawer** | [`proj-station-settings-drawer.html`](proj-station-settings-drawer.html) | [`proj-station-settings-drawer.css`](proj-station-settings-drawer.css) | [`proj-station-settings-drawer.js`](proj-station-settings-drawer.js) | base | Right-side drawer for editing a station (name, key part, department, intents, reporting method, environment, SOP file + upload history). Auto-mounted on first open. API: `window.ProjStationSettingsDrawer.open({ stationName, stationId, lineId })`. |
+

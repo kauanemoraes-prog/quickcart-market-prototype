@@ -1,0 +1,36 @@
+component: table
+summary: "Displays structured tabular data, with optional per-column sorting and filtering."
+anatomy:
+  - {id: container,      required: true,  role: "scroll wrapper enabling responsive horizontal scroll"}
+  - {id: table,          required: true,  role: "the semantic table root"}
+  - {id: head,           required: true,  role: "column-header region"}
+  - {id: header-row,     required: true,  role: "the row of column headers"}
+  - {id: column-header,  required: true,  multiple: true, role: "one labelled header per column; sortable AND filterable by default — a column drops either capability only for a stated reason (e.g. a purely presentational or action column)", capabilities: [sortable, filterable]}
+  - {id: sort-indicator, required: true,   role: "asc/desc direction affordance on each sortable header; marks the active direction. Ships by default — sorting is baseline and free to wire (the design system auto-handles it)"}
+  - {id: filter-control, required: true, role: "filter trigger on each filterable header; the consumer implements the filtering. Ships by default — the affordance is free (behavior is a placeholder)"}
+  - {id: body,           required: true,  role: "data-row region"}
+  - {id: row,            required: true,  multiple: true, role: "one row per record"}
+  - {id: cell,           required: true,  multiple: true, role: "one cell per column"}
+  - {id: empty-state,    required: "if rows == 0",  role: "shown ONLY when zero rows render — whether the dataset was filtered down to nothing OR the table never had any data; mutually exclusive with data rows, never displayed alongside populated rows"}
+  - {id: pagination,     required: "if rows > pageSize", role: "page controls plus a range status; present whenever the dataset exceeds one page"}
+states: [default, loading, empty, error, row-selected?, sort-ascending?, sort-descending?, filter-active?]
+behaviors:
+  sort:     "activating a sortable header sorts by that column and toggles asc/desc/none; only one active sort indicator at a time"
+  filter:   "a filterable header exposes a filter trigger; activating it must not trigger the column sort"
+  paginate: "when rows exceed one page, page controls update the visible rows and a status reflects the range"
+  empty:    "the empty-state replaces the data rows only when the row count is zero — either because a filter/search matched nothing OR the table has no data at all; it is hidden the moment any row renders, and is never shown below or alongside populated rows"
+a11y:
+  - "use native table/thead/tbody/tr/th/td (or equivalent table roles); never generic divs"
+  - "a sortable header exposes aria-sort reflecting the active direction"
+  - "sort-direction glyphs carry an accessible label; decorative wrappers are aria-hidden"
+  - "column headers are programmatically associated with their cells"
+heuristics:
+  - {id: system-status, source: nielsen,   rule: "an async table must be able to render loading, empty AND error", verify: [checklist, dom]}
+  - {id: empty-exclusive, source: nielsen,  rule: "the empty-state is rendered only when the row count is zero (filtered-to-nothing or no data at all); if any data row renders, no empty-state is present in the DOM", verify: [checklist, dom]}
+  - {id: user-control,  source: nielsen,   rule: "any applied sort or filter is visible and clearable", verify: [dom]}
+  - {id: recognition,   source: nielsen,   rule: "every column has a visible text label", verify: [checklist, dom]}
+  - {id: sortable-filterable-baseline, source: nielsen, rule: "every data column ships a sort-indicator and a filter-control by default (both are free to render); a column omits either only for a stated reason", verify: [checklist, dom]}
+  - {id: paginate-when-overflowing, source: nielsen, rule: "count the rows to be rendered; a dataset larger than one page must expose pagination with a visible range status", verify: [checklist, dom]}
+  - {id: hit-target,    source: apple-hig, rule: "sort and filter controls meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, animation, cell alignment, glyph artwork]

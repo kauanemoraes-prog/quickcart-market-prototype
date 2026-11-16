@@ -1,0 +1,263 @@
+/* PCN table — editable fields, file links, date pickers, created-by, implementation date, approval buttons. Split from pcn-table.css. */
+
+/* Editable field styling */
+.pcn-editable {
+    width: 100%;
+    min-width: 200px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+    font-family: inherit;
+    resize: vertical;
+    min-height: 36px;
+}
+
+.pcn-editable:hover {
+    background-color: #F5F5F5;
+    border-color: var(--color-fill-gray-quaternary);
+}
+
+.pcn-editable:focus {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.pcn-editable::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+/* Non-editable text */
+.pcn-text {
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+}
+
+/* File upload link */
+.pcn-file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-base-accent);
+    text-decoration: none;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-basic);
+}
+
+.pcn-file-link:hover {
+    text-decoration: underline;
+}
+
+.pcn-file-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Date picker styling */
+.pcn-needed-by {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.pcn-needed-by__icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.pcn-needed-by__icon--due-soon {
+    /* Orange — matches the user's reference (orange bell) */
+    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(2127%) hue-rotate(2deg) brightness(101%) contrast(101%);
+}
+
+.pcn-needed-by__icon--overdue {
+    /* Red — matches the user's reference (red bell) */
+    filter: brightness(0) saturate(100%) invert(20%) sepia(91%) saturate(7470%) hue-rotate(360deg) brightness(95%) contrast(110%);
+}
+
+.pcn-date-picker {
+    width: 100%;
+    min-width: 140px;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    background-color: #FFFFFF;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.pcn-date-picker:hover {
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+.pcn-date-picker:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+/* Created by styling */
+.pcn-created-by {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.pcn-created-by .avatar {
+    flex-shrink: 0;
+}
+
+.pcn-created-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pcn-created-name {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+}
+
+.pcn-created-date {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Implementation date dropdown + text field */
+.pcn-implementation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.pcn-implementation-select {
+    width: 100%;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    background-color: #FFFFFF;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.pcn-implementation-select:hover {
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+.pcn-implementation-select:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.pcn-implementation-text {
+    width: 100%;
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border-radius: var(--space-xs);
+    transition: var(--transition-basic);
+    font-family: inherit;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.pcn-implementation-text:hover {
+    background-color: #F5F5F5;
+    border-color: var(--color-fill-gray-quaternary);
+}
+
+.pcn-implementation-text:focus {
+    outline: none;
+    background-color: #FFFFFF;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.pcn-implementation-text::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+/* Approval buttons */
+.pcn-approval-buttons {
+    display: flex;
+    gap: var(--space-s);
+    justify-content: center;
+}
+
+.pcn-approval-buttons .btn {
+    min-width: 80px;
+}
+
+/* Checkbox outline color override */
+.table--pcn .checkbox__box {
+    border-color: var(--outline-color, #B6B7BD);
+}
+
+/* ========================================
+   PCN bulk-action bar (Approve / Reject / Cancel)
+   Sits OUTSIDE the table-wrapper — full container width, doesn't scroll with the table.
+   Shown below the toolbar / above the table when one or more PCNs are selected.
+   ======================================== */
+.pcn-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-mp);
+    background-color: var(--color-fill-secondary);
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.pcn-actions__count {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+    margin-right: var(--space-xs);
+}
+
+.pcn-actions__approve,
+.pcn-actions__reject,
+.pcn-actions__cancel {
+    border: 1px solid transparent;
+    padding: 6px 14px;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--space-xs);
+    cursor: pointer;
+}
+
+.pcn-actions__approve {
+    background-color: #03A10E;
+    color: #FFFFFF;
+}
+.pcn-actions__approve:hover { background-color: #028C0C; }
+
+.pcn-actions__reject {
+    background-color: #E30000;
+    color: #FFFFFF;
+}
+.pcn-actions__reject:hover { background-color: #C70000; }
+
+.pcn-actions__cancel {
+    background-color: #E8E8ED;
+    color: var(--color-glyph-gray);
+}
+.pcn-actions__cancel:hover { background-color: #DCDCE0; }
+

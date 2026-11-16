@@ -1,0 +1,61 @@
+/* Carbon (IBM, White theme) overrides on top of Monalisa: colors, font and corner radii only.
+ * No layout, spacing or markup changes. Loaded last; scoped to light mode.
+ * Values are from Carbon's published White theme tokens. */
+:root:not(.dark-mode) {
+  --font-family: "IBM Plex Sans", -apple-system, -apple-system-font, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-main: var(--font-family);
+
+  /* Interactive: Blue 60 */
+  --color-base-accent: #7180AC;
+  --color-base-accent-darker-1: #6674A0;
+  --color-base-accent-darker-2: #5C6A94;
+  --color-base-accent-lighter-1: #EDF5FF;
+  --color-base-accent-lighter-2: #F4F8FF;
+  --color-base-accent-lighter-3: #B5BDD6;
+  --color-fill-blue: #7180AC;
+  --color-fill-blue-hover: #6674A0;
+  --color-fill-blue-active: #5C6A94;
+  --color-fill-blue-secondary: #EDF5FF;
+  --color-fill-blue-lighter: #EDF5FF;
+  --color-glyph-blue: #7180AC;
+
+  /* Layers and neutrals (Gray 10 to Gray 100) */
+  --color-fill-secondary: #F4F4F4;
+  --color-fill-tertiary: #F4F4F4;
+  --color-fill-gray: #161616;
+  --color-fill-gray-secondary: #6F6F6F;
+  --color-fill-gray-secondary-alt: #A8A8A8;
+  --color-fill-gray-tertiary: #C6C6C6;
+  --color-fill-gray-quaternary: #E0E0E0;
+  --color-fill-gray-solid: #8D8D8D;
+
+  /* Text */
+  --color-glyph-gray: #161616;
+  --color-glyph-gray-secondary: #525252;
+  --color-glyph-gray-tertiary: #6F6F6F;
+
+  /* Status */
+  --color-fill-green: #24A148;
+  --color-glyph-green: #198038;
+  --color-fill-red: #DA1E28;
+  --color-fill-red-hover: #BA1B23;
+  --color-fill-red-active: #750E13;
+  --color-fill-red-secondary: #FFF1F1;
+  --color-fill-red-lighter: #FFD7D9;
+  --color-glyph-red: #DA1E28;
+  --color-fill-yellow: #F1C21B;
+  --color-fill-yellow-tertiary: #F1C21B;
+  --color-fill-yellow-quaternary: #8E6A00;
+  --color-glyph-yellow: #8E6A00;
+  --color-fill-orange: #FF832B;
+  --color-glyph-orange: #BA4E00;
+}
+
+/* Carbon is square-cornered */
+:root:not(.dark-mode) .btn,
+:root:not(.dark-mode) input:not([type="checkbox"]):not([type="radio"]),
+:root:not(.dark-mode) select,
+:root:not(.dark-mode) textarea,
+:root:not(.dark-mode) .modal,
+:root:not(.dark-mode) .card,
+:root:not(.dark-mode) .drawer { border-radius: 0; }

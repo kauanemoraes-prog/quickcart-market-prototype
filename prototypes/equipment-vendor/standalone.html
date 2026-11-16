@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Vendor - Standalone</title>
+    <link rel="stylesheet" href="../../.davinci/assets/design-system/dist/css/design-system.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=51">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=1">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=2"></script>
+    <script src="../presence.js?v=2"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <div class="equipment-vendor-page">
+        <div class="page-section">
+            <h1>Tools Vendor</h1>
+            
+            <!-- Vendor Card -->
+            <div class="vendor-card-container">
+                <div class="card vendor-card">
+                    <div class="card__header">
+                        <div class="vendor-card__header-content">
+                            <div class="form-group vendor-name-group">
+                                <input type="text" id="vendor-name" class="form-input vendor-name-input" value="ACME Corporation" placeholder="Vendor Name">
+                            </div>
+                            <label class="switch switch--small">
+                                <input type="checkbox" class="switch__input vendor-enable-toggle" checked>
+                                <span class="switch__slider"></span>
+                                <span class="switch__label">Enabled</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card__body">
+                        <div class="vendor-compact-grid">
+                            <!-- Grid items - 2 columns layout with floating labels -->
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="vendor-dri">Vendor DRI</label>
+                                <input type="text" id="vendor-dri" class="form-input" value="John Smith" placeholder="Enter Vendor DRI">
+                            </div>
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="eng-intent">ENG Intent</label>
+                                <input type="text" id="eng-intent" class="form-input" value="Sarah Johnson" placeholder="Enter ENG Intent">
+                            </div>
+                            
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="mp-intent">MP Intent</label>
+                                <input type="text" id="mp-intent" class="form-input" value="Manufacturing" placeholder="Enter MP Intent">
+                            </div>
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="design-manager">Design Manager</label>
+                                <input type="text" id="design-manager" class="form-input" value="Mike Chen" placeholder="Enter Design Manager">
+                            </div>
+                            
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="line-side">Assembly area</label>
+                                <input type="text" id="line-side" class="form-input" value="Production A" placeholder="Enter Assembly area">
+                            </div>
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="aqid">AQID</label>
+                                <input type="text" id="aqid" class="form-input" value="AQ-2024-001" placeholder="Enter AQID">
+                            </div>
+                            
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="vendor-pn">VPN</label>
+                                <input type="text" id="vendor-pn" class="form-input" value="789456" placeholder="Enter VPN">
+                            </div>
+                            <div class="form-group form-group--medium compact-field">
+                                <label class="form-label" for="cm-pn">CM PN</label>
+                                <input type="text" id="cm-pn" class="form-input" value="123789" placeholder="Enter CM PN">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../.davinci/assets/design-system/dist/js/design-system.min.js"></script>
+    <script src="js/main-standalone.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

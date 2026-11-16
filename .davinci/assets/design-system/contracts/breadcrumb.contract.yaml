@@ -1,0 +1,23 @@
+component: breadcrumb
+summary: "Shows the current page's position within the site hierarchy as an ordered trail of ancestor links ending in the current page."
+anatomy:
+  - {id: nav,       required: true,  role: "the breadcrumb navigation landmark region"}
+  - {id: item,      required: true,  multiple: true, role: "one step in the hierarchy trail"}
+  - {id: link,      required: "for every item except the last", role: "a clickable ancestor destination"}
+  - {id: current,   required: true,  role: "the last item, representing the current page; not a link"}
+  - {id: separator, required: "between adjacent items", multiple: true, role: "visual divider between steps; not present after the last item"}
+states: [default, hover?, focus?, current?]
+behaviors:
+  navigate: "activating an ancestor link navigates to that level of the hierarchy"
+a11y:
+  - "wrapped in a nav landmark with an accessible name such as aria-label=Breadcrumb"
+  - "the trail is exposed as an ordered list so order and position are announced"
+  - "the last item represents the current page and exposes aria-current=page and is not a link"
+  - "separators are decorative and aria-hidden so they are not announced as content"
+heuristics:
+  - {id: match-system, source: nielsen,   rule: "the trail reflects the actual page hierarchy and marks where the user is", verify: [checklist, dom]}
+  - {id: recognition,  source: nielsen,   rule: "each step has a visible text label", verify: [dom]}
+  - {id: hit-target,   source: apple-hig, rule: "ancestor links meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: current-page, note: "the final item is the current page and is non-interactive, distinguishing it structurally from the ancestor links"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, separator glyph artwork, gap sizing]

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Landing Page - DaVinci</title>
+    <!-- Prototype-specific CSS. MDS + canvas CSS auto-load via the canvas script below. -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- App container — canvas injects header, main, and footer here. -->
+    <div id="app"></div>
+
+    <!-- 1. PAGE CONTENT: structure only. NO nested <script> tags inside this script. -->
+    <script id="page-content" type="text/html">
+        <!-- Subheader is auto-rendered from canvas-navigation-data.json. Do not add one here. -->
+        <div class="help-landing-page">
+
+            <!-- HERO: gradient banner with title, search and popular-search chips -->
+            <section class="help-hero">
+                <div class="help-hero__inner">
+                    <img class="help-hero__logo" src="../../.davinci/assets/icons/regular/atom.svg" alt="" width="56" height="56">
+                    <h1 class="help-hero__title">How can we help you today?</h1>
+                    <p class="help-hero__subtitle">Search the user guide, browse categories, or jump into a tutorial.</p>
+                    <div class="form-group form-group--medium help-hero__search">
+                        <label class="form-label" for="help-search">Search</label>
+                        <input type="text" id="help-search" class="form-input" placeholder="Type and search...">
+                    </div>
+                    <div class="help-hero__chips">
+                        <span class="help-hero__chips-label">Popular:</span>
+                        <a class="help-chip" href="#">Equipment Import</a>
+                        <a class="help-chip" href="#">PCN Approval</a>
+                        <a class="help-chip" href="#">Roles &amp; Permissions</a>
+                        <a class="help-chip" href="#">Build Versions</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BENTO SPOTLIGHT: 1 large featured + 2 stacked small -->
+            <section class="help-bento">
+
+                <a class="help-bento__featured" href="#">
+                    <span class="help-bento__eyebrow">
+                        <img src="../../.davinci/assets/icons/regular/sparkles.svg" alt="" width="14" height="14">
+                        Featured guide
+                    </span>
+                    <h2 class="help-bento__title">Getting started with Apple Core in 10 minutes</h2>
+                    <p class="help-bento__description">
+                        A guided walkthrough covering programs, equipment, stations and your first publish — built for new CM users.
+                    </p>
+                    <span class="help-bento__cta">
+                        Read the guide
+                        <img src="../../.davinci/assets/icons/regular/arrow-right.svg" alt="" width="14" height="14">
+                    </span>
+                </a>
+
+                <a class="help-bento__side help-bento__side--accent" href="#">
+                    <span class="help-bento__eyebrow help-bento__eyebrow--light">
+                        <img src="../../.davinci/assets/icons/regular/bell.svg" alt="" width="12" height="12" style="filter: brightness(0) invert(1);">
+                        What's new
+                    </span>
+                    <h3 class="help-bento__side-title">Q2 release notes</h3>
+                    <p class="help-bento__side-text">User impersonation, build speedup and dead-parts cleanup.</p>
+                </a>
+
+                <a class="help-bento__side" href="#">
+                    <span class="help-bento__eyebrow">
+                        <img src="../../.davinci/assets/icons/regular/play.svg" alt="" width="12" height="12">
+                        Most watched
+                    </span>
+                    <h3 class="help-bento__side-title">Importing your first equipment list</h3>
+                    <p class="help-bento__side-text">4-min walkthrough · 1.2k views</p>
+                </a>
+
+            </section>
+
+            <!-- CATEGORIES: 4-column icon cards -->
+            <section class="help-categories">
+                <div class="help-section-head">
+                    <h2 class="help-section-head__title">Browse by category</h2>
+                    <a class="help-section-head__link" href="#">View all</a>
+                </div>
+                <div class="help-categories__grid">
+                    <a class="help-category" href="#">
+                        <span class="help-category__icon">
+                            <img src="../../.davinci/assets/icons/regular/folder.svg" alt="" width="22" height="22">
+                        </span>
+                        <span class="help-category__title">Programs</span>
+                        <span class="help-category__count">12 articles</span>
+                    </a>
+                    <a class="help-category" href="#">
+                        <span class="help-category__icon">
+                            <img src="../../.davinci/assets/icons/regular/cube.svg" alt="" width="22" height="22">
+                        </span>
+                        <span class="help-category__title">Equipment</span>
+                        <span class="help-category__count">18 articles</span>
+                    </a>
+                    <a class="help-category" href="#">
+                        <span class="help-category__icon">
+                            <img src="../../.davinci/assets/icons/regular/building.svg" alt="" width="22" height="22">
+                        </span>
+                        <span class="help-category__title">Stations</span>
+                        <span class="help-category__count">9 articles</span>
+                    </a>
+                    <a class="help-category" href="#">
+                        <span class="help-category__icon">
+                            <img src="../../.davinci/assets/icons/regular/gearshape.svg" alt="" width="22" height="22">
+                        </span>
+                        <span class="help-category__title">Settings</span>
+                        <span class="help-category__count">7 articles</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- TWO-COLUMN: Popular articles + What's new changelog -->
+            <section class="help-split">
+
+                <div class="help-panel">
+                    <div class="help-section-head">
+                        <h2 class="help-section-head__title">
+                            <img src="../../.davinci/assets/icons/regular/chart-bar.svg" alt="" width="18" height="18">
+                            Popular articles
+                        </h2>
+                    </div>
+                    <ol class="help-popular">
+                        <li class="help-popular__item">
+                            <span class="help-popular__rank">01</span>
+                            <a class="help-popular__link" href="#">
+                                <span class="help-popular__title">How to import equipment from a CSV</span>
+                                <span class="help-popular__meta">Equipment · 5 min read</span>
+                            </a>
+                        </li>
+                        <li class="help-popular__item">
+                            <span class="help-popular__rank">02</span>
+                            <a class="help-popular__link" href="#">
+                                <span class="help-popular__title">Submitting a PCN for review</span>
+                                <span class="help-popular__meta">Programs · 4 min read</span>
+                            </a>
+                        </li>
+                        <li class="help-popular__item">
+                            <span class="help-popular__rank">03</span>
+                            <a class="help-popular__link" href="#">
+                                <span class="help-popular__title">Managing user roles and permissions</span>
+                                <span class="help-popular__meta">Settings · 3 min read</span>
+                            </a>
+                        </li>
+                        <li class="help-popular__item">
+                            <span class="help-popular__rank">04</span>
+                            <a class="help-popular__link" href="#">
+                                <span class="help-popular__title">Working with build versions</span>
+                                <span class="help-popular__meta">Programs · 6 min read</span>
+                            </a>
+                        </li>
+                        <li class="help-popular__item">
+                            <span class="help-popular__rank">05</span>
+                            <a class="help-popular__link" href="#">
+                                <span class="help-popular__title">Setting up your first station</span>
+                                <span class="help-popular__meta">Stations · 4 min read</span>
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="help-panel">
+                    <div class="help-section-head">
+                        <h2 class="help-section-head__title">
+                            <img src="../../.davinci/assets/icons/regular/sparkles.svg" alt="" width="18" height="18">
+                            What's new
+                        </h2>
+                    </div>
+                    <ul class="help-changelog">
+                        <li class="help-changelog__item">
+                            <span class="help-changelog__date">May 28</span>
+                            <div>
+                                <span class="help-changelog__tag">New</span>
+                                <span class="help-changelog__text">User impersonation now available in the navbar.</span>
+                            </div>
+                        </li>
+                        <li class="help-changelog__item">
+                            <span class="help-changelog__date">May 14</span>
+                            <div>
+                                <span class="help-changelog__tag">Improved</span>
+                                <span class="help-changelog__text">Faster build compilation across large programs.</span>
+                            </div>
+                        </li>
+                        <li class="help-changelog__item">
+                            <span class="help-changelog__date">May 02</span>
+                            <div>
+                                <span class="help-changelog__tag">Fixed</span>
+                                <span class="help-changelog__text">Dead-parts cleanup no longer drops linked components.</span>
+                            </div>
+                        </li>
+                        <li class="help-changelog__item">
+                            <span class="help-changelog__date">Apr 19</span>
+                            <div>
+                                <span class="help-changelog__tag">New</span>
+                                <span class="help-changelog__text">Equipment vendor list with bulk filtering.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <!-- VIDEO TUTORIALS: 3-column thumbnails -->
+            <section class="help-videos">
+                <div class="help-section-head">
+                    <h2 class="help-section-head__title">
+                        <img src="../../.davinci/assets/icons/regular/play.svg" alt="" width="18" height="18">
+                        Video tutorials
+                    </h2>
+                    <a class="help-section-head__link" href="#">See library</a>
+                </div>
+                <div class="help-videos__grid">
+                    <a class="help-video" href="#">
+                        <div class="help-video__thumb">
+                            <span class="help-video__play">
+                                <img src="../../.davinci/assets/icons/regular/play.svg" alt="" width="20" height="20" style="filter: brightness(0) invert(1);">
+                            </span>
+                            <span class="help-video__duration">04:12</span>
+                        </div>
+                        <span class="help-video__title">Importing your first equipment list</span>
+                        <span class="help-video__meta">Getting Started</span>
+                    </a>
+                    <a class="help-video" href="#">
+                        <div class="help-video__thumb help-video__thumb--alt">
+                            <span class="help-video__play">
+                                <img src="../../.davinci/assets/icons/regular/play.svg" alt="" width="20" height="20" style="filter: brightness(0) invert(1);">
+                            </span>
+                            <span class="help-video__duration">06:45</span>
+                        </div>
+                        <span class="help-video__title">Publishing a program end-to-end</span>
+                        <span class="help-video__meta">Programs</span>
+                    </a>
+                    <a class="help-video" href="#">
+                        <div class="help-video__thumb help-video__thumb--alt2">
+                            <span class="help-video__play">
+                                <img src="../../.davinci/assets/icons/regular/play.svg" alt="" width="20" height="20" style="filter: brightness(0) invert(1);">
+                            </span>
+                            <span class="help-video__duration">03:08</span>
+                        </div>
+                        <span class="help-video__title">Inviting teammates and assigning roles</span>
+                        <span class="help-video__meta">Settings</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- HELP CTA: single full-width card with two paths -->
+            <section class="help-cta">
+                <div class="help-cta__intro">
+                    <img class="help-cta__icon" src="../../.davinci/assets/icons/regular/lightbulb.svg" alt="" width="32" height="32">
+                    <div>
+                        <h2 class="help-cta__title">Still need help?</h2>
+                        <p class="help-cta__text">Reach out to the community or open a ticket — most questions are answered within a few hours.</p>
+                    </div>
+                </div>
+                <div class="help-cta__actions">
+                    <a class="help-cta__action" href="#">
+                        <img src="../../.davinci/assets/icons/regular/bubble-left-and-bubble-right.svg" alt="" width="18" height="18">
+                        <span class="help-cta__action-title">Community</span>
+                        <span class="help-cta__action-meta">Discuss with peers</span>
+                    </a>
+                    <a class="help-cta__action help-cta__action--primary" href="#">
+                        <img src="../../.davinci/assets/icons/regular/envelope.svg" alt="" width="18" height="18" style="filter: brightness(0) invert(1);">
+                        <span class="help-cta__action-title">Contact support</span>
+                        <span class="help-cta__action-meta">Open a ticket</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </script>
+
+    <!-- 2. HANDLEBARS TEMPLATES: siblings of page-content, NEVER nested inside it. -->
+
+    <!-- 3. DaVinci canvas (loads MDS, plugins, templates) -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+
+    <!-- 4. Prototype JS (always last) -->
+    <script src="js/main.js"></script>
+</body>
+</html>

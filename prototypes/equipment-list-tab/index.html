@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools List Tab - DaVinci</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-content here -->
+    <script id="page-content" type="text/html">
+        <div class="equip-page">
+            <!-- Program Detail Header -->
+            <div class="equip-header">
+                <div class="equip-header__nav">
+                    <!-- Back button -->
+                    <a href="../programs/index.html" class="back-btn" aria-label="Back to exhibitions">
+                        <lucide-icon name="chevron-left" style="font-size:24px"></lucide-icon>
+                    </a>
+
+                    <!-- Program dropdown -->
+                    <div class="header-dropdown">
+                        <label class="header-dropdown__label">Exhibition</label>
+                        <div class="header-dropdown__select-wrapper">
+                            <select id="program-select" class="header-dropdown__select">
+                                <option value="H10" selected>H10</option>
+                                <option value="H09">H09</option>
+                                <option value="H08">H08</option>
+                            </select>
+                            <lucide-icon name="chevron-down" class="header-dropdown__chevron" style="font-size:12px"></lucide-icon>
+                        </div>
+                    </div>
+
+                    <!-- Site dropdown -->
+                    <div class="header-dropdown">
+                        <label class="header-dropdown__label">Site</label>
+                        <div class="header-dropdown__select-wrapper">
+                            <select id="site-select" class="header-dropdown__select">
+                                <option value="ABCE" selected>ABCE</option>
+                                <option value="KAUANE">KAUANE</option>
+                            </select>
+                            <lucide-icon name="chevron-down" class="header-dropdown__chevron" style="font-size:12px"></lucide-icon>
+                        </div>
+                    </div>
+
+                    <!-- Build stages -->
+                    <div class="build-stages" id="build-stages"></div>
+
+                    <!-- Version and UPH info -->
+                    <div class="header-info">
+                        <div class="version-badge">V8 - Draft</div>
+                        <div class="uph-target">
+                            <span>UPH Target: 0</span>
+                            <button class="edit-btn" aria-label="Edit UPH target">
+                                <lucide-icon name="pencil" style="font-size:16px"></lucide-icon>
+                            </button>
+                        </div>
+                        <div class="reihd-info">
+                            <lucide-icon name="info" style="font-size:16px"></lucide-icon>
+                            <span>REIHD: TBD</span>
+                            <button class="edit-btn" aria-label="Edit REIHD">
+                                <lucide-icon name="pencil" style="font-size:16px"></lucide-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="program-tabs">
+                <div class="tabs">
+                    <div class="tabs__nav">
+                        <button class="tabs__tab" data-tab="process-flow">Assembly Plan</button>
+                        <button class="tabs__tab tabs__tab--active" data-tab="equipment-list">Tools – List <lucide-icon name="chevron-down" style="font-size:12px;margin-left:2px;vertical-align:middle"></lucide-icon></button>
+                        <button class="tabs__tab" data-tab="consumables">Materials</button>
+                        <button class="tabs__tab" data-tab="pending-pcns">PCR – Pending <span class="badge-counter" style="position:relative;top:-1px;margin-left:4px;">4</span> <lucide-icon name="chevron-down" style="font-size:12px;margin-left:2px;vertical-align:middle"></lucide-icon></button>
+                    </div>
+                </div>
+
+                <div class="tabs-actions">
+                    <button class="btn btn--secondary btn--small">
+                        <lucide-icon name="upload" style="font-size:14px"></lucide-icon>
+                        Import
+                    </button>
+                    <button class="btn btn--secondary btn--small">
+                        <lucide-icon name="download" style="font-size:14px"></lucide-icon>
+                        Export
+                    </button>
+                    <button class="btn btn--primary btn--small">Publish</button>
+                    <button class="toolbar-btn toolbar-btn--icon" aria-label="Settings">
+                        <lucide-icon name="settings" style="font-size:16px"></lucide-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Equipment List Content -->
+            <div class="equip-content">
+                <!-- Toolbar -->
+                <div class="process-toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-bar">
+                            <lucide-icon name="search" class="search-bar__icon" style="font-size:16px"></lucide-icon>
+                            <input type="text" class="search-bar__input" placeholder="Type keywords..." id="equip-search">
+                            <span class="search-bar__shortcut">⌘K</span>
+                        </div>
+                        <button class="toolbar-btn toolbar-btn--icon" aria-label="Info">
+                            <lucide-icon name="info" style="font-size:16px"></lucide-icon>
+                        </button>
+                    </div>
+
+                    <div class="toolbar-actions">
+                        <button class="tag-btn">Workstation View</button>
+                        <button class="tag-btn">
+                            <lucide-icon name="eye" style="font-size:16px"></lucide-icon>
+                            0/83
+                        </button>
+                        <button class="toolbar-btn toolbar-btn--icon" aria-label="Filter columns">
+                            <lucide-icon name="slider.horizontal.3" style="font-size:16px"></lucide-icon>
+                        </button>
+                        <button class="toolbar-btn toolbar-btn--icon" aria-label="Column settings">
+                            <lucide-icon name="circle.grid.2x2" style="font-size:16px"></lucide-icon>
+                        </button>
+                        <button class="toolbar-btn toolbar-btn--icon" aria-label="Adjust columns">
+                            <lucide-icon name="slider.vertical.3" style="font-size:16px"></lucide-icon>
+                        </button>
+                        <button class="toolbar-btn toolbar-btn--icon" aria-label="More options">
+                            <lucide-icon name="chevron-down" style="font-size:12px"></lucide-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Equipment Table -->
+                <div class="equip-table-area">
+                    <div class="table-container">
+                        <table class="table table--equip-list">
+                            <thead class="table__head">
+                                <tr class="table__row">
+                                    <th class="table__header table__header--checkbox">
+                                        <label class="checkbox">
+                                            <input type="checkbox" class="checkbox__input" id="select-all">
+                                            <span class="checkbox__box"></span>
+                                        </label>
+                                    </th>
+                                    <th class="table__header table__header--expand"></th>
+                                    <th class="table__header sortable" data-column="name">
+                                        Tools name
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                        <button class="add-col-btn" aria-label="Add tools">
+                                            <lucide-icon name="circle-plus" style="font-size:14px"></lucide-icon>
+                                        </button>
+                                    </th>
+                                    <th class="table__header sortable" data-column="shortName">
+                                        Short name
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                    </th>
+                                    <th class="table__header" data-column="vendorDfm">Vendor DFM Statuses</th>
+                                    <th class="table__header" data-column="processFlow">Assembly Plan Usage</th>
+                                    <th class="table__header sortable" data-column="department">
+                                        Department
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                    </th>
+                                    <th class="table__header sortable" data-column="category">
+                                        Category
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                    </th>
+                                    <th class="table__header" data-column="engIntent">ENG Intent</th>
+                                    <th class="table__header sortable" data-column="mpIntent">
+                                        MP Intent
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                    </th>
+                                    <th class="table__header sortable" data-column="riskOpportunity">
+                                        Risk and Opportunity
+                                        <span class="sort-indicator"><span class="sort-indicator__inner" aria-hidden="true"><span class="sort-indicator__icon sort-indicator__up"><lucide-icon name="chevron-up"></lucide-icon></span><span class="sort-indicator__icon sort-indicator__down"><lucide-icon name="chevron-down"></lucide-icon></span></span></span>
+                                    </th>
+                                    <th class="table__header" data-column="vendor">Vendor</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table__body" id="equip-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Toolbar -->
+        <div class="proj-right-toolbar">
+            <div class="proj-right-toolbar__header">
+                <button class="proj-right-toolbar__toggle">
+                    <lucide-icon class="proj-right-toolbar__chevron" name="chevron.left" style="font-size:14px"></lucide-icon>
+                </button>
+            </div>
+            <nav class="proj-right-toolbar__nav"></nav>
+            <div class="proj-right-toolbar__panel">
+                <div class="proj-right-toolbar__content"></div>
+            </div>
+        </div>
+
+        <script id="proj-right-toolbar-items-template" type="text/x-handlebars-template">
+            {{#each items}}
+            <button class="proj-right-toolbar__item {{#if active}}proj-right-toolbar__item--active{{/if}}" data-item-id="{{id}}" title="{{label}}">
+                <span class="proj-right-toolbar__item-icon">
+                    <img src="{{iconPath}}" alt="" width="16" height="16">
+                </span>
+                <span class="proj-right-toolbar__item-label">{{label}}</span>
+                {{#if badge}}<span class="proj-right-toolbar__item-badge">{{badge}}</span>{{/if}}
+            </button>
+            {{/each}}
+        </script>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+
+    <!-- Plugin scripts (right-toolbar provides the moon button that toggles dark mode) -->
+    <script src="../../.davinci/plugins/proj-right-toolbar.js"></script>
+
+    <!-- Page-specific JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/build-stages.js"></script>
+    <script src="js/table.js"></script>
+    <script src="js/main.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

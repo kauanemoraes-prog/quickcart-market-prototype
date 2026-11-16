@@ -1,0 +1,1819 @@
+/* Process Flow filter — replaces the search-bar with a keyword input that
+ * opens a two-level filter panel (main list of categorized tags → per-field
+ * subpanel with Contains/Without + option list). Visual/navigation only,
+ * no table filtering wired yet.
+ *
+ * Structure:
+ *   .pf-filter
+ *     .pf-filter__field    (input row: icon + chips + input + caret)
+ *     .pf-filter__panel    (absolute-positioned dropdown, hidden by default)
+ *       .pf-filter__panel-body  (swapped between main + sub views)
+ */
+
+.pf-filter {
+  position: relative;
+  flex: 0 0 auto;
+  width: 800px;
+}
+
+.pf-filter__row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+
+.pf-filter__field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 40px;
+  padding: 0 var(--space-s) 0 var(--space-m);
+  background: #ffffff;
+  border: 1px solid var(--outline-color, #B6B7BD);
+  border-radius: var(--space-xs) 0 0 var(--space-xs);
+  transition: border-color var(--transition-basic), box-shadow var(--transition-basic);
+}
+
+.pf-filter--open .pf-filter__field,
+.pf-filter__field:focus-within {
+  border-color: var(--color-base-accent);
+  box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+/* ---------- options button (⋯) ---------- */
+.pf-filter__options-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 1px solid var(--outline-color, #B6B7BD);
+  border-left: none;
+  border-radius: 0 var(--space-xs) var(--space-xs) 0;
+  background: #ffffff;
+  color: var(--color-glyph-gray);
+  cursor: pointer;
+  transition: background var(--transition-basic), border-color var(--transition-basic);
+}
+
+/* When the save (star) button is hidden — no chips — the options button sits
+ * directly against the field, so it needs its own left border. */
+.pf-filter__save-btn[hidden] + .pf-filter__options-btn {
+  border-left: 1px solid var(--outline-color, #B6B7BD);
+}
+
+/* Info icon that sits outside the filter frame, to the right of the ⋯ button.
+ * Hover reveals a tooltip explaining how the search/filter shortcuts work. */
+.pf-filter__info {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  color: var(--color-glyph-gray-secondary);
+  font-size: 14px;
+  cursor: help;
+  transition: color var(--transition-basic);
+}
+
+.pf-filter__info:hover,
+.pf-filter__info:focus-visible {
+  color: var(--color-base-accent);
+  outline: none;
+}
+
+.pf-filter__info lucide-icon {
+  line-height: 1;
+  width: 14px;
+  height: 14px;
+}
+
+/* Info help popover — rich content shown on hover/focus of the info icon.
+ * Content is injected once from the `#pf-filter-info-template` at init. The
+ * wrap keeps :hover and :focus-within active while the mouse traverses from
+ * the icon into the popover, so the popover doesn't flicker away. */
+.pf-filter__info-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pf-filter__info-popover {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 480px;
+  max-width: 90vw;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  color: var(--color-glyph-gray);
+  z-index: 500;
+  cursor: default;
+  text-align: left;
+}
+
+.pf-filter__info-wrap:hover .pf-filter__info-popover,
+.pf-filter__info-wrap:focus-within .pf-filter__info-popover {
+  display: block;
+}
+
+.pf-filter__info-popover .pf-filter__info-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__info-popover .pf-filter__info-lead {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 14px;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__info-popover .pf-filter__info-subhead {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__info-popover .pf-filter__info-section {
+  padding: 10px 0;
+  border-top: 1px solid var(--color-fill-gray-tertiary);
+}
+
+.pf-filter__info-popover .pf-filter__info-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.pf-filter__info-popover .pf-filter__info-section h6 {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__info-popover .pf-filter__info-section p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 4px 24px;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__info-popover .pf-filter__info-section p:last-child {
+  margin-bottom: 0;
+}
+
+.pf-filter__info-popover kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 1px 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-glyph-gray);
+  background: transparent;
+  border: 1px solid var(--color-fill-gray-tertiary);
+  border-radius: 4px;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.pf-filter__info-popover strong {
+  font-weight: 600;
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__options-btn:hover {
+  background: var(--color-fill-gray-tertiary);
+}
+
+.pf-filter__options-btn[aria-expanded="true"] {
+  border-color: var(--color-base-accent);
+  background: rgba(113, 128, 172, 0.08);
+  color: var(--color-base-accent);
+}
+
+/* ---------- options popover ---------- */
+.pf-filter__options-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 1100;
+  width: 260px;
+  padding: var(--space-s) 0;
+  background: #ffffff;
+  border: 1px solid var(--color-line-gray-tertiary);
+  border-radius: var(--space-xs);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  text-align: left;
+}
+
+.pf-filter__options-pop[hidden] { display: none; }
+
+/* Popover title — sits above the first group, sets context for the settings.
+ * No divider below — visual weight from font-weight alone keeps things airy. */
+.pf-opts__header {
+  margin: 0;
+  padding: var(--space-s) var(--space-m) 6px;
+  font-size: var(--font-size-xxs);
+  font-weight: 600;
+  color: var(--color-glyph-gray);
+}
+
+.pf-opts__group {
+  padding: 10px var(--space-m);
+}
+
+.pf-opts__group + .pf-opts__group {
+  border-top: 1px solid var(--color-fill-gray-tertiary);
+}
+
+.pf-opts__title {
+  margin: 0 0 8px;
+  font-size: var(--font-size-xxxs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-glyph-gray-secondary);
+}
+
+/* Group header row — title on left, optional control (like the Favorites
+ * switch) on the right, both vertically centered on the same line. */
+.pf-opts__group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.pf-opts__group-head .pf-opts__title {
+  margin: 0;
+}
+
+.pf-opts__group-desc {
+  margin: 0;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  text-align: left;
+}
+
+/* Segmented control (deprecated in favor of radios; kept as no-op just in case
+ * the class re-appears somewhere). */
+.pf-opts__seg { display: none; }
+.pf-opts__desc { display: none; }
+
+.pf-opts__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+}
+
+.pf-opts__row input[type="radio"],
+.pf-opts__row input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--color-base-accent);
+}
+
+.pf-opts__row-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.pf-opts__row-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+}
+
+.pf-opts__row-head lucide-icon {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-glyph-gray-secondary);
+  flex-shrink: 0;
+}
+
+.pf-opts__row-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-opts__row strong {
+  font-weight: 500;
+}
+
+.pf-opts__row em {
+  display: block;
+  font-style: normal;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+  margin-left: 20px;
+  text-align: left;
+}
+
+.pf-opts__row--switch {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pf-opts__row--switch em {
+  margin-left: 0;
+}
+
+.pf-opts__divider {
+  display: none;
+}
+
+/* Switch */
+.pf-opts__switch {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+.pf-opts__switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.pf-opts__switch-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--color-fill-gray-tertiary);
+  border-radius: 999px;
+  transition: background var(--transition-basic);
+  cursor: pointer;
+}
+
+.pf-opts__switch-slider::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform var(--transition-basic);
+}
+
+.pf-opts__switch input:checked + .pf-opts__switch-slider {
+  background: var(--color-base-accent);
+}
+
+.pf-opts__switch input:checked + .pf-opts__switch-slider::before {
+  transform: translateX(14px);
+}
+
+.pf-filter__icon {
+  flex-shrink: 0;
+  color: var(--color-glyph-gray-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.pf-filter__icon lucide-icon {
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+}
+
+.pf-filter__chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pf-filter__chips::-webkit-scrollbar {
+  display: none;
+}
+
+.pf-filter__chips:empty {
+  display: none;
+}
+
+.pf-filter__chip {
+  display: inline-flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 4px 8px;
+  background: rgba(113, 128, 172, 0.08);
+  border: 1px solid rgba(113, 128, 172, 0.35);
+  border-radius: var(--radius-s);
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background var(--transition-basic), border-color var(--transition-basic);
+}
+
+.pf-filter__chip:hover {
+  background: rgba(113, 128, 172, 0.14);
+  border-color: rgba(113, 128, 172, 0.55);
+}
+
+.pf-filter__chip-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-filter__chip-field {
+  font-weight: 500;
+  color: var(--color-glyph-gray);
+  white-space: nowrap;
+}
+
+.pf-filter__chip-caret {
+  color: var(--color-glyph-gray-secondary);
+  flex-shrink: 0;
+}
+
+.pf-filter__chip-value-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.pf-filter__chip-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  cursor: pointer;
+  border-radius: 3px;
+}
+.pf-filter__chip-edit:hover {
+  background: rgba(113, 128, 172, 0.12);
+  color: var(--color-glyph-gray);
+}
+
+/* ---------- chip editor popover ----------
+ * Shared across all three filters (Equipment, Consumables, Process Flow 1).
+ * The JS in each filter creates the element with its own prefix
+ * (`.eq-chip-editor`, `.cs-chip-editor`, `.pf1-chip-editor`) but the visual
+ * treatment is identical — grouped selectors keep the CSS in one place. */
+.eq-chip-editor,
+.cs-chip-editor,
+.pf1-chip-editor {
+  background: #ffffff;
+  border: 1px solid var(--color-line-gray-tertiary);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  padding: 6px 0;
+  max-width: 320px;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+}
+.eq-chip-editor[hidden],
+.cs-chip-editor[hidden],
+.pf1-chip-editor[hidden] { display: none; }
+
+.eq-chip-editor__section-title,
+.cs-chip-editor__section-title,
+.pf1-chip-editor__section-title {
+  padding: 6px 12px 4px;
+  font-size: var(--font-size-xxxs);
+  font-weight: 500;
+  color: var(--color-glyph-gray-secondary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.eq-chip-editor__divider,
+.cs-chip-editor__divider,
+.pf1-chip-editor__divider {
+  height: 1px;
+  background: var(--color-line-gray-tertiary);
+  margin: 4px 0;
+}
+
+.eq-chip-editor__row,
+.cs-chip-editor__row,
+.pf1-chip-editor__row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+  cursor: pointer;
+  text-align: left;
+}
+.eq-chip-editor__row:hover,
+.cs-chip-editor__row:hover,
+.pf1-chip-editor__row:hover {
+  background: var(--color-fill-gray-tertiary);
+}
+.eq-chip-editor__row--active,
+.cs-chip-editor__row--active,
+.pf1-chip-editor__row--active {
+  color: var(--color-glyph-gray);
+}
+.eq-chip-editor__row--active .eq-chip-editor__check,
+.cs-chip-editor__row--active .cs-chip-editor__check,
+.pf1-chip-editor__row--active .pf1-chip-editor__check {
+  color: var(--color-glyph-gray-secondary);
+}
+.eq-chip-editor__row-label,
+.cs-chip-editor__row-label,
+.pf1-chip-editor__row-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eq-chip-editor__row--remove,
+.cs-chip-editor__row--remove,
+.pf1-chip-editor__row--remove {
+  color: var(--color-glyph-gray);
+}
+.eq-chip-editor__rel-symbol,
+.cs-chip-editor__rel-symbol,
+.pf1-chip-editor__rel-symbol {
+  display: inline-block;
+  min-width: 14px;
+  text-align: center;
+  margin-right: 2px;
+  color: var(--color-glyph-gray-secondary);
+}
+
+.pf-filter__chip-eq {
+  color: var(--color-base-accent);
+  font-weight: 500;
+}
+
+.pf-filter__chip-value {
+  color: var(--color-base-accent);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pf-filter__input {
+  flex: 1;
+  min-width: 120px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__input::placeholder {
+  color: var(--color-glyph-gray-tertiary);
+}
+
+.pf-filter__clear-all {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+
+.pf-filter__clear-all:hover {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__clear-all[hidden] {
+  display: none;
+}
+
+/* ⌘K hint — shows only when the filter is empty (no chips, no text) and the
+ * panel is closed. The clear-all × takes over when content exists. */
+.pf-filter__shortcut {
+  flex-shrink: 0;
+  color: var(--color-glyph-gray-tertiary);
+  font-size: var(--font-size-tiny);
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+.pf-filter--has-content .pf-filter__shortcut,
+.pf-filter--open .pf-filter__shortcut {
+  display: none;
+}
+
+/* ---------- panel ---------- */
+
+.pf-filter__panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border: 1px solid var(--color-line-gray-tertiary);
+  border-radius: var(--space-xs);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: none;
+  overflow: hidden;
+}
+
+/* Note on hit-testing: when the panel is closed the browser skips it entirely
+ * (`display: none`), so table rows beneath receive clicks normally. When it
+ * IS open, the first outside click closes the panel — the second one hits
+ * the row. This matches Linear/Notion behavior and keeps the panel readable. */
+
+.pf-filter--open .pf-filter__panel {
+  display: block;
+}
+
+.pf-filter__panel-body {
+  max-height: 480px;
+  overflow-y: auto;
+  padding: var(--space-s) var(--space-mp);
+}
+
+/* ---------- main view (categorized tag groups) ---------- */
+
+.pf-filter__group {
+  padding: var(--space-s) 0;
+}
+
+.pf-filter__group + .pf-filter__group {
+  border-top: 1px solid var(--color-line-gray-tertiary);
+}
+
+.pf-filter__group-title {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--font-size-tiny);
+  font-weight: 500;
+  color: var(--color-glyph-gray-secondary);
+  letter-spacing: 0;
+}
+
+.pf-filter__tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pf-filter__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  height: 26px;
+  background: rgba(113, 128, 172, 0.08);
+  border: 1px solid rgba(113, 128, 172, 0.2);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: var(--font-size-tiny);
+  font-weight: 400;
+  color: var(--color-glyph-gray);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-basic), border-color var(--transition-basic);
+}
+
+.pf-filter__tag:hover {
+  background: rgba(113, 128, 172, 0.14);
+  border-color: rgba(113, 128, 172, 0.35);
+}
+
+.pf-filter__tag-caret {
+  color: var(--color-base-accent);
+  flex-shrink: 0;
+}
+
+/* ---------- sub view (per-field options) ---------- */
+
+.pf-filter__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray-secondary);
+  cursor: pointer;
+  margin-bottom: var(--space-xs);
+}
+
+.pf-filter__back:hover {
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__sub-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xs) 0;
+}
+
+.pf-filter__option {
+  display: block;
+  width: 100%;
+  padding: 10px 4px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray);
+  cursor: pointer;
+  border-radius: var(--radius-s);
+}
+
+.pf-filter__option:hover {
+  background: var(--color-fill-gray-tertiary);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.pf-filter__sub-divider {
+  height: 1px;
+  background: var(--color-line-gray-tertiary);
+  margin: 6px 0;
+}
+
+/* ---------- Favorites section (replaces old Recent) ---------- */
+.pf-filter__favorites {
+  padding: var(--space-s) 0;
+  border-bottom: 1px solid var(--color-line-gray-tertiary);
+  margin-bottom: 4px;
+}
+
+.pf-filter__fav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.pf-filter__fav-title {
+  margin: 0;
+}
+
+.pf-filter__fav-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-filter__fav-clear-all {
+  border: none;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: var(--font-size-tiny);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background var(--transition-basic);
+}
+
+.pf-filter__fav-clear-all:hover {
+  background: rgba(113, 128, 172, 0.08);
+}
+
+/* Small × next to Clear that hides the Favorites section — same effect as
+ * toggling the "Favorites" switch off in the options popover. Users usually
+ * reach for the closer affordance, and re-enabling still works from the ⋯. */
+.pf-filter__fav-hide {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+
+.pf-filter__fav-hide:hover {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__fav-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-filter__fav-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background var(--transition-basic);
+  position: relative;
+}
+
+.pf-filter__fav-row:hover,
+.pf-filter__fav-row:focus-visible {
+  background: rgba(113, 128, 172, 0.06);
+  outline: none;
+}
+
+.pf-filter__fav-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-filter__fav-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  background: rgba(113, 128, 172, 0.08);
+  border: 1px solid rgba(113, 128, 172, 0.2);
+  color: var(--color-glyph-gray);
+  border-radius: 4px;
+  font-size: var(--font-size-tiny);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.pf-filter__fav-remove {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+
+.pf-filter__fav-row:hover .pf-filter__fav-remove,
+.pf-filter__fav-row:focus-within .pf-filter__fav-remove {
+  display: inline-flex;
+}
+
+.pf-filter__fav-remove:hover {
+  background: rgba(215, 44, 44, 0.12);
+  color: #d72c2c;
+}
+
+/* ---------- Save button (star toggle in the filter header) ---------- */
+.pf-filter__save-btn {
+  flex-shrink: 0;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 1px solid var(--outline-color, #B6B7BD);
+  border-left: none;
+  background: #ffffff;
+  border-radius: 0;
+  color: var(--color-glyph-gray-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-basic), color var(--transition-basic), border-color var(--transition-basic);
+}
+
+.pf-filter__save-btn[hidden] { display: none; }
+
+.pf-filter__save-btn:hover {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+
+.pf-filter__save-btn--saved,
+.pf-filter__save-btn--saved:hover {
+  color: var(--color-base-accent);
+  border-color: rgba(113, 128, 172, 0.4);
+}
+
+.pf-filter__save-btn--saved svg {
+  fill: var(--color-base-accent);
+}
+
+/* Disabled state — hit when the user has saved the cap-max of favorites and
+ * the current combination isn't one of them, so there's no free slot to save
+ * into. Still shows the browser tooltip on hover (via `title` set from JS)
+ * explaining why. */
+.pf-filter__save-btn--disabled,
+.pf-filter__save-btn--disabled:hover {
+  color: var(--color-glyph-gray-tertiary);
+  background: transparent;
+  border-color: var(--outline-color, #B6B7BD);
+  cursor: not-allowed;
+}
+
+.pf-filter__save-btn--disabled svg {
+  opacity: 0.5;
+}
+
+/* Tooltip on hover — CSS-only pseudo bubble that reads from `data-tooltip`.
+ * Works even on the disabled star (button[disabled] still fires :hover in
+ * modern browsers, unlike click / pointer-events: none). */
+.pf-filter__save-btn[data-tooltip] {
+  position: relative;
+}
+
+.pf-filter__save-btn[data-tooltip]:hover::after,
+.pf-filter__save-btn[data-tooltip]:focus-visible::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  background: rgba(28, 28, 30, 0.95);
+  color: #ffffff;
+  font-size: var(--font-size-tiny);
+  font-weight: 400;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 1200;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pf-filter__save-btn[data-tooltip]:hover::before,
+.pf-filter__save-btn[data-tooltip]:focus-visible::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(28, 28, 30, 0.95);
+  z-index: 1200;
+  pointer-events: none;
+}
+
+/* ---------- Undo toast (favorites feedback) ---------- */
+.pf-filter-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1400;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(28, 28, 30, 0.95);
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  font-size: var(--font-size-tiny);
+}
+
+.pf-filter-toast[hidden] { display: none; }
+
+.pf-filter-toast__msg {
+  white-space: nowrap;
+}
+
+.pf-filter-toast__undo {
+  border: none;
+  background: transparent;
+  color: #B5BDD6;
+  font-size: var(--font-size-tiny);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.pf-filter-toast__undo:hover {
+  text-decoration: underline;
+}
+
+/* ---------- table filter/highlight (PF1 body only) ---------- */
+#lines-table-body-2 .proj-nested-table__row--level1.pf-filter-hidden,
+#lines-table-body-2 .proj-nested-table__detail-row.pf-filter-hidden {
+  display: none !important;
+}
+
+#lines-table-body-2 .table__cell.pf-filter-hit {
+  background: #fff3c4;
+}
+
+/* Defensive: guarantee the L1 expand button always receives clicks. */
+#lines-table-body-2 .proj-nested-table__row--level1 .proj-nested-table__expand-btn {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* ---------- table filter/highlight (Equipment List body only) ---------- */
+#equipment-table-body > tr.eq-filter-hidden {
+  display: none !important;
+}
+
+#equipment-table-body > tr.eq-filter-row-hit > td {
+  background: #FFFEF2;
+}
+
+/* Preserve the default blue hover on matching rows — the row-hit tint yields
+ * to hover so the user still gets the same feedback affordance on other rows. */
+#equipment-table-body > tr.eq-filter-row-hit:hover > td {
+  background: #E8EBF3;
+}
+
+#equipment-table-body > tr > td.eq-filter-hit,
+#equipment-table-body > tr.eq-filter-row-hit > td.eq-filter-hit {
+  background: #FFECB3;
+}
+
+/* Header highlight — Filter mode paints only the header of every column
+ * referenced by an active chip. Data cells stay untouched (that's the whole
+ * point of Filter mode — hidden rows already tell the user which rows match,
+ * so highlighting cells would double up the signal). Search mode does the
+ * opposite: cells that matched get painted, headers stay untouched. Uses the
+ * strong yellow so the marked column reads clearly against the neutral thead. */
+.table--equipment > thead > tr > .table__header.eq-filter-hit-header {
+  background: #FFECB3;
+}
+
+/* Revealed hidden columns — a chip is targeting this column but the user's
+ * view has it hidden. We reveal it at 55% opacity and stamp an eye-slash icon
+ * on the header so the reveal reads as "temporary, not part of your view".
+ * In Search mode, individual hit cells jump back to 100% opacity + amber,
+ * making the matches pop against the muted column. */
+.table--equipment > thead > tr > .table__header.eq-col-revealed,
+#equipment-table-body > tr > td.eq-col-revealed {
+  opacity: 0.55;
+}
+
+/* Eye-slash badge on the revealed column header — real DOM element so we can
+ * wire a hover tooltip on it (a pseudo-element can't take events). */
+.eq-col-hidden-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -2px;
+  margin-left: 6px;
+  color: var(--color-glyph-gray-secondary);
+  cursor: help;
+}
+.eq-col-hidden-badge:hover {
+  color: var(--color-glyph-gray);
+}
+
+/* Search mode: a matched cell in a revealed column stays fully readable, and
+ * gets the amber fill so it stands out against the surrounding muted cells. */
+#equipment-table-body > tr > td.eq-col-revealed.eq-filter-hit {
+  opacity: 1;
+}
+
+/* Focused match row — the one the match-nav pill is currently pointing to.
+ * Uses a stronger yellow tint (#FFF5C7) instead of an outline so the shift is
+ * visually softer and stays consistent with the other row-hit shading. */
+#equipment-table-body > tr.eq-filter-row-hit--focus > td {
+  background: #FFF5C7;
+}
+
+/* Cell match — strongest of the three yellows so the exact hit stands out
+ * clearly from both the pale row-hit tint (FFFEF2) and the medium nav-focus
+ * tint (FFF5C7). This rule wins over the row-hit and focus backgrounds above. */
+#equipment-table-body > tr > td.eq-filter-hit,
+#equipment-table-body > tr.eq-filter-row-hit > td.eq-filter-hit,
+#equipment-table-body > tr.eq-filter-row-hit--focus > td.eq-filter-hit {
+  background: #FFECB3;
+}
+
+/* ---------- column header shortcut icon (Equipment) ----------
+ * Sits inline in each equipment th, hidden by default and revealed on hover
+ * of the th (or when it has focus). Clicking opens EqFilter.openField(field)
+ * which shows the sub-view for that column's filter. */
+.table--equipment > thead .table__header {
+  position: relative;
+}
+
+.table--equipment > thead .table__header .eq-col-shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-basic);
+  border-radius: 50%;
+}
+
+.table--equipment > thead .table__header .eq-col-shortcut lucide-icon {
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+}
+
+/* Sticky header cells create their own stacking context, so the tooltip
+ * pseudo-element (z-index 1100 within the button) is clipped/covered by
+ * neighboring headers. On hover we lift the header + button above their
+ * siblings so the tooltip escapes and can render above the column name. */
+.table--equipment > thead .table__header:hover,
+.table--equipment > thead .table__header:focus-within {
+  z-index: 30;
+}
+
+.table--equipment > thead .table__header .eq-col-shortcut:hover,
+.table--equipment > thead .table__header .eq-col-shortcut:focus-visible {
+  z-index: 40;
+}
+
+.table--equipment > thead .table__header:hover .eq-col-shortcut,
+.table--equipment > thead .table__header:focus-within .eq-col-shortcut,
+.table--equipment > thead .table__header .eq-col-shortcut:focus-visible {
+  opacity: 1;
+}
+
+.table--equipment > thead .table__header .eq-col-shortcut:hover {
+  filter: brightness(1.1);
+}
+
+/* Body-portaled tooltip for the shortcut icons — bypasses the table-container
+ * overflow:auto that clips the CSS-only proj-tooltip pseudo. */
+.eq-col-shortcut-tooltip {
+  position: fixed;
+  z-index: 2000;
+  padding: 4px 8px;
+  background: #1D1D1F;
+  color: #FFFFFF;
+  font-size: var(--font-size-tiny);
+  line-height: 1.3;
+  border-radius: var(--space-xs);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.eq-col-shortcut-tooltip[hidden] { display: none; }
+.eq-col-shortcut-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--arrow-left, 50%);
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1D1D1F;
+}
+
+/* ---------- Equipment filter empty state ---------- */
+.eq-filter-empty {
+  padding: var(--space-xxl) var(--space-mp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.eq-filter-empty[hidden] { display: none; }
+
+.eq-filter-empty .empty-state__text .empty-state__sep {
+  color: var(--color-line-gray-tertiary);
+  margin: 0 var(--space-s);
+}
+
+.eq-filter-empty .empty-state__action {
+  color: var(--color-base-accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.eq-filter-empty .empty-state__action:hover {
+  text-decoration: underline;
+}
+/* Wrapper that keeps the filter + match-nav pill glued together on the left
+ * side of the process-toolbar (which uses justify-content: space-between). */
+.eq-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Match navigator lives inside the filter field, right after the input. When
+ * Search mode has hits, the pill fades in with prev/next arrows + "N of M".
+ * No border/background — it inherits the field's look. */
+.eq-match-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px 0 0;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-fill-gray-tertiary);
+  border-radius: 0;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 4px;
+}
+
+.eq-match-nav[hidden] { display: none; }
+
+.eq-match-nav__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+
+.eq-match-nav__btn:hover:not(:disabled) {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+
+.eq-match-nav__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.eq-match-nav__count {
+  color: var(--color-glyph-gray);
+  font-variant-numeric: tabular-nums;
+  padding-left: 2px;
+  padding-right: 6px;
+}
+
+.eq-match-nav--count-only .eq-match-nav__btn { display: none; }
+.eq-match-nav--count-only { border-right: none; padding-right: 0; }
+
+/* =====================================================================
+ * Consumables filter — parallel to the Equipment filter rules above.
+ * Class names use `cs-` / `cons-` prefixes so the two filters can coexist
+ * with their own DOM state without any CSS specificity conflicts.
+ * ===================================================================== */
+
+/* Match navigator inside the consumables filter field. */
+.cs-match-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px 0 0;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-fill-gray-tertiary);
+  border-radius: 0;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 4px;
+}
+.cs-match-nav[hidden] { display: none; }
+
+.cs-match-nav__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+.cs-match-nav__btn:hover:not(:disabled) {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+.cs-match-nav__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.cs-match-nav__count {
+  color: var(--color-glyph-gray);
+  font-variant-numeric: tabular-nums;
+  padding-left: 2px;
+  padding-right: 6px;
+}
+.cs-match-nav--count-only .cs-match-nav__btn { display: none; }
+.cs-match-nav--count-only { border-right: none; padding-right: 0; }
+
+/* Row / cell highlight for consumables table body — same three-tone yellow
+ * palette as the equipment filter. */
+#consumables-table-body > tr.cons-filter-hidden {
+  display: none !important;
+}
+
+#consumables-table-body > tr.cons-filter-row-hit > td {
+  background: #FFFEF2;
+}
+
+#consumables-table-body > tr.cons-filter-row-hit:hover > td {
+  background: #E8EBF3;
+}
+
+#consumables-table-body > tr.cons-filter-row-hit--focus > td {
+  background: #FFF5C7;
+}
+
+#consumables-table-body > tr > td.cons-filter-hit,
+#consumables-table-body > tr.cons-filter-row-hit > td.cons-filter-hit,
+#consumables-table-body > tr.cons-filter-row-hit--focus > td.cons-filter-hit {
+  background: #FFECB3;
+}
+
+/* Filter-mode header highlight for the consumables table. */
+.table--consumables > thead > tr > .table__header.cons-filter-hit-header {
+  background: #FFECB3;
+}
+
+/* Revealed hidden columns on the consumables table (55% opacity + eye-slash
+ * badge on the header). Cell hits jump back to full opacity so matches pop. */
+.table--consumables > thead > tr > .table__header.cs-col-revealed,
+#consumables-table-body > tr > td.cs-col-revealed {
+  opacity: 0.55;
+}
+#consumables-table-body > tr > td.cs-col-revealed.cons-filter-hit {
+  opacity: 1;
+}
+
+.cs-col-hidden-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -2px;
+  margin-left: 6px;
+}
+
+/* Never change the header background on hover — same rationale as equipment. */
+.table--consumables .table__header,
+.table--consumables .table__header.sortable,
+.table--consumables .table__header.sortable:hover,
+.table--consumables .table__header:hover {
+  background-color: #FFFFFF;
+}
+.table--consumables .table__header.cons-filter-hit-header,
+.table--consumables .table__header.cons-filter-hit-header:hover {
+  background-color: #FFECB3;
+}
+
+/* Header layout — `.th-icon-group` position, info + sort sizing, padding
+ * reserve, min-width bumps. Mirrors equipment-table.css but scoped to
+ * `.table--consumables`. Text ellipsis + label wrap uses the same `.th-label`
+ * span that `injectHeaderShortcutIcons` adds. */
+.table--consumables .table__header {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table--consumables .table__header .th-label {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.table--consumables .table__header .th-icon-group {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.table--consumables .table__header .th-icon-group > * {
+  pointer-events: auto;
+}
+
+.table--consumables .table__header .header-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--color-base-accent);
+  font-size: 14px;
+  line-height: 1;
+  cursor: help;
+}
+
+.table--consumables .table__header .header-info lucide-icon {
+  line-height: 1;
+  width: 14px;
+  height: 14px;
+}
+
+.table--consumables .table__header .sort-indicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  margin: 0;
+}
+
+.table--consumables .table__header .sort-indicator__icon {
+  font-size: 10px;
+  line-height: 0.55;
+}
+
+.table--consumables .table__header .sort-indicator__up { margin-bottom: -1px; }
+.table--consumables .table__header .sort-indicator__down { margin-top: -1px; }
+
+/* Padding reserves to keep the label ≥ 4px from the icon group.
+ *   base (shortcut only):     8 + 16 + 4 = 28
+ *   sort only:                8 + (16 + 4 + 10) + 4 = 42
+ *   info only:                8 + (16 + 4 + 14) + 4 = 46
+ *   sort + info:              8 + (16 + 4 + 14 + 4 + 10) + 4 = 60 */
+.table--consumables .table__header[data-cs-field] {
+  padding-right: 28px;
+  min-width: 160px;
+}
+
+.table--consumables .table__header.sortable {
+  padding-right: 42px;
+  min-width: 180px;
+}
+
+.table--consumables .table__header:not(.sortable):has(.header-info) {
+  padding-right: 46px;
+  min-width: 185px;
+}
+
+.table--consumables .table__header.sortable:has(.header-info) {
+  padding-right: 60px;
+  min-width: 225px;
+}
+
+/* Header shortcut icon on the consumables table — hidden by default, revealed
+ * on hover / focus of the header. Uses the same `.th-icon-group` container as
+ * the icons above, so `right` offsets are derived from the group's width. */
+.table--consumables > thead .table__header .cs-col-shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-basic);
+  border-radius: 50%;
+}
+
+.table--consumables > thead .table__header .cs-col-shortcut lucide-icon {
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+}
+
+.table--consumables > thead .table__header:hover,
+.table--consumables > thead .table__header:focus-within {
+  z-index: 30;
+}
+
+.table--consumables > thead .table__header .cs-col-shortcut:hover,
+.table--consumables > thead .table__header .cs-col-shortcut:focus-visible {
+  z-index: 40;
+}
+
+.table--consumables > thead .table__header:hover .cs-col-shortcut,
+.table--consumables > thead .table__header:focus-within .cs-col-shortcut,
+.table--consumables > thead .table__header .cs-col-shortcut:focus-visible {
+  opacity: 1;
+}
+
+.table--consumables > thead .table__header .cs-col-shortcut:hover {
+  filter: brightness(1.1);
+}
+
+/* Portaled tooltip for the consumables shortcut icon — same style as eq. */
+.cs-col-shortcut-tooltip {
+  position: fixed;
+  z-index: 1300;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #1D1D1F;
+  color: #fff;
+  font-size: var(--font-size-tiny);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.cs-col-shortcut-tooltip[hidden] { display: none; }
+.cs-col-shortcut-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--arrow-left, 50%);
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1D1D1F;
+}
+
+/* Consumables filter empty state — same layout as equipment. */
+.cons-filter-empty {
+  padding: var(--space-xxl) var(--space-mp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cons-filter-empty[hidden] { display: none; }
+
+/* =====================================================================
+ * Process Flow 1 filter — parallel to the Equipment / Consumables rules
+ * above. Scoped to `.table--lines` (PF1, NOT `.table--lines-v2` which is
+ * used by PF2 that keeps the older pf-filter.js).
+ * ===================================================================== */
+
+/* Match navigator inside the PF1 filter field. */
+.pf1-match-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px 0 0;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-fill-gray-tertiary);
+  border-radius: 0;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 4px;
+}
+.pf1-match-nav[hidden] { display: none; }
+
+.pf1-match-nav__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition-basic), color var(--transition-basic);
+}
+.pf1-match-nav__btn:hover:not(:disabled) {
+  background: var(--color-fill-gray-tertiary);
+  color: var(--color-glyph-gray);
+}
+.pf1-match-nav__btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pf1-match-nav__count {
+  color: var(--color-glyph-gray);
+  font-variant-numeric: tabular-nums;
+  padding-left: 2px;
+  padding-right: 6px;
+}
+
+/* Filter mode: hide the prev/next arrows AND the vertical divider — only the
+ * total count is meaningful because every matching row is already visible. */
+.pf1-match-nav--count-only .pf1-match-nav__btn {
+  display: none;
+}
+.pf1-match-nav--count-only {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* Row / cell highlight for the PF1 table body — same three-tone yellow
+ * palette as the equipment/consumables filters. */
+/* Hide rule applies at any nesting level — L1 lines, L1 detail rows, and L2
+ * station rows inside the detail. In Filter mode with station-level chips,
+ * lines without matching stations are hidden at L1 while stations that
+ * personally don't satisfy every station chip are hidden at L2. */
+#lines-table-body tr.pf1-filter-hidden {
+  display: none !important;
+}
+
+/* Row-hit tint (light yellow) — applies to both L1 line rows and L2 station
+ * rows inside the expanded detail. The class is scoped by JS to whichever
+ * level of match landed. */
+#lines-table-body tr.pf1-filter-row-hit > td {
+  background: #FFFEF2;
+}
+
+#lines-table-body tr.pf1-filter-row-hit:hover > td {
+  background: #E8EBF3;
+}
+
+#lines-table-body tr.pf1-filter-row-hit--focus > td {
+  background: #FFF5C7;
+}
+
+/* Cell hit — the exact cell that matched, painted with the strong yellow.
+ * L1 cells sit directly inside `#lines-table-body > tr > td`; L2 station cells
+ * live several levels deeper (`.proj-nested-table__detail-row .l2__table td`),
+ * so we broaden the selector to cover both. */
+#lines-table-body td.pf1-filter-hit {
+  background: #FFECB3 !important;
+}
+
+/* Filter-mode header highlight — the L1 header of the field being filtered
+ * gets a yellow tint. Station-level chips highlight the L2 header inside the
+ * expanded detail row. */
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header.pf1-filter-hit-header,
+#lines-table-body .l2__table > thead > tr > .table__header.pf1-filter-hit-header {
+  background-color: #FFECB3 !important;
+}
+
+/* Never change the header background on hover — same rationale as the
+ * equipment / consumables tables. */
+.table--lines:not(.table--lines-v2) .table__header,
+.table--lines:not(.table--lines-v2) .table__header.sortable,
+.table--lines:not(.table--lines-v2) .table__header.sortable:hover,
+.table--lines:not(.table--lines-v2) .table__header:hover {
+  background-color: #FFFFFF;
+}
+
+/* Header shortcut icon (hover-revealed) for PF1 headers that carry
+ * `data-pf1-field`. Uses the same th-icon-group container the JS injects. */
+.table--lines:not(.table--lines-v2) .table__header {
+  position: relative;
+}
+
+.table--lines:not(.table--lines-v2) .table__header .th-icon-group {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.table--lines:not(.table--lines-v2) .table__header .th-icon-group > * {
+  pointer-events: auto;
+}
+
+.table--lines:not(.table--lines-v2) > thead .table__header .pf1-col-shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-basic);
+  border-radius: 50%;
+}
+
+.table--lines:not(.table--lines-v2) > thead .table__header .pf1-col-shortcut lucide-icon {
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+}
+
+.table--lines:not(.table--lines-v2) > thead .table__header:hover,
+.table--lines:not(.table--lines-v2) > thead .table__header:focus-within {
+  z-index: 30;
+}
+
+.table--lines:not(.table--lines-v2) > thead .table__header:hover .pf1-col-shortcut,
+.table--lines:not(.table--lines-v2) > thead .table__header:focus-within .pf1-col-shortcut,
+.table--lines:not(.table--lines-v2) > thead .table__header .pf1-col-shortcut:focus-visible {
+  opacity: 1;
+}
+
+.table--lines:not(.table--lines-v2) > thead .table__header .pf1-col-shortcut:hover {
+  filter: brightness(1.1);
+}
+
+/* Portaled tooltip for the PF1 shortcut icon. */
+.pf1-col-shortcut-tooltip {
+  position: fixed;
+  z-index: 1300;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #1D1D1F;
+  color: #fff;
+  font-size: var(--font-size-tiny);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.pf1-col-shortcut-tooltip[hidden] { display: none; }
+.pf1-col-shortcut-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--arrow-left, 50%);
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1D1D1F;
+}
+
+/* PF1 filter empty state. */
+.pf1-filter-empty {
+  padding: var(--space-xxl) var(--space-mp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pf1-filter-empty[hidden] { display: none; }

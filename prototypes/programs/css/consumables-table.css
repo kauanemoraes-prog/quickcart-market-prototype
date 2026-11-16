@@ -1,0 +1,215 @@
+/* Consumables table styling - mirrors equipment-table structure */
+.consumables-table-container {
+    margin-top: 0;
+    background-color: var(--color-fill-white);
+    margin: 0 calc(var(--space-mp) * -1);
+    padding: 0;
+    position: relative;
+}
+
+.consumables-table-container .table-container {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.consumables-table-container .table-container::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.consumables-table-container .table-container::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 8px;
+}
+
+.consumables-table-container .table-container::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    border-radius: 4px;
+}
+
+.table--consumables,
+.table--consumables-simple {
+    width: 100%;
+    background-color: transparent;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+.table--consumables .table__head,
+.table--consumables-simple .table__head {
+    background-color: #FFFFFF;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+}
+
+.table--consumables .table__header,
+.table--consumables-simple .table__header {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    padding: 0 var(--space-m);
+    height: 42px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E8E8ED;
+    border-right: 1px solid #E8E8ED;
+    white-space: nowrap;
+    min-width: 150px;
+    position: relative;
+    overflow: hidden;
+}
+
+.table--consumables .table__row,
+.table--consumables-simple .table__row {
+    height: 42px;
+    background-color: var(--color-fill-white);
+    border-bottom: 1px solid #E8E8ED;
+}
+
+.table--consumables .table__row:nth-child(even),
+.table--consumables-simple .table__row:nth-child(even) {
+    background-color: var(--color-fill-white);
+}
+
+.table--consumables .table__row:hover {
+    background-color: #E8EBF3;
+}
+
+.table--consumables .table__row:hover .table__cell--sticky-station,
+.table--consumables .table__row:hover .table__cell--sticky-application {
+    background-color: #E8EBF3;
+}
+
+.table--consumables-simple .table__row:hover {
+    background-color: #E8EBF3;
+}
+
+.table--consumables .table__cell,
+.table--consumables-simple .table__cell {
+    padding: 0 var(--space-m);
+    vertical-align: middle;
+    border-bottom: 1px solid #E8E8ED;
+    border-right: 1px solid #E8E8ED;
+    white-space: nowrap;
+    height: 42px;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+/* Sticky columns: Station Name and Application Name */
+.table--consumables .table__header--sticky-station,
+.table--consumables .table__cell--sticky-station {
+    position: sticky !important;
+    left: 0;
+    z-index: 2;
+    background-color: #FFFFFF;
+    overflow: visible;
+    min-width: 180px;
+    max-width: 180px;
+    width: 180px;
+    padding-left: var(--space-mp);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table--consumables .table__header--sticky-application,
+.table--consumables .table__cell--sticky-application {
+    position: sticky !important;
+    left: 180px;
+    z-index: 2;
+    background-color: #FFFFFF;
+    border-right: 1px solid var(--color-fill-quaternary);
+    overflow: visible;
+    min-width: 180px;
+    max-width: 180px;
+    width: 180px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table--consumables .table__header--sticky-station,
+.table--consumables .table__header--sticky-application {
+    z-index: 3;
+    resize: none;
+}
+
+/* Station Name header with checkbox */
+.table__header--cons-name-header {
+    position: relative;
+}
+
+.table__header--cons-name-header span {
+    vertical-align: middle;
+}
+
+.table__header--cons-name-header .cons-checkbox {
+    vertical-align: middle;
+    margin-right: var(--space-s);
+}
+
+/* Application name header hosts the add-row button */
+.table--consumables .table__header--sticky-application .cons-add-row-btn {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.cons-add-row-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition-basic);
+}
+
+.cons-add-row-btn:hover {
+    background-color: rgba(113, 128, 172, 0.08);
+}
+
+.cons-add-icon {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+/* Row checkbox cell layout */
+.table__cell--cons-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.cons-checkbox {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--color-base-accent);
+    border: 1px solid #D9D9D9;
+    border-radius: 3px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--color-fill-white);
+    vertical-align: middle;
+}
+
+.cons-checkbox:checked {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cons-checkbox--indeterminate {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='2' viewBox='0 0 10 2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1H9' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+

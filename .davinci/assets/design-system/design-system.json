@@ -1,0 +1,9 @@
+{
+  "id": "monalisa",
+  "label": "MonalisaDS",
+  "description": "Apple-inspired system — the DaVinci default look.",
+  "runtime": { "css": "dist/css/design-system.min.css", "js": "dist/js/design-system.min.js" },
+  "contracts": "contracts/_index.md",
+  "components": "components/_component-index.md",
+  "tokens": "tokens/"
+}

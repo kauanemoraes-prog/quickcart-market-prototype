@@ -1,0 +1,79 @@
+/* Accent blue override: #7180AC replaces the design system's blue everywhere.
+ * Generated from the design-system / canvas CSS: every declaration that uses a blue is repeated
+ * here with the new color. Link this file last in <head>. */
+:root { --color-base-accent: #7180AC !important; --color-base-accent-darker-1: #6674A0 !important; --color-base-accent-darker-2: #5C6A94 !important; --color-base-accent-lighter-1: #E8EBF3 !important; --color-base-accent-lighter-2: #F3F5F9 !important; --color-base-accent-lighter-3: #B5BDD6 !important; --color-fill-blue: #7180AC !important; --color-fill-blue-alt: #3A4466 !important; --color-fill-blue-secondary: #E8EBF3 !important; --color-fill-blue-lighter: #E8EBF3 !important; --color-fill-dark-blue: #4B5778 !important; --color-fill-vibrant-blue: #7180AC !important; --color-glyph-blue: #6674A0 !important; --color-fill-blue-hover: #7B89B3 !important; --color-fill-blue-active: #6674A0 !important; }
+/* Plain links only: anchors that carry a class (buttons, tags, icon links...) keep their own colors. */
+html a:not([class]) { color: #7180AC; }
+html a:not([class]):active { color: #6674A0; }
+.btn--primary { background-color:#7180AC !important; border-color:#7180AC !important; }
+.btn--primary:hover { background-color:#7B89B3 !important; border-color:#7B89B3 !important; }
+.btn--primary:active { background-color:#6674A0 !important; border-color:#6674A0 !important; }
+.btn--primary:focus { background-color:#7B89B3 !important; border-color:#7B89B3 !important; }
+.btn--link { color:#7180AC !important; }
+.btn--link:hover { color:#7180AC !important; }
+.form-input:hover { border-color:#7180AC !important; }
+.form-input:focus { border-color:#7180AC !important; box-shadow:0 0 0 .2rem rgba(113, 128, 172, .1) !important; }
+.form-textarea:hover { border-color:#7180AC !important; }
+.form-textarea:focus { border-color:#7180AC !important; box-shadow:0 0 0 .2rem rgba(113, 128, 172, .1) !important; }
+.form-select:hover { border-color:#7180AC !important; }
+.form-select:focus { border-color:#7180AC !important; box-shadow:0 0 0 .2rem rgba(113, 128, 172, .1) !important; }
+.checkbox__input:checked~.checkbox__box { background-color:#7180AC !important; border-color:#7180AC !important; }
+.checkbox:hover .checkbox__box { border-color:#7180AC !important; }
+.radio__input:checked~.radio__circle { border-color:#7180AC !important; }
+.radio__input:checked~.radio__circle::after { background-color:#7180AC !important; }
+.radio:hover .radio__circle { border-color:#7180AC !important; }
+.switch__input:checked~.switch__slider { background-color:#7180AC !important; }
+.notification--info { background-color:#E8EBF3 !important; }
+.notification--info .notification__icon,.notification--info .notification__close { color:#7180AC !important; }
+.tag--primary { border-color:#6674A0 !important; color:#6674A0 !important; }
+.table__header.sortable:hover { background-color:#E8EBF3 !important; }
+.table__header.sortable.sorted { color:#7180AC !important; }
+.table__header.filterable .filter-icon .filter-icon__active { color:#7180AC !important; }
+.table__row:hover { background-color:#E8EBF3 !important; }
+.sort-indicator__icon.active { color:#7180AC !important; }
+.pagination__per-page-select { color:#7180AC !important; }
+.pagination__per-page-select:hover { background-color:#E8EBF3 !important; }
+.pagination__per-page-select:focus { background-color:#E8EBF3 !important; }
+.pagination__link:hover { background-color:#E8EBF3 !important; color:#7180AC !important; }
+.pagination__link:active { background-color:#E8EBF3 !important; }
+.pagination__link--active { background-color:#7180AC !important; }
+.pagination__link--active:hover { background-color:#7180AC !important; }
+.pagination__nav:hover { background-color:#E8EBF3 !important; color:#7180AC !important; }
+.pagination__nav:active { background-color:#E8EBF3 !important; }
+.tabs__tab:hover { color:#6674A0 !important; }
+.tabs__tab--active { color:#6674A0 !important; border-bottom-color:#6674A0 !important; }
+.tabs--pill .tabs__tab { border:.1rem solid #6674A0 !important; color:#6674A0 !important; }
+.tabs--pill .tabs__tab:last-child { border-right:.1rem solid #6674A0 !important; }
+.tabs--pill .tabs__tab:hover { color:#6674A0 !important; }
+.tabs--pill .tabs__tab--active { background-color:#6674A0 !important; border-color:#6674A0 !important; }
+.modal__close { color:#7180AC !important; }
+.drawer__close { color:#7180AC !important; }
+.nav-menu--vertical .nav-menu__dropdown { border-left:.2rem solid #E8EBF3 !important; }
+.nav-menu__dropdown-link:hover { background-color:#E8EBF3 !important; color:#7180AC !important; }
+.nav-menu__submenu-link:hover { background-color:#E8EBF3 !important; color:#7180AC !important; }
+.loader__spinner { border-top-color:#7180AC !important; }
+.loader__text { color:#7180AC !important; }
+.selection-list__item:hover { color:#6674A0 !important; }
+.pill--blue { background-color:#F3F5F9 !important; }
+.pill--blue .pill__close lucide-icon { color:#7180AC !important; }
+.pill--selected.pill--blue { background-color:#7180AC !important; }
+.form-select-stylized__wrapper.is-open .form-select { border-color:#7180AC !important; }
+.form-select-stylized__overlay:focus-visible { outline:.2rem solid #7180AC !important; }
+.form-select-stylized__panel { border:.1rem solid #7180AC !important; }
+:root { --color-fill-blue: #7180AC !important; --color-glyph-blue: #6674A0 !important; --color-glyph-blue: #6674A0 !important; --color-base-accent: #7180AC !important; --color-base-accent-lighter-1: #E8EBF3 !important; }
+.context-bullet { background:linear-gradient(135deg, #EC4899 0%, #7180AC 100%) !important; }
+
+/* The generated link rule above (a { color: ... !important }) would also recolor links that are
+   styled as buttons; keep their own text color. */
+a.btn--primary,
+a.btn--primary:hover,
+a.btn--primary:focus,
+a.btn--primary:active {
+  color: #fff !important;
+}
+
+/* A row is one row: the hover covers all of it, also the fixed (sticky) cells, which have a background of their own and
+ * used to stay out of it. The header row has no row hover (its sortable cells have their own). */
+.table__row:hover > td:not(.np-cell--edited):not(.pcn-group-header__cell) { background-color:#E8EBF3 !important; }
+.table__head .table__row:hover { background-color:transparent !important; }
+.dark-mode .table__row:hover > td:not(.np-cell--edited):not(.pcn-group-header__cell) { background-color:var(--dm-row-hover, #2C2D2E) !important; }

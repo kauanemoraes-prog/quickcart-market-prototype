@@ -1,0 +1,528 @@
+/* proj-dark-mode.css */
+/* Global dark mode overrides. Active when <html class="dark-mode">. */
+/* Color palette (5 tones) provided by designer. */
+
+.dark-mode {
+    --dm-bg-1: #141415;  /* deepest — root, footer */
+    --dm-bg-2: #1E1F1F;  /* page bg, sub-header */
+    --dm-bg-3: #28292A;  /* surfaces, hover */
+    --dm-bg-4: #323334;  /* elevated, dropdowns, modals */
+    --dm-bg-5: #393B3C;  /* top elevation, switch track, hover */
+
+    --dm-divider: #333538;  /* ALL dividers/borders in dark mode */
+    --dm-row-hover: #193555;  /* row hover background in dark mode */
+
+    --dm-text-1: #FFFFFF;
+    --dm-text-2: rgba(255, 255, 255, 0.72);
+    --dm-text-3: rgba(255, 255, 255, 0.48);
+    --dm-text-4: rgba(255, 255, 255, 0.32);
+
+    --dm-accent: #8F9CC8;  /* the soft accent of the light mode (#7180AC), a little lifted to read on dark */
+    --dm-accent-soft: rgba(113, 128, 172, 0.24);
+    --dm-danger: #E58F84;
+    --dm-success: #86C9A0;
+    --dm-warning: #E6C27A;
+
+    color-scheme: dark;
+}
+
+/* ========================================
+   Canvas chrome — body, content, navbar, sub-header, footer
+   ======================================== */
+.dark-mode body {
+    background-color: var(--dm-bg-1);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .top-navbar {
+    background-color: #191A1A;
+    border-bottom: 0.1rem solid var(--dm-divider);
+}
+
+.dark-mode .sub-header {
+    background-color: var(--dm-bg-2);
+    border-bottom: 0.1rem solid var(--dm-divider);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .sub-header__subtitle {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .content {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .footer {
+    background-color: #191A1A;
+    border-top: 0.1rem solid var(--dm-divider);
+    color: var(--dm-text-2);
+}
+
+.dark-mode .footer__text,
+.dark-mode .footer__link {
+    color: var(--dm-text-2);
+}
+
+.dark-mode .footer__link:hover {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .footer__hifi-popover {
+    background-color: var(--dm-bg-4);
+    border: 0.1rem solid var(--dm-divider);
+}
+
+.dark-mode .footer__hifi-link {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .footer__hifi-link:hover {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .footer__hifi-divider {
+    background-color: var(--dm-bg-5);
+}
+
+/* Prototype ribbon (top status bar) */
+.dark-mode .prototype-ribbon {
+    background-color: var(--dm-bg-1);
+    border-bottom-color: var(--dm-divider);
+    color: var(--dm-text-2);
+}
+
+.dark-mode .prototype-ribbon__divider {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .prototype-ribbon__message-text strong {
+    color: var(--dm-text-1);
+}
+
+/* ========================================
+   Navbar nav menu
+   ======================================== */
+.dark-mode .nav-menu__link { color: var(--dm-text-2); }
+.dark-mode .nav-menu__link:hover { color: var(--dm-text-1); }
+
+.dark-mode .nav-menu__link--active,
+.dark-mode .nav-menu__dropdown-link--active {
+    background-color: var(--dm-accent-soft);
+    color: var(--dm-accent);
+}
+
+.dark-mode .nav-menu__item--active > .nav-menu__link--dropdown {
+    background-color: var(--dm-accent-soft);
+    color: var(--dm-accent);
+}
+
+.dark-mode .nav-menu__dropdown {
+    background-color: var(--dm-bg-3);
+    border: 0.1rem solid var(--dm-divider);
+    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .nav-menu__dropdown-link { color: var(--dm-text-2); }
+.dark-mode .nav-menu__dropdown-link:hover {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .nav-menu__dropdown-divider { background-color: var(--dm-divider); }
+.dark-mode .nav-menu__dropdown-section-title { color: var(--dm-text-3); }
+.dark-mode .nav-menu__user-name { color: var(--dm-text-1); }
+.dark-mode .nav-menu__user-role { color: var(--dm-text-3); }
+
+/* ========================================
+   Right toolbar
+   ======================================== */
+.dark-mode .proj-right-toolbar {
+    background-color: #191A1A;
+    border-left-color: var(--dm-divider);
+    box-shadow: var(--dm-bg-5) 0 0 0.1rem 0.1rem;
+}
+
+.dark-mode .proj-right-toolbar__header { border-bottom-color: var(--dm-divider); }
+.dark-mode .proj-right-toolbar__toggle { color: var(--dm-text-2); }
+.dark-mode .proj-right-toolbar__toggle:hover { color: var(--dm-text-1); }
+
+.dark-mode .proj-right-toolbar__chevron,
+.dark-mode .proj-right-toolbar__item-icon img {
+    /* #8F9CC8 (soft accent) */
+    filter: brightness(0) saturate(100%) invert(65%) sepia(18%) saturate(750%) hue-rotate(190deg) brightness(95%) contrast(90%);
+}
+
+.dark-mode .proj-right-toolbar__item { color: var(--dm-accent); }
+.dark-mode .proj-right-toolbar__item:hover { background-color: var(--dm-bg-3); }
+.dark-mode .proj-right-toolbar__item--active { background-color: var(--dm-accent-soft); }
+
+/* ========================================
+   MDS — Headings, body, links
+   ======================================== */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 { color: var(--dm-text-1); }
+
+.dark-mode p { color: var(--dm-text-1); }
+
+.dark-mode .caption,
+.dark-mode .text-secondary { color: var(--dm-text-2); }
+
+.dark-mode a { color: var(--dm-accent); }
+.dark-mode a:hover { color: var(--dm-text-1); }
+
+.dark-mode hr { border-color: var(--dm-divider); }
+
+/* ========================================
+   MDS — Forms (input, textarea, select, label, group)
+   ======================================== */
+.dark-mode .form-label { color: var(--dm-text-2); }
+
+.dark-mode .form-input,
+.dark-mode .form-textarea,
+.dark-mode .form-select,
+.dark-mode input[type="text"],
+.dark-mode input[type="email"],
+.dark-mode input[type="password"],
+.dark-mode input[type="number"],
+.dark-mode input[type="search"],
+.dark-mode input[type="tel"],
+.dark-mode input[type="url"],
+.dark-mode textarea,
+.dark-mode select {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .form-input::placeholder,
+.dark-mode .form-textarea::placeholder,
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder { color: var(--dm-text-3); }
+
+.dark-mode .form-input:focus,
+.dark-mode .form-textarea:focus,
+.dark-mode .form-select:focus,
+.dark-mode input:focus,
+.dark-mode textarea:focus,
+.dark-mode select:focus {
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 0.2rem rgba(113, 128, 172, 0.32);
+    outline: none;
+}
+
+.dark-mode .form-input--invalid,
+.dark-mode .form-textarea--invalid { border-color: var(--dm-danger); }
+
+.dark-mode .form-error,
+.dark-mode .form-helper--error { color: var(--dm-danger); }
+
+.dark-mode .form-helper { color: var(--dm-text-3); }
+
+/* MDS checkbox */
+.dark-mode .checkbox__box {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .checkbox__input:checked ~ .checkbox__box {
+    background-color: var(--dm-accent);
+    border-color: var(--dm-accent);
+}
+
+.dark-mode .checkbox__input:disabled ~ .checkbox__box {
+    background-color: var(--dm-bg-4);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .checkbox__label { color: var(--dm-text-1); }
+
+/* MDS switch */
+.dark-mode .switch__slider { background-color: var(--dm-bg-5); }
+.dark-mode .switch__slider::before { background-color: var(--dm-text-1); }
+.dark-mode .switch__input:checked ~ .switch__slider { background-color: var(--dm-accent); }
+.dark-mode .switch__label { color: var(--dm-text-1); }
+
+/* MDS radio */
+.dark-mode .radio__circle {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+.dark-mode .radio__input:checked ~ .radio__circle { border-color: var(--dm-accent); }
+.dark-mode .radio__input:checked ~ .radio__circle::after { background-color: var(--dm-accent); }
+.dark-mode .radio__label { color: var(--dm-text-1); }
+
+/* ========================================
+   MDS — Buttons
+   ======================================== */
+.dark-mode .btn--primary {
+    background-color: var(--dm-accent);
+    border-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+.dark-mode .btn--primary:hover {
+    background-color: #1E8AFF;
+    border-color: #1E8AFF;
+}
+
+.dark-mode .btn--secondary {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+.dark-mode .btn--secondary:hover { background-color: var(--dm-bg-4); }
+
+.dark-mode .btn--ghost {
+    color: var(--dm-text-1);
+    background-color: transparent;
+}
+.dark-mode .btn--ghost:hover { background-color: var(--dm-bg-3); }
+
+.dark-mode .btn--danger {
+    background-color: var(--dm-danger);
+    border-color: var(--dm-danger);
+    color: #FFFFFF;
+}
+
+.dark-mode .btn--icon { color: var(--dm-text-2); }
+.dark-mode .btn--icon:hover {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+}
+
+/* ========================================
+   MDS — Tables
+   ======================================== */
+.dark-mode .table-container { background-color: var(--dm-bg-2); }
+
+.dark-mode .table {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table__head { background-color: var(--dm-bg-2); }
+
+.dark-mode .table__header {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table__row {
+    background-color: var(--dm-bg-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table__row:hover { background-color: var(--dm-row-hover); }
+
+.dark-mode .table__cell {
+    color: var(--dm-text-1);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .sort-indicator { color: var(--dm-text-3); }
+.dark-mode .filter-icon { color: var(--dm-text-3); }
+
+/* ========================================
+   MDS — Tabs
+   ======================================== */
+.dark-mode .tabs__nav { border-bottom-color: var(--dm-divider); }
+
+.dark-mode .tabs__tab { color: var(--dm-text-2); }
+.dark-mode .tabs__tab:hover { color: var(--dm-text-1); }
+.dark-mode .tabs__tab--active {
+    color: var(--dm-accent);
+    border-bottom-color: var(--dm-accent);
+}
+
+.dark-mode .tabs__content,
+.dark-mode .tabs__panel { color: var(--dm-text-1); }
+
+/* ========================================
+   MDS — Modal
+   ======================================== */
+.dark-mode .modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
+
+.dark-mode .modal {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border: 0.1rem solid var(--dm-divider);
+}
+
+.dark-mode .modal__header {
+    border-bottom-color: var(--dm-divider);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .modal__footer {
+    border-top-color: var(--dm-divider);
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .modal__close { color: var(--dm-text-2); }
+.dark-mode .modal__close:hover { color: var(--dm-text-1); }
+
+/* ========================================
+   MDS — Drawer
+   ======================================== */
+.dark-mode .drawer-overlay { background-color: rgba(0, 0, 0, 0.6); }
+
+.dark-mode .drawer {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .drawer__header {
+    background-color: var(--dm-bg-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .drawer__footer {
+    background-color: var(--dm-bg-2);
+    border-top-color: var(--dm-divider);
+}
+
+.dark-mode .drawer__close { color: var(--dm-text-2); }
+
+/* ========================================
+   MDS — Popover
+   ======================================== */
+.dark-mode .popover__content {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .popover__arrow { background-color: var(--dm-bg-4); border-color: var(--dm-divider); }
+
+/* ========================================
+   MDS — Notifications
+   ======================================== */
+.dark-mode .notification {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .notification--info { border-left-color: var(--dm-accent); }
+.dark-mode .notification--success { border-left-color: var(--dm-success); }
+.dark-mode .notification--warning { border-left-color: var(--dm-warning); }
+.dark-mode .notification--error { border-left-color: var(--dm-danger); }
+
+.dark-mode .notification__close { color: var(--dm-text-2); }
+
+/* ========================================
+   MDS — Cards
+   ======================================== */
+.dark-mode .card {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .card__header {
+    background-color: var(--dm-bg-3);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .card__footer {
+    border-top-color: var(--dm-divider);
+}
+
+/* ========================================
+   MDS — Tags
+   ======================================== */
+.dark-mode .tag {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .tag--accent {
+    background-color: var(--dm-accent-soft);
+    color: var(--dm-accent);
+    border-color: transparent;
+}
+
+/* ========================================
+   MDS — Badge counter
+   ======================================== */
+.dark-mode .badge-counter {
+    background-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+
+/* ========================================
+   MDS — Avatar
+   ======================================== */
+.dark-mode .avatar {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-1);
+}
+
+/* ========================================
+   MDS — Empty state
+   ======================================== */
+.dark-mode .empty-state { color: var(--dm-text-2); }
+.dark-mode .empty-state__title { color: var(--dm-text-1); }
+.dark-mode .empty-state__description { color: var(--dm-text-3); }
+
+/* ========================================
+   MDS — Pagination
+   ======================================== */
+.dark-mode .pagination__link {
+    color: var(--dm-text-2);
+    background-color: transparent;
+}
+
+.dark-mode .pagination__link:hover {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .pagination__link--active {
+    background-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+
+/* ========================================
+   MDS — Breadcrumb
+   ======================================== */
+.dark-mode .breadcrumb__link { color: var(--dm-text-2); }
+.dark-mode .breadcrumb__link:hover { color: var(--dm-text-1); }
+.dark-mode .breadcrumb__separator { color: var(--dm-text-3); }
+.dark-mode .breadcrumb__item--active { color: var(--dm-text-1); }
+
+/* ========================================
+   MDS — Loaders
+   ======================================== */
+.dark-mode .loader__spinner { border-color: var(--dm-divider); border-top-color: var(--dm-accent); }
+.dark-mode .loader__text { color: var(--dm-text-2); }
+
+/* ========================================
+   Plugin components — Nested table / Timeline / Tooltip
+   ======================================== */
+.dark-mode .proj-nested-table { color: var(--dm-text-1); }
+.dark-mode .proj-nested-table__row {
+    background-color: var(--dm-bg-2);
+    border-bottom-color: var(--dm-divider);
+}
+.dark-mode .proj-nested-table__row:hover { background-color: var(--dm-row-hover); }
+.dark-mode .proj-nested-table__panel { background-color: var(--dm-bg-3); }
+
+.dark-mode .proj-timeline {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode [data-proj-tooltip]::after {
+    background-color: var(--dm-bg-5);
+    color: var(--dm-text-1);
+}

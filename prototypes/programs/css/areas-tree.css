@@ -1,0 +1,218 @@
+/* Areas tab list: a tree table (Area > Products / Issues > Items) in a white rounded card */
+
+.areas-view { padding: var(--space-s) 0; }
+
+.areas-toolbar .products-search { flex: 0 1 44rem; }
+.areas-toolbar .products-chips { margin-bottom: 0; }
+.areas-toolbar .areas-view-toggle { margin-left: auto; }
+
+/* Controls that exist only in map view */
+#process-flow:not(.areas--map) .areas-map-only { display: none; }
+
+.tt-card {
+    overflow-x: auto;
+    border-radius: 20px;
+    background: #fff;
+}
+
+.tt-table {
+    --tt-guide: #D5D9E8;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.tt-head {
+    position: sticky;
+    top: 0;
+    padding: 12px 12px;
+    background: #fff;
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    text-align: left;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-glyph-gray-secondary);
+    white-space: nowrap;
+}
+
+.tt-cell--num,
+.tt-head--num { padding-right: 24px; text-align: right; }
+
+.tt-cell--num { font-variant-numeric: tabular-nums; }
+
+.tt-hint { margin-left: 8px; text-transform: none; letter-spacing: 0; font-weight: var(--font-weight-regular, 400); }
+
+.tt-cell {
+    padding: 0 12px;
+    height: 4.6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    vertical-align: middle;
+}
+
+.tt-cell--name { display: table-cell; padding-left: 14px; }
+.tt-cell--name > * { vertical-align: middle; }
+.tt-cell--desc { color: var(--color-glyph-gray-secondary); }
+
+.tt-row--l1 > .tt-cell { height: 5.6rem; background-color: #fff; }
+
+/* A clear line between one area and the next (the first area sits right under the header) */
+.tt-row--l1 > .tt-cell { border-top: 1px solid #D9DDE9; }
+.tt-table tbody tr:first-child > .tt-cell { border-top: 0; }
+
+/* What is inside an area sits on a light grey, a little lighter than the grey of the page behind the card */
+.tt-row--l2 > .tt-cell,
+.tt-row--l3 > .tt-cell,
+.tt-row--l4 > .tt-cell,
+.tt-row--note > .tt-cell,
+.tt-row--add > .tt-cell,
+.tt-row--form > .tt-cell { background-color: #F9FAFC; }
+.tt-row--l1 { cursor: default; }
+
+.tt-label { font-weight: var(--font-weight-medium); }
+.tt-label--area { font-size: var(--font-size-small, 14px); font-weight: var(--font-weight-semibold); }
+.tt-muted { margin-left: 6px; font-weight: var(--font-weight-regular, 400); color: var(--color-glyph-gray-secondary); }
+
+.tt-num {
+    display: inline-block;
+    min-width: 3.4rem;
+    margin-right: 8px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.tt-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.tt-toggle lucide-icon { transform: rotate(-90deg); transition: transform 0.15s ease; }
+.tt-toggle--open lucide-icon { transform: rotate(0); }
+.tt-toggle--none { background: transparent; cursor: default; }
+
+/* Tree guides. Every ancestor draws one vertical line through the whole height of the cell (its x is the middle of that
+ * ancestor's toggle), so the lines are unbroken from row to row. The last line of "end" rows (the + Add rows) stops at the
+ * middle of the row, where the elbow is. The item itself starts 15px after its parent's line. */
+.tt-lv2 { padding-left: 42px; background-image: linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0; background-size: 1px 100%; background-repeat: no-repeat; }
+.tt-lv3 { padding-left: 70px; background-image: linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0, 55px 0; background-size: 1px 100%, 1px 100%; background-repeat: no-repeat; }
+.tt-lv4 { padding-left: 98px; background-image: linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0, 55px 0, 83px 0; background-size: 1px 100%, 1px 100%, 1px 100%; background-repeat: no-repeat; }
+.tt-lv5 { padding-left: 126px; background-image: linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0, 55px 0, 83px 0, 111px 0; background-size: 1px 100%, 1px 100%, 1px 100%, 1px 100%; background-repeat: no-repeat; }
+
+.tt-lv3.tt-end { background-image: linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0, 55px 0; background-size: 1px 100%, 1px 50%; background-repeat: no-repeat; }
+.tt-lv4.tt-end { background-image: linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)), linear-gradient(var(--tt-guide), var(--tt-guide)); background-position: 27px 0, 55px 0, 83px 0; background-size: 1px 100%, 1px 100%, 1px 50%; background-repeat: no-repeat; }
+
+.tt-elbow {
+    display: inline-block;
+    width: 15px;
+    margin-left: -15px;
+    border-top: 1px solid var(--tt-guide);
+    vertical-align: middle;
+}
+
+.tt-row--l2 .tt-label { font-weight: var(--font-weight-semibold); }
+
+.tt-row--l3:hover > .tt-cell,
+.tt-row--l4:hover > .tt-cell { background-color: #F1F3F8; }
+
+.tt-row--flash > .tt-cell { background-color: var(--color-base-accent-lighter-1) !important; transition: background 0.4s ease; }
+
+.tt-chip {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 1px 8px;
+    border-radius: 6px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+}
+
+.tt-chip--equipment { background: #E8EEFB; color: #3552A6; }
+.tt-chip--consumable { background: #FDF0DD; color: #8A5A00; }
+
+.tt-cell--note { color: var(--color-glyph-gray-secondary); font-size: var(--font-size-tiny); }
+.tt-cell--add { height: 4rem; }
+.tt-cell--form { height: auto; padding-top: 10px; padding-bottom: 10px; white-space: normal; overflow: visible; }
+
+.tt-add {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.tt-add:hover { text-decoration: underline; }
+
+.tt-form { display: inline-flex; align-items: center; gap: var(--space-s); flex-wrap: wrap; vertical-align: middle; }
+.tt-form__input { width: 32rem; }
+.tt-form__name { min-width: 22rem; }
+.tt-form__qty { width: 7rem; }
+.tt-form__error { width: 100%; font-size: var(--font-size-tiny); color: #B3261E; }
+.tt-form .form-select { min-width: 12rem; }
+
+.tt-empty { padding: var(--space-l); text-align: center; color: var(--color-glyph-gray-secondary); }
+
+.dark-mode .tt-card,
+.dark-mode .tt-head { background-color: var(--dm-bg-2); }
+.dark-mode .tt-table,
+.dark-mode .tt-label { color: var(--dm-text-1); }
+.dark-mode .tt-head,
+.dark-mode .tt-num,
+.dark-mode .tt-muted,
+.dark-mode .tt-cell--desc,
+.dark-mode .tt-cell--note { color: var(--dm-text-2); }
+.dark-mode .tt-cell,
+.dark-mode .tt-head { border-color: var(--dm-divider); }
+.dark-mode .tt-row--l1 > .tt-cell { background-color: var(--dm-bg-2); border-top-color: var(--dm-divider); }
+.dark-mode .tt-row--l2 > .tt-cell,
+.dark-mode .tt-row--l3 > .tt-cell,
+.dark-mode .tt-row--l4 > .tt-cell,
+.dark-mode .tt-row--note > .tt-cell,
+.dark-mode .tt-row--add > .tt-cell,
+.dark-mode .tt-row--form > .tt-cell { background-color: var(--dm-bg-3); }
+.dark-mode .tt-row--l3:hover > .tt-cell,
+.dark-mode .tt-row--l4:hover > .tt-cell { background-color: var(--dm-row-hover); }
+.dark-mode .tt-toggle { background-color: var(--dm-accent-soft); color: var(--dm-accent); }
+.dark-mode .tt-table { --tt-guide: var(--dm-divider); }
+
+/* Detail rows (a label and a long text, in the area drawer) wrap instead of being cut */
+.tt-cell--wrap { height: auto; padding-top: 10px; padding-bottom: 10px; white-space: normal; text-overflow: clip; }
+
+/* Dividers between the nested rows too (the details of a product, the lists inside an area), a little lighter than the ones between the main rows */
+.tt-row--l2 > .tt-cell,
+.tt-row--l3 > .tt-cell,
+.tt-row--l4 > .tt-cell { border-top: 1px solid #E4E7F0; }
+.dark-mode .tt-row--l2 > .tt-cell,
+.dark-mode .tt-row--l3 > .tt-cell,
+.dark-mode .tt-row--l4 > .tt-cell { border-top-color: var(--dm-divider); }
+
+/* The bar of the Areas tab (search, Show issues, List / Map) stays in view under the store header while the list or the map scrolls */
+.areas-toolbar {
+    position: sticky;
+    top: var(--detail-bottom, 12.8rem);
+    z-index: 90;
+    padding: var(--space-s) 0;
+    background-color: #F6F7F9;
+}
+.dark-mode .areas-toolbar { background-color: var(--dm-bg-1, #1C1C1E); }
+
+/* The view only holds the bar and the list. It takes no box of its own, so the bar is sticky inside the whole tab, also when the map (a sibling) is shown instead of the list */
+.areas-view { display: contents; }
+.areas-view > .tt-card { margin-bottom: var(--space-s); }

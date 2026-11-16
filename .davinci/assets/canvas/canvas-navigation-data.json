@@ -1,0 +1,19 @@
+{
+  "siteTitle": "DaVinci",
+  "siteLogo": "",
+  "homeUrl": "#",
+  "mainNavigation": [],
+  "user": {
+    "username": "John Appleseed",
+    "avatarInitials": "JA"
+  },
+  "userMenu": [
+    {
+      "label": "Logout",
+      "url": "#logout"
+    }
+  ],
+  "subHeader": {
+    "title": ""
+  }
+}

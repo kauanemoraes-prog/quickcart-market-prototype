@@ -1,0 +1,139 @@
+/* Process toolbar — equip restore menu (chevron popover), tag-style buttons, MDS buttons. Split from process-toolbar.css. */
+
+/* Equip restore menu (chevron popover) */
+.equip-restore-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.equip-restore-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 280px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-xs);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+    padding: var(--space-xs) 0;
+    z-index: 9500;
+}
+
+.equip-restore-menu[hidden] {
+    display: none;
+}
+
+.equip-restore-menu__item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: var(--space-s) var(--space-m);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease;
+}
+
+.equip-restore-menu__item:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.equip-restore-menu__title {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.4;
+}
+
+.equip-restore-menu__subtitle {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    line-height: 1.4;
+    margin-top: 2px;
+}
+
+.equip-restore-menu__divider {
+    height: 1px;
+    background-color: var(--color-fill-quaternary);
+    margin: var(--space-xs) 0;
+}
+
+.toolbar-btn--outlined {
+    padding: var(--space-xs) var(--space-m);
+    border: 1px solid var(--outline-color, #B6B7BD);
+    background-color: var(--color-fill-white);
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--space-xs);
+}
+
+.toolbar-btn--with-badge {
+    gap: var(--space-xs);
+}
+
+.toolbar-badge {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.toolbar-btn--primary {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    color: var(--color-fill-white);
+}
+
+.toolbar-btn--primary:hover {
+    background-color: #6674A0;
+    border-color: #6674A0;
+}
+
+/* Tag-style buttons */
+.tag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-m);
+    background-color: var(--color-fill-tertiary);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 12px;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray);
+    cursor: pointer;
+    transition: var(--transition-basic);
+    font-weight: var(--font-weight-medium);
+}
+
+.tag-btn:hover {
+    background-color: var(--color-fill-quaternary);
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+.tag-btn svg {
+    color: var(--color-glyph-gray-secondary);
+    width: 16px;
+    height: 16px;
+}
+
+.tag-btn--active {
+    background-color: rgba(113, 128, 172, 0.08);
+    border-color: var(--color-base-accent);
+    color: var(--color-base-accent);
+}
+
+.tag-btn--active svg {
+    color: var(--color-base-accent);
+}
+
+/* MDS buttons in toolbar */
+.toolbar-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.toolbar-actions .btn svg {
+    width: 16px;
+    height: 16px;
+}

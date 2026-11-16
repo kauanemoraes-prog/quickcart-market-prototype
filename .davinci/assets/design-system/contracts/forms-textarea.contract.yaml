@@ -1,0 +1,30 @@
+component: forms-textarea
+summary: "A multi-line free-text input for longer content such as descriptions, comments, or notes."
+anatomy:
+  - {id: field, required: true, role: "wrapper grouping the label, control, and any helper or error message"}
+  - {id: label, required: true, role: "the visible text naming the field"}
+  - {id: control, required: true, role: "the multi-line text input accepting and holding the entered value", capabilities: [input, resize]}
+  - {id: placeholder, required: false, role: "hint text shown when the control is empty; not a substitute for the label"}
+  - {id: helper-text, required: false, role: "supplemental guidance or the error message describing how to correct the value"}
+states: [default, focus, filled?, disabled?, readonly?, invalid?]
+behaviors:
+  input: "typing updates the field value; the control accepts line breaks and multi-line content"
+  resize: "the control accommodates longer content by expanding or scrolling so entered text stays reachable"
+  validate: "on an invalid value the field enters the invalid state and surfaces a message describing the problem"
+a11y:
+  - "use a native textarea (or role=textbox with aria-multiline=true)"
+  - "the label is programmatically associated with the control via for/id (or wrapping); placeholder text is never the only label"
+  - "shows a visible focus indicator when focused"
+  - "in the invalid state the control sets aria-invalid=true and points to the message via aria-describedby"
+  - "a disabled or read-only control exposes the corresponding attribute and its state is announced"
+  - "helper and error text is programmatically associated so it is announced with the field"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "the field has a persistent visible label, not placeholder-only labelling", verify: [checklist, dom]}
+  - {id: error-prevention, source: nielsen, rule: "an invalid value shows an inline message stating what is wrong and how to fix it, tied to the field", verify: [checklist, dom]}
+  - {id: user-control, source: nielsen, rule: "entered content remains reachable as it grows (the control expands or scrolls, never clipping text)", verify: [checklist, dom]}
+  - {id: hit-target, source: apple-hig, rule: "the control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+  - {id: focus-visible, source: wcag, rule: "a keyboard focus indicator is visible when the control is focused", verify: [dom, visual]}
+semantics:
+  - {id: required, note: "the field must be completed; the requirement is programmatically indicated (required attribute) and visibly marked"}
+  - {id: optional, note: "the field may be left empty; marked when its surrounding form defaults to required fields"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, sizing, resize-handle artwork]

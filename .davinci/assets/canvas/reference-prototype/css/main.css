@@ -1,0 +1,20 @@
+.reference-prototype-page__intro {
+    color: var(--color-glyph-gray-secondary);
+    margin-bottom: var(--space-l);
+}
+
+.reference-prototype-page__field {
+    max-width: 40rem;
+    margin-bottom: var(--space-m);
+}
+
+.reference-prototype-page__section-title {
+    margin-top: var(--space-l);
+}
+
+#output {
+    margin-top: var(--space-m);
+    padding: var(--space-m);
+    background-color: var(--color-fill-tertiary);
+    border-radius: var(--space-xs);
+}

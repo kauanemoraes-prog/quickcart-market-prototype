@@ -1,0 +1,29 @@
+/* Duplicate Equipment modal — per-item name fields. */
+
+#duplicate-equipment-modal .modal__body {
+    text-align: left;
+}
+
+.dup-eq-modal__intro {
+    margin: 0 0 var(--space-s) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.dup-eq-modal__intro:last-of-type {
+    margin-bottom: var(--space-m);
+}
+
+.dup-eq-modal__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-height: 22rem;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    padding-right: var(--space-xs);
+}
+
+.dup-eq-modal__field {
+    width: 100%;
+}

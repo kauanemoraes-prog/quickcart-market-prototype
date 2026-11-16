@@ -1,0 +1,26 @@
+component: forms-checkbox
+summary: "A binary control for selecting zero, one, or many options independently from a set."
+anatomy:
+  - {id: field, required: true, role: "wrapper that associates the control with its label and extends the click area", capabilities: [toggle]}
+  - {id: input, required: true, role: "the native checkbox holding checked state and receiving focus"}
+  - {id: box, required: true, role: "the visual indicator reflecting checked, unchecked, and indeterminate state"}
+  - {id: label, required: true, role: "the visible text naming the option"}
+states: [default, hover?, focus, checked, unchecked, indeterminate?, disabled?]
+behaviors:
+  toggle: "clicking the control or its label, or pressing Space when focused, flips between checked and unchecked"
+  select-many: "each checkbox in a set toggles independently; selecting one does not clear the others"
+a11y:
+  - "use a native checkbox input (or role=checkbox) so it is focusable and keyboard operable"
+  - "the label is programmatically associated with the input (label wrapping or for/id) and is clickable to toggle"
+  - "checked state is exposed via the checked property (or aria-checked); an indeterminate state uses aria-checked=mixed"
+  - "toggled with the Space key when focused"
+  - "shows a visible focus indicator when focused"
+  - "a disabled checkbox sets the disabled attribute and is announced as disabled"
+  - "a group of related checkboxes is enclosed in a group with an accessible group label (fieldset/legend or role=group)"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "every checkbox has a visible text label", verify: [checklist, dom]}
+  - {id: match-choice-model, source: nielsen, rule: "use a checkbox only for independent multi-select choices, not single-choice or immediate on/off settings", verify: [checklist]}
+  - {id: hit-target, source: apple-hig, rule: "the control including its label meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+  - {id: focus-visible, source: wcag, rule: "a keyboard focus indicator is visible when the checkbox is focused", verify: [dom, visual]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, animation, checkmark artwork, box sizing]

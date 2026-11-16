@@ -1,0 +1,12 @@
+/* Components Prototype — Main CSS */
+
+/* Showcase layout */
+@import url('showcase.css');
+
+/* Use case: Lines → Stations (plugin base styles auto-load via plugins.css) */
+@import url('nested-table-lines.css');
+@import url('nested-table-stations.css');
+
+.components-page {
+    /* NO padding - canvas .content already has padding */
+}

@@ -1,0 +1,183 @@
+/* Products of the whole network (editable table). Table, chips and filters come from the store Products tab (programs/css). */
+
+/* Same soft grey page as the Location page */
+.content:has(.np-page) { background-color: #F6F7F9 !important; }   /* the grey of the store pages */
+
+.np-page {
+    margin-top: calc(var(--space-mp) * -1);
+    margin-bottom: calc(var(--space-mp) * -1);   /* the table and its pager reach the footer: no white space below */
+    padding-bottom: 0;
+}
+
+.np-header {
+    position: sticky;
+    top: var(--nav-bottom, 8rem);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin: 0 calc(var(--space-mp) * -1) var(--space-m);
+    padding: var(--space-m) var(--space-mp);
+    background-color: var(--color-fill-white, #fff);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+.np-header h1 { margin: 0; color: var(--color-glyph-gray); }
+.np-header__line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0; }
+.np-header__line h1 { margin-right: var(--space-m); }
+.np-header__items { display: flex; align-items: baseline; flex-wrap: wrap; }
+.np-header__item {
+    padding-left: var(--space-m);
+    margin-left: var(--space-m);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    line-height: 1.6;
+    color: var(--color-glyph-gray-secondary);
+}
+.np-header__item:first-child { margin-left: 0; }
+
+.np-page .products-view { padding: 0; }
+
+/* Search and the three filters on one line, the quick filters on the next one */
+.np-toolbar { flex-wrap: wrap; row-gap: var(--space-s); }
+.np-toolbar .products-search { flex: 0 1 36rem; }
+.np-toolbar .products-area { width: 17rem; }
+.np-toolbar .np-chips { flex: 0 0 100%; margin-bottom: 0; }
+.np-toolbar .pc-toggle { margin-left: auto; }
+.np-toolbar .np-reset { margin-left: 0; }
+
+.np-hint { margin: 0 0 var(--space-s); font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+
+/* Editable cells */
+.table--products .np-cell--edit { cursor: text; }
+.table--products .np-cell--edit:hover { box-shadow: inset 0 0 0 1px var(--color-base-accent-lighter-3); }
+.table--products .np-cell--editing { padding-top: 0; padding-bottom: 0; box-shadow: inset 0 0 0 2px var(--color-base-accent); }
+.table--products .table__row .np-cell--edited { background-color: var(--color-base-accent-lighter-1); }
+
+.np-input {
+    width: 100%;
+    height: 3.2rem;
+    box-sizing: border-box;
+    padding: 0 8px;
+    border: 1px solid var(--color-base-accent);
+    border-radius: 6px;
+    background: #fff;
+    font: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    outline: none;
+}
+
+.np-input[aria-invalid="true"] { border-color: #B3261E; box-shadow: 0 0 0 2px rgba(179, 38, 30, 0.15); }
+.np-input--num { text-align: right; }
+
+.np-error { position: absolute; z-index: 5; margin-top: 2px; padding: 4px 8px; border-radius: 6px; background: #B3261E; color: #fff; font-size: var(--font-size-tiny); white-space: nowrap; }
+
+/* Pagination */
+.np-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding: var(--space-m) 0 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.np-pager__controls { display: flex; align-items: center; gap: var(--space-s); }
+.np-pager select { height: 3.2rem; }
+
+.dark-mode .np-input { background: var(--dm-bg-2); color: var(--dm-text-1); }
+.dark-mode .table--products .table__row .np-cell--edited { background-color: var(--dm-bg-4); }
+
+/* Add button of the header: primary button with a small menu (new product, new brand) */
+.np-add { position: relative; }
+
+.np-add__menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 200;
+    min-width: 18rem;
+    padding: var(--space-xs) 0;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.np-add__menu[hidden] { display: none; }
+
+.np-add__item {
+    display: block;
+    width: 100%;
+    padding: 1rem var(--space-m);
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    text-align: left;
+    cursor: pointer;
+}
+
+.np-add__item:hover,
+.np-add__item:focus-visible { background: var(--color-fill-secondary); outline: none; }
+
+/* Drawer with the registration forms: opens above the toolbar of the page */
+#np-drawer.drawer-overlay { z-index: 9500; }
+.np-form-note { margin: 0 0 var(--space-m); font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.np-form-group { grid-column: 1 / -1; margin: var(--space-s) 0 0; font-size: var(--font-size-tiny); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray-secondary); }
+
+.np-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 64px;
+    z-index: 9600;
+    transform: translateX(-50%);
+    padding: 1rem var(--space-m);
+    border-radius: 10px;
+    background: #2B3441;
+    color: #fff;
+    font-size: var(--font-size-xxs);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.np-cell--new { background-color: var(--color-base-accent-lighter-1); }
+.dark-mode .np-add__menu { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .np-add__item { color: var(--dm-text-1); }
+.dark-mode .np-add__item:hover { background: var(--dm-bg-3); }
+
+/* Rows per page: label and a small dropdown on one line (the design system stretches a dropdown to the full width) */
+.np-pager__controls label { display: flex; align-items: center; gap: var(--space-s); margin: 0; white-space: nowrap; }
+.np-pager__controls .form-select-stylized__wrapper { width: 9rem; }
+.np-pager__controls .form-select { margin: 0; }
+
+.np-pager { padding: var(--space-s) 0 0; }
+
+/* Editing a cell, as in the Material Design data tables: the cell becomes a filled text field that takes all of it, with a line
+ * under it in the accent color (red when the value is not valid) instead of a boxed input. */
+.table--products .np-cell--editing { padding: 0; box-shadow: none; background-color: var(--color-base-accent-lighter-1); overflow: visible; }
+.table--products .np-cell--editing:hover { box-shadow: none; }
+
+.np-input {
+    height: 4.3rem;
+    padding: 0 12px;
+    border: 0;
+    border-bottom: 2px solid var(--color-base-accent);
+    border-radius: 4px 4px 0 0;
+    background: var(--color-base-accent-lighter-1);
+    caret-color: var(--color-base-accent);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.np-input:hover { background: #DEE3EF; }
+.np-input:focus { background: #DEE3EF; }
+.np-input::selection { background: rgba(113, 128, 172, 0.3); }
+.np-input[aria-invalid="true"] { border-bottom-color: #B3261E; background: #FDE7E7; box-shadow: none; }
+.np-error { margin-top: 0; padding: 2px 12px; border-radius: 0 0 6px 6px; }
+
+/* One spacing for everything of the filter bar: 16px between the fields, between the chips, between the rows and before the table */
+.np-toolbar { gap: 16px; margin-bottom: 16px; }
+.np-toolbar .np-chips { gap: 16px; }

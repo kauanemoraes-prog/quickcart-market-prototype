@@ -1,0 +1,43 @@
+<!-- BREADCRUMB -->
+<!-- Breadcrumbs display the current page's location within a navigational hierarchy -->
+<!-- Copy the exact HTML you need -->
+
+<!-- BASIC BREADCRUMB (2 levels) -->
+<nav class="breadcrumb">
+  <div class="breadcrumb__item">
+    <a href="#" class="breadcrumb__link">Other Page</a>
+    <span class="breadcrumb__separator"><img src="../../assets/icons/regular/chevron-right.svg" alt="" width="12" height="12"></span>
+  </div>
+  <div class="breadcrumb__item">
+    <span class="breadcrumb__current">This Page</span>
+  </div>
+</nav>
+
+<!-- MULTI-LEVEL BREADCRUMB -->
+<nav class="breadcrumb">
+  <div class="breadcrumb__item">
+    <a href="#" class="breadcrumb__link">Other Page</a>
+    <span class="breadcrumb__separator"><img src="../../assets/icons/regular/chevron-right.svg" alt="" width="12" height="12"></span>
+  </div>
+  <div class="breadcrumb__item">
+    <a href="#" class="breadcrumb__link">Other Page</a>
+    <span class="breadcrumb__separator"><img src="../../assets/icons/regular/chevron-right.svg" alt="" width="12" height="12"></span>
+  </div>
+  <div class="breadcrumb__item">
+    <a href="#" class="breadcrumb__link">Other Page</a>
+    <span class="breadcrumb__separator"><img src="../../assets/icons/regular/chevron-right.svg" alt="" width="12" height="12"></span>
+  </div>
+  <div class="breadcrumb__item">
+    <span class="breadcrumb__current">This Page</span>
+  </div>
+</nav>
+
+<!-- USAGE:
+- Each breadcrumb__item contains a link and a chevron separator
+- Use <a> tags with breadcrumb__link for clickable ancestor pages
+- Use <span> with breadcrumb__current for the active page (last item, not clickable)
+- Separator uses chevron-right icon (12px)
+- Last item should NOT have a separator
+- Links: glyph-gray-secondary color | Current page: glyph-gray color
+- 8px gap between text and chevrons
+-->

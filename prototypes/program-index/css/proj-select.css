@@ -1,0 +1,145 @@
+/* Custom dropdown — matches MDS form-group--medium pattern exactly.
+   All values mirror the MDS form-input/.form-select inside .form-group--medium. */
+
+.proj-select {
+    position: relative;
+    width: 100%;
+    height: 4.8rem;
+    background-color: #fff;
+    border: 0.1rem solid var(--outline-color, #B6B7BD);
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+.proj-select:hover:not(.is-disabled) {
+    border-color: #7180AC;
+}
+
+.proj-select.is-open {
+    border-color: #7180AC;
+    box-shadow: 0 0 0 0.2rem rgba(113, 128, 172, 0.1);
+}
+
+.proj-select.is-disabled {
+    background-color: #f5f5f7;
+    opacity: 0.6;
+}
+
+.proj-select__label {
+    position: absolute;
+    top: 0.8rem;
+    left: 1.6rem;
+    font-size: 1.2rem;
+    color: #86868b;
+    pointer-events: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.proj-select__trigger {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    padding: 2.4rem 3.2rem 0.4rem 1.6rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #1d1d1f;
+    font-family: -apple-system, -apple-system-font, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.proj-select__trigger:focus {
+    outline: none;
+}
+
+.proj-select__trigger:disabled {
+    cursor: not-allowed;
+}
+
+.proj-select__value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #1d1d1f;
+}
+
+.proj-select__value.is-placeholder {
+    color: #86868b;
+}
+
+.proj-select__chevron {
+    position: absolute;
+    right: 1.6rem;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #1d1d1f;
+    font-size: 1.2rem;
+    transition: transform 0.15s ease;
+    pointer-events: none;
+}
+
+.proj-select.is-open .proj-select__chevron {
+    transform: rotate(180deg);
+}
+
+.proj-select__menu {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 0.1rem solid var(--outline-color, #B6B7BD);
+    border-radius: 0.4rem;
+    box-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.08);
+    max-height: 28rem;
+    overflow-y: auto;
+    z-index: 100;
+    padding: 0.4rem;
+}
+
+.proj-select__option {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: #1d1d1f;
+    border-radius: 0.4rem;
+    font-family: inherit;
+}
+
+.proj-select__option:hover {
+    background-color: #E8EBF3;
+}
+
+.proj-select__option.is-selected {
+    background-color: #7180AC;
+    color: #fff;
+}
+
+.proj-select__option--empty {
+    color: #86868b;
+    font-style: italic;
+    cursor: default;
+}
+
+.proj-select__option--empty:hover {
+    background: none;
+}

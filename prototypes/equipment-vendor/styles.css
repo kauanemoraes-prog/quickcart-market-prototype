@@ -1,0 +1,147 @@
+/* Equipment Vendor Prototype Styles */
+
+.equipment-vendor-page {
+  /* NO padding - canvas .content already has it */
+  /* For standalone version, add padding */
+  padding: var(--space-l);
+}
+
+/* Override for Canvas version */
+body:has(#canvas-container) .equipment-vendor-page {
+  padding: 0;
+}
+
+.page-section {
+  margin-bottom: var(--space-l);
+}
+
+/* Vendor Card Styles - Ultra Compact Version */
+.vendor-card-container {
+  max-width: 350px; /* Further reduced width for ultra compact layout */
+  width: fit-content; /* Card adjusts to content size */
+}
+
+.vendor-card {
+  width: fit-content; /* Card width adjusts to actual content */
+  min-width: auto; /* Remove any minimum width constraints */
+}
+
+.vendor-card {
+  margin-bottom: var(--space-l);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 10, 0.06);
+  border: 1px solid #E8EBF3;
+}
+
+.vendor-card .card__header {
+  padding: 12px 16px 8px 20px; /* Right padding changed to 16px */
+}
+
+.vendor-card .card__body {
+  padding: 8px 16px 16px 20px; /* Right padding changed to 16px, maintain left at 20px */
+}
+
+.vendor-card__header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Vendor Name Group - Prominent Display */
+.vendor-name-group {
+  margin: 0;
+  flex: 1;
+  max-width: 300px;
+}
+
+.vendor-name-input {
+  font-size: var(--font-size-ml);
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  padding: 2px 0px; /* Minimal padding to align with fields below */
+  margin: 0;
+}
+
+.vendor-name-input:focus {
+  background: var(--color-fill-gray-quaternary);
+  border: 1px solid var(--color-separator-opaque);
+  border-radius: 4px;
+  padding: 2px 6px; /* Add horizontal padding only on focus */
+}
+
+/* Ultra Compact Layout - 8px Column Gap */
+.vendor-compact-grid {
+  display: grid;
+  grid-template-columns: max-content max-content; /* Columns adjust to content size */
+  gap: 11px 8px; /* 8px gap between columns as requested */
+  width: fit-content; /* Grid adjusts to content width */
+  max-width: 100%; /* Prevent overflow */
+}
+
+/* Remove negative margin - no longer needed with 8px gap */
+
+/* Remove old table-cell styles - now using MDS medium form groups */
+
+.compact-field {
+  margin: 0;
+  width: fit-content; /* Field adjusts to content */
+}
+
+/* Adjust MDS medium form groups for compact layout */
+.compact-field.form-group--medium {
+  min-width: 120px; /* Minimum width for floating label fields */
+  max-width: 180px; /* Maximum width to keep compact */
+}
+
+/* Override MDS input styles for compact layout */
+.compact-field .form-input {
+  font-size: var(--font-size-xs); /* Slightly larger than table-cell for readability */
+}
+
+/* Switch Label Override */
+.vendor-card .switch__label {
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray-secondary);
+}
+
+/* Disabled State */
+.vendor-card.disabled {
+  opacity: 0.6;
+}
+
+.vendor-card.disabled .vendor-name-input {
+  pointer-events: none;
+}
+
+.vendor-card.disabled .form-input {
+  pointer-events: none;
+}
+
+.vendor-card.disabled .form-group {
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vendor-compact-row {
+    flex-direction: column;
+    gap: var(--space-xs);
+    align-items: stretch;
+  }
+  
+  .compact-field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xxs);
+  }
+  
+  .compact-label {
+    white-space: normal;
+  }
+  
+  .vendor-card-container {
+    max-width: 100%;
+  }
+}

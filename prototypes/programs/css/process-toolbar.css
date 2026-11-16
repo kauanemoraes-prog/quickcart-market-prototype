@@ -1,0 +1,228 @@
+/* Process toolbar */
+.process-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-s) 0;
+    gap: var(--space-m);
+    background-color: var(--color-fill-white);
+    margin: 0 calc(var(--space-mp) * -1);
+    padding-left: var(--space-mp);
+    padding-right: var(--space-mp);
+    border-bottom: 1px solid var(--color-fill-quaternary);
+}
+
+.process-toolbar__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+/* Search bar styling */
+.search-bar {
+    position: relative;
+    flex: 0 0 auto;
+    width: 495px;
+    height: 40px;
+}
+
+.search-bar__icon {
+    position: absolute;
+    left: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+.search-bar__input {
+    width: 100%;
+    height: 40px;
+    padding: 0 60px 0 48px;
+    border: 1px solid var(--outline-color, #B6B7BD);
+    border-radius: var(--space-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    background-color: var(--color-fill-white);
+    transition: var(--transition-basic);
+}
+
+.search-bar__input::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.search-bar__input:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.search-bar__shortcut {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+/* Toolbar actions */
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-m);
+    background-color: var(--color-fill-white);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    cursor: pointer;
+    transition: var(--transition-basic);
+    font-weight: var(--font-weight-medium);
+}
+
+.toolbar-btn:hover {
+    background-color: var(--color-fill-secondary);
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+.toolbar-btn svg {
+    color: var(--color-glyph-gray-secondary);
+}
+
+.toolbar-btn--icon {
+    padding: var(--space-xs);
+    border: 1px solid var(--outline-color, #B6B7BD);
+}
+
+.toolbar-btn--no-border {
+    border: none;
+    margin-left: 8px;
+}
+
+.toolbar-btn--grouped {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-s);
+    box-sizing: border-box;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--outline-color, #B6B7BD);
+}
+
+.toolbar-icon--accent {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+/* Active state for icon-toggle buttons (outlined, accent-tinted icon) */
+.toolbar-btn--icon.is-active {
+    background-color: #FFFFFF !important;
+    border-color: var(--color-base-accent) !important;
+    color: var(--color-base-accent);
+}
+
+.toolbar-btn--icon.is-active img {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.toolbar-btn--icon.is-active .toolbar-divider {
+    background-color: var(--color-base-accent);
+}
+
+/* Slider+chevron grouped button — split into Custom button + chevron popover trigger.
+   Both share a single outer outline; only the divider color + slider icon change with active state.
+   The chevron stays gray regardless. */
+.equip-restore-group {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--outline-color, #B6B7BD);
+    border-radius: var(--space-xs);
+    background-color: #FFFFFF;
+    overflow: hidden;
+    height: 26px;
+    transition: border-color 0.15s ease;
+}
+
+.equip-restore-group.is-active {
+    border-color: var(--color-base-accent);
+}
+
+.equip-restore-group__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 var(--space-s);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-glyph-gray-secondary);
+    font-family: inherit;
+    transition: background-color 0.15s ease;
+}
+
+.equip-restore-group__btn:hover {
+    background-color: var(--color-fill-secondary);
+}
+
+.equip-restore-group__btn img {
+    filter: brightness(0) saturate(100%) invert(45%);
+}
+
+.equip-restore-group__divider {
+    width: 1px;
+    background-color: var(--outline-color, #B6B7BD);
+    flex-shrink: 0;
+    transition: background-color 0.15s ease;
+}
+
+/* Active: blue outline + blue divider + blue slider icon. Chevron stays gray. */
+.equip-restore-group.is-active .equip-restore-group__btn--custom img {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.equip-restore-group.is-active .equip-restore-group__divider {
+    background-color: var(--color-base-accent);
+}
+
+/* Custom tooltip */
+.equip-tooltip {
+    position: relative;
+}
+
+.equip-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1D1D1F;
+    color: #FFFFFF;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--space-xs);
+    white-space: normal;
+    max-width: 280px;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 9500;
+}
+
+.equip-tooltip:hover::after {
+    opacity: 1;
+}
+

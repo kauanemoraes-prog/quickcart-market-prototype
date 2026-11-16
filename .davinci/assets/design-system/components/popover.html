@@ -1,0 +1,220 @@
+<!-- POPOVER -->
+<!-- Popovers display rich content in a floating container -->
+
+<!-- METADATA
+Component: Popover
+Category: Overlay
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use popover__trigger wrapper div (provides relative positioning context)
+- Trigger element (button/link) and popover div are siblings inside popover__trigger
+- MUST include popover__arrow div as last child inside popover
+- popover__content contains header, body, and optional footer
+- popover__header and popover__footer are optional
+
+PLACEMENT CLASSES:
+- popover--top: Opens above the trigger
+- popover--bottom: Opens below the trigger (DEFAULT)
+- popover--left: Opens to the left of the trigger
+- popover--right: Opens to the right of the trigger
+
+PLACEMENT GUIDELINES (IMPORTANT FOR LLM):
+The HTML class sets the PREFERRED position. MDS JavaScript will automatically flip
+to the opposite side at runtime if the popover would overflow the viewport.
+
+When choosing the initial placement class, follow these rules:
+- Trigger near TOP of page → use popover--bottom (opens downward, away from edge)
+- Trigger near BOTTOM of page → use popover--top (opens upward, away from edge)
+- Trigger near RIGHT edge → use popover--left (opens leftward, away from edge)
+- Trigger near LEFT edge → use popover--right (opens rightward, away from edge)
+- Trigger in CENTER of page → use popover--bottom (default, most natural reading flow)
+- Table row actions (right-aligned) → use popover--left or popover--bottom
+- Toolbar/header buttons → use popover--bottom
+- Footer elements → use popover--top
+- Sidebar controls (left) → use popover--right
+- Sidebar controls (right) → use popover--left
+
+RUNTIME AUTO-FLIP BEHAVIOR:
+The positionPopover() function in MDS JS measures available viewport space and
+flips the popover to the opposite side if the preferred side lacks room.
+This means the HTML class is a hint — the final position may differ at runtime.
+The CSS class is swapped dynamically so the arrow always points correctly.
+
+COMMON MISTAKES TO AVOID:
+❌ Using popover--bottom for triggers at the bottom of the page (use popover--top)
+❌ Using popover--right for triggers near the right viewport edge (use popover--left)
+❌ Forgetting the popover__trigger wrapper div
+❌ Forgetting the popover__arrow div
+❌ Creating custom popover/tooltip CSS instead of using MDS popover component
+❌ Using display:block/none manually — MDS JS handles toggle via popover--open class
+
+JAVASCRIPT INTEGRATION:
+- MDS auto-initializes popovers — no custom JS needed for basic open/close
+- Two init methods: ID-based ([id]-trigger + [id]) or DOM traversal (.popover__trigger container)
+- Click outside or Escape key closes all open popovers automatically
+- Use window.closePopover(popoverId) to close programmatically (ID-based popovers)
+- Adding class popover-trigger to buttons inside popover footer auto-closes on click
+
+WHEN TO PROMPT (for LLM):
+- Always use popover--bottom unless layout context suggests otherwise
+- If user specifies "dropdown menu" or "action menu" → popover--bottom
+- If user specifies "tooltip-like" above element → popover--top
+- Don't ask user about placement — infer from trigger position in the layout
+- DO ask about content type: simple text, menu items, or form
+
+Conventions:
+- Action menus → popover--bottom with popover__menu structure
+- Inline forms → popover--bottom with min-width override
+- Context help → popover--top (appears above, like tooltip)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- BASIC POPOVER (BOTTOM PLACEMENT) -->
+<div class="popover__trigger">
+  <button class="btn btn--primary btn--medium popover-trigger">
+    Click for Popover
+  </button>
+  <div class="popover popover--bottom">
+    <div class="popover__content">
+      <div class="popover__header">
+        <h4 class="popover__title">Popover Title</h4>
+      </div>
+      <div class="popover__body">
+        This is a basic popover with a title and body content. It can contain any HTML content.
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- TOP PLACEMENT -->
+<div class="popover__trigger">
+  <button class="btn btn--secondary btn--medium popover-trigger">
+    Top
+  </button>
+  <div class="popover popover--top">
+    <div class="popover__content">
+      <div class="popover__body">
+        Popover positioned on top
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- BOTTOM PLACEMENT -->
+<div class="popover__trigger">
+  <button class="btn btn--secondary btn--medium popover-trigger">
+    Bottom
+  </button>
+  <div class="popover popover--bottom">
+    <div class="popover__content">
+      <div class="popover__body">
+        Popover positioned on bottom
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- LEFT PLACEMENT -->
+<div class="popover__trigger">
+  <button class="btn btn--secondary btn--medium popover-trigger">
+    Left
+  </button>
+  <div class="popover popover--left">
+    <div class="popover__content">
+      <div class="popover__body">
+        Popover positioned on left
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- RIGHT PLACEMENT -->
+<div class="popover__trigger">
+  <button class="btn btn--secondary btn--medium popover-trigger">
+    Right
+  </button>
+  <div class="popover popover--right">
+    <div class="popover__content">
+      <div class="popover__body">
+        Popover positioned on right
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- MENU POPOVER -->
+<div class="popover__trigger">
+  <button class="btn btn--secondary btn--medium popover-trigger">
+    Actions Menu
+  </button>
+  <div class="popover popover--bottom">
+    <div class="popover__content">
+      <ul class="popover__menu">
+        <li class="popover__menu-item">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M10.8520187,55.8926606 L51.3018163,15.490178 L44.8048036,8.97714001 L4.34703134,49.3796363 L0.828525005,57.6320363 C0.473993359,58.4983072 1.3875883,59.5217933 2.32442374,59.2065806 L10.8520187,55.8926606 Z M54.5718163,12.3067603 L58.298272,8.5883552 C60.2208543,6.69706406 60.3075125,4.68858305 58.6054872,2.98663368 L57.3710061,1.71273494 C55.6850061,0.0268108876 53.6444745,0.208026078 51.7459682,2.03597545 L47.9801707,5.75445647 L54.5718163,12.3067603 Z" transform="translate(2 2)"/></svg></span>
+          <span>Edit</span>
+        </li>
+        <li class="popover__menu-item">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M8.9892453,59.4508869 L38.338868,59.4508869 C44.0487171,59.4508869 46.9215284,56.5428114 46.9215284,50.7803491 L46.9215284,25.6857736 C46.9215284,22.1527925 46.5102454,20.6033208 44.3038303,18.3382642 L29.0589057,2.82973585 C26.9696038,0.675905662 25.238434,0.206037736 22.1156038,0.206037736 L8.9892453,0.206037736 C3.29733963,0.206037736 0.435849057,3.11416982 0.435849057,8.87660379 L0.435849057,50.7803491 C0.435849057,56.5720756 3.28539623,59.4508869 8.9892453,59.4508869 Z M9.20620756,55.0055265 C6.35818869,55.0055265 4.88122642,53.470002 4.88122642,50.7098152 L4.88122642,8.94713209 C4.88122642,6.21679246 6.35818869,4.6514151 9.23552832,4.6514151 L21.5145849,4.6514151 L21.5145849,20.7034529 C21.5145849,24.1801132 23.2822076,25.9059057 26.7170378,25.9059057 L42.4528303,25.9059057 L42.4528303,50.7098152 C42.4528303,53.470002 40.9699246,55.0055265 38.1218491,55.0055265 L9.20620756,55.0055265 Z M27.2269812,21.7241887 C26.1260378,21.7241887 25.6670378,21.2651887 25.6670378,20.1701887 L25.6670378,5.50805661 L41.5961887,21.7241887 L27.2269812,21.7241887 Z" transform="translate(8.51 2)"/></svg></span>
+          <span>Copy</span>
+        </li>
+        <li class="popover__menu-item">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M8.40432434,59.9890812 L38.6763784,59.9890812 C44.2072433,59.9890812 46.9563785,57.2285406 46.9563785,51.7930217 L46.9563785,25.4952433 C46.9563785,20.0540541 44.2072433,17.2991892 38.6763784,17.2991892 L30.7196757,17.2991892 L30.7196757,21.5665946 L38.6090271,21.5665946 C41.1941082,21.5665946 42.7112433,22.9827027 42.7112433,25.7024865 L42.7112433,51.5857914 C42.7112433,54.3335406 41.1941082,55.7159731 38.6090271,55.7159731 L8.47167569,55.7159731 C5.83583785,55.7159731 4.36945947,54.3335406 4.36945947,51.5857914 L4.36945947,25.7024865 C4.36945947,22.9827027 5.83583785,21.5665946 8.47167569,21.5665946 L16.3330811,21.5665946 L16.3330811,17.2991892 L8.40432434,17.2991892 C2.90145946,17.2991892 0.124324325,20.0426487 0.124324325,25.4952433 L0.124324325,51.7930217 C0.124324325,57.239946 2.90145946,59.9890812 8.40432434,59.9890812 Z M23.5263784,39.3252974 C24.6744325,39.3252974 25.648919,38.3787568 25.648919,37.2587028 L25.648919,10.1798379 L25.4753514,6.2125946 L27.2434595,8.09827028 L31.2446487,12.3512433 C31.6311352,12.7656757 32.1688649,12.9785946 32.672973,12.9785946 C33.7816757,12.9785946 34.6162703,12.199946 34.6162703,11.1415135 C34.6162703,10.5535135 34.3810811,10.1447568 33.9665947,9.75827029 L25.0551892,1.14886487 C24.5288649,0.622486488 24.0864325,0.443243244 23.5263784,0.443243244 C22.9943244,0.443243244 22.5461622,0.622486488 21.9975136,1.14886487 L13.0804325,9.75827029 C12.693946,10.1447568 12.4587027,10.5535135 12.4587027,11.1415135 C12.4587027,12.199946 13.2596757,12.9785946 14.3740541,12.9785946 C14.8781622,12.9785946 15.4438919,12.7656757 15.8246487,12.3512433 L19.8315676,8.09827028 L21.6053514,6.20686488 L21.4317838,10.1798379 L21.4317838,37.2587028 C21.4317838,38.3787568 22.4062703,39.3252974 23.5263784,39.3252974 Z" transform="translate(8.486 2)"/></svg></span>
+          <span>Share</span>
+        </li>
+        <li class="popover__menu-divider"></li>
+        <li class="popover__menu-item" style="color: var(--color-fill-red);">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M18.0503673,51.1547139 C19.0792582,51.1547139 19.7347855,50.5158601 19.7065855,49.5831983 L18.88464,21.1059819 C18.85644,20.1451091 18.1835673,19.5459819 17.2284764,19.5459819 C16.2335673,19.5459819 15.5440037,20.1733091 15.5722582,21.1174909 L16.3942037,49.5889528 C16.4224037,50.5498419 17.0837128,51.1547139 18.0503673,51.1547139 Z M25.9410764,51.1547139 C26.964131,51.1547139 27.6536946,50.5216146 27.6536946,49.5831983 L27.6536946,21.1174909 C27.6536946,20.1790909 26.964131,19.5459819 25.9410764,19.5459819 C24.9236946,19.5459819 24.2284037,20.1790909 24.2284037,21.1174909 L24.2284037,49.5831983 C24.2284037,50.5216146 24.9236946,51.1547139 25.9410764,51.1547139 Z M33.8542037,51.1662241 C34.7983855,51.1662241 35.4879492,50.5555964 35.5161492,49.5947128 L36.3098401,21.1232182 C36.3380946,20.1790909 35.6710037,19.5517091 34.6536764,19.5517091 C33.6927491,19.5517091 33.019931,20.1790909 32.9916764,21.1117091 L32.1979855,49.5889528 C32.1697855,50.5216146 32.8310946,51.1662241 33.8542037,51.1662241 Z M14.2646946,12.6131455 L18.4919128,12.6131455 L18.4919128,6.93256365 C18.4919128,5.3953091 19.5522764,4.41441819 21.1522582,4.41441819 L30.6958582,4.41441819 C32.2733673,4.41441819 33.333731,5.3953091 33.333731,6.93256365 L33.333731,12.6131455 L37.5892037,12.6131455 L37.5892037,6.65023637 C37.5892037,2.80701819 35.0817491,0.441272728 30.9666219,0.441272728 L20.8532946,0.441272728 C16.7720946,0.441272728 14.2646946,2.80701819 14.2646946,6.65023637 L14.2646946,12.6131455 Z M2.14513091,14.7267818 L49.7369674,14.7267818 C50.8447855,14.7267818 51.709331,13.8280909 51.709331,12.7260546 C51.709331,11.6125091 50.8109674,10.7253818 49.7369674,10.7253818 L2.14513091,10.7253818 C1.09957091,10.7253818 0.166909091,11.6182909 0.166909091,12.7260546 C0.166909091,13.8338728 1.09957091,14.7267818 2.14513091,14.7267818 Z M13.7532764,59.7270001 L38.1570764,59.7270001 C41.9652764,59.7270001 44.5302764,57.2697274 44.7226583,53.4448146 L46.5703855,14.2400182 L42.2976764,14.2400182 L40.512131,53.0041146 C40.4383855,54.602471 39.3095128,55.7255946 37.7278582,55.7255946 L14.1144764,55.7255946 C12.5950582,55.7255946 11.4379855,54.5742383 11.36424,53.0041146 L9.4882582,14.2458 L5.31171274,14.2458 L7.19342183,53.4730474 C7.38585819,57.2979274 9.88862183,59.7270001 13.7532764,59.7270001 Z" transform="translate(6.09 2)"/></svg></span>
+          <span>Delete</span>
+        </li>
+      </ul>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- FORM IN POPOVER -->
+<div class="popover__trigger">
+  <button class="btn btn--primary btn--medium popover-trigger">
+    Quick Form
+  </button>
+  <div class="popover popover--bottom" style="min-width: 28rem;">
+    <div class="popover__content">
+      <div class="popover__header">
+        <h4 class="popover__title">Add Comment</h4>
+      </div>
+      <div class="popover__body">
+        <div class="form-group" style="margin-bottom: var(--space-m);">
+          <label class="form-label" for="popover-comment">Comment</label>
+          <textarea id="popover-comment" class="form-textarea" placeholder="Enter your comment..." style="min-height: 8rem;"></textarea>
+        </div>
+      </div>
+      <div class="popover__footer">
+        <button class="btn btn--secondary btn--small popover-trigger">Cancel</button>
+        <button class="btn btn--primary btn--small popover-trigger">Submit</button>
+      </div>
+    </div>
+    <div class="popover__arrow"></div>
+  </div>
+</div>
+
+<!-- USAGE:
+- Four placement options: popover--top, popover--bottom, popover--left, popover--right
+- Placement class is the PREFERRED position; MDS JS auto-flips if viewport space is insufficient
+- Choose placement based on trigger location: top of page→bottom, bottom→top, right edge→left, left edge→right
+- popover__trigger wraps both the trigger element and the popover
+- popover__content contains header, body, and optional footer
+- popover__arrow provides the pointing arrow visual (auto-adjusts with placement)
+- popover__header and popover__footer are optional
+- Can contain menus (popover__menu), forms, or custom content
+- Use popover__menu-divider to separate menu items
+- MDS JS handles open/close automatically (click trigger, click outside, Escape key)
+- Set min-width inline for wider popovers (forms, etc.)
+-->

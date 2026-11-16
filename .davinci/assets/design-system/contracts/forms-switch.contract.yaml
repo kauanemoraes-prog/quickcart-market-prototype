@@ -1,0 +1,27 @@
+component: forms-switch
+summary: "A control for toggling a single setting between on and off, typically taking effect immediately."
+anatomy:
+  - {id: field, required: true, role: "wrapper that associates the control with its label and extends the click area", capabilities: [toggle]}
+  - {id: input, required: true, role: "the native control holding on/off state and receiving focus"}
+  - {id: slider, required: true, role: "the visual track and knob reflecting the on and off position"}
+  - {id: label, required: true, role: "the visible text naming what the switch controls"}
+states: [default, hover?, focus, on, off, disabled?]
+behaviors:
+  toggle: "clicking the control or its label, or pressing Space or Enter when focused, flips between on and off"
+  immediate-effect: "toggling applies the setting immediately without a separate confirm step"
+a11y:
+  - "expose role=switch (or a native checkbox with role=switch) so assistive tech announces it as a switch, not a checkbox"
+  - "on/off state is exposed via aria-checked (true/false)"
+  - "the label is programmatically associated with the control and is clickable to toggle"
+  - "operable with the Space key (and Enter) when focused"
+  - "shows a visible focus indicator when focused"
+  - "a disabled switch sets the disabled attribute (or aria-disabled) and is announced as disabled"
+  - "state is conveyed by more than the knob position alone (announced label or accessible on/off text), not by color alone"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "the switch has a visible label naming the setting it controls", verify: [checklist, dom]}
+  - {id: match-choice-model, source: nielsen, rule: "use a switch for an immediate binary on/off setting; use a checkbox for a selection confirmed later by a submit", verify: [checklist]}
+  - {id: visibility-of-status, source: nielsen, rule: "the current on/off state is clearly perceivable at a glance", verify: [checklist, dom]}
+  - {id: hit-target, source: apple-hig, rule: "the control including its label meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+  - {id: focus-visible, source: wcag, rule: "a keyboard focus indicator is visible when the switch is focused", verify: [dom, visual]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, animation, size variants, slider and knob artwork]

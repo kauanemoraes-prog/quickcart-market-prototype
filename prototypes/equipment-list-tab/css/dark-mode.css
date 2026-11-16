@@ -1,0 +1,279 @@
+/* equipment-list-tab dark mode overrides. */
+/* Active when <html class="dark-mode">. Color tokens defined in plugins/proj-dark-mode.css. */
+
+/* Page wrapper */
+.dark-mode .equip-page {
+    color: var(--dm-text-1);
+}
+
+/* ========================================
+   Program detail header
+   Uses #1F2024 across the entire row (back arrow, Program/Site, timeline, V-Draft/UPH)
+   ======================================== */
+.dark-mode .equip-header {
+    background-color: #1F2024;
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .back-btn {
+    color: var(--dm-accent);
+}
+
+.dark-mode .header-dropdown__label {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .header-dropdown__select {
+    color: var(--dm-text-1);
+    background-color: transparent;
+}
+
+.dark-mode .header-dropdown__select:hover {
+    color: var(--dm-accent);
+}
+
+.dark-mode .header-dropdown__chevron {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .build-stages {
+    border-left-color: var(--dm-divider);
+}
+
+.dark-mode .build-stage__circle {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .build-stage__circle--active,
+.dark-mode .build-stage__circle--completed {
+    background-color: var(--dm-accent);
+    border-color: var(--dm-accent);
+}
+
+.dark-mode .build-stage__connector {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .build-stage__connector--active {
+    background-color: var(--dm-accent);
+}
+
+.dark-mode .build-stage__dot {
+    background-color: var(--dm-bg-1);
+}
+
+.dark-mode .build-stage__label {
+    color: var(--dm-accent);
+}
+
+.dark-mode .build-stage:not(.build-stage--active):not(.build-stage--completed) .build-stage__label {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .build-stage__sublabel {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .version-badge {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .uph-target {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .reihd-info {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .reihd-info svg {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .edit-btn {
+    color: var(--dm-accent);
+}
+
+/* ========================================
+   Tabs (Process Flow / Equipment List / Consumables / PCN)
+   ======================================== */
+.dark-mode .program-tabs {
+    background-color: #191A1A;
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .program-tabs .tabs__tab {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .program-tabs .tabs__tab:hover {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .program-tabs .tabs__tab--active {
+    color: var(--dm-accent);
+    border-bottom-color: var(--dm-accent);
+}
+
+.dark-mode .tabs-actions .btn--secondary {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .tabs-actions .btn--secondary:hover {
+    background-color: var(--dm-bg-4);
+}
+
+.dark-mode .tabs-actions .btn--primary {
+    background-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+
+/* ========================================
+   Toolbar (search + actions)
+   ======================================== */
+.dark-mode .process-toolbar {
+    background-color: var(--dm-bg-2);
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+.dark-mode .search-bar__input {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .search-bar__input::placeholder {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .search-bar__input:focus {
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 2px rgba(113, 128, 172, 0.2);
+}
+
+.dark-mode .search-bar__icon,
+.dark-mode .search-bar__shortcut {
+    color: var(--dm-text-3);
+}
+
+.dark-mode .toolbar-btn {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .toolbar-btn:hover {
+    background-color: var(--dm-bg-4);
+}
+
+.dark-mode .toolbar-btn svg,
+.dark-mode .toolbar-btn img {
+    opacity: 0.85;
+    filter: invert(1) brightness(1.4);
+}
+
+.dark-mode .tag-btn {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .tag-btn:hover {
+    background-color: var(--dm-bg-4);
+}
+
+/* ========================================
+   Equipment table
+   ======================================== */
+.dark-mode .equip-table-area {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--equip-list {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--equip-list .table__head {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--equip-list .table__header {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table--equip-list .table__head::after {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .table--equip-list .table__row--data {
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table--equip-list .table__row--data:hover {
+    background-color: var(--dm-row-hover);
+}
+
+.dark-mode .table--equip-list .table__cell {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .row-chevron {
+    color: var(--dm-text-2);
+}
+
+.dark-mode .row-chevron:hover {
+    color: var(--dm-text-1);
+}
+
+/* MDS checkbox in dark mode */
+.dark-mode .table--equip-list .checkbox__box {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+/* Vendor DFM cell + process flow */
+.dark-mode .vendor-dfm__count {
+    color: var(--dm-text-1);
+}
+
+.dark-mode .vendor-dfm__status,
+.dark-mode .vendor-dfm__info,
+.dark-mode .process-flow-usage__count,
+.dark-mode .process-flow-usage__info,
+.dark-mode .add-col-btn {
+    color: var(--dm-accent);
+}
+
+/* ========================================
+   Vendor sub-table (expanded row)
+   ======================================== */
+.dark-mode .table--equip-list .table__row--expanded > td {
+    background-color: var(--dm-bg-3);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-sub-table .vendor-sub-th {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-sub-table .vendor-sub-row {
+    background-color: var(--dm-bg-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-sub-table .vendor-sub-row:nth-child(even) {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .vendor-sub-table .vendor-sub-cell {
+    color: var(--dm-text-1);
+}

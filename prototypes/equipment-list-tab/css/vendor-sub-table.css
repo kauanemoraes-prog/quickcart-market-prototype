@@ -1,0 +1,95 @@
+/* Expanded row containing the vendor sub-table */
+.table--equip-list .table__row--expanded > td {
+    padding: 0 !important;
+    background-color: var(--color-fill-secondary);
+    border-bottom: 1px solid var(--color-fill-quaternary);
+}
+
+/*
+ * Vendor sub-table — Enable column geometry matches parent's checkbox column
+ * exactly so both the "Enable" header text and the switches sit on the same
+ * left edge as the parent's checkbox.
+ *
+ * Parent checkbox column (.table__cell--checkbox in css/table.css):
+ *   width 32px, padding-left 6px → checkbox left edge at x=6
+ *
+ * Nested Enable column here:
+ *   width 0, padding-left 6px → "Enable" text and switch--small both start at x=6 ✓
+ *
+ * The Enable column is collapsed (width:0); the switch (24px) and "Enable" text
+ * extend visually past the column boundary into the Vendor column area via
+ * `overflow: visible`. The next column (Vendor) gets a left padding large enough
+ * to clear the overflowing switch (see `.vendor-sub-cell + .vendor-sub-cell` and
+ * `.vendor-sub-th + .vendor-sub-th`).
+ */
+.vendor-sub-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background-color: transparent;
+}
+
+.vendor-sub-table .vendor-sub-th {
+    font-size: 12px;
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    padding: 8px 10px;
+    background-color: var(--color-fill-tertiary);
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.vendor-sub-table .vendor-sub-th--enable {
+    width: 0;
+    padding: 8px 0 8px 6px;
+    text-align: left;
+    overflow: visible;
+}
+
+/* Header next to Enable: clear the overflowing "Enable" text */
+.vendor-sub-table .vendor-sub-th--enable + .vendor-sub-th {
+    padding-left: 50px;
+}
+
+.vendor-sub-table .vendor-sub-row {
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    background-color: var(--color-fill-white);
+}
+
+.vendor-sub-table .vendor-sub-row:nth-child(even) {
+    background-color: var(--color-fill-secondary);
+}
+
+.vendor-sub-table .vendor-sub-row:last-child {
+    border-bottom: none;
+}
+
+.vendor-sub-table .vendor-sub-cell {
+    font-size: 13px;
+    color: var(--color-glyph-gray);
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.vendor-sub-table .vendor-sub-cell--enable {
+    width: 0;
+    padding: 10px 0 10px 6px;
+    text-align: left;
+    overflow: visible;
+}
+
+/* Cell next to Enable: clear the overflowing switch (~30px right edge) */
+.vendor-sub-table .vendor-sub-cell--enable + .vendor-sub-cell {
+    padding-left: 36px;
+}
+
+.vendor-sub-table .switch {
+    display: inline-flex;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.vendor-sub-table .switch__label {
+    display: none;
+}

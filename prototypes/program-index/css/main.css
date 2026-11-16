@@ -1,0 +1,15 @@
+@import url('page.css');
+@import url('drawer-content.css');
+@import url('drawer-tables.css');
+@import url('drawer-pcn.css');
+@import url('build-schedule.css');
+@import url('proj-select.css');
+@import url('wizard.css');
+@import url('wizard-steps.css');
+@import url('wizard-tables.css');
+@import url('wizard-meta-tags.css');
+@import url('wizard-review.css');
+
+.program-index-page {
+    max-width: 1080px;
+}

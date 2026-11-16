@@ -1,0 +1,352 @@
+/* Products tab: toolbar, quick filters, SKU table and the product drawer */
+
+.products-view {
+    padding: var(--space-s) 0;
+}
+
+.products-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+}
+
+.products-search {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 48rem;
+    gap: var(--space-s);
+    padding: 0 var(--space-m);
+    height: 4rem;
+    background: #fff;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 8px;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.products-search__input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    color: var(--color-glyph-gray);
+}
+
+.products-area {
+    display: flex;
+    align-items: center;
+    width: 20rem;
+    margin: 0;
+}
+
+/* Everything in the toolbar (search, dropdown, filters) has the height of the search field and is centred on the same line.
+ * The selectors are specific enough to beat the margins of the design system's form-group and form-select. */
+.products-toolbar .products-search,
+.products-toolbar .products-area,
+.products-toolbar .products-area .form-select,
+.products-toolbar .products-chip { height: 4rem; box-sizing: border-box; }
+
+.products-toolbar .products-area,
+.products-toolbar .products-area .form-select { margin: 0; padding-top: 0; padding-bottom: 0; }
+
+.products-toolbar .products-area .form-select { width: 100%; }
+
+.products-toolbar .products-search { flex: 0 1 44rem; }
+.products-toolbar .products-chips { align-items: center; margin-bottom: 0; gap: var(--space-m); }
+
+.products-toolbar .products-chip {
+    display: inline-flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.products-count {
+    margin-left: auto;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.products-chips {
+    display: flex;
+    gap: var(--space-s);
+    margin-bottom: var(--space-s);
+}
+
+.products-chip {
+    padding: 4px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: inset 0 0 0 2px transparent;
+    font: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.products-chip strong { margin-left: 4px; color: var(--color-glyph-gray); }
+
+/* The same three states as the indicators of the Dashboard.
+ * Default: plain. Hover (and keyboard focus): a soft outline, a light tint and a small lift. Selected: a strong outline and the accent tint. */
+.products-chip:hover,
+.products-chip:focus-visible {
+    background-color: #F7F8FB;
+    box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 4px 12px rgba(113, 128, 172, 0.16);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.products-chip--active,
+.products-chip--active:hover,
+.products-chip--active:focus-visible {
+    background-color: var(--color-base-accent-lighter-1);
+    box-shadow: inset 0 0 0 2px var(--color-base-accent);
+    transform: none;
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-semibold);
+}
+
+.products-chip--active strong { color: var(--color-base-accent-darker-2); }
+
+.products-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.table--products {
+    min-width: 0;
+}
+
+.table--products .table__row { height: 4.4rem; }
+
+.table--products .table__header {
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+}
+
+.table--products .table__cell { white-space: nowrap; }
+
+.table--products .sortable { cursor: pointer; }
+
+.products-sort {
+    margin-left: 4px;
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.products-sort--active { color: var(--color-base-accent); }
+
+.products-row { cursor: pointer; }
+
+.products-row:hover,
+.products-row:focus-visible { background-color: var(--color-fill-secondary); outline: none; }
+
+.products-cell--name { font-weight: var(--font-weight-medium); color: var(--color-base-accent); }
+.products-cell--mono { font-variant-numeric: tabular-nums; color: var(--color-glyph-gray-secondary); }
+.products-cell--num { padding-right: 24px; text-align: right; font-variant-numeric: tabular-nums; }
+/* The header text of a numeric column sits on the same right edge as its numbers (the table styles override the cell rule) */
+.table--products .table__header.products-cell--num,
+.table--employees .table__header.products-cell--num { padding-right: 24px; text-align: right; }
+.products-promo { color: #B3261E; font-weight: var(--font-weight-semibold); }
+.products-none { color: var(--color-glyph-gray-tertiary); }
+.products-empty { padding: var(--space-l); text-align: center; color: var(--color-glyph-gray-secondary); }
+.products-row s { margin-left: 4px; color: var(--color-glyph-gray-tertiary); }
+
+/* Product drawer */
+#product-drawer.drawer-overlay { z-index: 9500; }
+
+.product-drawer { width: 64rem; max-width: 100%; }
+
+.pd-section { padding: var(--space-m) 0; border-top: 1px solid var(--color-fill-quaternary); }
+.pd-section:first-child { border-top: 0; padding-top: 0; }
+
+.pd-section__title {
+    margin: 0 0 var(--space-s);
+    font-size: var(--font-size-small, 14px);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.pd-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-s) var(--space-m);
+    margin: 0;
+}
+
+.pd-grid__item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pd-grid dt { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.pd-grid dd { margin: 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); overflow-wrap: anywhere; }
+
+.pd-note { margin: 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+
+.pd-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-xxs); }
+.pd-table th { padding: 4px 8px 4px 0; text-align: left; font-weight: var(--font-weight-medium); color: var(--color-glyph-gray-secondary); }
+.pd-table td { padding: 6px 8px 6px 0; border-top: 1px solid var(--color-fill-quaternary); color: var(--color-glyph-gray); }
+
+.pd-activity { margin: 0; padding: 0; list-style: none; }
+.pd-activity li {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    gap: var(--space-s);
+    padding: 6px 0;
+    border-top: 1px solid var(--color-fill-quaternary);
+    font-size: var(--font-size-xxs);
+}
+.pd-activity li:first-child { border-top: 0; }
+.pd-activity span { color: var(--color-glyph-gray-secondary); }
+.pd-activity time { color: var(--color-glyph-gray-secondary); }
+
+.dark-mode .products-search,
+.dark-mode .products-chip:not(.products-chip--active),
+.dark-mode .products-container { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .products-search__input,
+.dark-mode .products-chip strong,
+.dark-mode .pd-section__title,
+.dark-mode .pd-grid dd,
+.dark-mode .pd-table td { color: var(--dm-text-1); }
+.dark-mode .products-count,
+.dark-mode .pd-grid dt,
+.dark-mode .pd-note,
+.dark-mode .pd-activity span,
+.dark-mode .pd-activity time,
+.dark-mode .pd-table th { color: var(--dm-text-2); }
+.dark-mode .pd-section,
+.dark-mode .pd-table td,
+.dark-mode .pd-activity li { border-color: var(--dm-divider); }
+
+.dark-mode .products-chip--active,
+.dark-mode .products-chip--active:hover { background-color: var(--dm-accent-soft); border-color: var(--dm-accent); color: var(--dm-accent); }
+.dark-mode .products-chip--active strong { color: var(--dm-accent); }
+
+/* Every drawer opens above the toolbar on the right of the page (z-index 8999) */
+#product-drawer.drawer-overlay,
+#employee-drawer.drawer-overlay,
+#supply-drawer.drawer-overlay,
+#invoice-drawer.drawer-overlay,
+#request-drawer.drawer-overlay,
+#area-drawer.drawer-overlay { z-index: 9500; }
+
+/* The first two columns (Area name and Product) are fixed when the table scrolls sideways */
+.table--products .table__header:nth-child(1),
+.table--products .table__header:nth-child(2),
+.table--products .table__cell:nth-child(1),
+.table--products .table__cell:nth-child(2) {
+    position: sticky;
+    z-index: 2;
+    background-color: #fff;
+}
+
+.table--products .table__header:nth-child(1),
+.table--products .table__cell:nth-child(1) { left: 0; }
+
+.table--products .table__header:nth-child(2),
+.table--products .table__cell:nth-child(2) {
+    left: var(--sticky-1, 150px);
+}
+
+.table--products .table__header:nth-child(1),
+.table--products .table__header:nth-child(2) { z-index: 4; }
+
+.table--products .table__row:nth-child(even) > .table__cell:nth-child(1),
+.table--products .table__row:nth-child(even) > .table__cell:nth-child(2) { background-color: #F3F3F3; }
+
+.table--products .products-row:hover > .table__cell:nth-child(1),
+.table--products .products-row:hover > .table__cell:nth-child(2) { background-color: var(--color-fill-secondary); }
+
+.dark-mode .table--products .table__header:nth-child(1),
+.dark-mode .table--products .table__header:nth-child(2),
+.dark-mode .table--products .table__cell:nth-child(1),
+.dark-mode .table--products .table__cell:nth-child(2) { background-color: var(--dm-bg-2); }
+.dark-mode .table--products .table__row:nth-child(even) > .table__cell:nth-child(1),
+.dark-mode .table--products .table__row:nth-child(even) > .table__cell:nth-child(2) { background-color: var(--dm-bg-3); }
+
+/* Package size: the numbers line up with each other (right aligned, tabular figures) and so do the units (left aligned) */
+.unit-cell { display: inline-flex; align-items: baseline; gap: 4px; font-variant-numeric: tabular-nums; }
+.unit-cell__num { min-width: 4.4ch; text-align: right; }
+.unit-cell__unit { min-width: 3.2ch; text-align: left; }
+
+/* Tabs with an Add button: search and area on the first line with the Add button at the right end of the page, the filters (All, Low stock...) on the line under the search */
+.products-toolbar--stacked { flex-wrap: wrap; row-gap: var(--space-m); }
+.products-toolbar--stacked > .products-chips { order: 3; flex: 0 0 100%; margin-bottom: 0; flex-wrap: wrap; }
+.products-toolbar--stacked > .toolbar-add { order: 2; margin-left: auto; }
+
+/* The product drawer has no backdrop (no tint, no blur) over the table; a click outside it still closes it */
+#product-drawer.drawer-overlay {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* The row of the product in the open drawer keeps the hover colour (the two fixed cells too) */
+.products-row--open,
+.table--products .products-row--open > .table__cell,
+.table--products .table__row:nth-child(even).products-row--open > .table__cell:nth-child(1),
+.table--products .table__row:nth-child(even).products-row--open > .table__cell:nth-child(2) { background-color: var(--color-fill-secondary); }
+.dark-mode .table--products .products-row--open > .table__cell { background-color: var(--dm-bg-3); }
+
+
+/* Editable values of the drawer */
+.pd-edit {
+    display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
+    padding: 2px 6px; margin: -2px -6px;
+    border: 1px solid transparent; border-radius: 6px; background: transparent;
+    font: inherit; color: inherit; text-align: left; cursor: text;
+}
+.pd-edit__text { overflow-wrap: anywhere; }
+.pd-edit lucide-icon { flex: 0 0 auto; opacity: 0; color: var(--color-glyph-gray-secondary); }
+.pd-edit:hover, .pd-edit:focus-visible { background: var(--color-fill-secondary); outline: none; }
+.pd-edit:hover lucide-icon, .pd-edit:focus-visible lucide-icon { opacity: 1; }
+.pd-edit--editing, .pd-edit--editing:hover { width: 100%; padding: 0; margin: -2px 0; background: transparent; }
+.pd-edit__input {
+    width: 100%; box-sizing: border-box; padding: 4px 8px; font: inherit; color: inherit;
+    border: 1px solid var(--color-base-accent); border-radius: 6px; background: #fff;
+}
+.pd-edit__input--error { border-color: #B3261E; }
+.dark-mode .pd-edit:hover, .dark-mode .pd-edit:focus-visible { background: var(--dm-bg-3); }
+.dark-mode .pd-edit__input { background: var(--dm-bg-2); color: var(--dm-text-1); }
+
+/* The Purchase order button stays at the bottom of the product drawer while the content scrolls */
+.pd-footer { flex: 0 0 auto; display: flex; justify-content: flex-end; padding: var(--space-m) 3.2rem; border-top: 1px solid var(--color-fill-quaternary); background: #fff; }
+.dark-mode .pd-footer { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+
+/* ---------- Tick boxes in the first column of the Products tables ---------- */
+.products-check { width: 1.8rem; height: 1.8rem; margin: 0; accent-color: var(--color-base-accent, #7180AC); cursor: pointer; vertical-align: middle; }
+.table--products .products-cell--select, .table--products .table__header.products-cell--select { width: 44px; min-width: 44px; padding-left: 14px; padding-right: 0; text-align: left; }
+.table--products .products-row--selected > .table__cell { background-color: var(--color-base-accent-lighter-1) !important; }
+
+/* With the tick column there are three fixed columns on the left: the boxes, then the two that were already fixed. The shadow of the edge moves to the third. */
+.table--products.table--select .table__header:nth-child(1), .table--products.table--select .table__cell:nth-child(1) { position: sticky; left: 0; z-index: 3; background-color: #fff; }
+.table--products.table--select .table__header:nth-child(1) { z-index: 5; }
+.table--products.table--select .table__header:nth-child(2), .table--products.table--select .table__cell:nth-child(2) { left: 44px; }
+.table--products.table--select .table__header:nth-child(3), .table--products.table--select .table__cell:nth-child(3) { position: sticky; left: calc(44px + var(--sticky-1, 150px)); z-index: 2; background-color: #fff; overflow: visible; }
+.table--products.table--select .table__header:nth-child(3) { z-index: 4; }
+.table--products.table--select .table__row:nth-child(even) > .table__cell:nth-child(1),
+.table--products.table--select .table__row:nth-child(even) > .table__cell:nth-child(2),
+.table--products.table--select .table__row:nth-child(even) > .table__cell:nth-child(3) { background-color: #F3F3F3; }
+.table--products.table--select .products-row:hover > .table__cell:nth-child(1),
+.table--products.table--select .products-row:hover > .table__cell:nth-child(3) { background-color: var(--color-fill-secondary); }
+.table--products.table--select .table__header:nth-child(2)::after, .table--products.table--select .table__cell:nth-child(2)::after { content: none; }
+.table--products.table--select .table__header:nth-child(3)::after, .table--products.table--select .table__cell:nth-child(3)::after {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 100%; width: 14px; pointer-events: none;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0));
+}
+.dark-mode .table--products.table--select .table__header:nth-child(1), .dark-mode .table--products.table--select .table__cell:nth-child(1),
+.dark-mode .table--products.table--select .table__header:nth-child(3), .dark-mode .table--products.table--select .table__cell:nth-child(3) { background-color: var(--dm-bg-2); }
+.dark-mode .table--products.table--select .table__row:nth-child(even) > .table__cell:nth-child(1),
+.dark-mode .table--products.table--select .table__row:nth-child(even) > .table__cell:nth-child(3) { background-color: var(--dm-bg-3); }
+.dark-mode .table--products .products-row--selected > .table__cell { background-color: var(--dm-accent-soft) !important; }
+
+/* The Employees tables have the tick column too */
+.table--employees .products-cell--select, .table--employees .table__header.products-cell--select { width: 44px; min-width: 44px; padding-left: 14px; padding-right: 0; text-align: left; }
+.table--employees .products-row--selected > .table__cell { background-color: var(--color-base-accent-lighter-1) !important; }
+.dark-mode .table--employees .products-row--selected > .table__cell { background-color: var(--dm-accent-soft) !important; }
+
+/* The column after the boxes starts close to them */
+.products-cell--select + .table__cell, .products-cell--select + .table__header { padding-left: 8px; }

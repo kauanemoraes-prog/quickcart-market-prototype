@@ -1,0 +1,174 @@
+/* PCN table — group headers, status indicators, tab badge. Split from pcn-table.css. */
+
+/* Group header rows */
+.pcn-group-header {
+    background-color: #F3F3F3 !important;
+}
+
+.pcn-group-header__cell {
+    background-color: #F3F3F3 !important;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary) !important;
+    border-right: none !important;
+    padding: var(--space-s) var(--space-mp) !important;
+    height: auto !important;
+}
+
+.pcn-group-header__cell--left {
+    position: sticky;
+    left: 0;
+    z-index: 65;
+    overflow: visible;
+}
+
+.pcn-group-header__cell--filler {
+    position: relative;
+    z-index: 60;
+}
+
+.pcn-group-header__cell--right {
+    position: sticky;
+    right: 0;
+    z-index: 65;
+}
+
+.pcn-group-header__left-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    white-space: nowrap;
+}
+
+.pcn-group-header__right-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    white-space: nowrap;
+    justify-content: flex-end;
+}
+
+.pcn-group-header__checkbox {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.pcn-group-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-s);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7180AC;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.pcn-group-toggle--collapsed .pcn-group-chevron {
+    transform: rotate(-90deg);
+}
+
+.pcn-group-icon {
+    flex-shrink: 0;
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.pcn-group-title {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    white-space: nowrap;
+}
+
+.pcn-group-count {
+    background-color: var(--color-base-accent);
+    color: #FFFFFF;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.pcn-group-count-label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    flex-shrink: 0;
+}
+
+/* Group status indicators (overdue / due soon counts) */
+.pcn-group-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    flex-shrink: 0;
+}
+
+.pcn-group-status__count {
+    font-weight: var(--font-weight-semibold);
+}
+
+.pcn-group-status--overdue {
+    color: #E30000;
+}
+
+.pcn-group-status--due-soon {
+    color: #D93025;
+}
+
+.pcn-group-status--overdue img {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(91%) saturate(7470%) hue-rotate(360deg) brightness(95%) contrast(110%);
+}
+
+.pcn-group-status--due-soon img {
+    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(2127%) hue-rotate(2deg) brightness(101%) contrast(101%);
+}
+
+.pcn-group-separator {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    background-color: var(--color-fill-gray-quaternary);
+    margin: 0 var(--space-xs);
+    flex-shrink: 0;
+}
+
+/* PCN tab badge (count of pending PCNs) */
+.pcn-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    margin-left: var(--space-xs);
+    border-radius: 11px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    color: #FFFFFF;
+    background-color: var(--color-base-accent);
+    line-height: 1;
+}
+
+.pcn-tab-badge--alert {
+    background-color: #D93025;
+}
+
+.pcn-action-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xxs);
+}
+
+.pcn-action-content svg {
+    flex-shrink: 0;
+}
+
+.pcn-action-label {
+    white-space: nowrap;
+}
+

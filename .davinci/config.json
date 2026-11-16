@@ -1,0 +1,90 @@
+{
+  "designSystem": "monalisa",
+  "_help": {
+    "about": "Workspace config. \"canvas\" holds the chrome — edit its values, or delete a key entirely to fall back to the DaVinci default. \"designSystem\" and the optional \"styleSources\" are separate top-level keys.",
+    "reference": ".davinci/assets/canvas/CANVAS-CONFIG.md",
+    "styleSources": [
+      "OPTIONAL, and absent by default — leave it out and the ux-writing skill probes for these once,",
+      "then caches what it found in <root>/style-sources.json. Declare it only to end the probe for good.",
+      "Add it as a TOP-LEVEL key beside \"designSystem\", not inside \"canvas\":",
+      "",
+      "  \"styleSources\": {",
+      "    \"asg\":    \"docs/style/apple-style-guide.pdf\",   Apple Style Guide — a file it can read a rule out of",
+      "    \"hig\":    \"docs/design/hig/\",                   Human Interface Guidelines — a file or a folder",
+      "    \"design\": \"docs/design/apple-design.md\"         Apple Design",
+      "  }",
+      "",
+      "Each source resolves independently: vendoring only the HIG is fine, and the other two fall back to",
+      "the distillations bundled with the skill. A repo copy always wins over the bundled one.",
+      "A house style guide is a DIFFERENT thing: put it at .davinci/.overrides/style/ and it outranks Apple entirely."
+    ],
+    "ribbon": [
+      "enabled                 true | false      false removes the bar and its info modal",
+      "collapsible             true | false      adds the pull tab; the open/closed choice persists per browser",
+      "collapsedByDefault      true | false      ends up collapsed on a first visit — but shows the bar FIRST with a countdown, so the reviewer learns it exists. Needs collapsible; ignored without it",
+      "autoHideDelay           seconds           how long that countdown runs (default 5); 0 collapses instantly with no countdown",
+      "tabPosition             center|left|right where the pull tab sits; left/right align with the bar's own padding (default center)",
+      "background              CSS background    colour OR gradient: \"#FFD06D\", \"var(--color-fill-yellow)\", \"linear-gradient(90deg, #2A7B9B 0%, #57C785 100%)\"",
+      "textColor               any CSS colour    every label on the bar: message, info icon, chevron, Show Notes label. NOT the buttons (components; see buttonTextColor)",
+      "border                  true | false      draws a hairline under the bar (and around the tab). Off by default: it reads as a stray line on a dark or gradient bar",
+      "borderColor             any CSS colour    that hairline's colour; \"\" follows the design system's border grey. Only shows when border is true",
+      "buttonBackground        CSS background    the bar's buttons (Add Note / Change History / Live Editor); \"\" keeps the design system's own button look",
+      "buttonTextColor         any CSS colour    those buttons' label + icon; \"\" keeps the design system's own",
+      "buttonBorderColor       any CSS colour    those buttons' border; \"\" keeps the design system's own",
+      "notesBackground         CSS background    the notes group's fill; \"\" leaves it transparent so the bar shows through",
+      "notesTextColor          any CSS colour    the notes group's label + its three icons; \"\" follows textColor",
+      "notesBorderColor        any CSS colour    the notes group's frame; \"\" leaves it borderless (transparent), like the buttons",
+      "message                 HTML string       <strong>/<em> allowed; the info icon always renders",
+      "features.notes          true | false      the whole sticky-note system: Add Note + Show Notes + Copy Notes, and the notes' rich text, colour, resize, anchoring and delete guard",
+      "features.changeHistory  true | false      off switch only — the button still requires the prototype's changelog.json",
+      "features.liveEditor     true | false      Live Editor button (⌘I) — inspect any element's resolved design tokens and edit its styles in place"
+    ],
+    "footer": [
+      "enabled                 true | false",
+      "left | center | right   HTML string       \"\" renders nothing; all three empty hides the footer",
+      "                                          delete a key to restore the DaVinci default (only center has one)",
+      "                                          reusable classes: footer__link, footer__separator, footer__disclaimer"
+    ],
+    "navbar": [
+      "enabled                 true | false      false removes the top bar entirely. Default true.",
+      "                                          The bar simulates the product's top bar AND is how a reviewer",
+      "                                          moves between the prototype's screens — hiding it removes that",
+      "                                          navigation, so set false only for a product with no top bar",
+      "                                          (a sidebar-nav app, a single full-screen tool)."
+    ]
+  },
+  "canvas": {
+    "ribbon": {
+      "enabled": false,
+      "collapsible": false,
+      "collapsedByDefault": false,
+      "autoHideDelay": 5,
+      "tabPosition": "center",
+      "background": "var(--color-fill-yellow)",
+      "textColor": "var(--color-glyph-gray)",
+      "border": false,
+      "borderColor": "",
+      "buttonBackground": "",
+      "buttonTextColor": "",
+      "buttonBorderColor": "",
+      "notesBackground": "",
+      "notesTextColor": "",
+      "notesBorderColor": "",
+      "message": "You are previewing a <strong>Prototype</strong>",
+      "features": {
+        "notes": true,
+        "changeHistory": true,
+        "liveEditor": true
+      }
+    },
+    "footer": {
+      "enabled": true,
+      "left": "<a class=\"footer__link\" href=\"#\" onclick=\"return false\">Release notes</a> <span class='footer__separator'>|</span> <a class=\"footer__link\" href=\"#\" onclick=\"return false\">Support</a> <span class='footer__separator'>|</span> <a class=\"footer__link\" href=\"#\" onclick=\"return false\">File a Radar</a>",
+      "center": "<span>©2026 QuickCart Market Inc. All rights reserved. Confidential - Strictly need to know.</span> <span class='footer__separator'>|</span> <span class='footer__disclaimer'>This is a prototype with fictitious data.</span>",
+      "right": ""
+    },
+    "navbar": {
+      "enabled": true
+    }
+  }
+}

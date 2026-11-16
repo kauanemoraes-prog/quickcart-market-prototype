@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "name": "John Appleseed",
+      "role": "Administrator",
+      "avatarInitials": "JA",
+      "avatarImage": "assets/avatars/avatar-11.png",
+      "isDefault": true,
+      "permissions": {
+        "hide": [],
+        "disable": [],
+        "readonly": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+<!-- SELECTION LIST -->
+<!-- A vertical list of selectable items with checkmark indicator for selected state -->
+
+<!-- METADATA
+Component: Selection List
+Category: Data Display
+Complexity: Low
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap items in a selection-list container div
+- Items can be <a>, <button>, or <div> elements with selection-list__item class
+- Selected state: Add selection-list__item--selected class
+- Checkmark icon: Include <img> with selection-list__check class inside each item
+- Checkmark is hidden by default, shown when item has --selected class
+
+COMMON MISTAKES TO AVOID:
+❌ Missing selection-list wrapper
+❌ Forgetting selection-list__check img in items (needed for selected state)
+❌ Using custom checkmark styles instead of the MDS class
+❌ Adding text-decoration or underline overrides (MDS handles hover)
+
+JAVASCRIPT INTEGRATION:
+- Toggle selection-list__item--selected class on click
+- For single-select: remove --selected from all items, add to clicked item
+- For multi-select: toggle --selected on clicked item
+- Checkmark visibility is CSS-only (no JS needed for icon show/hide)
+
+CORRECT STRUCTURE TEMPLATES:
+
+Single-select list:
+<div class="selection-list">
+  <a href="#" class="selection-list__item">
+    Item Label
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+  <a href="#" class="selection-list__item selection-list__item--selected">
+    Selected Item
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+</div>
+
+Button-based list:
+<div class="selection-list">
+  <button class="selection-list__item">
+    Item Label
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </button>
+</div>
+
+When to prompt: Ask for single-select vs multi-select if context doesn't make it clear
+Variants: Default (single-select), Multi-select (same structure, different JS behavior)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- DEFAULT SELECTION LIST -->
+<div class="selection-list">
+  <a href="#" class="selection-list__item">
+    Item One
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+  <a href="#" class="selection-list__item selection-list__item--selected">
+    Item Two (Selected)
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+  <a href="#" class="selection-list__item">
+    Item Three
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+  <a href="#" class="selection-list__item">
+    Item Four
+    <img src="../../assets/icons/regular/checkmark.svg" alt="" class="selection-list__check">
+  </a>
+</div>
+
+<!-- USAGE:
+- Vertical list of selectable items with checkmark for selected state
+- Use for single-select or multi-select patterns (filter panels, settings, option pickers)
+- Items support <a>, <button>, or <div> elements
+- Checkmark icon auto-shows when item has selection-list__item--selected class
+- Hover state: blue text + light gray background
+- Always include the checkmark img in every item for consistent layout
+-->

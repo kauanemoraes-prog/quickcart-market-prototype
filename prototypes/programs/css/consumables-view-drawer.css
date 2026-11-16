@@ -1,0 +1,141 @@
+/* Consumables view settings drawer */
+
+/* Sit above the right toolbar (z-index: 8999) so the drawer covers it when open */
+#cons-view-drawer.drawer-overlay {
+    z-index: 9500;
+}
+
+/* Body padding so footer can sit at bottom without scrolling away */
+.cons-view-drawer .drawer__body {
+    padding-bottom: var(--space-m);
+}
+
+/* Section header: "Hide / Show" + Reset link */
+.cons-view-drawer__section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-m) 0 var(--space-s);
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    margin-bottom: var(--space-s);
+}
+
+.cons-view-drawer__section-title {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+.cons-view-drawer__reset {
+    font-size: var(--font-size-xxs);
+    color: var(--color-base-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-regular);
+}
+
+.cons-view-drawer__reset:hover {
+    text-decoration: underline;
+}
+
+/* Column list */
+.cons-view-drawer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cons-view-drawer__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-s) 0;
+    min-height: 32px;
+}
+
+.cons-view-drawer__label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.cons-view-drawer__item--locked .cons-view-drawer__label {
+    color: var(--color-glyph-gray);
+}
+
+.cons-view-drawer__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+/* Eye toggle */
+.cons-view-drawer__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    transition: var(--transition-basic);
+}
+
+.cons-view-drawer__toggle:hover {
+    opacity: 0.7;
+}
+
+.cons-view-drawer__toggle .cons-view-drawer__eye-on,
+.cons-view-drawer__toggle .cons-view-drawer__eye-off {
+    width: 18px;
+    height: 18px;
+}
+
+.cons-view-drawer__toggle.is-visible .cons-view-drawer__eye-on {
+    display: inline;
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.cons-view-drawer__toggle.is-visible .cons-view-drawer__eye-off {
+    display: none;
+}
+
+.cons-view-drawer__toggle:not(.is-visible) .cons-view-drawer__eye-on {
+    display: none;
+}
+
+.cons-view-drawer__toggle:not(.is-visible) .cons-view-drawer__eye-off {
+    display: inline;
+    filter: brightness(0) saturate(100%) invert(60%);
+}
+
+/* Drag handle (6 dots in 2x3 grid) */
+.cons-view-drawer__handle {
+    width: 14px;
+    height: 18px;
+    cursor: grab;
+    background-image: radial-gradient(circle, #6E6E73 1px, transparent 1.2px);
+    background-size: 5px 5px;
+    background-position: 1px 2px;
+    background-repeat: round;
+}
+
+.cons-view-drawer__handle:active {
+    cursor: grabbing;
+}
+
+/* Locked rows: no controls visible */
+.cons-view-drawer__item--locked {
+    opacity: 0.55;
+}
+
+/* Footer */
+.cons-view-drawer__footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l);
+    border-top: 1px solid var(--color-fill-gray-quaternary);
+    background-color: var(--color-fill-white);
+}

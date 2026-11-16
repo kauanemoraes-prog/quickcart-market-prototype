@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Detail - QuickCart Market</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="css/main.css?v=191">
+    <link rel="stylesheet" href="../people-popover.css?v=3">
+    <link rel="stylesheet" href="../components/css/nested-table-lines.css">
+    <link rel="stylesheet" href="../components/css/nested-table-stations.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <link rel="stylesheet" href="../filter-search.css?v=9">
+    <script src="../filter-search.js?v=9"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../people-avatars.js?v=2"></script>
+    <script src="../people-popover.js?v=3"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <div class="program-detail-page">
+            <!-- Program Detail Header -->
+            <div class="program-detail-header">
+                <div class="program-detail-header__nav">
+                    <!-- Back button -->
+                    <a href="index.html" class="back-btn" aria-label="Back to locations">
+                        <lucide-icon name="arrow.backward" style="font-size:16px"></lucide-icon>
+                    </a>
+
+                    <!-- Program dropdown -->
+                    <div class="header-dropdown">
+                        <label class="header-dropdown__label">City</label>
+                        <div class="header-dropdown__select-wrapper">
+                            <select id="program-select" class="header-dropdown__select">
+                                <!-- Options populated by JavaScript -->
+                            </select>
+                            <lucide-icon name="chevron-down" class="header-dropdown__chevron" style="font-size:12px"></lucide-icon>
+                        </div>
+                    </div>
+
+                    <!-- Site dropdown -->
+                    <div class="header-dropdown">
+                        <label class="header-dropdown__label">Store</label>
+                        <div class="header-dropdown__select-wrapper">
+                            <select id="site-select" class="header-dropdown__select">
+                                <!-- Options populated by JavaScript -->
+                            </select>
+                            <lucide-icon name="chevron-down" class="header-dropdown__chevron" style="font-size:12px"></lucide-icon>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="program-tabs">
+                        <div class="tabs">
+                            <div class="tabs__nav">
+                                <button class="tabs__tab tabs__tab--active" data-tab="overview">Store overview</button>
+                                <button class="tabs__tab" data-tab="process-flow">Areas</button>
+                                <button class="tabs__tab" data-tab="process-flow-2" hidden style="display:none">Areas 2</button>
+                                <button class="tabs__tab" data-tab="equipment-list">Products</button>
+                                <button class="tabs__tab" data-tab="consumables">Equipment/Consumables</button>
+                                <button class="tabs__tab" data-tab="pending-pcns">Requests <span class="pcn-tab-badge" id="pcn-tab-badge">0</span> <lucide-icon name="chevron-down" style="font-size:12px;margin-left: 2px; vertical-align: middle"></lucide-icon></button>
+                                <button class="tabs__tab" data-tab="employees">Employees</button>
+                                <button class="tabs__tab" data-tab="finance">Finance</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div id="program-timeline"></div>
+                </div>
+            </div>
+
+            <!-- Page content area -->
+            <div class="program-detail-content">
+                <div class="tabs__content">
+                    <div class="tabs__panel tabs__panel--active" id="overview">
+                        <div class="store-overview" id="store-overview"></div>
+                    </div>
+                    <div class="tabs__panel" id="process-flow">
+                        <!-- Toolbar with filter/search and actions -->
+                        <!-- The new tree table and the map replace this list. The old toolbar and table stay in the page, hidden,
+                             because modules that are not used by the new view still read them. -->
+                        <div class="areas-view" id="areas-view"></div>
+                        <div class="store-map" id="store-map" hidden></div>
+
+                        <div class="areas-legacy" hidden>
+                        <div class="process-toolbar">
+                            <div class="pf-filter">
+                                <div class="pf-filter__row">
+                                    <div class="pf-filter__field">
+                                        <span class="pf-filter__icon" aria-hidden="true">
+                                            <lucide-icon name="magnifyingglass"></lucide-icon>
+                                        </span>
+                                        <div class="pf-filter__chips" id="pf1-filter-chips"></div>
+                                        <input type="text" class="pf-filter__input" placeholder="Type keywords..." id="lines-search" autocomplete="off">
+                                        <div class="pf1-match-nav" id="pf1-match-nav" hidden>
+                                            <button type="button" class="pf1-match-nav__btn" data-pf1-nav="prev" aria-label="Previous match">
+                                                <lucide-icon name="chevron-up" style="font-size:10px"></lucide-icon>
+                                            </button>
+                                            <button type="button" class="pf1-match-nav__btn" data-pf1-nav="next" aria-label="Next match">
+                                                <lucide-icon name="chevron-down" style="font-size:10px"></lucide-icon>
+                                            </button>
+                                            <span class="pf1-match-nav__count" id="pf1-match-nav-count">0 of 0</span>
+                                        </div>
+                                        <span class="pf-filter__shortcut" aria-hidden="true">⌘K</span>
+                                        <button type="button" class="pf-filter__clear-all" aria-label="Clear all filters">
+                                            <lucide-icon name="x" style="font-size:14px"></lucide-icon>
+                                        </button>
+                                    </div>
+                                    <button type="button" class="pf-filter__save-btn" aria-label="Save current filter as favorite" aria-pressed="false" hidden>
+                                        <lucide-icon name="star" style="font-size:16px"></lucide-icon>
+                                    </button>
+                                    <button type="button" class="pf-filter__options-btn" aria-label="Filter options" aria-haspopup="true" aria-expanded="false">
+                                        <lucide-icon name="ellipsis" style="font-size:16px"></lucide-icon>
+                                    </button>
+                                    <div class="pf-filter__options-pop" role="dialog" aria-label="Filter options" hidden></div>
+                                </div>
+                                <div class="pf-filter__panel" role="dialog" aria-label="Filter options">
+                                    <div class="pf-filter__panel-body" data-view="main"></div>
+                                </div>
+                            </div>
+
+                            <div class="toolbar-actions">
+                                <button class="tag-btn">
+                                    <lucide-icon name="eye" style="font-size:14px"></lucide-icon>
+                                    50
+                                </button>
+
+                                <button class="toolbar-btn toolbar-btn--icon" aria-label="Settings">
+                                    <lucide-icon name="gearshape" style="font-size:16px"></lucide-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <section class="proj-nested-table">
+                            <div class="table-container">
+                                <table class="table table--lines">
+                                    <colgroup><col><col><col><col><col><col><col><col><col></colgroup>
+                                    <thead class="table__head">
+                                        <tr class="table__row">
+                                            <th class="table__header proj-nested-table__col-index" colspan="2" data-pf1-field="line-name">Area Name</th>
+                                            <th class="table__header" data-pf1-field="gallery">Section</th>
+                                            <th class="table__header" data-pf1-field="zone">Aisle</th>
+                                            <th class="table__header" data-pf1-field="description">Description</th>
+                                            <th class="table__header">Stations</th>
+                                            <th class="table__header" data-pf1-field="area-lead">Area Lead</th>
+                                            <th class="table__header" data-pf1-field="area-status">Status</th>
+                                            <th class="table__header">Last Updated</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body afmd-actions-tbody afmd-actions-tbody--global" hidden>
+                                        <tr class="table__row table__row--actions-bar">
+                                            <td class="table__cell table__cell--actions-bar" colspan="99">
+                                                <span class="equip-actions__count afmd-selected-count-global">0 workstations selected:</span>
+                                                <div class="afmd-global-actions">
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="copy">
+                                                        <lucide-icon name="doc.on.doc"></lucide-icon>
+                                                        Copy
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="paste">
+                                                        <lucide-icon name="doc.on.clipboard"></lucide-icon>
+                                                        Paste
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="cut">
+                                                        <lucide-icon name="scissors"></lucide-icon>
+                                                        Cut
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="duplicate">
+                                                        <lucide-icon name="plus.square.on.square"></lucide-icon>
+                                                        Duplicate
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="import">
+                                                        <lucide-icon name="square.and.arrow.down"></lucide-icon>
+                                                        Import
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="edit-field">
+                                                        <lucide-icon name="pencil"></lucide-icon>
+                                                        Edit field
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn--primary btn--small afmd-actions-sync-global">AFMD Sync</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table__body" id="lines-table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        </div>
+
+                        <!-- MP Build Event empty state — shown when MP is the active stage and no target Build Event has been assigned yet. -->
+                        <div class="mp-empty-state">
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <lucide-icon name="target"></lucide-icon>
+                                </div>
+                                <h3 class="empty-state__title">Select a target Project Phase</h3>
+                                <p class="empty-state__subtitle">Dismantling mirrors a target Project Phase in read-only mode, surfacing only items marked as Process of Record (POR).<br>This gives production a stable reference to the engineering-approved configuration.</p>
+                                <div class="mp-empty-state__actions">
+                                    <div class="equip-dropdown mp-target-control">
+                                        <button type="button" class="equip-dropdown__trigger" aria-haspopup="listbox" aria-label="Project Phase">
+                                            <span class="equip-dropdown__value">Select Project Phase...</span>
+                                            <lucide-icon name="chevron-down" class="equip-dropdown__chevron" style="font-size:10px"></lucide-icon>
+                                        </button>
+                                        <ul class="equip-dropdown__menu"></ul>
+                                    </div>
+                                    <button class="btn btn--primary btn--medium mp-target-assign" disabled>Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__panel" id="process-flow-2">
+                        <!-- Toolbar with search and actions -->
+                        <div class="process-toolbar">
+                            <div class="process-toolbar__left">
+                                <div class="pf-filter">
+                                    <div class="pf-filter__row">
+                                        <div class="pf-filter__field">
+                                            <span class="pf-filter__icon" aria-hidden="true">
+                                                <lucide-icon name="magnifyingglass"></lucide-icon>
+                                            </span>
+                                            <div class="pf-filter__chips" id="pf-filter-chips"></div>
+                                            <input type="text" class="pf-filter__input" placeholder="Type keywords..." id="lines-search-2" autocomplete="off">
+                                            <span class="pf-filter__shortcut" aria-hidden="true">⌘K</span>
+                                            <button type="button" class="pf-filter__clear-all" aria-label="Clear all filters">
+                                                <lucide-icon name="x" style="font-size:14px"></lucide-icon>
+                                            </button>
+                                        </div>
+                                        <button type="button" class="pf-filter__save-btn" aria-label="Save current filter as favorite" aria-pressed="false" hidden>
+                                            <lucide-icon name="star" style="font-size:16px"></lucide-icon>
+                                        </button>
+                                        <button type="button" class="pf-filter__options-btn" aria-label="Filter options" aria-haspopup="true" aria-expanded="false">
+                                            <lucide-icon name="ellipsis" style="font-size:16px"></lucide-icon>
+                                        </button>
+                                        <div class="pf-filter__options-pop" role="dialog" aria-label="Filter options" hidden></div>
+                                        <span class="pf-filter__info-wrap">
+                                            <span class="pf-filter__info" aria-label="Filter info" tabindex="0">
+                                                <lucide-icon name="info.circle"></lucide-icon>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="pf-filter__panel" role="dialog" aria-label="Filter options">
+                                        <div class="pf-filter__panel-body" data-view="main"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="toolbar-actions">
+                                <button class="tag-btn tag-btn--active js-toggle-station-info">
+                                    <lucide-icon name="eye" style="font-size:14px"></lucide-icon>
+                                    Station info
+                                </button>
+
+                                <button class="tag-btn tag-btn--active">
+                                    <lucide-icon name="eye" style="font-size:14px"></lucide-icon>
+                                    Operation info
+                                </button>
+
+                                <button class="tag-btn">
+                                    <lucide-icon name="eye" style="font-size:14px"></lucide-icon>
+                                    50
+                                </button>
+
+                                <button class="toolbar-btn toolbar-btn--icon" aria-label="Settings">
+                                    <lucide-icon name="gearshape" style="font-size:16px"></lucide-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <section class="proj-nested-table">
+                            <div class="table-container">
+                                <table class="table table--lines table--lines-v2">
+                                    <thead class="table__head">
+                                        <tr class="table__row">
+                                            <th class="table__header proj-nested-table__col-index">Assembly area</th>
+                                            <th class="table__header proj-nested-table__col-name"></th>
+                                            <th class="table__header proj-nested-table__col-desc">Description</th>
+                                            <th class="table__header proj-nested-table__col-text">Level</th>
+                                            <th class="table__header proj-nested-table__col-text proj-nested-table__col-text--wrap">Cond.<br>SOP</th>
+                                            <th class="table__header proj-nested-table__col-text proj-nested-table__col-text--wrap">Process<br>Category</th>
+                                            <th class="table__header proj-nested-table__col-uph proj-nested-table__col-text--wrap">Target<br>UPH</th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">PCRs</span><span class="stat-col__total" id="pf2-total-pcns" data-proj-tooltip="Total number of PCNs" data-proj-tooltip-placement="left">1000</span></div></th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">Workstation #</span><span class="stat-col__total" id="pf2-total-stations" data-proj-tooltip="Total number of stations" data-proj-tooltip-placement="left">10000</span></div></th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">Process #</span><span class="stat-col__total" id="pf2-total-processes" data-proj-tooltip="Total number of process" data-proj-tooltip-placement="left">10000</span></div></th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">HC #</span><span class="stat-col__total" id="pf2-total-hc" data-proj-tooltip="Total number of headcount" data-proj-tooltip-placement="left">10000</span></div></th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">Cons. #</span><span class="stat-col__total" id="pf2-total-cons" data-proj-tooltip="Total number of unique consumables" data-proj-tooltip-placement="left">10000</span></div></th>
+                                            <th class="table__header proj-nested-table__col-stat-num"><div class="stat-col"><span class="stat-col__label">Equip. #</span><span class="stat-col__total" id="pf2-total-eq" data-proj-tooltip="Total number of unique equipment and total number of equipment" data-proj-tooltip-placement="left">10000 | 1000</span></div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body afmd-actions-tbody afmd-actions-tbody--global" hidden>
+                                        <tr class="table__row table__row--actions-bar">
+                                            <td class="table__cell table__cell--actions-bar" colspan="99">
+                                                <span class="equip-actions__count afmd-selected-count-global">0 workstations selected:</span>
+                                                <div class="afmd-global-actions">
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="copy">
+                                                        <lucide-icon name="doc.on.doc"></lucide-icon>
+                                                        Copy
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="paste">
+                                                        <lucide-icon name="doc.on.clipboard"></lucide-icon>
+                                                        Paste
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="cut">
+                                                        <lucide-icon name="scissors"></lucide-icon>
+                                                        Cut
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="duplicate">
+                                                        <lucide-icon name="plus.square.on.square"></lucide-icon>
+                                                        Duplicate
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="import">
+                                                        <lucide-icon name="square.and.arrow.down"></lucide-icon>
+                                                        Import
+                                                    </button>
+                                                    <button class="btn btn--link btn--small afmd-global-action" data-action="edit-field">
+                                                        <lucide-icon name="pencil"></lucide-icon>
+                                                        Edit field
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn--primary btn--small afmd-actions-sync-global">AFMD Sync</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table__body" id="lines-table-body-2">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Pre P1 empty state — shown when the Pre P1 build stage is active. -->
+                        <div class="pre-p1-empty-state">
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <lucide-icon name="tray"></lucide-icon>
+                                </div>
+                                <p class="empty-state__text">This assembly plan is empty.</p>
+                                <p class="empty-state__text">
+                                    <a href="#" class="empty-state__action" id="pre-p1-add-line">
+                                        <lucide-icon name="plus.circle"></lucide-icon>
+                                        Add an assembly area
+                                    </a>
+                                    to start editing or<br>
+                                    ask the <a href="#" class="empty-state__link">Exhibition Admin</a> to Index<span class="empty-state__info" data-proj-tooltip="The Index copies selected Stations, Equipment, and Consumables from an existing program. The first Build Event must be empty to perform the Index." data-proj-tooltip-placement="top"><lucide-icon name="info.circle"></lucide-icon></span> information from other Exhibition.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- MP Build Event empty state — shown when MP is the active stage and no target Build Event has been assigned yet (admin selects target via this UI). -->
+                        <div class="mp-empty-state">
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <lucide-icon name="target"></lucide-icon>
+                                </div>
+                                <h3 class="empty-state__title">Select a target Project Phase</h3>
+                                <p class="empty-state__subtitle">Dismantling mirrors a target Project Phase in read-only mode, surfacing only items marked as Process of Record (POR).<br>This gives production a stable reference to the engineering-approved configuration.</p>
+                                <div class="mp-empty-state__actions">
+                                    <div class="equip-dropdown mp-target-control">
+                                        <button type="button" class="equip-dropdown__trigger" aria-haspopup="listbox" aria-label="Project Phase">
+                                            <span class="equip-dropdown__value">Select Project Phase...</span>
+                                            <lucide-icon name="chevron-down" class="equip-dropdown__chevron" style="font-size:10px"></lucide-icon>
+                                        </button>
+                                        <ul class="equip-dropdown__menu"></ul>
+                                    </div>
+                                    <button class="btn btn--primary btn--medium mp-target-assign" disabled>Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__panel" id="equipment-list">
+                        <div class="equip-view equip-view--active products-view" id="products-view"></div>
+                        <!-- MP Build Event empty state — shown when MP is the active stage and no target Build Event has been assigned yet. -->
+                        <div class="mp-empty-state">
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <lucide-icon name="target"></lucide-icon>
+                                </div>
+                                <h3 class="empty-state__title">Select a target Project Phase</h3>
+                                <p class="empty-state__subtitle">Dismantling mirrors a target Project Phase in read-only mode, surfacing only items marked as Process of Record (POR).<br>This gives production a stable reference to the engineering-approved configuration.</p>
+                                <div class="mp-empty-state__actions">
+                                    <div class="equip-dropdown mp-target-control">
+                                        <button type="button" class="equip-dropdown__trigger" aria-haspopup="listbox" aria-label="Project Phase">
+                                            <span class="equip-dropdown__value">Select Project Phase...</span>
+                                            <lucide-icon name="chevron-down" class="equip-dropdown__chevron" style="font-size:10px"></lucide-icon>
+                                        </button>
+                                        <ul class="equip-dropdown__menu"></ul>
+                                    </div>
+                                    <button class="btn btn--primary btn--medium mp-target-assign" disabled>Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__panel" id="employees">
+                        <div class="equip-view equip-view--active products-view" id="employees-view"></div>
+                    </div>
+                    <div class="tabs__panel" id="finance">
+                        <div class="rq-subtabs" role="tablist" aria-label="Finance">
+                            <button type="button" class="rq-subtab rq-subtab--active" role="tab" aria-selected="true" data-fin-tab="revenue">Revenue</button>
+                            <button type="button" class="rq-subtab" role="tab" aria-selected="false" data-fin-tab="purchase-spend">Purchase spend</button>
+                        </div>
+                        <div class="fin-pane" id="revenue">
+                            <div class="equip-view equip-view--active products-view" id="revenue-view"></div>
+                        </div>
+                        <div class="fin-pane" id="purchase-spend" hidden>
+                            <div class="equip-view equip-view--active products-view" id="purchase-view"></div>
+                        </div>
+                    </div>
+                    <div class="tabs__panel" id="consumables">
+                        <div class="equip-view equip-view--active products-view" id="supplies-view"></div>
+
+                        <!-- The old consumables table stays in the page, hidden: the code behind it is still loaded -->
+                        <div class="supplies-legacy" hidden>
+                        <!-- Toolbar with filter/search -->
+                        <div class="process-toolbar">
+                            <div class="pf-filter">
+                                <div class="pf-filter__row">
+                                    <div class="pf-filter__field">
+                                        <span class="pf-filter__icon" aria-hidden="true">
+                                            <lucide-icon name="magnifyingglass"></lucide-icon>
+                                        </span>
+                                        <div class="pf-filter__chips" id="cons-filter-chips"></div>
+                                        <input type="text" class="pf-filter__input" placeholder="Type keywords..." id="consumables-search" autocomplete="off">
+                                        <div class="cs-match-nav" id="cs-match-nav" hidden>
+                                            <button type="button" class="cs-match-nav__btn" data-cs-nav="prev" aria-label="Previous match">
+                                                <lucide-icon name="chevron-up" style="font-size:10px"></lucide-icon>
+                                            </button>
+                                            <button type="button" class="cs-match-nav__btn" data-cs-nav="next" aria-label="Next match">
+                                                <lucide-icon name="chevron-down" style="font-size:10px"></lucide-icon>
+                                            </button>
+                                            <span class="cs-match-nav__count" id="cs-match-nav-count">0 of 0</span>
+                                        </div>
+                                        <span class="pf-filter__shortcut" aria-hidden="true">⌘K</span>
+                                        <button type="button" class="pf-filter__clear-all" aria-label="Clear all filters">
+                                            <lucide-icon name="x" style="font-size:14px"></lucide-icon>
+                                        </button>
+                                    </div>
+                                    <button type="button" class="pf-filter__save-btn" aria-label="Save current filter as favorite" aria-pressed="false" hidden>
+                                        <lucide-icon name="star" style="font-size:16px"></lucide-icon>
+                                    </button>
+                                    <button type="button" class="pf-filter__options-btn" aria-label="Filter options" aria-haspopup="true" aria-expanded="false">
+                                        <lucide-icon name="ellipsis" style="font-size:16px"></lucide-icon>
+                                    </button>
+                                    <div class="pf-filter__options-pop" role="dialog" aria-label="Filter options" hidden></div>
+                                    <span class="pf-filter__info-wrap">
+                                        <span class="pf-filter__info" aria-label="Filter info" tabindex="0">
+                                            <lucide-icon name="info.circle"></lucide-icon>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="pf-filter__panel" role="dialog" aria-label="Filter options">
+                                    <div class="pf-filter__panel-body" data-view="main"></div>
+                                </div>
+                            </div>
+
+                            <div class="toolbar-actions">
+                                <label class="switch">
+                                    <input type="checkbox" class="switch__input" id="consumables-view-toggle">
+                                    <span class="switch__slider"></span>
+                                    <span class="switch__label">Show only material information</span>
+                                </label>
+                                
+                                <button class="btn btn--secondary btn--small" id="cons-view-settings-btn" data-proj-tooltip="Consumables View Settings" data-proj-tooltip-placement="left">
+                                    <lucide-icon name="gearshape" style="font-size:16px"></lucide-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="consumables-table-container">
+                            <!-- Full view table (default) -->
+                            <div class="table-container" id="consumables-full-view">
+                                <table class="table table--consumables">
+                                    <thead class="table__head">
+                                        <tr class="table__row" id="consumables-header-row">
+                                            <th class="table__header table__header--sticky-station table__header--cons-name-header" data-cs-field="cs-station-name"><input type="checkbox" class="cons-checkbox cons-checkbox--all" id="cons-select-all"><span>Workstation Name</span></th>
+                                            <th class="table__header table__header--sticky-application" data-cs-field="cs-application-name">
+                                                <span>Application name</span>
+                                                <button class="cons-add-row-btn" id="cons-add-row-btn"><lucide-icon class="cons-add-icon" name="plus.circle" style="font-size:18px"></lucide-icon></button>
+                                            </th>
+                                            <!-- Standard headers rendered by ConsumablesTable.renderHeaders() -->
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body" id="cons-actions-bar" style="display:none;">
+                                        <tr class="table__row table__row--actions-bar">
+                                            <td class="table__cell table__cell--actions-bar" colspan="32">
+                                                <span class="cons-actions__count" id="cons-selected-count">0 item selected:</span>
+                                                <button class="btn btn--danger btn--small cons-actions__delete" id="cons-delete-btn"><lucide-icon name="trash" style="font-size:14px"></lucide-icon> Delete</button>
+                                                <button class="btn btn--primary btn--small cons-actions__duplicate" id="cons-duplicate-btn"><lucide-icon name="doc.on.doc" style="font-size:14px"></lucide-icon> Duplicate</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table__body" id="consumables-table-body">
+                                        <!-- Consumables rows will be generated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Simplified view table (hidden by default) -->
+                            <div class="table-container" id="consumables-simple-view" style="display: none;">
+                                <table class="table table--consumables-simple">
+                                    <thead class="table__head">
+                                        <tr class="table__row">
+                                            <th class="table__header sortable">
+                                                Material Name
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header">Description</th>
+                                            <th class="table__header sortable">
+                                                In Hand Date
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Material Type
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Material Category
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Material Subcategory
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Vendor Name
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Vendor Part Number
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Internal Part Number
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                            <th class="table__header sortable">
+                                                Contract Manufacturer Part Number
+                                                <span class="sort-icon">⇅</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body" id="consumables-simple-table-body">
+                                        <!-- Simple consumables rows will be generated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Delete confirmation modal rendered by DeleteModal.render() into #delete-modals-mount -->
+                        </div>
+
+                        <!-- Consumables view settings drawer (left side) -->
+                        <div class="drawer-overlay" id="cons-view-drawer">
+                            <div class="drawer drawer--right drawer--small cons-view-drawer">
+                                <div class="drawer__header">
+                                    <button class="drawer__close" id="cons-view-drawer-close">
+                                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                                    </button>
+                                    <h3 class="drawer__title">Consumables View Settings</h3>
+                                </div>
+                                <div class="drawer__body">
+                                    <div class="cons-view-drawer__section-head">
+                                        <span class="cons-view-drawer__section-title">Hide / Show</span>
+                                        <a href="#" class="cons-view-drawer__reset" id="cons-view-drawer-reset">Reset</a>
+                                    </div>
+                                    <ul class="cons-view-drawer__list" id="cons-view-drawer-list">
+                                        <li class="cons-view-drawer__item cons-view-drawer__item--locked"><span class="cons-view-drawer__label">Workstation Name</span></li>
+                                        <li class="cons-view-drawer__item cons-view-drawer__item--locked"><span class="cons-view-drawer__label">Application name</span></li>
+                                        <li class="cons-view-drawer__item" data-column="consumable-name"><span class="cons-view-drawer__label">Material name</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="vendor"><span class="cons-view-drawer__label">Material vendor</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="vendor-pn"><span class="cons-view-drawer__label">Vendor PN</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="eng-intent"><span class="cons-view-drawer__label">ENG Intent</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="mp-intent"><span class="cons-view-drawer__label">MP Intent</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="consumable-type"><span class="cons-view-drawer__label">Material Type</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="category"><span class="cons-view-drawer__label">Category</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="subcategory"><span class="cons-view-drawer__label">Subcategory</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="item-description"><span class="cons-view-drawer__label">Item description</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="apple-pn"><span class="cons-view-drawer__label">Internal PN</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="cm-pn"><span class="cons-view-drawer__label">CM PN</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="package"><span class="cons-view-drawer__label">Package size</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="package-uom"><span class="cons-view-drawer__label">Package UOM</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="package-description"><span class="cons-view-drawer__label">Package description</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="package-cost"><span class="cons-view-drawer__label">Package cost</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="purchase-pack"><span class="cons-view-drawer__label">Purchase pack</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="unit-of-measure"><span class="cons-view-drawer__label">Unit of measure (UOM)</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="cost-per-uom"><span class="cons-view-drawer__label">Cost per UOM</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="safety-data-sheet"><span class="cons-view-drawer__label">Safety data sheet</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="technical-data-sheet"><span class="cons-view-drawer__label">Technical data sheet</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="installed-image"><span class="cons-view-drawer__label">Installed/applied image</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="usage-test-points"><span class="cons-view-drawer__label">Usage/test points per unit</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="retest-rate"><span class="cons-view-drawer__label">Retest rate or waste assumption</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="lifecycle"><span class="cons-view-drawer__label">Lifecycle</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="effective-usage"><span class="cons-view-drawer__label">Effective usage per unit</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="tested-rate"><span class="cons-view-drawer__label">Tested rate</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="build-duration"><span class="cons-view-drawer__label">Build duration</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="buffer"><span class="cons-view-drawer__label">Buffer</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="engineering-daily-usage"><span class="cons-view-drawer__label">Engineering daily usage</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                        <li class="cons-view-drawer__item" data-column="eng-order-qty"><span class="cons-view-drawer__label">Eng. order qty (Calculated)</span><div class="cons-view-drawer__controls"><button class="cons-view-drawer__toggle is-visible" data-action="toggle" aria-label="Toggle visibility"><lucide-icon class="cons-view-drawer__eye-on" name="eye.fill" style="font-size:18px"></lucide-icon><lucide-icon class="cons-view-drawer__eye-off" name="eye.slash" style="font-size:18px"></lucide-icon></button><span class="cons-view-drawer__handle" aria-label="Drag to reorder"></span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="cons-view-drawer__footer">
+                                    <button class="btn btn--secondary btn--medium" id="cons-view-drawer-cancel">Cancel</button>
+                                    <button class="btn btn--primary btn--medium" id="cons-view-drawer-save">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MP Build Event empty state — shown when MP is the active stage and no target Build Event has been assigned yet. -->
+                        <div class="mp-empty-state">
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <lucide-icon name="target"></lucide-icon>
+                                </div>
+                                <h3 class="empty-state__title">Select a target Project Phase</h3>
+                                <p class="empty-state__subtitle">Dismantling mirrors a target Project Phase in read-only mode, surfacing only items marked as Process of Record (POR).<br>This gives production a stable reference to the engineering-approved configuration.</p>
+                                <div class="mp-empty-state__actions">
+                                    <div class="equip-dropdown mp-target-control">
+                                        <button type="button" class="equip-dropdown__trigger" aria-haspopup="listbox" aria-label="Project Phase">
+                                            <span class="equip-dropdown__value">Select Project Phase...</span>
+                                            <lucide-icon name="chevron-down" class="equip-dropdown__chevron" style="font-size:10px"></lucide-icon>
+                                        </button>
+                                        <ul class="equip-dropdown__menu"></ul>
+                                    </div>
+                                    <button class="btn btn--primary btn--medium mp-target-assign" disabled>Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                                            </div>
+                    </div>
+                    <div class="tabs__panel" id="pending-pcns">
+                        <div class="equip-view equip-view--active products-view" id="requests-view"></div>
+
+                        <!-- The old list of change requests stays in the page, hidden: the code behind it is still loaded -->
+                        <div class="requests-legacy" hidden>
+                        <!-- Search toolbar -->
+                        <div class="process-toolbar">
+                            <div class="search-bar">
+                                <lucide-icon name="search" class="search-bar__icon" style="font-size:16px"></lucide-icon>
+                                <input type="text" class="search-bar__input" placeholder="Type keywords..." id="pcn-search">
+                                <span class="search-bar__shortcut">⌘K</span>
+                            </div>
+                            
+                            <div class="toolbar-actions">
+                                <label class="switch">
+                                    <input type="checkbox" class="switch__input" id="pcn-due-filter">
+                                    <span class="switch__slider"></span>
+                                    <span class="switch__label">Show only due soon/overdue PCRs</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pcn-table-container">
+                            <!-- Bulk-action bar — sits OUTSIDE table-wrapper so it doesn't scroll with the table -->
+                            <div class="pcn-actions-bar" id="pcn-actions-bar" style="display:none;">
+                                <span class="pcn-actions__count" id="pcn-selected-count">1 PCR selected:</span>
+                                <button class="pcn-actions__approve" id="pcn-approve-btn">Approve</button>
+                                <button class="pcn-actions__reject" id="pcn-reject-btn">Reject</button>
+                                <button class="pcn-actions__cancel" id="pcn-cancel-btn">Cancel</button>
+                            </div>
+                            <div class="pcn-fixed-shadow-overlay pcn-fixed-shadow-overlay--left" aria-hidden="true"></div>
+                            <div class="pcn-fixed-shadow-overlay pcn-fixed-shadow-overlay--right" aria-hidden="true"></div>
+                            <div class="pcn-fixed-shadow-overlay pcn-fixed-shadow-overlay--header-left" aria-hidden="true"></div>
+                            <div class="pcn-fixed-shadow-overlay pcn-fixed-shadow-overlay--header-right" aria-hidden="true"></div>
+                            <div class="table-wrapper">
+                                <table class="table table--pcn">
+                                    <thead class="table__head">
+                                        <tr class="table__row">
+                                            <th class="table__header table__header--fixed-left"><div class="pcn-header-content"><label class="checkbox pcn-header-checkbox"><input type="checkbox" class="checkbox__input" id="pcn-select-all"><span class="checkbox__box"></span></label><span class="pcn-header-label">PCR</span></div><span class="pcn-fixed-shadow pcn-fixed-shadow--right"></span></th>
+                                            <th class="table__header">Description</th>
+                                            <th class="table__header">Before</th>
+                                            <th class="table__header">After</th>
+                                            <th class="table__header">Justification</th>
+                                            <th class="table__header">Justification File</th>
+                                            <th class="table__header">Needed By</th>
+                                            <th class="table__header">Created By</th>
+                                            <th class="table__header">Implementation Date</th>
+                                            <th class="table__header table__header--fixed-right"><span class="pcn-fixed-shadow pcn-fixed-shadow--left"></span>Approval</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body" id="pcn-table-body">
+                                        <!-- PCN rows will be generated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Toolbar -->
+        <div class="proj-right-toolbar">
+            <div class="proj-right-toolbar__header">
+                <button class="proj-right-toolbar__toggle" aria-label="Open toolbar">
+                    <lucide-icon class="proj-right-toolbar__chevron" name="chevron.left" style="font-size:14px"></lucide-icon>
+                </button>
+            </div>
+            <nav class="proj-right-toolbar__nav"></nav>
+            <div class="proj-right-toolbar__panel">
+                <div class="proj-right-toolbar__content">
+                </div>
+            </div>
+        </div>
+
+        <!-- Import Modal -->
+        <!-- Import modal rendered by ModalShell.render() into #modals-mount -->
+
+        <!-- Publish Process Flow Wizard -->
+        <!-- Publish wizard rendered by ModalShell.render() into #modals-mount -->
+
+        <!-- File Upload Modal -->
+        <!-- File upload modal rendered by ModalShell.render() into #modals-mount -->
+
+        <!-- Mount point for shared modals (rendered by js/delete-modal.js and js/modal-shell.js) -->
+        <div id="modals-mount"></div>
+    </script>
+
+    <!-- Right Toolbar Items Template -->
+    <script id="proj-right-toolbar-items-template" type="text/x-handlebars-template">
+        {{#each items}}
+        <button class="proj-right-toolbar__item" data-item-id="{{id}}">
+            <span class="proj-right-toolbar__item-icon">
+                <img src="{{../basePath}}{{icon}}" alt="" width="16" height="16">
+            </span>
+            <span class="proj-right-toolbar__item-label">{{label}}</span>
+        </button>
+        {{/each}}
+    </script>
+
+    <!-- Handlebars: Level 1 rows (Lines) — flat list, ungrouped (Process Flow tab 1) -->
+    <!-- Handlebars: Assembly Plan (tab 1). Area rows and, when expanded, their workstation rows.
+         Both tables share one column grid (see css/assembly-plan.css) so column N of a workstation
+         sits under column N of its area. -->
+    <script id="assembly-l1-template" type="text/x-handlebars-template">
+        {{#each lines}}
+        <tr class="table__row proj-nested-table__row proj-nested-table__row--level1" data-line-id="{{id}}" data-expanded="false">
+            <td class="table__cell proj-nested-table__col-index">
+                <div class="ap-row-controls">
+                    <span class="proj-nested-table__drag-handle" title="Drag to reorder"><lucide-icon name="grip-vertical" style="font-size:16px"></lucide-icon></span>
+                    <span class="proj-nested-table__row-number">{{index}}</span>
+                    <button class="proj-nested-table__expand-btn" aria-label="Expand {{name}}">
+                        <lucide-icon class="proj-nested-table__chevron" name="chevron.forward" style="font-size:16px"></lucide-icon>
+                    </button>
+                </div>
+            </td>
+            <td class="table__cell proj-nested-table__col-name">
+                <span class="ap-label">Area</span>
+                <div class="line-name">{{{nameInput}}}</div>
+            </td>
+            <td class="table__cell ap-col-gallery">{{{galleryDropdown}}}</td>
+            <td class="table__cell ap-col-zone">{{{zoneDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-desc">{{{descriptionInput}}}</td>
+            <td class="table__cell ap-col-num">{{stationCount}}</td>
+            <td class="table__cell ap-col-lead"><button type="button" class="person-link" data-person="{{areaLead}}" data-role="Area Lead" aria-haspopup="dialog" aria-expanded="false">{{areaLead}}</button></td>
+            <td class="table__cell ap-col-status"><span class="status-badge" data-status="{{areaStatus}}">{{areaStatus}}</span></td>
+            <td class="table__cell ap-col-date">{{lastUpdated}}</td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script id="assembly-l2-template" type="text/x-handlebars-template">
+        <table class="table l2__table ap-l2">
+            <colgroup><col><col><col><col><col><col><col><col><col></colgroup>
+            <thead class="table__head">
+                <tr class="table__row">
+                    <th class="table__header ap-l2-head-first" colspan="2">Station Name</th>
+                    <th class="table__header" colspan="2">Area</th>
+                    <th class="table__header">Function</th>
+                    <th class="table__header">Operations</th>
+                    <th class="table__header">Station Lead</th>
+                    <th class="table__header">Readiness</th>
+                    <th class="table__header">Last Updated</th>
+                </tr>
+            </thead>
+            <tbody class="table__body">
+                {{#each stations}}
+                <tr class="table__row proj-nested-table__row proj-nested-table__row--level2 ap-station-row" data-station-id="{{id}}">
+                    <td class="table__cell ap-l2-spacer">
+                        <div class="ap-row-controls">
+                            <span class="proj-nested-table__drag-handle" title="Drag to reorder"><lucide-icon name="grip-vertical" style="font-size:16px"></lucide-icon></span>
+                            <span class="ap-l2-num">{{index}}</span>
+                            {{#if operationRows.length}}
+                            <button type="button" class="ap-op-toggle" aria-expanded="false" aria-label="Show operations of {{name}}">
+                                <lucide-icon name="chevron-right" style="font-size:16px"></lucide-icon>
+                            </button>
+                            {{else}}
+                            <span class="ap-op-toggle-spacer"></span>
+                            {{/if}}
+                        </div>
+                    </td>
+                    <td class="table__cell ap-l2-name">
+                        <span class="ap-label">Station</span>
+                        <span class="ap-l2-name-text">{{name}}</span>
+                    </td>
+                    <td class="table__cell ap-l2-area" colspan="2">{{areaName}}</td>
+                    <td class="table__cell ap-l2-function">{{func}}</td>
+                    <td class="table__cell ap-col-num">{{operations}}</td>
+                    <td class="table__cell ap-l2-lead"><button type="button" class="person-link" data-person="{{stationLead}}" data-role="Station Lead" aria-haspopup="dialog" aria-expanded="false">{{stationLead}}</button></td>
+                    <td class="table__cell ap-l2-readiness"><span class="status-badge" data-readiness="{{readiness}}">{{readiness}}</span></td>
+                    <td class="table__cell ap-col-date">{{stLastUpdated}}</td>
+                </tr>
+                {{#if operationRows.length}}
+                <tr class="table__row ap-op-row" data-op-for="{{id}}" hidden>
+                    <td class="table__cell ap-op-cell" colspan="9">
+                        <table class="table ap-ops">
+                            <colgroup><col><col><col><col><col><col><col><col><col></colgroup>
+                            <thead class="table__head">
+                                <tr class="table__row">
+                                    <th class="table__header ap-ops__index"><button type="button" class="ap-ops__add" aria-label="Add operation"><lucide-icon name="circle-plus" style="font-size:16px"></lucide-icon></button></th>
+                                    <th class="table__header">Operation</th>
+                                    <th class="table__header">Sequence</th>
+                                    <th class="table__header">Duration</th>
+                                    <th class="table__header" colspan="5"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="table__body">
+                                {{#each operationRows}}
+                                <tr class="table__row ap-ops__row">
+                                    <td class="table__cell ap-ops__index"><span class="proj-nested-table__drag-handle" title="Drag to reorder"><lucide-icon name="grip-vertical" style="font-size:16px"></lucide-icon></span></td>
+                                    <td class="table__cell ap-op-name">{{name}}</td>
+                                    <td class="table__cell ap-op-seq">{{seq}}</td>
+                                    <td class="table__cell ap-op-duration">{{duration}}</td>
+                                    <td class="table__cell" colspan="5"></td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {{/if}}
+                <tr class="ap-gap" aria-hidden="true"><td colspan="9"></td></tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+
+    <script id="lines-l1-template" type="text/x-handlebars-template">
+        {{#each lines}}
+        <tr class="table__row proj-nested-table__row proj-nested-table__row--level1" data-line-id="{{id}}" data-expanded="false">
+            <td class="table__cell proj-nested-table__col-index">
+                <label class="afmd-h88-cbx afmd-h88-cbx--line">
+                    <input type="checkbox" class="afmd-h88-line-checkbox" data-line-id="{{id}}" aria-label="Select assembly area {{name}}">
+                </label>
+                <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                    <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+                </span>
+                <span class="proj-nested-table__row-number">{{index}}</span>
+                <button class="proj-nested-table__expand-btn" aria-label="Expand {{name}}">
+                    <lucide-icon class="proj-nested-table__chevron" name="chevron.forward" style="font-size:10px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell proj-nested-table__col-name">
+                <div class="line-name">
+                    {{{nameInput}}}
+                </div>
+            </td>
+            <td class="table__cell proj-nested-table__col-text">{{{lineGroupingDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-desc">{{{descriptionInput}}}</td>
+            <td class="table__cell proj-nested-table__col-text">{{{levelDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-text">
+                <button class="line-cond-sop-btn" aria-label="Download SOP">
+                    <lucide-icon name="arrow.down.doc" style="font-size:16px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell proj-nested-table__col-text">{{{processCategoryDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-uph">{{{targetUPHInput}}}</td>
+            <td class="table__cell proj-nested-table__col-afmd"></td>
+            <td class="table__cell proj-nested-table__col-stat-num">{{pcns}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of stations in this line" data-proj-tooltip-placement="left">{{stationCount}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of process in this line" data-proj-tooltip-placement="left">{{processCount}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of headcount in this line" data-proj-tooltip-placement="left">{{hc}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of unique consumables in this line" data-proj-tooltip-placement="left">{{uniqueCons}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of unique equipment and total number of equipment in this line." data-proj-tooltip-placement="left">{{equipCount}} | {{uniqueEquipCount}}</td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <!-- Handlebars: Level 1 rows (Lines) — Process Flow 2 variant with separate stat columns, grouped by Line Grouping -->
+    <script id="lines-l1-template-2" type="text/x-handlebars-template">
+        {{#each groups}}
+        <tr class="table__row proj-nested-table__row proj-nested-table__row--group" data-group-id="{{id}}" data-expanded="false">
+            <td class="table__cell proj-nested-table__col-index">
+                <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                    <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+                </span>
+                <span class="proj-nested-table__row-number">{{index}}</span>
+            </td>
+            <td class="table__cell proj-nested-table__col-group" colspan="12">
+                <button class="proj-nested-table__group-expand-btn" aria-label="Toggle group {{name}}">
+                    <lucide-icon class="proj-nested-table__chevron" name="chevron.forward" style="font-size:10px"></lucide-icon>
+                </button>
+                <span class="proj-nested-table__group-name"><span class="proj-nested-table__group-label">Assembly area group:</span> {{name}}</span>
+                <span class="proj-nested-table__group-divider"></span>
+                <span class="proj-nested-table__group-meta">
+                    <span class="proj-nested-table__group-label">Assembly area type:</span>
+                    {{{lineTypeDropdown}}}
+                </span>
+            </td>
+        </tr>
+        {{#each lines}}
+        <tr class="table__row proj-nested-table__row proj-nested-table__row--level1 proj-nested-table__row--hidden" data-line-id="{{id}}" data-group-id="{{../id}}" data-expanded="false">
+            <td class="table__cell proj-nested-table__col-index">
+                <label class="afmd-h88-cbx afmd-h88-cbx--line">
+                    <input type="checkbox" class="afmd-h88-line-checkbox" data-line-id="{{id}}" aria-label="Select assembly area {{name}}">
+                </label>
+                <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                    <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+                </span>
+                <span class="proj-nested-table__row-number">{{index}}</span>
+                <button class="proj-nested-table__expand-btn" aria-label="Expand {{name}}">
+                    <lucide-icon class="proj-nested-table__chevron" name="chevron.forward" style="font-size:10px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell proj-nested-table__col-name">
+                <div class="line-name line-name--with-grouping">
+                    {{{nameInput}}}
+                    {{{lineGroupingDropdown}}}
+                </div>
+            </td>
+            <td class="table__cell proj-nested-table__col-desc">{{{descriptionInput}}}</td>
+            <td class="table__cell proj-nested-table__col-text">{{{levelDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-text">
+                <button class="line-cond-sop-btn" aria-label="Download SOP">
+                    <lucide-icon name="arrow.down.doc" style="font-size:16px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell proj-nested-table__col-text">{{{processCategoryDropdown}}}</td>
+            <td class="table__cell proj-nested-table__col-uph">{{{targetUPHInput}}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num">{{pcns}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of stations in this line" data-proj-tooltip-placement="left">{{stationCount}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of process in this line" data-proj-tooltip-placement="left">{{processCount}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of headcount in this line" data-proj-tooltip-placement="left">{{hc}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of unique consumables in this line" data-proj-tooltip-placement="left">{{uniqueCons}}</td>
+            <td class="table__cell proj-nested-table__col-stat-num" data-proj-tooltip="Number of unique equipment and total number os equipment in this line." data-proj-tooltip-placement="left">{{equipCount}} | {{uniqueEquipCount}}</td>
+        </tr>
+        {{/each}}
+        {{/each}}
+    </script>
+
+    <!-- Handlebars: Level 2 panel (Stations) -->
+    <script id="lines-l2-template" type="text/x-handlebars-template">
+        <table class="table l2__table">
+                <thead class="table__head">
+                    <tr class="table__row">
+                        <th class="table__header l2__col-station">Workstation info</th>
+                        <th class="table__header l2__col-metric">UPH<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-afmd">AFMD Sync</th>
+                        <th class="table__header l2__col-dept">Department</th>
+                        <th class="table__header l2__col-metric">Cycle Time <span class="l2__col-suffix">(CT)</span><button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">CT <span class="l2__col-suffix">(sec)</span></th>
+                        <th class="table__header l2__col-metric">CT Target <span class="l2__col-suffix">(sec)</span></th>
+                        <th class="table__header l2__col-metric">X-UP</th>
+                        <th class="table__header l2__col-metric">Man to Workstation Ratio</th>
+                        <th class="table__header l2__col-metric">HC Raw<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">HC Adjustment</th>
+                        <th class="table__header l2__col-metric">HC<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">Workstation QPL</th>
+                        <th class="table__header l2__col-metric">QPL Raw<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">QPL Adjustment</th>
+                        <th class="table__header l2__col-metric">-1 QPL CT<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">Reporting Method</th>
+                        <th class="table__header l2__col-metric">ENG Intent</th>
+                        <th class="table__header l2__col-metric">MP Intent</th>
+                        <th class="table__header l2__col-metric">Environment</th>
+                        <th class="table__header l2__col-metric">Cal + Audit <span class="l2__col-suffix">(%)</span></th>
+                        <th class="table__header l2__col-metric">Retest Rate <span class="l2__col-suffix">(%)</span></th>
+                        <th class="table__header l2__col-metric">Down Time <span class="l2__col-suffix">(Planned)</span></th>
+                        <th class="table__header l2__col-metric">Down Time <span class="l2__col-suffix">(Unplanned)</span></th>
+                        <th class="table__header l2__col-metric">Tossing <span class="l2__col-suffix">(%)</span></th>
+                        <th class="table__header l2__col-metric">Yield <span class="l2__col-suffix">(%)</span></th>
+                        <th class="table__header l2__col-metric">Sampling Rate<button class="l2-info-btn" aria-label="Info"><lucide-icon name="info" style="font-size:12px"></lucide-icon></button></th>
+                        <th class="table__header l2__col-metric">SOP</th>
+                        <th class="table__header l2__col-metric">PD DRI</th>
+                        <th class="table__header l2__col-metric">TPM DRI</th>
+                        <th class="table__header l2__col-metric">CM DRI</th>
+                        <th class="table__header l2__col-cm">CM Department</th>
+                        <th class="table__header l2__col-metric">Created at</th>
+                        <th class="table__header l2__col-metric">Last Update</th>
+                        <th class="table__header l2__col-kp">Key Process Description</th>
+                        <th class="table__header l2__col-spec">
+                            <lucide-icon class="l2__header-icon" name="list.bullet.rectangle.portrait" style="font-size:14px"></lucide-icon>
+                            Specification
+                        </th>
+                        <th class="table__header l2__col-equip">
+                            <lucide-icon class="l2__header-icon" name="wrench.and.screwdriver" style="font-size:14px"></lucide-icon>
+                            Equipment
+                        </th>
+                        <th class="table__header l2__col-cons">
+                            <lucide-icon class="l2__header-icon" name="drop" style="font-size:14px"></lucide-icon>
+                            Consumables
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table__body afmd-actions-tbody" hidden>
+                    <tr class="table__row table__row--actions-bar">
+                        <td class="table__cell table__cell--actions-bar" colspan="99">
+                            <span class="equip-actions__count afmd-selected-count">0 workstations selected:</span>
+                            <button class="btn btn--primary btn--small afmd-actions-sync">AFMD Sync</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="table__body">
+                    {{#each stations}}
+                    <tr class="table__row proj-nested-table__row proj-nested-table__row--level2" data-station-id="{{id}}">
+                        <td class="table__cell l2__col-station">
+                            <div class="l2__station-cell">
+                                <div class="l2__station-color" style="background: {{color}};"></div>
+                                <label class="afmd-h88-cbx afmd-h88-cbx--station">
+                                    <input type="checkbox" class="afmd-h88-station-checkbox" data-station-id="{{id}}" aria-label="Select workstation {{name}}">
+                                </label>
+                                <div class="l2__station-content">
+                                    <div class="l2__station-header">
+                                        <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                                            <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+                                        </span>
+                                        <span class="proj-nested-table__row-number">{{index}}</span>
+                                        <span class="l2__station-name">{{name}}</span>
+                                    </div>
+                                    <div class="l2__station-tags">
+                                        {{#each tags}}
+                                        <span class="tag tag--medium tag--{{type}}">{{label}}</span>
+                                        {{/each}}
+                                    </div>
+                                    <div class="l2__station-actions">
+                                        <a href="#" class="l2__action-link" data-station-settings-open="true">
+                                            <lucide-icon name="gearshape" class="l2__action-icon"></lucide-icon>
+                                            Settings
+                                        </a>
+                                        <span class="l2__action-sep">|</span>
+                                        <a href="#" class="l2__action-link">
+                                            <lucide-icon name="plus.circle" class="l2__action-icon"></lucide-icon>
+                                            Add key process
+                                        </a>
+                                        <span class="l2__action-sep">|</span>
+                                        <a href="#" class="l2__action-link">SDC</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1500"></td>
+                        <td class="table__cell l2__col-afmd"></td>
+                        <td class="table__cell l2__col-dept">{{{departmentDropdown}}}</td>
+                        <td class="table__cell l2__col-metric">
+                            <div class="l2__cycle-time">
+                                <input type="text" class="equip-input l2__cycle-main-input" value="00:00:15">
+                                <div class="l2__cycle-row"><span class="l2__cycle-prefix">Handling CT</span><input type="text" class="equip-input l2__cycle-sub-input" value="00:00:10"></div>
+                                <div class="l2__cycle-row"><span class="l2__cycle-prefix">Machine CT</span><input type="text" class="equip-input l2__cycle-sub-input" value="00:00:05"></div>
+                            </div>
+                        </td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="15"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="20"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="2"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="2"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="5"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="45"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="1"></td>
+                        <td class="table__cell l2__col-metric">{{{reportingMethodDropdown}}}</td>
+                        <td class="table__cell l2__col-metric">{{{engIntentDropdown}}}</td>
+                        <td class="table__cell l2__col-metric">{{{mpIntentDropdown}}}</td>
+                        <td class="table__cell l2__col-metric">{{{environmentDropdown}}}</td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="5"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="5"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="15"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="12"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="8"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="10"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="POR"></td>
+                        <td class="table__cell l2__col-metric"><a href="#" class="l2__sop-link" aria-label="View SOP"><lucide-icon name="doc" style="font-size:14px"></lucide-icon></a></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input l2__dri-input" value="John Doe"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input l2__dri-input" value="John Doe"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input l2__dri-input" value="John Doe"></td>
+                        <td class="table__cell l2__col-cm">{{{cmDepartmentDropdown}}}</td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="11/16/2024"></td>
+                        <td class="table__cell l2__col-metric"><input type="text" class="equip-input" value="09/29/2025"></td>
+                        <td class="table__cell l2__col-kp">
+                            {{#each keyProcesses}}
+                            <div class="l2__kp-row">
+                                <span class="proj-nested-table__drag-handle" title="Drag to reorder">
+                                    <lucide-icon name="square.grid.4x3.fill" style="font-size:10px"></lucide-icon>
+                                </span>
+                                <span class="proj-nested-table__row-number">{{index}}</span>
+                                <span class="l2__kp-name">{{name}}</span>
+                            </div>
+                            {{/each}}
+                        </td>
+                        <td class="table__cell l2__col-spec">
+                            {{#each keyProcesses}}
+                            <div class="l2__add-row">
+                                <a href="#" class="l2__add-link">
+                                    <lucide-icon class="l2__action-icon" name="plus.circle" style="font-size:12px"></lucide-icon>
+                                    Add specs
+                                </a>
+                            </div>
+                            {{/each}}
+                        </td>
+                        <td class="table__cell l2__col-equip">
+                            {{#each keyProcesses}}
+                            <div class="l2__add-row">
+                                {{#if equipment}}
+                                <span class="l2__equip-item">
+                                    {{equipment}}
+                                    <lucide-icon class="l2__equip-icon" name="gearshape" style="font-size:10px"></lucide-icon>
+                                </span>
+                                {{/if}}
+                                <a href="#" class="l2__add-link">
+                                    <lucide-icon class="l2__action-icon" name="plus.circle" style="font-size:12px"></lucide-icon>
+                                    Add tools
+                                </a>
+                            </div>
+                            {{/each}}
+                        </td>
+                        <td class="table__cell l2__col-cons">
+                            {{#each keyProcesses}}
+                            <div class="l2__add-row">
+                                <a href="#" class="l2__add-link">
+                                    <lucide-icon class="l2__action-icon" name="plus.circle" style="font-size:12px"></lucide-icon>
+                                    Add material
+                                </a>
+                            </div>
+                            {{/each}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+    </script>
+
+    <!-- Equipment Comparison: stage column headers -->
+    <script id="equip-compare-stage-headers-template" type="text/x-handlebars-template">
+        {{#each stages}}
+        <th class="table__header {{#if current}}equip-compare__col--current{{else}}equip-compare__col--pinned{{/if}}">
+            {{label}}
+            {{#unless current}}
+            <button class="equip-compare__pin-btn{{#if active}} is-active{{/if}}" aria-label="Toggle pin" aria-pressed="{{#if active}}true{{else}}false{{/if}}">
+                <lucide-icon class="equip-compare__pin equip-compare__pin--on" name="pin.fill" style="font-size:14px"></lucide-icon>
+                <lucide-icon class="equip-compare__pin equip-compare__pin--off" name="pin" style="font-size:14px"></lucide-icon>
+            </button>
+            {{/unless}}
+        </th>
+        {{/each}}
+    </script>
+
+    <!-- Consumables: standard column headers (after the 2 sticky leading cells) -->
+    <script id="consumables-headers-template" type="text/x-handlebars-template">
+        {{#each columns}}
+        <th class="table__header{{#if sortable}} sortable{{/if}}"{{#if sortable}} data-sort="manual"{{/if}} data-cs-field="{{fieldId}}">
+            {{label}}
+            {{#if hasInfo}}<span class="header-info" aria-label="Info"><lucide-icon name="info.circle"></lucide-icon></span>{{/if}}
+            {{#if sortable}}<span class="sort-indicator" data-mds-sort></span>{{/if}}
+        </th>
+        {{/each}}
+    </script>
+
+    <!-- Shared delete-confirmation modal (rendered by js/delete-modal.js) -->
+    <script id="delete-confirmation-modal-template" type="text/x-handlebars-template">
+        <div class="modal-overlay" id="{{modalId}}">
+            <div class="modal modal--small">
+                <div class="modal__header">
+                    <h3 class="modal__title">Are you sure you want to proceed?</h3>
+                    <button class="modal__close" id="{{closeId}}">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                </div>
+                <div class="modal__body">
+                    {{#each bodyParagraphs}}
+                    <p>{{this}}</p>
+                    {{/each}}
+                    <p class="{{warningClass}}"><lucide-icon class="{{warningClass}}__icon" name="exclamationmark.triangle" style="font-size:16px"></lucide-icon> This action cannot be undone.</p>
+                </div>
+                <div class="modal__footer">
+                    <button class="btn btn--secondary btn--medium" id="{{cancelId}}">Cancel</button>
+                    <button class="btn btn--danger btn--medium" id="{{confirmId}}">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Shared modal-overlay shell (rendered by js/modal-shell.js) -->
+    <script id="modal-shell-template" type="text/x-handlebars-template">
+        <div class="modal-overlay" id="{{modalId}}" aria-hidden="true">
+            <div class="modal {{sizeClass}}{{#if modalClass}} {{modalClass}}{{/if}}" role="dialog"{{#if titleId}} aria-labelledby="{{titleId}}"{{/if}}>
+                <div class="modal__header">
+                    <h3 class="modal__title"{{#if titleId}} id="{{titleId}}"{{/if}}>{{title}}</h3>
+                    <button class="modal__close" id="{{closeId}}" aria-label="Close">
+                        <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                    </button>
+                </div>
+                <div class="modal__body">
+                    {{{bodyHtml}}}
+                </div>
+                <div class="modal__footer{{#if footerClass}} {{footerClass}}{{/if}}">
+                    {{{footerHtml}}}
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Import modal body / footer -->
+    <script id="import-modal-body" type="text/html">
+        <p class="import-modal__subtitle">Choose what you wish to import:</p>
+
+        <div class="import-modal__group">
+            <div class="import-modal__group-label">
+                <span>Workstation</span>
+                <span class="import-modal__group-divider"></span>
+            </div>
+            <ul class="import-modal__list">
+                <li><a href="#" class="import-modal__link">Smart Workstation Import</a></li>
+                <li>
+                    <a href="#" class="import-modal__link import-modal__link--disabled">Import Workstations</a>
+                    <button class="import-modal__info" aria-label="More info">
+                        <lucide-icon name="info" style="font-size:16px"></lucide-icon>
+                    </button>
+                </li>
+                <li><a href="#" class="import-modal__link">Import SOP</a></li>
+            </ul>
+        </div>
+
+        <div class="import-modal__group">
+            <div class="import-modal__group-label">
+                <span>Equipment</span>
+                <span class="import-modal__group-divider"></span>
+            </div>
+            <ul class="import-modal__list">
+                <li><a href="#" class="import-modal__link">Smart Equipment Import</a></li>
+                <li><a href="#" class="import-modal__link">Import Equipment</a></li>
+                <li><a href="#" class="import-modal__link">Import and assign Vendors</a></li>
+            </ul>
+        </div>
+
+        <div class="import-modal__group">
+            <div class="import-modal__group-label">
+                <span>Material</span>
+                <span class="import-modal__group-divider"></span>
+            </div>
+            <ul class="import-modal__list">
+                <li><a href="#" class="import-modal__link">Import Consumables</a></li>
+            </ul>
+        </div>
+    </script>
+    <script id="import-modal-footer" type="text/html">
+        <button class="btn btn--secondary btn--medium" id="import-modal-cancel">Cancel</button>
+    </script>
+
+    <!-- MP Edit Target body / footer — mounted by js/mp-target-selector.js via ModalShell -->
+    <script id="mp-edit-target-modal-body" type="text/html">
+        <p class="mp-edit-target-modal__text">Select a new Project phase.</p>
+        <div class="mp-edit-target-modal__picker">
+            <div class="equip-dropdown mp-target-control">
+                <button type="button" class="equip-dropdown__trigger" aria-haspopup="listbox" aria-label="Project Phase">
+                    <span class="equip-dropdown__value">Select Project Phase...</span>
+                    <lucide-icon name="chevron-down" class="equip-dropdown__chevron" style="font-size:10px"></lucide-icon>
+                </button>
+                <ul class="equip-dropdown__menu"></ul>
+            </div>
+        </div>
+    </script>
+
+    <script id="mp-edit-target-modal-footer" type="text/html">
+        <button class="btn btn--secondary btn--medium" id="mp-edit-target-modal-cancel">Cancel</button>
+        <button class="btn btn--primary btn--medium" id="mp-edit-target-modal-confirm" disabled>Confirm</button>
+    </script>
+
+    <!-- Duplicate Equipment modal body / footer -->
+    <script id="duplicate-equipment-modal-body" type="text/html">
+        <p class="dup-eq-modal__intro">The tools below will be duplicated. Rename any item if needed.</p>
+        <p class="dup-eq-modal__intro">If unchanged, the duplicated tools will keep the original name with &ldquo;-copy&rdquo; added.</p>
+        <div class="dup-eq-modal__fields" id="duplicate-equipment-fields-host"></div>
+    </script>
+
+    <script id="duplicate-equipment-modal-footer" type="text/html">
+        <button class="btn btn--secondary btn--medium" id="duplicate-equipment-modal-cancel">Cancel</button>
+        <button class="btn btn--primary btn--medium" id="duplicate-equipment-modal-confirm">Confirm</button>
+    </script>
+
+    <script id="duplicate-equipment-field-template" type="text/x-handlebars-template">
+        {{#each items}}
+        <div class="form-group form-group--medium dup-eq-modal__field" data-original="{{name}}">
+            <label class="form-label" for="dup-eq-field-{{idx}}">{{name}}</label>
+            <input type="text" id="dup-eq-field-{{idx}}" class="form-input" value="{{name}}-copy" placeholder="{{name}}-copy">
+        </div>
+        {{/each}}
+    </script>
+
+
+    <!-- Publish wizard body / footer -->
+    <script id="publish-wizard-body" type="text/html">
+        <ol class="publish-wizard__stepper">
+            <li class="publish-wizard__step is-active" data-step="1">
+                <span class="publish-wizard__step-circle">1</span>
+                <span class="publish-wizard__step-label">PCR</span>
+            </li>
+            <li class="publish-wizard__step" data-step="2">
+                <span class="publish-wizard__step-circle">2</span>
+                <span class="publish-wizard__step-label">Version Notes</span>
+            </li>
+            <li class="publish-wizard__step" data-step="3">
+                <span class="publish-wizard__step-circle">3</span>
+                <span class="publish-wizard__step-label">Publish</span>
+            </li>
+        </ol>
+
+        <div class="publish-wizard__body">
+            <!-- Step 1: PCN -->
+            <div class="publish-wizard__panel is-active" data-panel="1">
+                <p class="publish-wizard__text">Version 4 of the assembly plan for P1 - KAUANE - H10 has pending PCRs.</p>
+                <p class="publish-wizard__text">If not resolved, pending PCRs will be moved to the next version. The assembly plan will be locked for editing, and all active users will be notified.</p>
+            </div>
+
+            <!-- Step 2: Version Notes -->
+            <div class="publish-wizard__panel" data-panel="2">
+                <p class="publish-wizard__text">Keep Version Notes in the new draft?</p>
+                <div class="publish-wizard__options">
+                    <label class="checkbox publish-wizard__checkbox">
+                        <input type="checkbox" class="checkbox__input" id="keep-station-notes">
+                        <span class="checkbox__box"></span>
+                        <span class="publish-wizard__checkbox-label">Keep Workstation Version Notes</span>
+                    </label>
+                    <label class="checkbox publish-wizard__checkbox">
+                        <input type="checkbox" class="checkbox__input" id="keep-equipment-notes">
+                        <span class="checkbox__box"></span>
+                        <span class="publish-wizard__checkbox-label">Keep Equipment Version Notes</span>
+                    </label>
+                </div>
+                <div class="publish-wizard__warning">
+                    <lucide-icon class="publish-wizard__warning-icon" name="exclamationmark.triangle" style="font-size:16px"></lucide-icon>
+                    <span>Once published, this action can't be undone.</span>
+                </div>
+            </div>
+
+            <!-- Step 3: Publish -->
+            <div class="publish-wizard__panel" data-panel="3">
+                <p class="publish-wizard__text">Ready to publish version 4 of the assembly plan.</p>
+                <p class="publish-wizard__text">Click <strong>Publish</strong> to confirm and lock the current draft.</p>
+            </div>
+        </div>
+    </script>
+    <script id="publish-wizard-footer" type="text/html">
+        <div class="publish-wizard__footer-left">
+            <a href="#" class="publish-wizard__link" id="publish-wizard-verify">Verify list of pending PCRs</a>
+            <button class="publish-wizard__back" id="publish-wizard-back" aria-label="Back" hidden>
+                <lucide-icon name="chevron-left" style="font-size:16px"></lucide-icon>
+            </button>
+        </div>
+        <div class="publish-wizard__footer-right">
+            <button class="btn btn--secondary btn--medium" id="publish-wizard-cancel">Cancel</button>
+            <button class="btn btn--primary btn--medium" id="publish-wizard-next">Next</button>
+        </div>
+    </script>
+
+    <!-- File upload modal body / footer -->
+    <script id="file-upload-modal-body" type="text/html">
+        <div class="file-upload-area" id="file-upload-area">
+            <lucide-icon name="upload" style="font-size:48px"></lucide-icon>
+            <p style="margin: var(--space-m) 0 var(--space-xs) 0; color: var(--color-glyph-gray); font-size: var(--font-size-xxs); font-weight: var(--font-weight-medium);">
+                Drag and drop your file here
+            </p>
+            <p style="margin: 0 0 var(--space-m) 0; color: var(--color-glyph-gray-secondary); font-size: var(--font-size-tiny);">
+                or
+            </p>
+            <input type="file" id="file-input" style="display: none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg">
+            <button class="btn btn--secondary btn--medium" id="browse-file-btn">Browse Files</button>
+            <p style="margin: var(--space-m) 0 0 0; color: var(--color-glyph-gray-tertiary); font-size: var(--font-size-tiny);">
+                Supported formats: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG
+            </p>
+        </div>
+        <div id="file-selected-info" style="display: none; margin-top: var(--space-m); padding: var(--space-m); background-color: var(--color-fill-tertiary); border-radius: var(--space-xs);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: var(--space-s);">
+                    <lucide-icon name="file" style="font-size:24px"></lucide-icon>
+                    <div>
+                        <p id="file-name" style="margin: 0; color: var(--color-glyph-gray); font-size: var(--font-size-xxs); font-weight: var(--font-weight-medium);"></p>
+                        <p id="file-size" style="margin: 0; color: var(--color-glyph-gray-secondary); font-size: var(--font-size-tiny);"></p>
+                    </div>
+                </div>
+                <button class="btn btn--link btn--small" id="remove-file-btn">Remove</button>
+            </div>
+        </div>
+    </script>
+    <script id="file-upload-modal-footer" type="text/html">
+        <button class="btn btn--secondary btn--medium" id="cancel-upload-btn">Cancel</button>
+        <button class="btn btn--primary btn--medium" id="upload-file-btn" disabled>Upload</button>
+    </script>
+
+    <script id="pf-filter-info-template" type="text/html">
+        <div class="pf-filter__info-popover" role="tooltip">
+            <h4 class="pf-filter__info-title">Search and Filter</h4>
+            <p class="pf-filter__info-lead">The search can be started either by typing the column name (e.g., "ENG Intent") or by the selection (e.g., "POR").</p>
+            <h5 class="pf-filter__info-subhead">Keyboard shortcuts</h5>
+            <section class="pf-filter__info-section">
+                <h6>Open filter</h6>
+                <p><kbd>⌘</kbd> / <kbd>K</kbd> : Focus on the filter bar.</p>
+            </section>
+            <section class="pf-filter__info-section">
+                <h6>Navigate Categories</h6>
+                <p><kbd>↑</kbd> / <kbd>↓</kbd> : Move through filter groups (Assembly areas, Workstations, etc.).</p>
+            </section>
+            <section class="pf-filter__info-section">
+                <h6>Navigate Tags</h6>
+                <p><kbd>←</kbd> / <kbd>→</kbd> : Switch between tags.</p>
+                <p><kbd>Return</kbd> : Open tag actions.</p>
+            </section>
+            <section class="pf-filter__info-section">
+                <h6>Tag Actions</h6>
+                <p><kbd>↑</kbd> / <kbd>↓</kbd> : Browse actions.</p>
+                <p><kbd>Return</kbd> : Select action.</p>
+            </section>
+            <section class="pf-filter__info-section">
+                <h6>Search by DRI</h6>
+                <p>Type <kbd>@</kbd> + <strong>user name</strong> : Search directly by the DRI's name, then choose a DRI type.</p>
+                <p>Type <strong>DRI department</strong> : Start by typing the DRI type, then add the person's name.</p>
+            </section>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript - Modular Structure -->
+    <script src="js/data.js?v=35"></script>
+    <script src="js/detail-data.js?v=5"></script>
+    <script src="js/dropdowns.js?v=3"></script>
+    <script src="../../.davinci/plugins/proj-timeline.js?v=5"></script>
+    <script src="../../.davinci/plugins/proj-right-toolbar.js?v=2"></script>
+    <script src="../../.davinci/plugins/proj-nested-table.js"></script>
+    <script src="../../.davinci/plugins/proj-progress-drawer.js"></script>
+    <script src="../../.davinci/plugins/proj-station-settings-drawer.js"></script>
+    <script src="js/delete-modal.js"></script>
+    <script src="js/modal-shell.js"></script>
+    <script src="js/build-stages.js"></script>
+    <script src="js/lines-table.js?v=200"></script>
+    <script src="js/pf-filter.js"></script>
+    <script src="js/cons-filter.js"></script>
+    <script src="js/pf1-filter.js?v=7"></script>
+    <script src="js/consumables-table.js"></script>
+    <script src="js/consumables-view-drawer.js"></script>
+    <script src="js/tabs.js?v=3"></script>
+    <script src="js/pcn-data.js"></script>
+    <script src="js/pcn-filters.js"></script>
+    <script src="js/pcn-row-actions.js"></script>
+    <script src="js/pcn-table.js"></script>
+    <script src="js/file-upload-modal.js"></script>
+    <script src="js/publish-wizard.js"></script>
+    <script src="js/import-modal.js"></script>
+    <script src="js/column-resizer.js"></script>
+    <script src="js/mp-target-selector.js?v=2"></script>
+    <script src="js/afmd-sync.js"></script>
+    <script src="js/table-resize.js?v=210"></script>
+    <script src="js/multi-select.js?v=2"></script>
+    <script src="js/products-data.js?v=200"></script>
+    <script src="js/product-art.js?v=2"></script>
+    <script src="js/product-cards.js?v=8"></script>
+    <script src="js/products-table.js?v=210"></script>
+    <script src="js/employees-data.js?v=200"></script>
+    <script src="js/employee-form.js?v=1"></script>
+    <script src="js/employees-table.js?v=210"></script>
+    <script src="js/area-drawer.js?v=7"></script>
+    <script src="js/areas-data.js?v=200"></script>
+    <script src="js/areas-tree.js?v=99"></script>
+    <script src="js/supplies-data.js?v=200"></script>
+    <script src="js/supplies-table.js?v=12"></script>
+    <script src="js/requests-data.js?v=200"></script>
+    <script src="js/requests-view.js?v=11"></script>
+    <script src="js/finance-data.js?v=200"></script>
+    <script src="js/finance-view.js?v=9"></script>
+    <script src="js/store-map-art.js?v=101"></script>
+    <script src="js/store-map.js?v=103"></script>
+    <script src="js/store-overview.js?v=200"></script>
+    <script src="js/toolbar-align.js?v=3"></script>
+    <script src="../sticky-tables.js?v=40"></script>
+    <script src="js/detail-main.js?v=16"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

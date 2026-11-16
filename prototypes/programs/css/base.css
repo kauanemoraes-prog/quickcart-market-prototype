@@ -1,0 +1,15 @@
+/* Program Detail - Base page wrapper */
+
+.content {
+    background-color: #ffffff !important;
+}
+
+header .sub-header {
+    display: none !important;
+}
+
+.program-detail-page {
+    margin-top: calc(var(--space-mp) * -1);
+    margin-right: 0;
+    background-color: #ffffff;
+}

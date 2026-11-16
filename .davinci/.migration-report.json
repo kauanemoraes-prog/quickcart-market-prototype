@@ -1,0 +1,27 @@
+{
+  "legacyVersion": "2.10.4",
+  "prototypes": 11,
+  "pageDepth": 2,
+  "pageDepthOutliers": [],
+  "relocated": 5,
+  "removed": 10,
+  "rewritten": 21,
+  "flags": 4,
+  "includedDirs": [],
+  "detectedNotMigrated": [
+    "assets",
+    "PITFALLS.md",
+    "MIGRATIONS.md",
+    "CLAUDE.md",
+    "CHECKLIST.md",
+    "CHANGELOG.md"
+  ],
+  "keptDesignerAuthored": [
+    "HEURISTICS.md",
+    "PITFALLS.md",
+    "TROUBLESHOOTING.md",
+    "CHECKLIST.md"
+  ],
+  "iconReport": ".davinci/.migration-backup/icon-report.json",
+  "suspects": []
+}

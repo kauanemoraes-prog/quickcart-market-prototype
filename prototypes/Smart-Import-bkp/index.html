@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Import - Tools</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <div class="modal-overlay modal-overlay--open">
+        <div class="modal modal--large wizard-container">
+            <div class="modal__header">
+                <h2 class="modal__title">Smart Import - Tools</h2>
+                <button class="modal__close" aria-label="Close">
+                    <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                </button>
+            </div>
+
+            <!-- Wizard Steps -->
+            <div class="wizard-steps">
+                <div class="wizard-step completed">
+                    <div class="step-icon">✓</div>
+                    <div class="step-label">Download cheat sheet/template</div>
+                </div>
+                <div class="wizard-step completed">
+                    <div class="step-icon">✓</div>
+                    <div class="step-label">Select file</div>
+                </div>
+                <div class="wizard-step active">
+                    <div class="step-icon">3</div>
+                    <div class="step-label">Validation</div>
+                </div>
+                <div class="wizard-step">
+                    <div class="step-icon">4</div>
+                    <div class="step-label">Import</div>
+                </div>
+            </div>
+
+            <!-- Validation Content -->
+            <div class="modal__body">
+                <div class="validation-placeholder">
+                    <span class="question-mark">?</span>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal__footer">
+                <button class="btn-icon-only">←</button>
+                <div class="footer-actions">
+                    <button class="btn btn--secondary btn--medium">Cancel</button>
+                    <button class="btn btn--primary btn--medium">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

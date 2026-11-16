@@ -1,0 +1,97 @@
+/* Mapping Table Styles */
+
+/* Table enhancements */
+.table__row--locked {
+    background-color: var(--color-fill-secondary);
+    opacity: 0.8;
+}
+
+.table__row--locked:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+/* Manager info */
+.manager-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.manager-name {
+    font-weight: 500;
+    color: var(--color-glyph-gray);
+    font-size: var(--font-size-xxs);
+}
+
+.manager-description {
+    font-size: var(--font-size-xxxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Mapping status */
+.mapping-status {
+    display: flex;
+    align-items: center;
+}
+
+.mapping-status--mapped {
+    gap: var(--space-xs);
+}
+
+.mapping-status--unmapped {
+    /* Uses default form-select styling */
+}
+
+/* Vendor select dropdown */
+.vendor-select {
+    min-width: 180px;
+}
+
+/* Action controls */
+.action-controls {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit {
+    color: var(--color-accent);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-accent-alpha);
+}
+
+.btn-edit img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.btn-remove {
+    color: var(--color-danger);
+}
+
+.btn-remove:hover {
+    background-color: var(--color-danger-alpha);
+}
+
+.btn-remove img {
+    filter: brightness(0) saturate(100%) invert(17%) sepia(90%) saturate(2476%) hue-rotate(346deg) brightness(97%) contrast(94%);
+}
+
+/* Form select table cell variant */
+.form-select--table-cell {
+    font-size: var(--font-size-xxs);
+    padding: var(--space-xs) var(--space-s);
+    height: auto;
+    min-height: 24px;
+}
+
+/* Empty state for tables */
+.table-empty-state {
+    text-align: center;
+    padding: var(--space-l);
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+    font-style: italic;
+}

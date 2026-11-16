@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees - QuickCart Market</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="../programs/css/main.css?v=191">
+    <link rel="stylesheet" href="../products/css/network-products.css?v=8">
+    <link rel="stylesheet" href="css/network-employees.css?v=99">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <link rel="stylesheet" href="../filter-search.css?v=9">
+    <script src="../filter-search.js?v=9"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Page content -->
+    <script id="page-content" type="text/html">
+        <div class="np-page ne-page">
+            <div class="np-header">
+                <div class="np-header__line">
+                    <h1>Employees</h1>
+                    <div class="np-header__items" id="np-subtitle"></div>
+                </div>
+                <button type="button" class="btn btn--primary btn--medium ne-add" id="ne-add"><lucide-icon name="plus" style="font-size:16px"></lucide-icon> <span>Add employee</span></button>
+            </div>
+            <div class="products-view" id="network-employees"></div>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+
+    <!-- Same mock data as the store pages: stores, areas and the product catalog with each store's inventory -->
+    <script src="../programs/js/data.js?v=35"></script>
+    <script src="../programs/js/detail-data.js?v=5"></script>
+    <script src="../programs/js/products-data.js?v=200"></script>
+    <script src="../programs/js/employees-data.js?v=200"></script>
+    <script src="../programs/js/employee-form.js?v=1"></script>
+    <script src="../programs/js/table-resize.js?v=210"></script>
+    <script src="../programs/js/multi-select.js?v=3"></script>
+    <script src="js/network-employees.js?v=210"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+    <script src="../sticky-tables.js?v=40"></script>
+</body>
+</html>

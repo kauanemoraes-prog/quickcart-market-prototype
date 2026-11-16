@@ -1,0 +1,121 @@
+{
+  "_comment": "Example subheader configurations for DaVinci",
+  
+  "examples": [
+    {
+      "name": "Simple String Title",
+      "description": "Traditional approach - just a string",
+      "code": {
+        "label": "Dashboard",
+        "url": "prototypes/dashboard",
+        "subHeader": "Dashboard Overview"
+      }
+    },
+    {
+      "name": "Object with Title",
+      "description": "Using object notation with title property",
+      "code": {
+        "label": "Reports",
+        "url": "prototypes/reports",
+        "subHeader": {
+          "title": "Monthly Reports"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - Title with Button",
+      "description": "Subheader with a title and action button",
+      "code": {
+        "label": "Users",
+        "url": "prototypes/users",
+        "subHeader": {
+          "htmlContent": "<h2 class=\"sub-header__subtitle\">User Management</h2><div class=\"sub-header__controls\"><button class=\"btn btn--primary\">Add User</button></div>"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - With Dropdown",
+      "description": "Subheader with title and dropdown selector",
+      "code": {
+        "label": "Projects",
+        "url": "prototypes/projects",
+        "subHeader": {
+          "htmlContent": "<h2 class=\"sub-header__subtitle\">Projects</h2><div class=\"sub-header__controls\"><select class=\"form-select\"><option>All Projects</option><option>Active</option><option>Archived</option></select></div>"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - Multiple Controls",
+      "description": "Subheader with title and multiple control elements",
+      "code": {
+        "label": "Manage Units",
+        "url": "prototypes/manage-units",
+        "subHeader": {
+          "htmlContent": "<h2 class=\"sub-header__subtitle\">Manage Units</h2><div class=\"sub-header__controls\"><select id=\"siteSelect\" class=\"form-select\" required><option value=\"\">Select Site</option><option value=\"site1\">Site 1</option></select><select id=\"projectSelect\" class=\"form-select\" disabled><option value=\"\">Select Project</option></select><button class=\"btn btn--secondary\">Download ▼</button></div>"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - With Search",
+      "description": "Subheader with search input",
+      "code": {
+        "label": "Inventory",
+        "url": "prototypes/inventory",
+        "subHeader": {
+          "htmlContent": "<h2 class=\"sub-header__subtitle\">Inventory</h2><div class=\"sub-header__controls\"><input type=\"search\" class=\"form-input\" placeholder=\"Search items...\" style=\"width: 250px;\"><button class=\"btn btn--primary\">Search</button></div>"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - With Tags",
+      "description": "Subheader with status tags",
+      "code": {
+        "label": "Tasks",
+        "url": "prototypes/tasks",
+        "subHeader": {
+          "htmlContent": "<h2 class=\"sub-header__subtitle\">Tasks</h2><div class=\"sub-header__controls\"><span class=\"tag tag--success\">5 Completed</span><span class=\"tag tag--warning\">3 Pending</span><button class=\"btn btn--primary\">New Task</button></div>"
+        }
+      }
+    },
+    {
+      "name": "Custom HTML - Full Width Layout",
+      "description": "Custom layout spanning full width",
+      "code": {
+        "label": "Analytics",
+        "url": "prototypes/analytics",
+        "subHeader": {
+          "htmlContent": "<div style=\"display: flex; justify-content: space-between; align-items: center; width: 100%;\"><div><h2 class=\"sub-header__subtitle\" style=\"margin: 0;\">Analytics Dashboard</h2><p style=\"margin: 0; color: #666; font-size: 0.875rem;\">Last updated: 2 minutes ago</p></div><div style=\"display: flex; gap: 0.5rem;\"><button class=\"btn btn--secondary\">Export PDF</button><button class=\"btn btn--primary\">Refresh</button></div></div>"
+        }
+      }
+    },
+    {
+      "name": "No Subheader",
+      "description": "Hide the subheader completely",
+      "code": {
+        "label": "Home",
+        "url": "prototypes/intro",
+        "subHeader": null
+      }
+    }
+  ],
+  
+  "tips": [
+    "Always escape double quotes in HTML strings using backslash: \\\"",
+    "Use MDS component classes for consistent styling (btn, form-select, tag, etc.)",
+    "The sub-header__content div uses flexbox with space-between by default",
+    "Keep HTML compact - avoid line breaks in JSON strings",
+    "Test your HTML in a prototype first before adding to navigation data",
+    "Use sub-header__controls class for grouping control elements on the right",
+    "Triple braces {{{ }}} in Handlebars render unescaped HTML (already configured)"
+  ],
+  
+  "commonPatterns": {
+    "titleWithButton": "<h2 class=\"sub-header__subtitle\">TITLE</h2><div class=\"sub-header__controls\"><button class=\"btn btn--primary\">ACTION</button></div>",
+    
+    "titleWithDropdown": "<h2 class=\"sub-header__subtitle\">TITLE</h2><div class=\"sub-header__controls\"><select class=\"form-select\"><option>OPTION1</option><option>OPTION2</option></select></div>",
+    
+    "titleWithMultipleControls": "<h2 class=\"sub-header__subtitle\">TITLE</h2><div class=\"sub-header__controls\"><select class=\"form-select\">OPTIONS</select><button class=\"btn btn--secondary\">ACTION1</button><button class=\"btn btn--primary\">ACTION2</button></div>",
+    
+    "titleWithSearch": "<h2 class=\"sub-header__subtitle\">TITLE</h2><div class=\"sub-header__controls\"><input type=\"search\" class=\"form-input\" placeholder=\"Search...\"><button class=\"btn btn--primary\">Search</button></div>"
+  }
+}

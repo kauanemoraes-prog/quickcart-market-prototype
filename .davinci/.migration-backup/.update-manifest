@@ -1,0 +1,11 @@
+# DaVinci update manifest
+# davinci-update.sh copies each listed file from the release into the
+# workspace root. Blank lines and lines starting with # are ignored.
+CLAUDE.md
+CHANGELOG.md
+MIGRATIONS.md
+PITFALLS.md
+TROUBLESHOOTING.md
+CHECKLIST.md
+HEURISTICS.md
+davinci-update.sh

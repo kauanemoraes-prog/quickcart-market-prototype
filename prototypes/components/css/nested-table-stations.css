@@ -1,0 +1,179 @@
+/* ===== NESTED TABLE — LEVEL 2 (Stations) ===== */
+
+/* Level 2 wrapper */
+.l2 { padding: var(--space-xs) var(--space-s); }
+
+/* Level 2 table */
+.l2__table { background: var(--color-fill-primary); }
+
+/* Level 2 header — darker bg matching original app */
+.l2__table .table__head .table__row { background: var(--color-fill-tertiary); }
+.l2__table .table__head .table__header {
+    font-weight: 600;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+/* Column widths — Level 2 */
+.l2__col-station { width: 280px; min-width: 280px; }
+.l2__col-dept { width: 100px; min-width: 100px; }
+.l2__col-cm { width: 120px; min-width: 120px; }
+.l2__col-kp { width: 220px; min-width: 220px; }
+.l2__col-spec { width: 150px; min-width: 150px; }
+.l2__col-equip { width: 180px; min-width: 180px; }
+.l2__col-cons { width: 160px; min-width: 160px; }
+
+/* Header icons */
+.l2__header-icon {
+    vertical-align: middle;
+    margin-right: 4px;
+    opacity: 0.5;
+}
+
+/* --- Station info cell --- */
+.l2__station-cell {
+    display: flex;
+    position: relative;
+}
+.l2__station-color {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 2px;
+}
+.l2__station-content {
+    padding-left: var(--space-s);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+.l2__station-header {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.l2__station-name {
+    font-size: var(--font-size-xxs);
+    font-weight: 500;
+    color: var(--color-glyph-gray);
+}
+
+/* Station tags */
+.l2__station-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.l2__station-tags .tag { font-size: var(--font-size-xxxs); }
+
+/* Station action links */
+.l2__station-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    font-size: var(--font-size-xxxs);
+}
+.l2__action-link {
+    color: var(--color-glyph-gray-secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+.l2__action-link:hover { color: var(--nt-color-accent); }
+.l2__action-icon {
+    opacity: 0.5;
+    vertical-align: middle;
+}
+.l2__action-sep {
+    color: var(--color-glyph-gray-quaternary);
+    font-size: var(--font-size-xxxs);
+}
+
+/* --- Department cell --- */
+.l2__col-dept { vertical-align: top; }
+.l2__dept-value {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    margin-right: var(--space-xs);
+}
+.l2__dept-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    opacity: 0.4;
+    vertical-align: middle;
+}
+.l2__dept-remove:hover { opacity: 1; }
+
+/* --- CM Department cell --- */
+.l2__col-cm { vertical-align: top; }
+.l2__cm-dropdown {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    opacity: 0.4;
+}
+.l2__cm-dropdown:hover { opacity: 1; }
+
+/* --- Key Process Description cell --- */
+.l2__col-kp { vertical-align: top; }
+.l2__kp-row {
+    display: flex;
+    align-items: center;
+    padding: var(--space-xxs) 0;
+    white-space: nowrap;
+}
+.l2__kp-row:not(:last-child) {
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.l2__kp-name {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+/* --- Spec / Equipment / Consumables cells --- */
+.l2__col-spec,
+.l2__col-equip,
+.l2__col-cons { vertical-align: top; }
+
+.l2__add-row {
+    padding: var(--space-xxs) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.l2__add-row:not(:last-child) {
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.l2__add-link {
+    color: var(--nt-color-accent);
+    text-decoration: none;
+    font-size: var(--font-size-xxs);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.l2__add-link:hover { text-decoration: underline; }
+.l2__add-link .l2__action-icon {
+    opacity: 1;
+    filter: var(--nt-filter-icon-accent);
+}
+
+/* Equipment item */
+.l2__equip-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    border: 1px solid var(--color-fill-tertiary);
+    border-radius: 4px;
+    padding: 2px var(--space-xxs);
+    margin-bottom: 4px;
+}
+.l2__equip-icon { opacity: 0.4; }

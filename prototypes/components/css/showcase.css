@@ -1,0 +1,113 @@
+/* ===== SHOWCASE LAYOUT ===== */
+/* Section-based component showcase for Apple Core custom components. */
+/* Inspired by Monalisa Design System showcase structure.            */
+
+/* Page intro */
+.showcase-intro {
+    margin-bottom: var(--space-xl);
+}
+.showcase-intro__title {
+    color: var(--color-glyph-gray);
+    margin-bottom: var(--space-xs);
+}
+.showcase-intro__desc {
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xs);
+}
+
+/* Component section */
+.component-section {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.component-section:last-child { border-bottom: none; }
+
+/* Section header */
+.component-section__header {
+    margin-bottom: var(--space-l);
+}
+.component-section__title {
+    color: var(--color-glyph-gray);
+    margin-bottom: var(--space-xxs);
+}
+.component-section__desc {
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+    max-width: 680px;
+}
+
+/* Component group (subsection within a section) */
+.component-group {
+    margin-bottom: var(--space-l);
+}
+.component-group__title {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-glyph-gray);
+    margin-bottom: var(--space-s);
+}
+
+/* Live example area */
+.component-example {
+    background: var(--color-fill-secondary);
+    border: 1px solid var(--color-fill-tertiary);
+    border-radius: 8px;
+    padding: var(--space-m);
+    margin-bottom: var(--space-s);
+}
+.component-example--flush {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Example label (above the example) */
+.component-example__label {
+    font-size: var(--font-size-xxxs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-glyph-gray-tertiary);
+    margin-bottom: var(--space-xs);
+}
+
+/* API reference block */
+.component-api {
+    background: var(--color-fill-secondary);
+    border: 1px solid var(--color-fill-tertiary);
+    border-radius: 8px;
+    padding: var(--space-m);
+    margin-bottom: var(--space-s);
+}
+.component-api__title {
+    font-size: var(--font-size-xxxs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-glyph-gray-tertiary);
+    margin-bottom: var(--space-s);
+}
+.component-api__table {
+    width: 100%;
+    font-size: var(--font-size-xxs);
+    border-collapse: collapse;
+}
+.component-api__table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-glyph-gray);
+    padding: var(--space-xxs) var(--space-xs);
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.component-api__table td {
+    padding: var(--space-xxs) var(--space-xs);
+    color: var(--color-glyph-gray-secondary);
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.component-api__table code {
+    font-size: var(--font-size-xxxs);
+    background: var(--color-fill-tertiary);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: var(--color-glyph-gray);
+}

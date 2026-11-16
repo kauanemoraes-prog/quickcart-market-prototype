@@ -1,0 +1,21 @@
+component: links
+summary: "A navigational or in-flow text link that takes the user to another destination or resource."
+anatomy:
+  - {id: anchor, required: true, role: "the interactive link element carrying an href to a destination", capabilities: [navigate]}
+  - {id: label, required: true, role: "the descriptive text that names the destination"}
+states: [default, hover, focus, active, visited?, disabled?]
+behaviors:
+  navigate: "activating the link (click or Enter) moves the user to the referenced destination"
+a11y:
+  - "use a native anchor element with a valid href; never a generic clickable element"
+  - "the accessible name describes the destination and makes sense out of context; avoid bare 'click here'"
+  - "keyboard operable: focusable in tab order and activated with Enter"
+  - "a visible focus indicator is present for keyboard users"
+  - "if the link opens in a new context, that is announced in the accessible name"
+  - "a link disabled by removing href is also removed from the tab order"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "link text is self-descriptive so the destination is recognizable without surrounding context", verify: [checklist, dom]}
+  - {id: focus-visible, source: wcag, rule: "keyboard focus is always visibly indicated", verify: [dom, visual]}
+  - {id: hit-target, source: apple-hig, rule: "a standalone link meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, animation, underline treatment, font weight variants]

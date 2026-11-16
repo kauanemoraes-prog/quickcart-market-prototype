@@ -1,0 +1,91 @@
+/* ===== PROJ-NESTED-TABLE — BASE COMPONENT ===== */
+/* Generic styles for any nested table instance. Use-case-specific  */
+/* column widths and cell styles go in separate CSS files.          */
+
+/* Shared tokens */
+.proj-nested-table {
+    --nt-color-accent: var(--color-base-accent, #7180AC);
+    --nt-filter-icon-accent: brightness(0) saturate(100%) invert(27%) sepia(82%) saturate(2236%) hue-rotate(205deg) brightness(96%) contrast(101%);
+    margin-bottom: var(--space-l);
+}
+
+/* Table: spaced rows for card layout */
+.proj-nested-table .table { border-collapse: separate; border-spacing: 0 var(--space-xs); }
+
+/* Row index cell */
+td.proj-nested-table__col-index { white-space: nowrap; }
+td.proj-nested-table__col-index .proj-nested-table__drag-handle,
+td.proj-nested-table__col-index .proj-nested-table__row-number { vertical-align: middle; }
+
+/* Drag handle — appears on row hover (shared across all levels) */
+.proj-nested-table__drag-handle {
+    display: inline-flex;
+    align-items: center;
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    margin-right: var(--space-xxs);
+    filter: var(--nt-filter-icon-accent);
+}
+.proj-nested-table__row:hover .proj-nested-table__drag-handle { opacity: 1; }
+
+/* Row number — blue index (shared across all levels) */
+.proj-nested-table__row-number {
+    font-size: var(--font-size-xxs);
+    color: var(--nt-color-accent);
+    font-weight: 500;
+    margin-right: var(--space-xxs);
+}
+
+/* Expand chevron button */
+.proj-nested-table__expand-btn {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(--space-xs);
+}
+.proj-nested-table__chevron {
+    transition: transform 0.2s ease;
+    filter: var(--nt-filter-icon-accent);
+}
+.proj-nested-table__row[data-expanded="true"] .proj-nested-table__chevron { transform: rotate(90deg); }
+
+/* Level 1 row — card style with rounded corners */
+.proj-nested-table__row--level1 {
+    background: var(--color-fill-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.proj-nested-table__row--level1 td {
+    border-top: 1px solid var(--color-fill-tertiary);
+    border-bottom: 1px solid var(--color-fill-tertiary);
+}
+.proj-nested-table__row--level1 td:first-child {
+    border-left: 1px solid var(--color-fill-tertiary);
+    border-radius: 8px 0 0 8px;
+}
+.proj-nested-table__row--level1 td:last-child {
+    border-right: 1px solid var(--color-fill-tertiary);
+    border-radius: 0 8px 8px 0;
+}
+
+/* When expanded, flatten bottom corners to connect with detail row */
+.proj-nested-table__row--level1[data-expanded="true"] td {
+    border-bottom-color: transparent;
+}
+.proj-nested-table__row--level1[data-expanded="true"] td:first-child {
+    border-radius: 8px 0 0 0;
+}
+.proj-nested-table__row--level1[data-expanded="true"] td:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+/* Detail row — container for Level 2 content. The padding reset is meant for the
+ * single colspan cell that wraps L2; use `>` so it doesn't bleed into L2 cells inside. */
+.proj-nested-table__detail-row { background: var(--color-fill-secondary); }
+.proj-nested-table__detail-row > td {
+    padding: 0 !important;
+    border-top: none;
+}

@@ -1,0 +1,340 @@
+/* Equipment table styling */
+.equipment-table-container {
+    margin-top: 0;
+    background-color: var(--color-fill-white);
+    margin: 0 calc(var(--space-mp) * -1);
+    padding: 0;
+    position: relative;
+}
+
+.equipment-table-container .table-container {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.equipment-table-container .table-container::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.equipment-table-container .table-container::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 8px;
+}
+
+.equipment-table-container .table-container::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    border-radius: 4px;
+}
+
+.table--equipment {
+    width: 100%;
+    background-color: transparent;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+.table--equipment .table__head {
+    background-color: #FFFFFF;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+}
+
+.table--equipment .table__header {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    padding: 0 var(--space-m);
+    height: 42px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E8E8ED;
+    border-right: 1px solid #E8E8ED;
+    white-space: nowrap;
+    min-width: 150px;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Kill MDS's `.sortable:hover` blue tint — it only fires on sortable headers,
+ * so hover reads as inconsistent across the row. Keep every equipment header
+ * neutral at all times; the filter-hit yellow overrides this rule below. */
+.table--equipment .table__header:hover,
+.table--equipment .table__header.sortable:hover {
+    background-color: #FFFFFF;
+}
+
+/* JS wraps the leading text of each header in `.th-label` so it can carry its
+ * own ellipsis truncation. Table cells don't honor `text-overflow` on their
+ * direct text nodes because they auto-grow — this inline-block wrapper does. */
+.table--equipment .table__header .th-label {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Right-side icon group — one absolutely positioned flex row that holds the
+ * shortcut, info icon, and sort indicator (in that order left → right). Using
+ * `gap: 8px` on the flex container guarantees 8px between each icon regardless
+ * of their intrinsic sizes. Only the elements that exist for that column are
+ * placed inside, so the group is always tightly packed to the right border. */
+.table--equipment .table__header .th-icon-group {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.table--equipment .table__header .th-icon-group > * {
+    pointer-events: auto;
+}
+
+.table--equipment .table__header .header-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    color: var(--color-base-accent);
+    font-size: 14px;
+    line-height: 1;
+    cursor: help;
+}
+
+.table--equipment .table__header .header-info lucide-icon {
+    line-height: 1;
+    width: 14px;
+    height: 14px;
+}
+
+.table--equipment .table__header .sort-indicator {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    margin: 0;
+}
+
+.table--equipment .table__header .sort-indicator__icon {
+    font-size: 10px;
+    line-height: 0.55;
+}
+
+.table--equipment .table__header .sort-indicator__up {
+    margin-bottom: -1px;
+}
+
+.table--equipment .table__header .sort-indicator__down {
+    margin-top: -1px;
+}
+
+/* Padding reserves so the label always keeps ≥ 4px of gap from the icon group.
+ * Each value = 8 (border→group gap) + group width + 4 (label→group gap).
+ *   base (shortcut only):     8 + 16 + 4 = 28
+ *   sort only:                8 + (16 + 4 + 10) + 4 = 42
+ *   info only:                8 + (16 + 4 + 14) + 4 = 46
+ *   sort + info:              8 + (16 + 4 + 14 + 4 + 10) + 4 = 60
+ * Combined with the min-width bumps below, columns are wide enough that common
+ * labels fit without ellipsis alongside their icons. Longer labels grow the
+ * column naturally (table-layout: auto) and still keep the 4px gap. */
+.table--equipment .table__header[data-eq-field] {
+    padding-right: 28px;
+    min-width: 160px;
+}
+
+.table--equipment .table__header.sortable {
+    padding-right: 42px;
+    min-width: 180px;
+}
+
+.table--equipment .table__header:not(.sortable):has(.header-info) {
+    padding-right: 46px;
+    min-width: 185px;
+}
+
+.table--equipment .table__header.sortable:has(.header-info) {
+    padding-right: 60px;
+    min-width: 225px;
+}
+
+.table--equipment .table__row {
+    height: 42px;
+    background-color: var(--color-fill-white);
+    border-bottom: 1px solid #E8E8ED;
+}
+
+.table--equipment .table__row:hover {
+    background-color: #E8EBF3;
+}
+
+.table--equipment .table__row:hover .table__cell--sticky-name,
+.table--equipment .table__row:hover .table__cell--sticky-short {
+    background-color: #E8EBF3;
+}
+
+.table--equipment .table__cell {
+    padding: 0 var(--space-m);
+    vertical-align: middle;
+    border-bottom: 1px solid #E8E8ED;
+    border-right: 1px solid #E8E8ED;
+    white-space: nowrap;
+    height: 42px;
+}
+
+/* Equipment name header with add button */
+.table__header--equip-name-header {
+    position: relative;
+}
+
+.table__header--equip-name-header span {
+    vertical-align: middle;
+}
+
+.table__header--equip-name-header .equip-checkbox {
+    vertical-align: middle;
+    margin-right: var(--space-s);
+}
+
+.table__header--equip-name-header .equip-add-row-btn {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    line-height: 1;
+}
+
+.table__header--equip-name-header .equip-add-icon {
+    width: 14px;
+    height: 14px;
+}
+
+/* Equipment name header — shortcut sits 4px to the left of the + button
+ * (which is at right: var(--space-m) = 16px, 16px wide). */
+.table--equipment .table__header--equip-name-header .th-icon-group {
+    right: calc(var(--space-m) + 16px + 4px);
+}
+
+.table--equipment .table__header--equip-name-header {
+    padding-right: calc(var(--space-m) + 16px + 4px + 16px + 4px);
+}
+
+.equip-add-row-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition-basic);
+}
+
+.equip-add-row-btn:hover {
+    background-color: rgba(113, 128, 172, 0.08);
+}
+
+.equip-add-icon {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+/* Equipment expandable rows */
+.table__cell--equip-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+/* But when the cell is also sticky-column, we can't use flex on the td itself
+ * (sticky needs the cell to behave like a table-cell — flex breaks it in
+ * WebKit). Restore table-cell layout and lay out the inner content with a
+ * flex wrapper via ::before/::after would be a mess, so instead we let the
+ * children hold their own layout: everything stays inline-flex adjacent. */
+.table__cell--sticky-name.table__cell--equip-name {
+    display: table-cell !important;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.table__cell--sticky-name.table__cell--equip-name > .equip-checkbox,
+.table__cell--sticky-name.table__cell--equip-name > .equip-chevron,
+.table__cell--sticky-name.table__cell--equip-name > .equip-input {
+    vertical-align: middle;
+    margin-right: var(--space-s);
+}
+.table__cell--sticky-name.table__cell--equip-name > .equip-input:last-child {
+    margin-right: 0;
+}
+
+.equip-checkbox {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--color-base-accent);
+    border: 1px solid #D9D9D9;
+    border-radius: 3px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--color-fill-white);
+    vertical-align: middle;
+}
+
+.equip-checkbox:checked {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.equip-checkbox--indeterminate {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='2' viewBox='0 0 10 2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1H9' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Equipment actions bar */
+.table__row--actions-bar {
+    background-color: var(--color-fill-white) !important;
+    height: 44px;
+}
+
+.table__cell--actions-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-m) !important;
+    border-bottom: 1px solid var(--color-fill-quaternary);
+}
+
+.equip-actions__count {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    margin-right: var(--space-xs);
+}
+
+.equip-actions__delete img,
+.equip-actions__duplicate img {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+

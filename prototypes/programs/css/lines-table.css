@@ -1,0 +1,303 @@
+/* Process Flow — Lines table */
+
+.tabs__panel#process-flow .proj-nested-table,
+.tabs__panel#process-flow-2 .proj-nested-table {
+    margin: 0;
+    padding: 0;
+}
+
+/* Override MDS zebra striping — keep all L1 line rows white (but skip group headers,
+ * which have their own gray background). */
+.table--lines .table__row:nth-child(even):not(.proj-nested-table__row--group),
+.table--lines-v2 .table__row:nth-child(even):not(.proj-nested-table__row--group) {
+    background-color: var(--color-fill-primary);
+}
+
+/* L2 station rows inside the expanded detail row also inherit MDS's zebra
+ * striping — flatten those to plain white so the sub-table reads uniformly.
+ * MDS's `.table__row:nth-child(even)` uses `!important`-adjacent specificity
+ * for its zebra fill, so we mirror the level here. */
+.l2__table .table__row,
+.l2__table .table__row:nth-child(even),
+.l2__table tbody .table__row,
+.l2__table tbody .table__row:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+/* Re-apply MDS row hover (lost above due to specificity) */
+.table--lines .table__row:hover,
+.table--lines-v2 .table__row:hover,
+.table--lines .table__row:nth-child(even):hover,
+.table--lines-v2 .table__row:nth-child(even):hover {
+    background-color: #E8EBF3;
+}
+
+/* L1 only — must use `.table--lines` (NOT `.proj-nested-table .table`) so the rule
+ * doesn't bleed into the L2 sub-table inside expanded rows. */
+.table--lines {
+    border-spacing: 0 var(--space-s);
+    /* Fill the container width but use table-layout: fixed so each column has the
+     * explicit width set below — they NEVER recalculate based on the L2 sub-table
+     * inside an expanded row. Description column absorbs any extra space. */
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* ===== L1 column widths (Process Flow tab 1 — .table--lines without v2) =====
+ * 15 columns: Line, Line name, Line Grouping, Description (flex), Level, Cond. SOP,
+ * Process Category, AFMD Sync, Target UPH, then 6 stat columns
+ * (PCNs, Station #, Process #, HC #, Cons. #, Equip. #). */
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(1)  { width: 100px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(2)  { width: 170px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(3)  { width: 153px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(4)  { width: 250px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(5)  { width: 100px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(6)  { width: 60px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(7)  { width: 100px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(8)  { width: 115px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(9)  { width: 140px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(10) { width: 75px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(11) { width: 90px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(12) { width: 90px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(13) { width: 75px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(14) { width: 85px; }
+.table--lines:not(.table--lines-v2) > thead > tr > .table__header:nth-child(15) { width: 100px; }
+
+/* ===== L1 column widths (Process Flow tab 2 — .table--lines-v2) =====
+ * 13 columns: Line, Line name, Description (flex), Level, Cond. SOP,
+ * Process Category, Target UPH, PCNs, 5 stat icon columns, Equipment. */
+.table--lines-v2 > thead > tr > .table__header:nth-child(1)  { width: 100px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(2)  { width: 220px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(3)  { width: 268px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(4)  { width: 80px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(5)  { width: 70px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(6)  { width: 110px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(7)  { width: 100px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(8)  { width: 75px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(9)  { width: 75px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(10) { width: 75px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(11) { width: 75px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(12) { width: 75px; }
+.table--lines-v2 > thead > tr > .table__header:nth-child(13) { width: 90px; }
+
+/* All columns: 8px on each side of text (between divider and content) + left aligned */
+.table--lines .table__header,
+.table--lines .table__cell {
+    text-align: left;
+    padding-left: var(--space-s);
+    padding-right: var(--space-s);
+}
+
+/* Vertical dividers between every column (header + body) */
+.table--lines .table__header:not(:last-child),
+.table--lines .table__cell:not(:last-child) {
+    border-right: 1px solid #E8E8ED;
+}
+
+/* No divider between Line index (#1) and Line name (#2) — they read as a single
+ * row-title block. The first divider sits AFTER the chevron + name. */
+.table--lines .table__head .table__row > th:nth-child(1),
+.table--lines .table__row > td:nth-child(1) {
+    border-right: none;
+}
+
+/* Target UPH column — fixed width to fit a 5-digit number (e.g. 12345), no more */
+.table--lines .table__header.proj-nested-table__col-uph,
+.table--lines .table__cell.proj-nested-table__col-uph {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+.table--lines .table__cell.proj-nested-table__col-uph .equip-input {
+    width: 100%;
+    max-width: 60px;
+    box-sizing: border-box;
+}
+
+.table--lines .table__header {
+    height: 42px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Headers that should wrap to 2 lines (Cond. SOP, Process Category, Line Grouping, Target UPH).
+ * Width caps at min-content so the natural word break is honored, and tight line-height
+ * keeps the 2 lines inside the existing 42px header height. */
+.table--lines .table__header.proj-nested-table__col-text--wrap {
+    white-space: normal;
+    width: 1px;
+    line-height: 1.2;
+    vertical-align: middle;
+}
+
+/* Cond. SOP header — info button needs to sit on the same baseline as the wrapped text.
+ * Inline-block on the span lets the button align next to "SOP" on line 2 naturally,
+ * without using flex layout (which would conflict with the column-resize handle). */
+.table--lines .table__header.proj-nested-table__col-text--wrap > span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.table--lines .table__header .line-info-btn {
+    vertical-align: middle;
+}
+
+/* Level 1 row height for the lines table */
+.table--lines .proj-nested-table__row--level1 td {
+    height: 56px;
+    padding-top: var(--space-xs);
+    padding-bottom: var(--space-xs);
+}
+
+.tabs__panel#process-flow .table-container,
+.tabs__panel#process-flow-2 .table-container {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+
+/* Index column — the drag handle sits inline BEFORE the row number with a
+ * 4px gap, revealed only on row hover. Non-absolute layout keeps the handle
+ * from covering the number when the row is compact. The column also hosts
+ * the expand chevron (right after the row number) and, in H88 mode, a
+ * leading checkbox — so its width must accommodate up to four inline
+ * elements. `table-layout: fixed` on the parent means `width: 1px` would
+ * be taken literally; we pin an explicit width instead. */
+.table--lines td.proj-nested-table__col-index,
+.table--lines th.proj-nested-table__col-index {
+    width: 100px;
+    white-space: nowrap;
+}
+
+.table--lines td.proj-nested-table__col-index {
+    position: relative;
+}
+
+.table--lines td.proj-nested-table__col-index .proj-nested-table__drag-handle {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-right: 4px;
+    opacity: 1;
+}
+
+/* Tight gap between row number and the name column.
+ * The col-index column auto-sizes to "Line" header (~48px) which is wider than "01",
+ * so we drop the extra left padding on the name cell. The chevron lives INSIDE
+ * col-index now (right after the row number), so no negative-transform hack is
+ * needed to pull the name closer — moving the chevron there already covers it. */
+.table--lines th.proj-nested-table__col-name,
+.table--lines td.proj-nested-table__col-name {
+    padding-left: var(--space-s);
+}
+
+/* Chevron sits right after the row number inside col-index. Left/right
+ * margins give it breathing room so it never crashes into the number OR
+ * bleeds into the adjacent name cell (which would let the input's white
+ * hover background paint over the chevron). */
+.table--lines td.proj-nested-table__col-index .proj-nested-table__expand-btn {
+    margin-left: 0;
+    margin-right: 6px;
+    padding-left: 0;
+    vertical-align: middle;
+}
+
+/* Line name cell — name + small tag badge below */
+.table--lines td.proj-nested-table__col-name { vertical-align: middle; }
+
+.line-name {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.line-name__label {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+}
+
+.line-name__tag {
+    align-self: flex-start;
+    padding: 2px 6px;
+    font-size: 12px;
+    color: var(--color-glyph-gray-secondary);
+    background-color: transparent;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: 3px;
+    line-height: 1.2;
+}
+
+/* Process Flow 2 — Line Grouping dropdown lives BELOW the name input.
+ * Compact, pill-style trigger to fit inside the row without increasing height. */
+.line-name--with-grouping .equip-dropdown {
+    align-self: flex-start;
+    width: auto;
+}
+
+.line-name--with-grouping .equip-dropdown__trigger {
+    padding: 2px 6px;
+    font-size: 12px;
+    color: var(--color-glyph-gray-secondary);
+    background-color: transparent;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: 3px;
+    line-height: 1.2;
+    width: auto;
+    gap: 4px;
+}
+
+.line-name--with-grouping .equip-dropdown__trigger:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.line-name--with-grouping .equip-dropdown__chevron {
+    width: 8px;
+    height: 5px;
+}
+
+/* Don't apply the row-hover "editable look" to this compact dropdown — keep it pill-style */
+.table--lines-v2 .table__row:hover .line-name--with-grouping .equip-dropdown__trigger {
+    background-color: var(--color-fill-tertiary);
+    border-color: var(--color-fill-gray-quaternary);
+    box-shadow: none;
+}
+
+/* Drag-and-drop reorder — drop indicators + dragging row.
+ * The drop line sits at the row edge (before or after) via a box-shadow so it
+ * doesn't push layout around. Dragging row dims for feedback. */
+.table--lines .proj-nested-table__row--level1.lines-row--dragging td {
+    opacity: 0.4;
+}
+
+.table--lines .proj-nested-table__row--level1.lines-row--drop-before td {
+    box-shadow: inset 0 2px 0 0 var(--color-base-accent, #7180AC);
+}
+
+.table--lines .proj-nested-table__row--level1.lines-row--drop-after td {
+    box-shadow: inset 0 -2px 0 0 var(--color-base-accent, #7180AC);
+}
+
+/* While an L1 row carries draggable=true, keep the whole row in "grabbing" mode
+ * so the cursor confirms the drag is armed. */
+.table--lines .proj-nested-table__row--level1[draggable="true"],
+.table--lines .proj-nested-table__row--level1[draggable="true"] .proj-nested-table__drag-handle {
+    cursor: grabbing;
+}
+
+/* Drag reorder feedback — dragged row goes semi-transparent, drop target gets
+ * a thin accent line above or below to preview where the row will land. */
+#lines-table-body > tr.proj-nested-table__row--level1.is-dragging > td {
+    opacity: 0.4;
+}
+
+#lines-table-body > tr.proj-nested-table__row--level1.drop-before > td {
+    box-shadow: inset 0 2px 0 0 var(--color-base-accent);
+}
+
+#lines-table-body > tr.proj-nested-table__row--level1.drop-after > td {
+    box-shadow: inset 0 -2px 0 0 var(--color-base-accent);
+}
+

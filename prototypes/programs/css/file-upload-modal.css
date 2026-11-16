@@ -1,0 +1,27 @@
+/* File upload modal specific styles */
+.file-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    border: 2px dashed var(--color-fill-quaternary);
+    border-radius: var(--space-s);
+    background-color: var(--color-fill-tertiary);
+    transition: var(--transition-basic);
+    cursor: pointer;
+}
+
+.file-upload-area:hover {
+    border-color: var(--color-base-accent);
+    background-color: rgba(113, 128, 172, 0.05);
+}
+
+.file-upload-area.drag-over {
+    border-color: var(--color-base-accent);
+    background-color: rgba(113, 128, 172, 0.1);
+}
+
+.file-upload-area svg {
+    color: var(--color-glyph-gray-secondary);
+}

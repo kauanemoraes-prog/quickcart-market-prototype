@@ -1,0 +1,58 @@
+/* Drawer Layout Styles */
+
+/* Drawer header enhancements */
+.drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-m);
+    border-bottom: 1px solid var(--color-separator);
+}
+
+.drawer__title {
+    margin: 0;
+    flex: 1;
+    margin-left: var(--space-m);
+    margin-right: var(--space-m);
+}
+
+.drawer__actions {
+    display: flex;
+    gap: var(--space-s);
+}
+
+.drawer__close {
+    background: none;
+    border: none;
+    padding: var(--space-xs);
+    cursor: pointer;
+    border-radius: var(--space-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.drawer__close:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.drawer__close svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-glyph-gray);
+}
+
+/* Drawer body */
+.drawer__body {
+    padding: var(--space-m);
+    overflow-y: auto;
+    height: calc(100vh - 80px); /* Account for header height */
+}
+
+/* Incline projects container */
+#incline-projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+}

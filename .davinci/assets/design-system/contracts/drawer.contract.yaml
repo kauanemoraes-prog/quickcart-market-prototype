@@ -1,0 +1,27 @@
+component: drawer
+summary: "A panel that slides in from a screen edge over a backdrop to present secondary content or a focused task without leaving the page."
+anatomy:
+  - {id: overlay, required: true,  role: "backdrop wrapper that controls visibility and blocks interaction beneath", capabilities: [dismiss]}
+  - {id: panel,   required: true,  role: "the sliding container anchored to a screen edge"}
+  - {id: header,  required: true,  role: "title and dismiss affordance"}
+  - {id: title,   required: true,  role: "names the drawer"}
+  - {id: close,   required: true,  role: "dismiss control", capabilities: [dismiss]}
+  - {id: body,    required: true,  role: "the drawer content"}
+states: [closed, open, closing?]
+behaviors:
+  open:    "toggling the open state slides the panel in from its edge and moves focus into it"
+  dismiss: "closes on the close control, the Esc key, and a backdrop click; a click inside the panel does not close it"
+a11y:
+  - "role=dialog with aria-modal=true"
+  - "labelled by the title via aria-labelledby"
+  - "focus moves into the panel on open and is trapped while open"
+  - "focus returns to the triggering element on close"
+  - "Esc closes the drawer"
+  - "the close control is a real button with an accessible name (visible text or aria-label), not a bare glyph"
+heuristics:
+  - {id: user-control, source: nielsen,   rule: "always provide an obvious way to dismiss (close control, Esc, backdrop)", verify: [dom]}
+  - {id: visibility,   source: nielsen,   rule: "the open state is explicit and reversible, never a hidden or orphaned panel", verify: [dom]}
+  - {id: hit-target,   source: apple-hig, rule: "the close control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: edge-anchor, note: "the drawer is anchored to a specific screen edge (leading or trailing), which is a structural placement decision, not a visual one, because it changes slide direction and reading order"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, size and width variants, slide direction styling, backdrop appearance, glyph artwork]

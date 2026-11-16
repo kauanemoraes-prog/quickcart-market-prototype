@@ -1,0 +1,11 @@
+/* DaVinci Plugins — Project-level custom components */
+/* Auto-loaded by canvas framework alongside MDS */
+/* Add @import for each plugin component CSS file below */
+
+@import url('proj-nested-table.css?v=2');
+@import url('proj-timeline.css?v=7');
+@import url('proj-right-toolbar.css');
+@import url('proj-tooltip.css');
+@import url('proj-progress-drawer.css');
+@import url('proj-dark-mode.css');
+@import url('proj-station-settings-drawer.css');

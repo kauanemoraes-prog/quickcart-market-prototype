@@ -1,0 +1,26 @@
+component: forms-radio
+summary: "A control for selecting exactly one option from a mutually exclusive group."
+anatomy:
+  - {id: field, required: true, multiple: true, role: "wrapper that associates one option with its label and extends the click area", capabilities: [select]}
+  - {id: input, required: true, multiple: true, role: "the native radio input holding selected state and sharing a group name"}
+  - {id: circle, required: true, multiple: true, role: "the visual indicator reflecting selected and unselected state"}
+  - {id: label, required: true, multiple: true, role: "the visible text naming the option"}
+states: [default, hover?, focus, selected, unselected, disabled?]
+behaviors:
+  select: "clicking an option or its label, or arrowing to it, selects that option and deselects the previously selected one in the group"
+  group-exclusivity: "all options sharing a group name are mutually exclusive; exactly one may be selected at a time"
+a11y:
+  - "use native radio inputs (or role=radio) that share a common name so they form one group"
+  - "each label is programmatically associated with its input (label wrapping or for/id) and is clickable to select"
+  - "selected state is exposed via the checked property (or aria-checked)"
+  - "arrow keys move selection between options within the group; the group is a single tab stop"
+  - "shows a visible focus indicator on the focused option"
+  - "the group is enclosed in a group element with an accessible group label (fieldset/legend or role=radiogroup)"
+  - "a disabled option sets the disabled attribute and is announced as disabled"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "every option has a visible text label and the group has a label describing the choice", verify: [checklist, dom]}
+  - {id: match-choice-model, source: nielsen, rule: "use a radio group only for single-choice from two or more visible options, not for multi-select or a binary on/off setting", verify: [checklist]}
+  - {id: hit-target, source: apple-hig, rule: "each option including its label meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+  - {id: focus-visible, source: wcag, rule: "a keyboard focus indicator is visible on the focused option", verify: [dom, visual]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, animation, circle artwork, indicator sizing]

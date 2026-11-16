@@ -1,0 +1,56 @@
+<!-- LOADERS & SKELETONS -->
+<!-- Loading indicators for asynchronous operations -->
+<!-- Copy the exact HTML you need -->
+
+<!-- SPINNER LOADERS -->
+
+<!-- SMALL SPINNER -->
+<div class="loader">
+  <div class="loader__spinner loader__spinner--small"></div>
+  <span class="loader__text loader__text--small">Loading...</span>
+</div>
+
+<!-- MEDIUM SPINNER (DEFAULT) -->
+<div class="loader">
+  <div class="loader__spinner"></div>
+  <span class="loader__text">Loading...</span>
+</div>
+
+<!-- LARGE SPINNER -->
+<div class="loader">
+  <div class="loader__spinner loader__spinner--large"></div>
+  <span class="loader__text loader__text--large">Loading...</span>
+</div>
+
+<!-- SKELETON LOADERS -->
+
+<!-- TITLE SKELETON -->
+<div class="skeleton skeleton--title"></div>
+
+<!-- TEXT SKELETON -->
+<div class="skeleton skeleton--text"></div>
+<div class="skeleton skeleton--text"></div>
+<div class="skeleton skeleton--text" style="width: 80%;"></div>
+
+<!-- AVATAR SKELETON -->
+<div class="skeleton skeleton--avatar"></div>
+
+<!-- COMBINED SKELETON (AVATAR + TEXT) -->
+<div style="display: flex; gap: var(--space-m);">
+  <div class="skeleton skeleton--avatar"></div>
+  <div style="flex: 1;">
+    <div class="skeleton skeleton--text"></div>
+    <div class="skeleton skeleton--text" style="width: 60%;"></div>
+  </div>
+</div>
+
+<!-- USAGE:
+- Spinners have three sizes: small, medium (default), large
+- Spinner includes both the spinner visual and optional text
+- Skeletons mimic the shape of content being loaded
+- skeleton--title for heading placeholders
+- skeleton--text for paragraph placeholders
+- skeleton--avatar for avatar placeholders
+- Adjust skeleton width with inline styles for varied content lengths
+- Use skeletons for better perceived performance during loading
+-->

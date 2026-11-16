@@ -1,0 +1,34 @@
+/* Dark mode — File upload / Import / Publish wizard modals + table catch-all */
+/* Active when <html class="dark-mode">. Split from dark-mode.css. */
+
+/* ========================================
+   Modals (file-upload / import / publish-wizard)
+   ======================================== */
+.dark-mode .file-upload-modal,
+.dark-mode .import-modal,
+.dark-mode .publish-wizard-modal {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .file-upload-modal .modal__header,
+.dark-mode .file-upload-modal .modal__footer,
+.dark-mode .import-modal .modal__header,
+.dark-mode .import-modal .modal__footer,
+.dark-mode .publish-wizard-modal .modal__header,
+.dark-mode .publish-wizard-modal .modal__footer {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+/* ========================================
+   Catch-all: any remaining .table__head / .table__row with white bg
+   ======================================== */
+.dark-mode .equip-page table thead { background-color: var(--dm-bg-2); }
+.dark-mode .equip-page table tbody tr { background-color: var(--dm-bg-2); }
+
+/* Force any element using --color-fill-white to use the dark surface inside .equip-page */
+.dark-mode .equip-page [class*="-container"]:not(.proj-right-toolbar):not(.proj-right-toolbar__panel) {
+    background-color: var(--dm-bg-2);
+}

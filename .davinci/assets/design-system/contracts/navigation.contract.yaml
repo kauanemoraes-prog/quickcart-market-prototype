@@ -1,0 +1,37 @@
+component: navigation
+summary: "A primary site navigation menu with support for multi-level dropdowns and submenus."
+anatomy:
+  - {id: nav,           required: true,  role: "the navigation landmark region"}
+  - {id: list,          required: true,  role: "the top-level list of navigation items"}
+  - {id: item,          required: true,  multiple: true, role: "one top-level entry; either a direct link or a dropdown parent"}
+  - {id: link,          required: "if the item navigates directly", role: "a direct navigation destination"}
+  - {id: dropdown-trigger, required: "if the item has a dropdown", role: "control that opens the item's dropdown", capabilities: [expand]}
+  - {id: chevron,       required: "if the item or dropdown item has children", role: "affordance indicating a dropdown or submenu exists"}
+  - {id: dropdown,      required: "if the item has a dropdown", role: "the second-level list revealed by the trigger"}
+  - {id: dropdown-item, required: "if a dropdown is present", multiple: true, role: "one second-level entry; a link or a submenu parent"}
+  - {id: dropdown-link, required: "if the dropdown item navigates directly", role: "a second-level navigation destination"}
+  - {id: submenu-trigger, required: "if a dropdown item has a submenu", role: "control that opens the third-level submenu", capabilities: [expand]}
+  - {id: submenu,       required: "if a dropdown item has a submenu", role: "the third-level list"}
+  - {id: submenu-item,  required: "if a submenu is present", multiple: true, role: "one third-level entry"}
+  - {id: submenu-link,  required: "if a submenu is present", multiple: true, role: "a third-level navigation destination"}
+states: [default, hover?, focus?, expanded?, current?]
+behaviors:
+  expand:   "activating a dropdown or submenu trigger reveals its child list; opening one branch may close sibling branches at the same level"
+  navigate: "activating a link follows its destination"
+  collapse: "child lists close on outside interaction, on Esc, or when focus leaves the branch"
+a11y:
+  - "the menu is a nav landmark with an accessible name (aria-label or aria-labelledby)"
+  - "top-level structure uses a list of items so assistive tech can announce item count"
+  - "dropdown and submenu parents are real buttons exposing aria-expanded and referencing their child list via aria-controls, not links with href=#"
+  - "the item representing the current location exposes aria-current=page"
+  - "keyboard operable: Tab reaches triggers and links, Enter or Space opens a branch, Esc closes the current branch and returns focus to its trigger, arrow keys move between sibling items where a menu pattern is used"
+  - "chevron glyphs are decorative and aria-hidden; the parent's text provides the accessible name"
+heuristics:
+  - {id: recognition,   source: nielsen,   rule: "every navigation entry has a visible text label, not an icon alone", verify: [checklist, dom]}
+  - {id: match-system, source: nielsen,   rule: "the current location is indicated in the navigation", verify: [dom]}
+  - {id: user-control,  source: nielsen,   rule: "opened dropdowns and submenus are dismissible via Esc and outside click", verify: [dom]}
+  - {id: hit-target,    source: apple-hig, rule: "links and dropdown triggers meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: current-location, note: "exactly one entry represents the current page and is marked as current"}
+  - {id: has-children,     note: "an entry that owns a dropdown or submenu is a disclosure control, structurally distinct from a direct link"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, chevron artwork, dropdown positioning, hover styling, layout orientation]

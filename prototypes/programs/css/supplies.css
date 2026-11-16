@@ -1,0 +1,3 @@
+/* Equipment/Consumables tab: uses the table, toolbar and drawer styles of the Products tab (products.css) */
+
+.supplies-legacy { display: none !important; }

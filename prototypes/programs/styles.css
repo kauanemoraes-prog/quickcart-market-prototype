@@ -1,0 +1,2163 @@
+/* Programs Page Styles */
+
+/* Override canvas .content gray background only on this page */
+.content:has(.programs-page) {
+    background-color: #fff;
+}
+
+.programs-page {
+    /* NO padding on page wrapper - canvas already has it */
+    /* Remove top padding to eliminate white space above header */
+    margin-top: calc(var(--space-mp) * -1);
+}
+
+/* Sticky Programs Header */
+.programs-header {
+    position: sticky;
+    top: var(--nav-bottom, 8rem);
+    z-index: 100;
+    background-color: var(--color-fill-white, #fff);
+    padding: var(--space-m) 0;
+    margin: 0 calc(var(--space-mp) * -1);
+    padding-left: var(--space-mp);
+    padding-right: var(--space-mp);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+}
+
+.programs-header h1 {
+    margin: 0;
+    color: var(--color-glyph-gray);
+}
+
+/* Programs toolbar */
+.programs-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px; /* gap between the filter bar and the list / cards */
+    gap: var(--space-m);
+}
+
+.programs-search-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    flex: 1;
+}
+
+/* Keep every control in the toolbar on one centered line, whatever gets added:
+   no stray margins (e.g. .form-group's bottom margin) and one shared control height. */
+.programs-search-group > *,
+.programs-toolbar__actions > * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.programs-search-group .programs-search__input,
+.programs-search-group .form-select,
+.programs-toolbar__actions .form-select,
+.programs-search-group .view-toggle,
+.programs-toolbar__actions .view-toggle,
+.programs-header .add-program-hover__trigger {
+    box-sizing: border-box;
+    height: 36px;
+}
+
+/* Programs search bar */
+.programs-search {
+    position: relative;
+    flex: 1;
+    max-width: 500px;
+}
+
+.programs-search__icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+.programs-search__input {
+    width: 100%;
+    /* icon sits 16px from the left and is 16px wide, so 40px puts the text 8px away from it */
+    padding: var(--space-s) var(--space-xl) var(--space-s) 40px;
+    /* same outline color as the view-by buttons and select */
+    border: 1px solid var(--outline-color, #B6B7BD);
+    border-radius: var(--space-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    background-color: #fff;
+    transition: var(--transition-basic);
+}
+
+.programs-search__input:hover {
+    background-color: #fff;
+}
+
+.programs-search__input::placeholder {
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.programs-search__input:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.1);
+}
+
+.programs-search__shortcut {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    font-size: var(--font-size-tiny);
+    pointer-events: none;
+}
+
+/* Store code next to the store name, counters in the expanded rows */
+.store-code {
+    margin-left: var(--space-xs);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.metric-count { color: var(--color-glyph-gray); }
+.metric-count--warn { color: #8A5A00; font-weight: var(--font-weight-semibold); }
+.metric-count--bad { color: #B3261E; font-weight: var(--font-weight-semibold); }
+
+/* State and region filters (next to the search field) */
+.programs-state-filter {
+    flex-shrink: 0;
+    width: 12rem;
+    margin: 0;
+}
+
+/* The design system's .form-group carries a 16px bottom margin that pushed the dropdowns up: without it every control of the
+   toolbar (search, dropdowns, switch, view buttons) shares one line, 16px below the title. */
+.programs-search-group > .form-group.programs-state-filter,
+.programs-toolbar__actions > .form-group.programs-group-by {
+    margin: 0 !important;
+}
+
+/* The design system gives the dropdown a bottom margin; without it the filters sit on the same centre line as the search */
+.programs-search-group .programs-state-filter .form-select {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Favorites switch */
+.programs-favorites-switch {
+    flex-shrink: 0;
+}
+
+.programs-favorites-switch {
+    gap: 8px; /* switch to label */
+}
+
+.programs-favorites-switch .switch__label {
+    margin-left: 0;
+    color: var(--color-glyph-gray-secondary); /* same color as the table headers */
+}
+
+/* Add Program Drawer specific styles */
+.drawer--right {
+    width: 800px;
+    max-width: 90vw;
+}
+
+.drawer-section {
+    margin-bottom: var(--space-l);
+}
+
+.drawer-section__title {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-m);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.drawer-form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+}
+
+.form-input-with-icon {
+    position: relative;
+}
+
+.form-input-with-icon .form-input {
+    padding-right: 36px;
+}
+
+.form-input-icon {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    pointer-events: none;
+}
+
+.drawer-tabs {
+    border-bottom: 1px solid var(--color-fill-quaternary);
+    margin-bottom: var(--space-l);
+}
+
+.drawer-tabs .tabs__nav {
+    display: flex;
+    gap: var(--space-l);
+    border-bottom: none;
+}
+
+.drawer-tabs .tabs__tab {
+    background: none;
+    border: none;
+    padding: var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition-basic);
+    border-bottom: 2px solid transparent;
+}
+
+.drawer-tabs .tabs__tab:hover {
+    color: var(--color-glyph-gray);
+}
+
+.drawer-tabs .tabs__tab--active {
+    color: var(--color-base-accent);
+    border-bottom-color: var(--color-base-accent);
+}
+
+.drawer-tab-content {
+    display: none;
+}
+
+.drawer-tab-content--active {
+    display: block;
+}
+
+.drawer-table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-m);
+}
+
+.drawer-table-header span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.add-site-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-s) 0;
+    background: none;
+    border: none;
+    color: var(--color-base-accent);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-basic);
+}
+
+.add-site-btn:hover {
+    opacity: 0.8;
+}
+
+.drawer__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border-top: 1px solid var(--color-fill-quaternary);
+    background-color: var(--color-fill-white);
+}
+
+/* Table container */
+.table-container {
+    margin-top: 0;
+}
+
+/* Sticky table header */
+.table__head--sticky {
+    position: sticky;
+    top: 60px; /* Height of programs header */
+    z-index: 99;
+    background-color: var(--color-fill-white);
+}
+
+.table__head--sticky::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-fill-quaternary);
+}
+
+/* Reduced row height - half of default */
+.table--expandable .table__row {
+    height: 2rem;
+}
+
+/* Horizontal dividers between parent rows (excludes nested table rows) */
+.table--expandable > tbody > .table__row {
+    border-bottom: 1px solid #E8E8ED;
+}
+
+.table--expandable .table__cell {
+    padding: var(--space-xs) var(--space-m);
+    vertical-align: middle;
+}
+
+.table--expandable .table__header {
+    padding: var(--space-xs) var(--space-m);
+}
+
+/* Chevron column: 32px = 4px + 24px button + 4px, so the first text column starts 8px after the chevron */
+.table__header--chevron,
+.table__cell--chevron {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    padding: var(--space-xs) var(--space-xs);
+    text-align: center;
+}
+
+/* Chevron button styles */
+.chevron-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-basic);
+    color: var(--color-base-accent);
+}
+
+.chevron-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.chevron-btn--expanded svg {
+    transform: rotate(90deg);
+}
+
+.chevron-btn:hover {
+    opacity: 0.8;
+}
+
+/* Expanded row styles */
+.table__row--expanded {
+    background-color: #FAFBFD;
+}
+
+/* The expanded block has a very light tint (no bar, no grey) to set it apart from the table */
+
+/* The design system stripes every even .table__row (#f3f3f3). That also hit the expanded row and the
+   rows of the subtable, so they are reset here with a more specific selector. */
+.table--expandable > tbody > .table__row--expanded,
+.table--expandable > tbody > .table__row--expanded:nth-child(even) {
+    background-color: #FAFBFD;
+}
+
+.table--nested .table__row:nth-child(even),
+.table--nested .table__row:nth-child(odd) {
+    background-color: transparent;
+}
+
+/* Hover belongs to a single row. The expanded row wraps the whole subtable, so it must not highlight
+   when the pointer is over one of the subtable rows (the design system's hover rule is !important). */
+.table--expandable > tbody > .table__row--expanded:hover {
+    background-color: #FAFBFD !important;
+}
+
+/* One hover color for every row, in the table and in the subtable (same as the design system's row hover) */
+.table--expandable > tbody > .table__row--parent:hover,
+.table--nested .table__body .table__row:hover {
+    background-color: #E8EBF3 !important;
+}
+
+/* Zebra stripes, like the Products table (#f3f3f3). Each city is a pair of rows (the city and its hidden stores), so the
+   cities are every other row and the design system's :nth-child(even) never reaches them: stripe every second city. */
+.table--expandable > tbody > .table__row--parent[data-program-id]:nth-child(4n+3):not(.table__row--expanded-active) {
+    background-color: #F3F3F3;
+}
+
+.table__cell--expanded {
+    padding: 0 !important;
+}
+
+.table__row--expanded-active {
+    background-color: var(--color-base-accent-lighter-2);
+}
+
+/* Nested table styles */
+/* Parent and nested tables both use fixed layout with identical column widths
+   (see the nth-child rules below), so Sites / Alias / Project Phases / Last update
+   line up with Exhibitions / Name / Admin / Last update. */
+.table--expandable,
+.table--nested {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table--nested {
+    background-color: transparent;
+    margin: 0;
+}
+
+.table--nested .table__head {
+    background-color: #F1F3F8;
+}
+
+.table--nested .table__row {
+    height: 2rem;
+    background-color: transparent;
+}
+
+.table--nested .table__row:hover {
+    background-color: #F5F7F9;
+}
+
+.table--nested .table__cell {
+    padding: var(--space-s) var(--space-m);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+.table--nested tbody .table__row:last-child .table__cell {
+    border-bottom: 0;
+}
+
+.table--nested .table__header {
+    padding: var(--space-xs) var(--space-m);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-tiny);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Column alignment - nested table columns align with parent */
+/* Programs → Sites, Program Name → Program Alias, Admin → Builds, Last update → Last Update, Favorite → Favorite */
+
+/* Spacer column to account for chevron in parent */
+.table__header--nested-spacer,
+.table__cell--nested-spacer {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Shared column grid. The main table and the table inside each expanded row have the same
+   number of columns and use the same widths, so every column sits directly above its
+   counterpart in the expanded table (column N of one = column N of the other).
+   Main:     chevron | City | State | Region | Admin | Museum Count | At-Risk | Last Updated | Favorite | Action
+   Expanded: spacer  | Store | Address (spans State + Region) | Store Manager | Low stock | Progress | Status | Last Updated | Opening Date | Exhibition Lead
+   Widths come from custom properties (--col-w2 .. --col-w10) set by js/programs-columns.js
+   when a column is dragged. */
+.table--expandable .table__header:nth-child(1),
+.table--expandable .table__cell:nth-child(1) {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    padding-left: var(--space-xs);
+    padding-right: var(--space-xs);
+    text-align: center;
+}
+
+.table--expandable .table__header:nth-child(2), .table--expandable .table__cell:nth-child(2) { width: var(--col-w2, 200px); }
+
+.table--expandable .table__header:nth-child(3), .table--expandable .table__cell:nth-child(3) { width: var(--col-w3, 90px); }
+
+.table--expandable .table__header:nth-child(4), .table--expandable .table__cell:nth-child(4) { width: var(--col-w4, 130px); }
+
+.table--expandable .table__header:nth-child(5), .table--expandable .table__cell:nth-child(5) { width: var(--col-w5, 171px); }
+
+.table--expandable .table__header:nth-child(6), .table--expandable .table__cell:nth-child(6) { width: var(--col-w6, 140px); }
+
+.table--expandable .table__header:nth-child(7), .table--expandable .table__cell:nth-child(7) { width: var(--col-w7, 140px); }
+
+.table--expandable .table__header:nth-child(8), .table--expandable .table__cell:nth-child(8) { width: var(--col-w8, 160px); }
+
+.table--expandable .table__header:nth-child(9), .table--expandable .table__cell:nth-child(9) { width: var(--col-w9, 150px); }
+
+.table--expandable .table__header:nth-child(10), .table--expandable .table__cell:nth-child(10) { width: var(--col-w10, 80px); }
+
+/* First text column (Exhibitions / Museum): no left padding, so its text sits 8px after the chevron.
+   The nested table gets the same rule to stay aligned with it. */
+.table--expandable .table__header:nth-child(2),
+.table--expandable .table__cell:nth-child(2),
+.table--nested .table__header:nth-child(2),
+.table--nested .table__cell:nth-child(2) {
+    padding-left: 0;
+}
+
+/* Favorite is left-aligned so it lines up with the text of the column below it in the expanded table
+   (Opening Date). */
+.table--expandable .table__header:nth-child(9),
+.table--expandable .table__cell:nth-child(9) { text-align: left; }
+
+.table--expandable .table__cell:nth-child(9) .favorite-btn { padding-left: 0; }
+
+/* Action is the last column, at the right edge of the table, with its icon centered under the title */
+.table--expandable .table__header:nth-child(10),
+.table--expandable .table__cell:nth-child(10) { text-align: center; }
+
+/* Nested tables take their column widths from <colgroup>, so a cell can span several columns
+   (e.g. Museum spans the Exhibitions and Name columns) without breaking the alignment. */
+.nested-col--1 { width: 32px; }
+.nested-col--2 { width: var(--col-w2, 200px); }
+.nested-col--3 { width: var(--col-w3, 90px); }
+.nested-col--4 { width: var(--col-w4, 130px); }
+.nested-col--5 { width: var(--col-w5, 171px); }
+.nested-col--6 { width: var(--col-w6, 140px); }
+.nested-col--7 { width: var(--col-w7, 140px); }
+.nested-col--8 { width: var(--col-w8, 160px); }
+.nested-col--9 { width: var(--col-w9, 150px); }
+.nested-col--10 { width: var(--col-w10, 80px); }
+
+
+/* Resize handles: an invisible strip on the right edge of each header cell */
+.table--expandable > thead .table__header,
+.table--nested > thead .table__header {
+    position: relative;
+}
+
+.table--expandable > thead .table__header:not(.table__header--chevron):not(.table__header--nested-spacer)::after,
+.table--nested > thead .table__header:not(.table__header--chevron):not(.table__header--nested-spacer)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.table--expandable > thead .table__header:not(.table__header--chevron):hover::after,
+.table--nested > thead .table__header:not(.table__header--nested-spacer):hover::after {
+    background: var(--color-base-accent);
+    opacity: 0.25;
+}
+
+.table--nested .table__header,
+.table--nested .table__cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Status badge */
+.status-badge {
+    display: inline-block;
+    padding: 2px var(--space-s);
+    border-radius: 999px;
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-medium);
+    background: var(--color-fill-gray-quaternary);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.status-badge[data-status="On track"] { background: #E6F4EA; color: #1E7B34; }
+.status-badge[data-status="At risk"]  { background: #FFF4D6; color: #8A5A00; }
+.status-badge[data-status="Delayed"]  { background: #FDE7E7; color: #B3261E; }
+
+/* Progress bar */
+.progress-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.progress-cell__bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-fill-gray-quaternary);
+    overflow: hidden;
+}
+
+.progress-cell__bar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-base-accent);
+}
+
+.progress-cell__value {
+    min-width: 3.2rem;
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    text-align: right;
+}
+
+/* Favorite button styles */
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-basic);
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+.favorite-btn:active {
+    transform: scale(0.95);
+}
+
+/* Gray when not active */
+.favorite-btn svg {
+    color: var(--color-glyph-gray-tertiary);
+    transition: var(--transition-basic);
+}
+
+/* Blue when active (using Monalisa blue) */
+.favorite-btn--active svg {
+    color: var(--color-base-accent);
+}
+
+.favorite-btn:hover svg {
+    opacity: 0.8;
+}
+
+/* Smaller favorite button for nested table */
+.favorite-btn--small {
+    padding: var(--space-xs);
+}
+
+.favorite-btn--small svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Action button styles */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-basic);
+    color: var(--color-base-accent);
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+/* Program code styling - make it blue and clickable */
+.table--expandable .table__cell:nth-child(2) {
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-medium);
+}
+
+.program-code-link {
+    color: var(--color-base-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-basic);
+}
+
+.program-code-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .programs-header h1 {
+        font-size: var(--font-size-h1-small);
+    }
+    
+    .programs-header {
+        padding: var(--space-s) var(--space-m);
+    }
+    
+    .table__head--sticky {
+        top: 50px;
+    }
+    
+    /* Stack table on mobile if needed */
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+/* ============================================
+   ADD PROGRAM — HOVER LINK + DROPDOWN MENU
+   ============================================ */
+.add-program-hover {
+    position: relative;
+    display: inline-block;
+}
+
+/* Looks like the dashboard's Add Exhibition button: a regular primary button (.btn--primary) */
+.add-program-hover__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+}
+
+.add-program-hover__menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 14rem;
+    margin-top: var(--space-xs);
+    background: #fff;
+    border-radius: var(--radius-m);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: var(--space-xs) 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    z-index: 100;
+}
+
+.add-program-hover:hover .add-program-hover__menu,
+.add-program-hover:focus-within .add-program-hover__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.add-program-hover__item {
+    display: block;
+    width: 100%;
+    padding: var(--space-s) var(--space-m);
+    background: transparent;
+    border: 0;
+    text-align: left;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.add-program-hover__item:hover {
+    background: var(--color-fill-tertiary);
+    color: var(--color-base-accent);
+}
+
+/* ============================================
+   WIZARD MODAL — "Add Program from existing"
+   ============================================ */
+.wizard-modal {
+    max-width: 1000px;
+    width: calc(100vw - var(--space-xl));
+    min-height: 720px;
+}
+
+.wizard-modal__header {
+    padding-bottom: var(--space-m);
+}
+
+.wizard-modal__body {
+    padding: var(--space-l) 24px;
+}
+
+/* Step indicator */
+.wizard-steps {
+    list-style: none;
+    margin: 0 0 var(--space-l) 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-m);
+    align-items: center;
+    white-space: nowrap;
+}
+
+.wizard-step {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    flex: 0 0 auto;
+}
+
+.wizard-step[hidden] {
+    display: none;
+}
+
+.wizard-step__badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-fill-gray-tertiary);
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.wizard-step--active {
+    color: var(--color-glyph-gray);
+}
+
+.wizard-step--active .wizard-step__badge {
+    background: var(--color-base-accent);
+    color: #fff;
+}
+
+/* Intro copy */
+.wizard-intro {
+    margin: 0 0 var(--space-l) 0;
+}
+
+.wizard-intro p {
+    margin: 0 0 var(--space-xs) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+.wizard-intro p:last-child {
+    margin-bottom: 0;
+}
+
+/* Section titles inside wizard body */
+.wizard-section-title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+    margin: 0 0 var(--space-m) 0;
+}
+
+/* Form grid — 3 columns of floating-label inputs */
+.wizard-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-m);
+    margin-bottom: var(--space-l);
+}
+
+/* Sites table */
+.wizard-sites-table {
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    margin-bottom: var(--space-s);
+}
+
+.wizard-sites-table .table {
+    margin: 0;
+}
+
+.wizard-sites-table .table__head {
+    background: transparent;
+}
+
+.wizard-sites-table .table__header {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    background: transparent;
+}
+
+.wizard-sites-table .table__cell,
+.wizard-sites-table .table__header {
+    padding: var(--space-s) var(--space-m);
+}
+
+.wizard-th {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+}
+
+.wizard-th-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.wizard-th-icon--info {
+    color: var(--color-base-accent);
+    cursor: default;
+}
+
+.wizard-modal__footer {
+    padding: var(--space-m) 24px;
+}
+
+/* Wizard build-schedule chips (editable P1 → EVT → DVT + add button) */
+.wizard-build-schedule {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.wizard-chip {
+    display: inline-block;
+    min-width: 1.5rem;
+    padding: 2px 6px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-s);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    outline: none;
+    transition: var(--transition-basic);
+    cursor: text;
+}
+
+.wizard-chip:hover {
+    background: var(--color-fill-gray-quaternary);
+}
+
+.wizard-chip:focus {
+    background: #fff;
+    border-color: var(--color-base-accent);
+}
+
+.wizard-chip:empty::before {
+    content: attr(data-placeholder);
+    color: var(--color-glyph-gray-tertiary);
+}
+
+.wizard-chip-arrow {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    user-select: none;
+}
+
+.wizard-chip-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-base-accent);
+    font-size: 18px;
+    cursor: pointer;
+    transition: var(--transition-basic);
+}
+
+.wizard-chip-add:hover {
+    opacity: 0.75;
+}
+
+/* Wizard chip wrap — enables hover-reveal of the remove button */
+.wizard-chip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.wizard-chip-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-glyph-gray);
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+}
+
+.wizard-chip-wrap:hover .wizard-chip-remove,
+.wizard-chip-wrap:focus-within .wizard-chip-remove {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.wizard-chip-remove:hover {
+    background: var(--color-fill-red);
+}
+
+/* Wizard sites — drag handle + reorder feedback */
+.wizard-drag-cell {
+    text-align: center;
+    padding: var(--space-xs) 0 !important;
+}
+
+.wizard-drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    color: var(--color-glyph-gray-tertiary);
+    cursor: grab;
+    transition: color 0.15s ease;
+    user-select: none;
+}
+
+.wizard-drag-handle:hover {
+    color: var(--color-glyph-gray);
+}
+
+.wizard-drag-handle:active {
+    cursor: grabbing;
+}
+
+.wizard-site-row.is-dragging {
+    opacity: 0.4;
+}
+
+.wizard-site-row.drop-before td {
+    box-shadow: inset 0 2px 0 0 var(--color-base-accent);
+}
+
+.wizard-site-row.drop-after td {
+    box-shadow: inset 0 -2px 0 0 var(--color-base-accent);
+}
+
+.wizard-sites-note {
+    margin: 0 0 var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+/* Wizard step — completed state (green with checkmark) */
+.wizard-step--complete {
+    color: var(--color-glyph-gray);
+}
+
+.wizard-step--complete .wizard-step__badge {
+    background: var(--color-fill-green);
+    color: transparent;
+    position: relative;
+}
+
+.wizard-step--complete .wizard-step__badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    /* checkmark via unicode */
+    content: '\2713';
+}
+
+/* Wizard step panels — only active is visible */
+.wizard-step-panel {
+    display: none;
+}
+
+.wizard-step-panel--active {
+    display: block;
+}
+
+/* Step 2 — Source */
+.wizard-source-note {
+    margin: 0 0 var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+.wizard-source-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+    margin-bottom: var(--space-l);
+}
+
+.wizard-source-groups-intro {
+    margin: 0 0 var(--space-xs) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+.wizard-select-all {
+    display: inline-block;
+    margin-bottom: var(--space-m);
+    color: var(--color-base-accent);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.wizard-select-all:hover {
+    text-decoration: underline;
+}
+
+.wizard-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-s) var(--space-m);
+}
+
+.wizard-checkbox-grid .checkbox {
+    font-size: var(--font-size-xxs);
+}
+
+/* ============================================
+   WIZARD STEP 3 — Lines + Stations
+   ============================================ */
+
+.wizard-step3-note {
+    margin: 0 0 var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+/* Search input */
+.wizard-search {
+    position: relative;
+    margin-bottom: var(--space-m);
+    max-width: 480px;
+}
+
+.wizard-search__icon {
+    position: absolute;
+    left: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.wizard-search__input {
+    width: 100%;
+    padding: var(--space-s) var(--space-xl) var(--space-s) 36px;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: var(--space-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    background: #fff;
+    transition: var(--transition-basic);
+}
+
+.wizard-search__input:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+}
+
+.wizard-search__shortcut {
+    position: absolute;
+    right: var(--space-m);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-glyph-gray-tertiary);
+    font-size: var(--font-size-tiny);
+    pointer-events: none;
+}
+
+/* Lines table */
+.wizard-lines-wrap {
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--radius-m);
+    max-height: 500px;
+    overflow: auto;
+}
+
+.wizard-lines {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    table-layout: fixed;
+}
+
+.wizard-lines th,
+.wizard-lines td {
+    padding: var(--space-s) var(--space-m);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    word-wrap: break-word;
+}
+
+.wizard-lines__head th {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+    background: #fff;
+}
+
+.wizard-lines__row:last-child td {
+    border-bottom: 0;
+}
+
+.wizard-lines__row--odd {
+    background: #fff;
+}
+
+.wizard-lines__row--even {
+    background: var(--color-fill-tertiary);
+}
+
+.wizard-line-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-right: var(--space-xs);
+    border: 0;
+    background: transparent;
+    color: var(--color-base-accent);
+    font-size: 12px;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: transform 0.15s ease;
+}
+
+.wizard-line-chevron--open {
+    transform: rotate(90deg);
+}
+
+.wizard-line-name {
+    font-weight: var(--font-weight-medium);
+    vertical-align: middle;
+}
+
+/* Nested stations table */
+.wizard-lines__nested-cell {
+    padding: 0 !important;
+    background: #fff;
+}
+
+.wizard-stations {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-xxs);
+    table-layout: fixed;
+}
+
+.wizard-stations th,
+.wizard-stations td {
+    padding: var(--space-s) var(--space-m);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    word-wrap: break-word;
+}
+
+.wizard-stations__head th {
+    background: var(--color-fill-tertiary);
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+}
+
+.wizard-stations tr:last-child td {
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.wizard-revision {
+    min-width: 120px;
+    padding: 4px var(--space-l) 4px var(--space-s);
+}
+
+/* Wider modal for step 3 */
+.wizard-modal--wide {
+    max-width: 1200px;
+}
+
+/* Footer: back + counters + actions
+   Note: MDS `.modal__footer { justify-content: flex-end }` loads later; we
+   double up the class selector to raise specificity. */
+.modal__footer.wizard-modal__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+}
+
+.wizard-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-base-accent);
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.wizard-back-btn[hidden],
+.wizard-footer-counters[hidden] {
+    display: none;
+}
+
+.wizard-back-btn:hover {
+    opacity: 0.75;
+}
+
+.wizard-footer-counters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+    margin-left: auto;
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+}
+
+.wizard-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.wizard-modal__footer > .wizard-back-btn[hidden] + .wizard-footer-counters[hidden] + .wizard-footer-actions {
+    margin-left: auto;
+}
+
+/* ============================================
+   WIZARD STEP 4 — Equipment
+   ============================================ */
+
+.wizard-search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-l);
+    margin-bottom: var(--space-m);
+}
+
+.wizard-search-row .wizard-search {
+    flex: 0 1 480px;
+    margin-bottom: 0;
+}
+
+.wizard-mark-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-shrink: 0;
+}
+
+.wizard-mark-link {
+    color: var(--color-base-accent);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.wizard-mark-link:hover {
+    text-decoration: underline;
+}
+
+.wizard-mark-sep {
+    color: var(--color-glyph-gray-tertiary);
+    font-size: var(--font-size-xxs);
+}
+
+/* Equipment table (flat, scrollable) */
+.wizard-equipment-wrap {
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.wizard-equipment {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    table-layout: fixed;
+}
+
+.wizard-equipment th,
+.wizard-equipment td {
+    padding: var(--space-s) var(--space-m);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    word-wrap: break-word;
+}
+
+.wizard-equipment__head th {
+    background: #fff;
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.wizard-equipment__row:nth-child(even) {
+    background: var(--color-fill-tertiary);
+}
+
+.wizard-equipment__row:last-child td {
+    border-bottom: 0;
+}
+
+/* ============================================
+   WIZARD STEP 6 — Review
+   ============================================ */
+
+.wizard-review-source {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-l);
+    margin-bottom: var(--space-l);
+    max-width: 640px;
+}
+
+.wizard-review-source p {
+    margin: 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.wizard-review-section {
+    margin-bottom: var(--space-l);
+}
+
+.wizard-review-section:last-child {
+    margin-bottom: 0;
+}
+
+.wizard-review-title {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+    margin: 0 0 var(--space-xs) 0;
+}
+
+.wizard-review-text {
+    margin: 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.wizard-stat-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--color-fill-gray-quaternary);
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+}
+
+.wizard-stat-grid--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wizard-stat-grid--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.wizard-stat-grid--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.wizard-stat-grid--cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+.wizard-stat-grid--narrow {
+    max-width: 380px;
+}
+
+.wizard-stat {
+    background: #fff;
+    padding: var(--space-s) var(--space-m);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.4;
+}
+
+.wizard-stat--tall {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+}
+
+/* Step-specific modal dimensions */
+.wizard-modal.wizard-modal--step1,
+.wizard-modal.wizard-modal--step2 {
+    min-height: 658.93px;
+    height: 658.93px;
+    max-height: 658.93px;
+}
+
+.wizard-modal.wizard-modal--step3,
+.wizard-modal.wizard-modal--step4,
+.wizard-modal.wizard-modal--step5,
+.wizard-modal.wizard-modal--step6,
+.wizard-modal.wizard-modal--step7 {
+    height: 720px;
+    max-height: 720px;
+}
+
+/* ============================================
+   WIZARD STEP 7 — Indexing progress
+   ============================================ */
+
+.wizard-progress-note {
+    margin: 16px 0 var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+.wizard-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.wizard-progress__track {
+    flex: 1;
+    height: 6px;
+    background: var(--color-fill-gray-quaternary);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.wizard-progress__fill {
+    height: 100%;
+    width: 0%;
+    background: var(--color-base-accent);
+    border-radius: 999px;
+    transition: width 0.1s linear;
+}
+
+.wizard-progress__value {
+    min-width: 3rem;
+    text-align: right;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-base-accent);
+}
+
+/* Button loading state */
+.btn.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: wizard-spin 0.7s linear infinite;
+}
+
+@keyframes wizard-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Wizard header — close on left (MDS default), minimize on right */
+.wizard-modal .modal__close {
+    position: absolute;
+    top: var(--space-m);
+    left: 24px;
+    right: auto;
+    padding: var(--space-xs);
+    width: auto;
+    height: auto;
+}
+
+.wizard-modal__minimize {
+    position: absolute;
+    top: var(--space-m);
+    right: 24px;
+    left: auto;
+    padding: var(--space-xs);
+    background: transparent;
+    border: 0;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+}
+
+.wizard-modal__minimize:hover {
+    opacity: 0.7;
+}
+
+.wizard-modal__header {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+/* Minimized wizard drawer — floats at bottom-center, overlays the page footer */
+.wizard-mini-drawer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: 14px 20px;
+    width: 720px;
+    max-width: calc(100vw - 48px);
+    background: #fff;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    z-index: 1200;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.wizard-mini-drawer[hidden] {
+    display: none;
+}
+
+.wizard-mini-drawer__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-base-accent);
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.wizard-mini-drawer__text {
+    flex: 1;
+    color: var(--color-glyph-gray);
+    text-align: center;
+}
+
+.wizard-mini-drawer__restore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--color-base-accent);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: var(--radius-s);
+    transition: background 0.15s ease;
+}
+
+.wizard-mini-drawer__restore:hover {
+    background: var(--color-fill-tertiary);
+}
+
+.wizard-source-intro {
+    margin: 0 0 var(--space-m) 0;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    line-height: 1.5;
+}
+
+/* Wizard overlay must sit above the build-schedule drawer (z-index 1050).
+   Double up the class selector to beat MDS `.modal-overlay { z-index: 1000 }`. */
+.modal-overlay.wizard-modal-overlay {
+    z-index: 1100;
+}
+
+/* Allow the Build Schedule Index tooltip to wrap (default plugin uses nowrap) */
+.build-schedule-drawer__info[data-proj-tooltip]::after {
+    white-space: normal;
+    max-width: 320px;
+    text-align: left;
+}
+
+/* Show tooltip on disabled Index button (native disabled kills pointer events) */
+#build-schedule-index-btn[disabled] {
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+
+/* H95 (empty-program): gray out the selected timeline ring at Pre P1
+   because there's nothing to review yet. */
+.program-detail-page--empty .proj-timeline__milestone--selected .proj-timeline__circle {
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+/* Pre P1 empty state — shown only when the Pre P1 build stage is active. */
+.pre-p1-empty-state {
+    display: none;
+}
+.program-detail-page--pre-p1 #process-flow-2 .pre-p1-empty-state {
+    display: block;
+    padding: var(--space-xl) var(--space-m);
+}
+.pre-p1-empty-state .empty-state {
+    text-align: center;
+}
+.pre-p1-empty-state .empty-state__icon {
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--color-glyph-gray-secondary);
+    margin-bottom: var(--space-s);
+}
+.pre-p1-empty-state .empty-state__text {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    margin: 0;
+    line-height: 1.6;
+}
+.pre-p1-empty-state .empty-state__action {
+    color: var(--color-base-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: var(--font-weight-medium);
+}
+.pre-p1-empty-state .empty-state__action:hover {
+    text-decoration: underline;
+}
+.pre-p1-empty-state .empty-state__action lucide-icon {
+    font-size: var(--font-size-xxs);
+    color: var(--color-base-accent);
+}
+.pre-p1-empty-state .empty-state__info {
+    color: var(--color-base-accent) !important;
+    font-size: var(--font-size-xxs);
+    cursor: help;
+    margin-left: 4px;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+}
+.pre-p1-empty-state .empty-state__info lucide-icon {
+    color: var(--color-base-accent) !important;
+    font-size: var(--font-size-xxs);
+}
+
+/* Wrap the Pre P1 info tooltip onto ~3 lines instead of a single wide bubble.
+ * Plugin CSS loads after prototype CSS, so !important is needed to beat
+ * `[data-proj-tooltip]::after { white-space: nowrap }`. */
+.pre-p1-empty-state .empty-state__info[data-proj-tooltip]::after {
+    white-space: normal !important;
+    width: 260px !important;
+    max-width: 260px !important;
+    text-align: left;
+    line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------
+ * Perform-Index confirmation modal (opens from the From-scratch drawer's
+ * "Add Program" button). Sits on top of the drawer, so needs a higher
+ * z-index than drawer overlays (drawer = 999, MDS modal-overlay = 1000).
+ * ------------------------------------------------------------------ */
+.modal-overlay.perform-index-modal .modal,
+#perform-index-modal .modal.perform-index-modal {
+    width: 560px;
+    max-width: 90vw;
+}
+.perform-index-modal__header {
+    padding: var(--space-l) var(--space-l) var(--space-s);
+    border-bottom: none;
+}
+.perform-index-modal__body {
+    padding: 0 var(--space-l) var(--space-l);
+}
+.perform-index-modal__text {
+    margin: 0;
+    color: var(--color-glyph-gray);
+    font-size: var(--font-size-xxs);
+    line-height: 1.5;
+}
+.perform-index-modal__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-top: var(--space-l);
+}
+.perform-index-modal__site-picker {
+    margin-top: var(--space-xs);
+    margin-left: 28px;
+    max-width: 100%;
+}
+.perform-index-modal__site-picker[hidden] {
+    display: none;
+}
+.perform-index-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l);
+    border-top: 1px solid var(--color-fill-quaternary);
+}
+/* Sits above the From-scratch drawer overlay. */
+#perform-index-modal {
+    z-index: 1200;
+}
+
+/* List / card view toggle */
+.programs-toolbar__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.view-toggle {
+    display: inline-flex;
+    border: 1px solid var(--color-fill-gray-tertiary);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.view-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.4rem;
+    height: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.view-toggle__btn + .view-toggle__btn {
+    border-left: 1px solid var(--color-fill-gray-tertiary);
+}
+
+.view-toggle__btn:hover {
+    background: var(--color-fill-tertiary);
+}
+
+.view-toggle__btn--active,
+.view-toggle__btn--active:hover {
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-base-accent);
+}
+
+.table-container[hidden],
+.program-cards[hidden] {
+    display: none;
+}
+
+/* Card view: large rounded cards with a lime icon badge, on a grey page */
+.program-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* Grey page background for both the list and the card view */
+body.programs-page-grey .content {
+    background-color: #F5F7F9;
+}
+
+.program-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 8px;
+    padding: var(--space-m);
+    background: #FFFFFF;
+    border: 0;
+    border-radius: 20px;
+    transition: background 0.15s ease;
+}
+
+.program-card:hover {
+    background: #FAFAFA;
+}
+
+.program-card__icon,
+.program-card__icon.favorite-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #E6E6E6;
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.program-card__icon.favorite-btn lucide-icon svg,
+.program-card__icon lucide-icon svg {
+    color: var(--color-base-accent);
+}
+
+.program-card__icon svg path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+}
+
+.program-card__icon.favorite-btn--active svg path {
+    fill: currentColor;
+}
+
+.program-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.program-card__label {
+    font-size: 12px;
+    font-weight: 400;
+    color: #7A7A7A;
+}
+
+.program-card__label .program-code-link {
+    color: inherit;
+}
+
+.program-card__name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: var(--font-weight-semibold);
+    color: #2B2B2B;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.program-card__chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #8A8A8A;
+    text-decoration: none;
+}
+
+.program-card__chevron:hover {
+    color: #2B2B2B;
+}
+
+.program-card__sites {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.program-card__site {
+    padding: 2px var(--space-s);
+    border-radius: 999px;
+    background: #E6E6E6;
+    color: #2B2B2B;
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.program-card__site:hover,
+.program-card__site:focus-visible {
+    background: var(--color-base-accent);
+    color: #fff;
+    text-decoration: none;
+}
+
+.program-cards__empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #7A7A7A;
+}
+
+/* Group-by select (next to the favorites switch) */
+.programs-toolbar__actions .programs-group-by {
+    flex-shrink: 0;
+    width: 20rem;
+    margin: 0;
+}
+
+/* Museum view */
+.museum-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xs);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-base-accent);
+    transition: var(--transition-basic);
+}
+
+.museum-chevron svg {
+    transition: transform 0.2s ease;
+}
+
+.museum-chevron--expanded svg {
+    transform: rotate(90deg);
+}
+
+.museum-chevron:hover {
+    opacity: 0.8;
+}
+
+.museum-row__names {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Column resizing */
+body.column-resizing,
+body.column-resizing * {
+    cursor: col-resize !important;
+    user-select: none;
+}
+
+.table--expandable > thead .table__header,
+.table--expandable > tbody > .table__row > .table__cell:not(.table__cell--expanded) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Lucide stars are outlines: fill them when a favorite is active */
+.favorite-btn--active lucide-icon svg {
+    fill: currentColor;
+}
+
+/* The design system turns the sorted column's title blue; keep it the same color as the other
+   titles. The sort icon alone marks the active column. */
+.table--expandable > thead .table__header.sortable.sorted {
+    color: var(--color-glyph-gray-secondary);
+}
+
+.table--expandable > thead .table__header.sortable.sorted .sort-icon {
+    color: var(--color-base-accent);
+}
+
+/* Status dot inside a site / museum tag, at the left of the name */
+.program-card__site {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.status-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-fill-gray-secondary-alt);
+}
+
+.status-dot[data-status="On track"] { background: #34A853; }
+.status-dot[data-status="At risk"]  { background: #F5B400; }
+.status-dot[data-status="Delayed"]  { background: #D93025; }
+
+/* The header of the page like the ones of Dashboard, Products and Finance: the title and what the page shows on one row */
+.programs-header__line { display: flex; align-items: baseline; flex-wrap: wrap; }
+.programs-header__line h1 { margin-right: var(--space-m); }
+.programs-header__items { display: flex; align-items: baseline; flex-wrap: wrap; }
+.programs-header__item {
+    padding-left: var(--space-m);
+    margin-left: var(--space-m);
+    border-left: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    line-height: 1.6;
+    color: var(--color-glyph-gray-secondary);
+}
+.programs-header__item:first-child { margin-left: 0; }
+.dark-mode .programs-header__item { border-color: var(--dm-divider); color: var(--dm-text-2); }
+
+/* The filter row of Location sits exactly where the one of Products does: 16px under the header band, with the same sizes */
+.programs-toolbar { margin-top: var(--space-m); }
+.programs-search { flex: 0 1 36rem; max-width: 36rem; }
+.programs-search-group .programs-search__input,
+.programs-search-group .form-select,
+.programs-toolbar__actions .form-select,
+.programs-search-group .view-toggle,
+.programs-toolbar__actions .view-toggle { height: 40px; }
+.programs-state-filter { width: 17rem; }
+
+/* The Location search looks like the search of the Products tab: white, thin border, rounded 8px, magnifier on the left, no shortcut hint */
+.programs-search__input {
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 8px;
+    font: inherit;
+    color: var(--color-glyph-gray);
+}
+.programs-search__input:not(:focus) { border-color: var(--color-fill-quaternary) !important; }
+.programs-search__input::placeholder { color: var(--color-glyph-gray-secondary); }
+.programs-search__icon { color: var(--color-glyph-gray-secondary); }
+.programs-search__shortcut { display: none; }
+
+/* A little wider, like the other searches */
+.programs-search { flex: 0 1 44rem; max-width: 44rem; }

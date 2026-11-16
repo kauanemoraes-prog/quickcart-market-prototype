@@ -1,0 +1,31 @@
+component: buttons
+summary: "A labelled control that triggers an action or navigation, carrying a semantic role that signals the action's intent."
+anatomy:
+  - {id: control, required: true, role: "the interactive button element that receives activation", capabilities: [activate, disable]}
+  - {id: label, required: true, role: "the visible text naming the action the button performs"}
+  - {id: icon, required: false, role: "optional glyph reinforcing the label; separated from the label by a space"}
+states: [default, hover?, focus, active?, disabled?]
+behaviors:
+  activate: "clicking or pressing Enter or Space invokes the button's action"
+  disable: "a disabled button does not respond to activation and is skipped by pointer and keyboard"
+a11y:
+  - "use a native button element (or role=button) so it is focusable and keyboard operable by default"
+  - "the accessible name comes from the visible label; an icon-only button provides an aria-label"
+  - "activatable with both Enter and Space when focused"
+  - "shows a visible focus indicator when focused"
+  - "a disabled button sets the disabled attribute (or aria-disabled) and is removed from the activation and tab flow as appropriate"
+  - "a decorative icon is aria-hidden so it is not announced separately from the label"
+heuristics:
+  - {id: match-real-world, source: nielsen, rule: "the label states the action in plain terms (a verb or noun phrase), not a generic term like OK", verify: [checklist]}
+  - {id: recognition, source: nielsen, rule: "every button carries a visible text label", verify: [checklist, dom]}
+  - {id: consistency, source: nielsen, rule: "the primary action of a view uses the primary role, and destructive actions use the danger role", verify: [checklist]}
+  - {id: hit-target, source: apple-hig, rule: "the button meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+  - {id: focus-visible, source: wcag, rule: "a keyboard focus indicator is visible when the button is focused", verify: [dom, visual]}
+semantics:
+  - {id: primary, note: "the single main action of a view; at most one primary per view"}
+  - {id: secondary, note: "a supporting or alternative action that is not the main one"}
+  - {id: success, note: "confirms or completes a positive operation"}
+  - {id: warning, note: "signals a cautionary action the user should consider"}
+  - {id: danger, note: "a destructive action (delete, remove, irreversible); used for confirming destructive intent"}
+  - {id: link, note: "a low-emphasis action styled and treated like a text link but still triggering an action"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, size variants, glyph artwork, elevation]

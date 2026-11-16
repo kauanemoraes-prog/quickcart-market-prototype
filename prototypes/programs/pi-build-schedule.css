@@ -1,0 +1,251 @@
+/* ===== Build Schedule drawer (drawer-on-drawer) ===== */
+
+#build-schedule-drawer {
+    z-index: 1050;
+}
+
+.drawer.drawer--large.build-schedule-drawer {
+    width: 76vw;
+    max-width: 1360px;
+}
+
+.build-schedule-drawer .drawer__header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-mp);
+}
+
+.build-schedule-drawer__actions {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: end;
+}
+
+.build-schedule-drawer__info {
+    color: var(--color-glyph-gray-secondary);
+    font-size: 18px;
+    cursor: help;
+}
+
+.build-schedule-drawer__info[data-proj-tooltip]::after {
+    white-space: normal !important;
+    width: 340px;
+    max-width: 340px;
+    text-align: left;
+}
+
+.build-schedule-drawer__info[data-proj-tooltip-placement="left"]::after {
+    right: calc(100% + 8px);
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.build-schedule-drawer__index[data-proj-tooltip]::after {
+    white-space: normal !important;
+    width: 340px;
+    max-width: 340px;
+    text-align: left;
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+}
+
+.build-schedule-drawer__index[data-proj-tooltip]::before {
+    left: auto !important;
+    right: 24px !important;
+    transform: none !important;
+}
+
+.build-schedule-drawer .drawer__close {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.build-schedule-drawer__header .drawer__title {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+/* Build schedule table */
+
+.bs-table {
+    width: 100%;
+    margin-top: var(--space-s);
+}
+
+.bs-table__head {
+    display: grid;
+    grid-template-columns: 32px 1.2fr 80px 1fr 1fr 1fr 1fr 1fr 1fr 40px;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    border-bottom: 1px solid var(--color-stroke-gray);
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: 400;
+    align-items: center;
+}
+
+.bs-table__row {
+    display: grid;
+    grid-template-columns: 32px 1.2fr 80px 1fr 1fr 1fr 1fr 1fr 1fr 40px;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    border-bottom: 1px solid var(--color-stroke-gray);
+    align-items: center;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.bs-table__row--locked {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.bs-table__cell {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.bs-table__cell--name {
+    /* input handles its own padding/background */
+}
+
+.bs-input {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--color-stroke-gray);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    box-sizing: border-box;
+}
+
+.bs-input::placeholder {
+    color: var(--color-glyph-gray-secondary);
+}
+
+.bs-input:focus {
+    outline: none;
+    border-color: var(--color-base-accent);
+}
+
+.bs-input[readonly] {
+    background: #f5f5f7;
+    color: var(--color-glyph-gray-secondary);
+    cursor: default;
+}
+
+.bs-input[readonly]:focus {
+    border-color: var(--color-stroke-gray);
+}
+
+.bs-table__cell--gear {
+    justify-content: center;
+}
+
+.bs-table__handle {
+    color: var(--color-glyph-gray-secondary);
+    cursor: grab;
+    font-size: 14px;
+}
+
+.bs-table__handle:active {
+    cursor: grabbing;
+}
+
+.bs-table__info {
+    color: var(--color-base-accent);
+    font-size: 12px;
+}
+
+.bs-table__gear {
+    color: var(--color-base-accent);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.bs-status-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #2da44e;
+    color: #2da44e;
+    border-radius: 4px;
+    font-size: var(--font-size-tiny);
+    font-weight: 500;
+}
+
+.bs-pf-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: var(--font-size-tiny);
+    font-weight: 500;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.bs-pf-tag--draft {
+    background: #FFF4E5;
+    color: #b06a00;
+    border-color: #f4d8b0;
+}
+
+.bs-pf-tag--published {
+    background: #E8F5EA;
+    color: #1f8a3b;
+    border-color: #b8dfc1;
+}
+
+.bs-pf-tag--empty {
+    background: #f5f5f7;
+    color: var(--color-glyph-gray-secondary);
+    border-color: var(--color-stroke-gray);
+}
+
+.bs-table__add {
+    background: none;
+    border: none;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    padding: var(--space-m);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-xxs);
+    font-weight: 500;
+}
+
+.bs-table__add lucide-icon {
+    font-size: 16px;
+}
+
+.bs-table__add:hover {
+    text-decoration: underline;
+}
+
+/* Build-schedule row drag feedback */
+.bs-table__row.is-dragging {
+    opacity: 0.4;
+}
+
+.bs-table__row.drop-before {
+    box-shadow: inset 0 2px 0 0 var(--color-base-accent);
+}
+
+.bs-table__row.drop-after {
+    box-shadow: inset 0 -2px 0 0 var(--color-base-accent);
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - QuickCart Market</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="../gantt.css?v=1">
+    <link rel="stylesheet" href="css/schedule.css?v=1">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Page content -->
+    <script id="page-content" type="text/html">
+        <div class="schedule-page">
+            <div class="schedule-header">
+                <div>
+                    <h1>Schedule</h1>
+                    <p class="schedule-header__subtitle">Phases, opening dates and milestones across exhibitions and museums.</p>
+                </div>
+                <a class="btn btn--primary btn--medium schedule-header__action" href="../programs/index.html?add=scratch">
+                    <lucide-icon name="plus" style="font-size:16px"></lucide-icon>
+                    Add Exhibition
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="schedule-toolbar" role="search" aria-label="Schedule filters">
+                <div class="form-group"><select id="filter-exhibition" class="form-select form-select--stylized" aria-label="Exhibition"></select></div>
+                <div class="form-group"><select id="filter-museum" class="form-select form-select--stylized" aria-label="Museum"></select></div>
+                <div class="form-group"><select id="filter-phase" class="form-select form-select--stylized" aria-label="Phase"></select></div>
+                <div class="form-group"><select id="filter-status" class="form-select form-select--stylized" aria-label="Status"></select></div>
+                <button type="button" class="schedule-reset" id="filter-reset">Clear filters</button>
+
+                <div class="schedule-toolbar__right">
+                    <div class="schedule-toggle" role="group" aria-label="Group rows by">
+                        <button type="button" class="schedule-toggle__btn schedule-toggle__btn--active" data-group="exhibition" aria-pressed="true">By exhibition</button>
+                        <button type="button" class="schedule-toggle__btn" data-group="museum" aria-pressed="false">By museum</button>
+                    </div>
+                    <div class="form-group"><select id="filter-range" class="form-select form-select--stylized" aria-label="Time range"></select></div>
+                </div>
+            </div>
+
+            <section class="schedule-card" aria-label="Timeline">
+                <div class="schedule-card__top">
+                    <p class="schedule-summary" id="schedule-summary" aria-live="polite"></p>
+                    <div id="schedule-legend"></div>
+                </div>
+                <div class="schedule-scroll" id="schedule-gantt"></div>
+            </section>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+
+    <!-- Shared mock data and timeline modules -->
+    <script src="../programs/js/data.js?v=27"></script>
+    <script src="../schedule-model.js?v=200"></script>
+    <script src="../gantt.js?v=2"></script>
+    <script src="js/schedule.js?v=1"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

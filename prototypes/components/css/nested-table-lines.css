@@ -1,0 +1,28 @@
+/* ===== NESTED TABLE — LINES (Use-Case: Level 1 Columns) ===== */
+
+/* Column widths */
+.proj-nested-table__col-index { width: 72px; min-width: 72px; }
+.proj-nested-table__col-name { width: 200px; min-width: 200px; }
+.proj-nested-table__col-desc { width: 240px; min-width: 240px; }
+.proj-nested-table__col-uph { width: 120px; min-width: 120px; }
+.proj-nested-table__col-num { width: 130px; min-width: 130px; }
+
+/* Name cell layout */
+.proj-nested-table__row--level1 td.proj-nested-table__col-name { white-space: nowrap; }
+.proj-nested-table__row--level1 .proj-nested-table__col-name .proj-nested-table__expand-btn,
+.proj-nested-table__row--level1 .proj-nested-table__col-name span { vertical-align: middle; }
+
+/* Numeric cells — tabular figures for alignment */
+.proj-nested-table__col-num { font-variant-numeric: tabular-nums; }
+
+/* Placeholder text for empty cells */
+.proj-nested-table__col-desc:empty::after {
+    content: 'Description';
+    color: var(--color-glyph-gray-quaternary);
+    font-style: italic;
+}
+.proj-nested-table__col-uph:empty::after {
+    content: 'Target UPH';
+    color: var(--color-glyph-gray-quaternary);
+    font-style: italic;
+}

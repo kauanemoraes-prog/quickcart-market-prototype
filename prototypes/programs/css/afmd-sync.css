@@ -1,0 +1,946 @@
+/* AFMD Sync — Process Flow tab
+ *
+ * Column badge / CTA styles (L1 aggregate + L2 per-station),
+ * bulk actions bar, confirmation modal content, diff drawer,
+ * and the minimizable progress dock.
+ */
+
+/* ============================================================
+ * L2 per-station badge
+ * ============================================================ */
+.afmd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.afmd-badge__label {
+  color: var(--color-base-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+button.afmd-badge:hover .afmd-badge__label { text-decoration: none; }
+/* Filled colored circle wrapping the state icon — green for In sync, red
+ * for Out of sync. The icon inside is white; the badge label sits next to
+ * it in the standard accent blue and reads like a link. */
+.afmd-badge__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  color: #FFFFFF;
+}
+.afmd-badge__icon lucide-icon {
+  font-size: 9px;
+  line-height: 1;
+  color: #FFFFFF;
+}
+.afmd-badge--in-sync .afmd-badge__icon {
+  background: transparent;
+  color: #1F7A34;
+}
+.afmd-badge--in-sync .afmd-badge__icon lucide-icon {
+  color: #1F7A34;
+  font-size: 16px;
+}
+/* Not synced (first-time sync): gray icon + gray label — visually calmer
+ * than Out of sync since there's no conflict, just work to do. */
+.afmd-badge--not-synced .afmd-badge__icon {
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+}
+.afmd-badge--not-synced .afmd-badge__icon lucide-icon {
+  color: var(--color-glyph-gray-secondary);
+  font-size: 16px;
+}
+.afmd-badge--not-synced .afmd-badge__label {
+  color: var(--color-glyph-gray-secondary);
+}
+/* Out-of-sync uses `exclamationmark.circle.fill` which already includes
+ * the filled circle shape — drop the wrapper background and paint the
+ * symbol itself in the orange tone so it doesn't stack a circle-inside-a-circle. */
+.afmd-badge--sync-conflict .afmd-badge__icon,
+.afmd-badge--out-of-sync .afmd-badge__icon,
+.afmd-badge--unavailable .afmd-badge__icon {
+  background: transparent;
+  color: #bf4800;
+}
+.afmd-badge--sync-conflict .afmd-badge__icon lucide-icon,
+.afmd-badge--out-of-sync .afmd-badge__icon lucide-icon,
+.afmd-badge--unavailable .afmd-badge__icon lucide-icon {
+  color: #bf4800;
+  font-size: 16px;
+}
+/* Record-level badges (only shown inside the review modal) keep a distinct
+ * chip style so archived / deleted read differently from station badges. */
+.afmd-badge--archived,
+.afmd-badge--deleted {
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: inherit;
+}
+.afmd-badge--archived .afmd-badge__label,
+.afmd-badge--deleted .afmd-badge__label {
+  color: inherit;
+  text-decoration: none;
+}
+.afmd-badge--archived      { background: #E8EBF3; color: #4A4A6A; border-color: #DAD8E4; }
+.afmd-badge--deleted       { background: #FCECEC; color: #B02929; border-color: #F3C7C7; }
+.afmd-badge--archived .afmd-badge__icon,
+.afmd-badge--deleted .afmd-badge__icon {
+  width: auto; height: auto;
+  background: transparent;
+  color: inherit;
+  border-radius: 0;
+}
+.afmd-badge--archived .afmd-badge__icon lucide-icon,
+.afmd-badge--deleted .afmd-badge__icon lucide-icon {
+  color: inherit;
+  font-size: 12px;
+}
+
+/* When the badge is actionable it renders as a <button>. Strip native
+ * button chrome and add a subtle hover darken so the click affordance
+ * is clear. Terminal badges stay as inert <span>s with the same shell. */
+button.afmd-badge.afmd-badge--action {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: filter 120ms;
+}
+button.afmd-badge.afmd-badge--action:hover { filter: brightness(0.94); }
+/* ============================================================
+ * Build-level eligibility tag — sits next to the V1-Draft tag in
+ * the page header. Mocked to always show "ready" for now. When
+ * unavailable, sync CTAs everywhere should disable (not wired yet
+ * since mock is fixed to ready).
+ * ============================================================ */
+.afmd-eligibility-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  overflow: visible !important;
+  position: relative;
+}
+.afmd-eligibility-tag:focus,
+.afmd-eligibility-tag:focus-visible { outline: none; }
+/* MDS .tag uses display: inline-flex which overrides the `hidden` HTML
+ * attribute — force it off for the eligibility tag so we can hide it via
+ * `tag.hidden = true` when no station has been synced yet. */
+.afmd-eligibility-tag[hidden] { display: none !important; }
+.afmd-eligibility-tag__icon { font-size: 12px; }
+.afmd-eligibility-tag__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+
+/* AFMD Sync column "Refresh" link — sits below the column label, styled
+ * to match the stat-col totals (12px, accent color, semibold). */
+.afmd-refresh-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.1;
+  cursor: pointer;
+}
+.afmd-refresh-link lucide-icon { font-size: 14px; }
+.afmd-refresh-link:hover { text-decoration: underline; }
+.afmd-refresh-link--disabled,
+.afmd-refresh-link:disabled {
+  color: var(--color-glyph-gray-tertiary);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.afmd-refresh-link--disabled:hover,
+.afmd-refresh-link:disabled:hover { text-decoration: none; }
+
+/* Refresh loading — spinner icon on the header link + skeleton spinners
+ * painted into every L1 aggregate and L2 per-station cell while we
+ * "check AFMD for updates". Pointer-events off so a second click can't
+ * fire until the round-trip resolves. */
+.afmd-refresh-link--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+.afmd-refresh-link--loading lucide-icon {
+  animation: afmd-refresh-spin 0.9s linear infinite;
+}
+.afmd-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-glyph-gray-secondary);
+}
+.afmd-loading lucide-icon {
+  font-size: 14px;
+  animation: afmd-refresh-spin 0.9s linear infinite;
+}
+@keyframes afmd-refresh-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================================
+ * Global disabled state — when the page root carries
+ * `.program-detail-page--afmd-unavailable` (mocked for program H92),
+ * per-station sync CTAs turn non-interactive with a muted visual so
+ * the user knows AFMD is not currently reachable. The Refresh link at
+ * the top of the column stays fully active — that's how the user asks
+ * Apple Core to re-check AFMD availability.
+ * ============================================================ */
+.program-detail-page--afmd-unavailable button.afmd-badge.afmd-badge--action,
+.program-detail-page--afmd-unavailable .afmd-actions-sync {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.program-detail-page--afmd-unavailable .afmd-actions-sync {
+  filter: grayscale(1);
+}
+
+/* ============================================================
+ * L1 aggregate tag — 3 variants: green (all), gray (none), orange (attention).
+ * Same tag shape as the L2 badge for visual consistency.
+ * ============================================================ */
+.afmd-aggregate {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.afmd-aggregate--empty     { background: transparent; color: var(--color-glyph-gray-tertiary); border-color: transparent; }
+.afmd-aggregate--all       { background: #F5F5F7; color: #6E6E73; border-color: #E5E5EA; }
+/* Attention variant is text-only — keep the mustard color but drop the
+ * chip shell (no background, no border, no padding) so the aggregate reads
+ * as plain text in the L1 column. */
+.afmd-aggregate--attention {
+  background: transparent;
+  color: #BF4800;
+  border-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  gap: 6px;
+}
+/* Calm variant — used when every non-in-sync station is Not synced (first
+ * time). Neutral gray so the row doesn't scream "problem" when it's just
+ * work waiting to be done. */
+.afmd-aggregate--calm {
+  background: transparent;
+  color: var(--color-glyph-gray-secondary);
+  border-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  gap: 6px;
+}
+.afmd-aggregate__icon { font-size: 14px; }
+/* "All in sync" icon-only variant — green checkmark, no chip background,
+ * shown in the L1 aggregate cell when every station of the line is In sync. */
+.afmd-aggregate--ok {
+  padding: 0;
+  background: transparent;
+  border-color: transparent;
+  color: #1F7A34;
+}
+.afmd-aggregate--ok lucide-icon { font-size: 16px; }
+
+/* ============================================================
+ * L1 column
+ * ============================================================ */
+.table--lines .table__header.proj-nested-table__col-afmd,
+.table--lines .table__cell.proj-nested-table__col-afmd {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  text-align: left;
+}
+
+/* ============================================================
+ * L2 column
+ * ============================================================ */
+.l2__table .table__header.l2__col-afmd,
+.l2__table .table__cell.l2__col-afmd {
+  min-width: 140px;
+  padding-left: var(--space-s);
+  padding-right: var(--space-s);
+  text-align: left;
+}
+
+/* ============================================================
+ * L2 station row — selected state
+ * ============================================================ */
+.l2__table .table__row.afmd-row--selected {
+  background: #E8EBF3 !important;
+  box-shadow: inset 2px 0 0 0 var(--color-base-accent);
+}
+/* Every cell in a selected row picks up the same tint, even ones that carry
+ * their own opaque background (e.g. the sticky `.l2__col-station` cell needs
+ * an opaque fill so scrolled columns don't show through — override it here). */
+.l2__table .table__row.afmd-row--selected > .table__cell {
+  background-color: #E8EBF3 !important;
+}
+.l2__table .table__row.afmd-row--selected .l2__col-station {
+  background-color: #E8EBF3 !important;
+}
+.l2__table .table__row.afmd-row--selected .afmd-badge {
+  filter: brightness(0.98);
+}
+
+/* Give the whole L2 row a subtle hover so multi-select is discoverable */
+.l2__table .table__row[data-station-id]:hover:not(.afmd-row--selected) {
+  background: #F5F5F7 !important;
+}
+
+/* ============================================================
+ * Per-line actions bar (mirrors equipment-list pattern) — sits between
+ * the L2 thead and body, hidden until at least one station is selected
+ * via Shift + click.
+ * ============================================================ */
+.afmd-actions-tbody[hidden] { display: none; }
+
+/* Row hover — subtle affordance for the shift+click gesture. */
+.l2__table .proj-nested-table__row--level2 {
+  cursor: default;
+}
+
+/* ============================================================
+ * Confirmation modal content — uses MDS .modal.modal--medium
+ * as the shell; only inner list styling is custom.
+ * ============================================================ */
+.afmd-modal__intro {
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-xxs);
+  margin: 0 0 var(--space-m);
+}
+
+/* Summary block — shown at the top of the modal body when the selection
+ * spans multiple sync eligibility categories (some syncable, some review,
+ * some skipped). Suppressed when everything is uniformly eligible. */
+.afmd-modal__summary {
+  padding: var(--space-s) var(--space-m);
+  background: #F5F7FA;
+  border-left: 3px solid var(--color-base-accent);
+  border-radius: 4px;
+  margin-bottom: var(--space-m);
+}
+.afmd-modal__summary-title {
+  margin: 0 0 4px;
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray);
+}
+.afmd-modal__summary-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+  line-height: 1.5;
+}
+.afmd-modal__summary-list li + li { margin-top: 2px; }
+.afmd-modal__summary strong { color: var(--color-glyph-gray); font-weight: var(--font-weight-medium); }
+
+.afmd-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Line grouping — used by the confirmation modal when the AFMD Sync
+ * header button sends every station of the program through in one shot.
+ * Each line's stations sit under a small uppercase line name. */
+.afmd-modal__line-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.afmd-modal__line-group + .afmd-modal__line-group { margin-top: var(--space-s); }
+.afmd-modal__line-name {
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: var(--font-weight-medium);
+  padding-bottom: 2px;
+}
+.afmd-modal__station {
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: var(--space-s) var(--space-m);
+  background: #FAFAFA;
+}
+.afmd-modal__station-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.afmd-modal__station-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+}
+.afmd-modal__station-count {
+  margin-left: auto;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+}
+.afmd-modal__tag {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.afmd-modal__tag--info    { background: #E8EBF3; color: #7180AC; }
+.afmd-modal__tag--warn    { background: #FBF6E5; color: #AD8200; }
+.afmd-modal__tag--success { background: #E8F5EA; color: #1F7A34; }
+
+/* View mode — read-only variant of the confirmation modal (opened when the
+ * user clicks a Synced badge). Confirm-sync button is hidden entirely; the
+ * MDS .btn class uses display: inline-flex which overrides the `hidden`
+ * attribute, so we force it off here. In 'oos' mode the Save button appears
+ * ONLY when the station has field conflicts to commit — signalled by the
+ * `.afmd-modal--has-save` class added dynamically. Checking + Empty wizard
+ * modes also suppress the Confirm button. */
+.afmd-modal--view [data-afmd-modal="confirm"],
+.afmd-modal--checking [data-afmd-modal="confirm"],
+.afmd-modal--empty [data-afmd-modal="confirm"],
+.afmd-modal--blocked [data-afmd-modal="confirm"],
+.afmd-modal--results [data-afmd-modal="confirm"],
+.afmd-modal--oos:not(.afmd-modal--has-save) [data-afmd-modal="confirm"] { display: none !important; }
+
+/* ============================================================
+ * Wizard states (used by the AFMD Sync header button)
+ *   .afmd-modal--checking → spinner while we "check AFMD for updates"
+ *   .afmd-modal--empty    → success state when nothing needs syncing
+ * Only one of these renders at a time; both are hidden by default and
+ * shown via the parent modal-overlay's mode class. When active, we also
+ * hide the intro / summary / list sections so the modal reads clean.
+ * ============================================================ */
+.afmd-modal__checking,
+.afmd-modal__empty,
+.afmd-modal__blocked { display: none; }
+.afmd-modal--checking .afmd-modal__checking,
+.afmd-modal--empty   .afmd-modal__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+}
+.afmd-modal--blocked .afmd-modal__blocked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 0;
+  text-align: left;
+}
+.afmd-modal__blocked-title {
+  margin: 0;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-semibold);
+}
+.afmd-modal__blocked-msg {
+  margin: 0;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-xxs);
+  line-height: 1.4;
+}
+.afmd-modal--checking .afmd-modal__intro,
+.afmd-modal--checking .afmd-modal__list,
+.afmd-modal--checking #afmd-confirm-summary,
+.afmd-modal--empty    .afmd-modal__intro,
+.afmd-modal--empty    .afmd-modal__list,
+.afmd-modal--empty    #afmd-confirm-summary,
+.afmd-modal--blocked  .afmd-modal__intro,
+.afmd-modal--blocked  .afmd-modal__list,
+.afmd-modal--blocked  #afmd-confirm-summary { display: none !important; }
+
+/* Results mode — shown after a bulk (or single) sync completes. Each station
+ * gets a row with a status icon + name; failures show an inline error block
+ * with a Retry action. */
+.afmd-modal--results #afmd-confirm-summary { display: none !important; }
+.afmd-modal__result {
+  padding: 12px 14px;
+  border: 1px solid #E5E5EA;
+  border-radius: 6px;
+  background: #FFFFFF;
+  display: block;
+}
+.afmd-modal__result-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.afmd-modal__result-name {
+  flex: 1;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.afmd-modal__result-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.afmd-modal__result-icon--ok { color: #1F7A34; }
+.afmd-modal__result-icon--error { color: #BF4800; }
+.afmd-modal__result-status--ok {
+  color: #1F7A34;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-medium);
+}
+.afmd-modal__result--error {
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+  border-color: var(--color-fill-orange, #F56300);
+}
+.afmd-modal__result-body {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(191, 72, 0, 0.15);
+}
+.afmd-modal__result-title {
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 4px;
+}
+.afmd-modal__result-message {
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-tiny);
+  line-height: 1.5;
+}
+.afmd-modal__result-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--color-base-accent);
+  background: transparent;
+  color: var(--color-base-accent);
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-medium);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.afmd-modal__result-retry lucide-icon { font-size: 12px; }
+.afmd-modal__result-retry:hover { background: var(--color-base-accent-lighter-1, #E8EBF3); }
+
+.afmd-modal__checking-spinner lucide-icon {
+  display: inline-block;
+  font-size: 36px;
+  color: var(--color-base-accent);
+  animation: afmd-modal-spin 1.2s linear infinite;
+}
+.afmd-modal__checking-msg,
+.afmd-modal__empty-msg {
+  margin: 0;
+  color: var(--color-glyph-gray-secondary);
+  font-size: var(--font-size-xxs);
+  max-width: 360px;
+  line-height: 1.4;
+}
+.afmd-modal__empty-icon lucide-icon {
+  display: inline-block;
+  font-size: 44px;
+  color: #1F7A34;
+}
+
+/* Blocked mode uses MDS notification--warning for the message and MDS
+ * btn--link for the Station Settings action. Only visibility toggles
+ * live here — no visual overrides. The Station Settings button surfaces
+ * only in the RF Calibration demo scenario (see openBlockedByDuplicateName).
+ * ID-scoped so we beat MDS `.btn--link { display: flex }` which loads after
+ * this file via the canvas. */
+#afmd-confirm-modal .afmd-modal__settings-link { display: none; }
+#afmd-confirm-modal.afmd-modal--blocked.afmd-modal--allow-settings .afmd-modal__settings-link { display: inline-flex; }
+
+@keyframes afmd-modal-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stateful record list — used by the Sync conflict modal. Each record is
+ * a card; conflict records have their divergent fields nested inside. */
+.afmd-modal__records--stateful {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+}
+.afmd-modal__records--stateful li {
+  display: block;
+  padding: 10px 12px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5EA;
+  border-radius: 6px;
+}
+.afmd-modal__record[data-record-state="conflict"] {
+  border-color: var(--color-fill-orange, #F56300);
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+}
+.afmd-modal__record-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.afmd-modal__record-name {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-tiny);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.afmd-modal__record-fields {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.afmd-badge--inline {
+  padding: 2px 8px;
+  font-size: 11px;
+}
+.afmd-badge--inline lucide-icon { font-size: 11px; }
+
+/* Field diff — table + Push/Pull picker per conflict record. Direction is
+ * chosen at the record level (all fields go the same way). */
+.afmd-conflict {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.afmd-conflict-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #FFFFFF;
+  border: 1px solid #E5E5EA;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.afmd-conflict-table th,
+.afmd-conflict-table td {
+  padding: 8px 12px;
+  font-size: var(--font-size-tiny);
+  text-align: left;
+  border-bottom: 1px solid #E5E5EA;
+}
+.afmd-conflict-table tr:last-child td { border-bottom: 0; }
+.afmd-conflict-table th {
+  color: var(--color-glyph-gray-secondary);
+  font-weight: var(--font-weight-medium);
+  background: #FAFAFA;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.afmd-conflict-table__field {
+  color: var(--color-glyph-gray);
+  font-weight: var(--font-weight-medium);
+  width: 30%;
+}
+.afmd-conflict-table__val {
+  color: var(--color-glyph-gray);
+  font-weight: var(--font-weight-semibold);
+}
+.afmd-conflict-table thead .afmd-conflict-table__val {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-glyph-gray-secondary);
+}
+/* Conflict record card — wraps the diff table + picker with a header
+ * naming the specific AFMD record that has the conflict (e.g.
+ * "Surface Inspection — Torque-Driver_Wistron"). Reads as "here's the
+ * record we're reconciling". */
+.afmd-conflict-record {
+  margin-top: var(--space-m);
+  padding: var(--space-m);
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+  border: 1px solid var(--color-fill-orange, #F56300);
+  border-radius: 6px;
+}
+.afmd-conflict-record__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.afmd-conflict-record__icon {
+  color: #BF4800;
+  font-size: 14px;
+}
+.afmd-conflict-record__name {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Push flow — new record callout that sits below the existing records list.
+ * Reads as "here's what's currently in AFMD; here's the new record we'll
+ * create when you push". */
+.afmd-push {
+  margin-top: var(--space-m);
+  padding: var(--space-m);
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+  border: 1px solid var(--color-fill-orange, #F56300);
+  border-radius: 6px;
+}
+.afmd-push__text {
+  margin: 0 0 8px;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-tiny);
+  line-height: 1.4;
+}
+.afmd-push__text strong {
+  color: var(--color-glyph-gray);
+  font-weight: var(--font-weight-semibold);
+}
+.afmd-push__records {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.afmd-push__records li {
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5EA;
+  border-radius: 4px;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray);
+}
+
+/* Empty cell placeholder — used when one side doesn't have the value yet
+ * (Push: AFMD empty, Pull: Core empty). Renders as a muted em-dash. */
+.afmd-conflict-table__empty {
+  color: var(--color-glyph-gray-tertiary);
+  font-weight: var(--font-weight-regular);
+}
+/* Direction highlight — the column whose values will be overwritten gets a
+ * soft orange tint so the user sees at a glance which side loses to which.
+ *   Push (Core → AFMD): AFMD column will be replaced → tint the AFMD column
+ *   Pull (AFMD → Core): Apple Core column will be replaced → tint Core */
+.afmd-conflict--push .afmd-conflict-table td[data-side="afmd"],
+.afmd-conflict--push .afmd-conflict-table th[data-side="afmd"] {
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+}
+.afmd-conflict--pull .afmd-conflict-table td[data-side="core"],
+.afmd-conflict--pull .afmd-conflict-table th[data-side="core"] {
+  background: var(--color-fill-orange-secondary, #FFF9F4);
+}
+/* Both scenario — no default highlight; user picks a direction and the
+ * message below the table explains what will happen. */
+
+/* Action buttons — grid aligned to the table columns so Push sits under
+ * the Apple Core value column and Pull sits under the AFMD value column.
+ * The selected one gets the accent palette so the user can see which
+ * direction they picked at a glance. */
+.afmd-conflict__actions {
+  display: grid;
+  grid-template-columns: 30% 1fr 1fr;
+  gap: 8px;
+}
+.afmd-conflict__actions::before {
+  content: '';
+}
+.afmd-conflict-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #E5E5EA;
+  background: #FFFFFF;
+  color: var(--color-glyph-gray);
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-medium);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 120ms, border-color 120ms, color 120ms;
+}
+.afmd-conflict-btn lucide-icon { font-size: 12px; }
+.afmd-conflict-btn:hover { background: #F5F5F7; }
+.afmd-conflict-btn--selected {
+  background: var(--color-base-accent-lighter-1, #E8EBF3);
+  border-color: var(--color-base-accent);
+  color: var(--color-base-accent);
+}
+
+.afmd-conflict__msg {
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  line-height: 1.4;
+}
+.afmd-conflict__msg[hidden] { display: none; }
+.afmd-modal__records {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.afmd-modal__records li {
+  padding: 4px 8px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  font-size: var(--font-size-tiny);
+  font-family: 'SF Mono', ui-monospace, monospace;
+  color: var(--color-glyph-gray);
+}
+
+/* ============================================================
+ * Locked Reporting Method dropdown (after station reaches In sync).
+ * The dropdown itself goes non-interactive; an info icon appears
+ * next to it explaining the lock in plain language.
+ * ============================================================ */
+.equip-dropdown.afmd-locked-field {
+  pointer-events: none;
+  opacity: 0.65;
+}
+.equip-dropdown.afmd-locked-field .equip-dropdown__chevron { display: none; }
+.equip-dropdown.afmd-locked-field .equip-dropdown__trigger {
+  background: #F5F5F7;
+  cursor: not-allowed;
+}
+
+.afmd-locked-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  color: var(--color-base-accent);
+  cursor: help;
+  vertical-align: middle;
+  font-size: 14px;
+}
+.afmd-locked-info lucide-icon { display: inline-flex; }
+.afmd-locked-info:hover { color: var(--color-base-accent-darker-1, var(--color-base-accent)); }
+
+
+
+/* ============================================================
+ * H88 demo: bulk-sync checkboxes at line (L1) + station (L2) level.
+ * Hidden by default — only revealed when the page root carries the
+ * `program-detail-page--h88` class, applied in JS from URL param.
+ * ============================================================ */
+.afmd-h88-cbx { display: none; }
+.program-detail-page--h88 .afmd-h88-cbx {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: var(--space-xs);
+  cursor: pointer;
+}
+.program-detail-page--h88 .afmd-h88-cbx input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--color-base-accent);
+  vertical-align: middle;
+}
+/* Extra breathing room between the drag-handle and the row-number so the
+ * four elements (checkbox → drag → number → chevron) never touch. The chevron
+ * lives in the next cell so its spacing is handled by the cell gap. */
+.program-detail-page--h88 td.proj-nested-table__col-index .proj-nested-table__drag-handle {
+  margin-right: var(--space-xs);
+}
+.program-detail-page--h88 td.proj-nested-table__col-index .proj-nested-table__row-number {
+  margin-right: 0;
+}
+/* L2 station cell: checkbox sits between the colored bar and the station
+ * content — gaps on BOTH sides so it never touches either neighbor. */
+.program-detail-page--h88 .l2__station-cell .afmd-h88-cbx {
+  margin-left: var(--space-s);
+  margin-right: var(--space-s);
+}
+/* Grant the L2 station-info column extra width in H88 so the new leading
+ * checkbox doesn't squeeze the name / tags / action links onto multiple
+ * wrapped lines. */
+.program-detail-page--h88 .l2__table .l2__col-station {
+  min-width: 340px;
+}
+/* Selected L2 row gets a subtle wash so Shift+click and checkbox share the same visual. */
+.program-detail-page--h88 .proj-nested-table__row--level2.afmd-row--selected .afmd-h88-station-checkbox {
+  outline: none;
+}
+
+/* H88 global actions bar — replaces the per-line actions bars. In H88
+ * mode the per-L2 bars are suppressed since the global bar aggregates
+ * every selection across the table. */
+.program-detail-page--h88 .l2__table .afmd-actions-tbody { display: none !important; }
+
+/* Global bar in the L1 table — force horizontal layout. `display: flex` on
+ * the td is inherited from `.table__cell--actions-bar`, but with the L1
+ * table's fixed layout the cell width comes from the column widths it
+ * spans, so we also pin the count span to nowrap so it doesn't force
+ * the flex row to wrap onto multiple lines. */
+.afmd-actions-tbody--global .table__cell--actions-bar {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+.afmd-actions-tbody--global .afmd-selected-count-global {
+  white-space: nowrap;
+}
+
+/* Global bar action cluster: Copy / Paste / Cut / Duplicate / Import /
+ * Edit field. Sits between the "N stations selected:" count on the left
+ * and the AFMD Sync primary CTA on the right. Uses MDS .btn--link so the
+ * cluster reads as inline text links with SF Symbol icons. */
+.afmd-global-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  flex: 1;
+  min-width: 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.afmd-global-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px !important;
+  flex-shrink: 0;
+}
+.afmd-global-action lucide-icon { font-size: 14px; }

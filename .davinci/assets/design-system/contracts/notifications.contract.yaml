@@ -1,0 +1,26 @@
+component: notifications
+summary: "Contextual feedback carrying a semantic severity, shown inline or as an auto-dismissing toast."
+anatomy:
+  - {id: notification, required: true, role: "root carrying the semantic severity"}
+  - {id: icon,         required: true, role: "semantic icon matching the severity"}
+  - {id: content,      required: true, role: "holds the message"}
+  - {id: message,      required: true, role: "the feedback text, inside content"}
+  - {id: close,        required: true, role: "dismiss control", capabilities: [dismiss]}
+states: [default, dismissed?, transient?]
+behaviors:
+  dismiss:      "activating the close control removes the notification"
+  auto-dismiss: "a toast is shown programmatically and removes itself after a timeout"
+a11y:
+  - "the notification is announced via role=alert or an aria-live region (assertive for error, polite otherwise)"
+  - "the close control has an accessible name"
+  - "severity is conveyed by the icon and text, not by color alone"
+heuristics:
+  - {id: system-status,   source: nielsen,   rule: "the message states what happened and, on error, how to recover", verify: [dom]}
+  - {id: color-not-alone, source: wcag,      rule: "severity is conveyed by icon and text, not color alone", verify: [dom]}
+  - {id: hit-target,      source: apple-hig, rule: "the close control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: info,    note: "informational context"}
+  - {id: success, note: "an action succeeded"}
+  - {id: warning, note: "caution before proceeding"}
+  - {id: error,   note: "something failed"}
+excludes: [class names, tokens, spacing, color, typography, borders, per-severity colors, glyph artwork, toast position and motion]

@@ -1,0 +1,280 @@
+/* Dark mode — Consumables + PCN/Lines tables */
+/* Active when <html class="dark-mode">. Split from dark-mode.css. */
+
+/* ========================================
+   Consumables table
+   ======================================== */
+.dark-mode .table--consumables,
+.dark-mode .table--consumables-simple,
+.dark-mode .consumables-table-container {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table--consumables .table__head,
+.dark-mode .table--consumables .table__header,
+.dark-mode .table--consumables .table__row,
+.dark-mode .table--consumables .table__cell,
+.dark-mode .table--consumables-simple .table__head,
+.dark-mode .table--consumables-simple .table__header,
+.dark-mode .table--consumables-simple .table__row,
+.dark-mode .table--consumables-simple .table__cell {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--consumables .table__row:hover,
+.dark-mode .table--consumables-simple .table__row:hover { background-color: var(--dm-row-hover); }
+
+/* Sticky columns (station, application) — default dark surface + hover row color.
+ * Source CSS hardcodes #FFFFFF so we must override both default and hover. */
+.dark-mode .table--consumables .table__header--sticky-station,
+.dark-mode .table--consumables .table__header--sticky-application,
+.dark-mode .table--consumables .table__cell--sticky-station,
+.dark-mode .table--consumables .table__cell--sticky-application {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .table--consumables .table__row:hover .table__cell--sticky-station,
+.dark-mode .table--consumables .table__row:hover .table__cell--sticky-application { background-color: var(--dm-row-hover); }
+
+/* Inline editable cells — transparent by default, editable on row hover */
+.dark-mode .table--consumables .form-input--table-cell,
+.dark-mode .table--consumables-simple .form-input--table-cell {
+    background-color: transparent;
+    color: var(--dm-text-1);
+    border-color: transparent;
+}
+
+.dark-mode .table--consumables .form-input--table-cell::placeholder,
+.dark-mode .table--consumables-simple .form-input--table-cell::placeholder { color: var(--dm-text-3); }
+
+.dark-mode .table--consumables .table__row:hover .form-input--table-cell,
+.dark-mode .table--consumables-simple .table__row:hover .form-input--table-cell {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--consumables .form-input--table-cell:focus,
+.dark-mode .table--consumables-simple .form-input--table-cell:focus {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 0.2rem rgba(113, 128, 172, 0.24);
+}
+
+/* ========================================
+   PCN / Lines tables
+   ======================================== */
+/* Outer wrapper that draws the rounded border around the PCN table */
+.dark-mode .table-wrapper {
+    background-color: var(--dm-bg-2);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--pcn,
+.dark-mode .table--lines,
+.dark-mode .pcn-table-container {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table--pcn .table__head,
+.dark-mode .table--pcn .table__header,
+.dark-mode .table--pcn .table__row,
+.dark-mode .table--pcn .table__cell,
+.dark-mode .table--lines .table__head,
+.dark-mode .table--lines .table__header,
+.dark-mode .table--lines .table__row,
+.dark-mode .table--lines .table__cell {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+/* PCN table uses `!important` for row/cell backgrounds — match that here */
+.dark-mode .table--pcn .table__row,
+.dark-mode .table--pcn .table__row:nth-child(even) {
+    background-color: var(--dm-bg-2) !important;
+}
+
+.dark-mode .table--pcn .table__row:hover { background-color: var(--dm-row-hover) !important; }
+
+.dark-mode .table--pcn .table__row:hover .table__cell--fixed-left,
+.dark-mode .table--pcn .table__row:hover .table__cell--fixed-right { background-color: var(--dm-row-hover) !important; }
+
+.dark-mode .table--pcn .table__head { background-color: var(--dm-bg-2); }
+.dark-mode .table--pcn .table__header,
+.dark-mode .table--pcn .table__header--fixed-left,
+.dark-mode .table--pcn .table__header--fixed-right { background-color: var(--dm-bg-2); }
+
+.dark-mode .table--pcn .table__cell--fixed-left,
+.dark-mode .table--pcn .table__cell--fixed-right { background-color: var(--dm-bg-2); }
+
+.dark-mode .table--lines .table__row:hover { background-color: var(--dm-row-hover); }
+
+/* Process Flow — line name tag, stats grid, info button, SOP button */
+.dark-mode .line-name__label { color: var(--dm-text-1); }
+.dark-mode .line-name__tag {
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+    background-color: transparent;
+}
+
+.dark-mode .line-info-btn { color: var(--dm-text-3); }
+.dark-mode .line-info-btn:hover { color: var(--dm-accent); }
+
+.dark-mode .line-cond-sop-btn { color: var(--dm-accent); }
+.dark-mode .line-cond-sop-btn:hover { background-color: var(--dm-bg-3); }
+.dark-mode .line-cond-sop-btn img {
+    /* lift to dark-mode accent (#7180AC) */
+    filter: brightness(0) saturate(100%) invert(54%) sepia(89%) saturate(2104%) hue-rotate(192deg) brightness(102%) contrast(101%);
+}
+
+.dark-mode .line-stats__row span { color: var(--dm-text-3); }
+.dark-mode .line-stats__row strong { color: var(--dm-accent); }
+
+/* Process Flow 2 — separate stat columns */
+.dark-mode .stat-col__label { color: var(--dm-text-2); }
+.dark-mode .stat-col__total { color: var(--dm-accent); }
+.dark-mode .stat-col__icon {
+    /* Lift icons to dark-mode accent */
+    filter: brightness(0) saturate(100%) invert(54%) sepia(89%) saturate(2104%) hue-rotate(192deg) brightness(102%) contrast(101%);
+}
+.dark-mode .table--lines-v2 td.proj-nested-table__col-stat-num { color: var(--dm-text-1); }
+
+/* Process Flow 2 — compact Line Grouping dropdown under the name input */
+.dark-mode .line-name--with-grouping .equip-dropdown__trigger {
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.dark-mode .line-name--with-grouping .equip-dropdown__trigger:hover {
+    background-color: var(--dm-bg-3);
+}
+
+.dark-mode .table--lines-v2 .table__row:hover .line-name--with-grouping .equip-dropdown__trigger {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+    box-shadow: none;
+}
+
+/* L2 sub-table — new metric columns + content styles */
+.dark-mode .l2__col-metric { color: var(--dm-text-2); }
+.dark-mode td.l2__col-metric { color: var(--dm-text-1); }
+.dark-mode .l2__col-suffix { color: var(--dm-text-3); }
+.dark-mode .l2__cycle-main { color: var(--dm-text-1); }
+.dark-mode .l2__cycle-detail { color: var(--dm-text-3); }
+.dark-mode .l2-info-btn { color: var(--dm-accent); }
+.dark-mode .l2__dri-link { color: var(--dm-accent); }
+.dark-mode .l2__sop-link { color: var(--dm-accent); }
+.dark-mode .l2__sop-link img {
+    filter: brightness(0) saturate(100%) invert(54%) sepia(89%) saturate(2104%) hue-rotate(192deg) brightness(102%) contrast(101%);
+}
+
+/* Sticky Station info column — keep bg dark so other columns don't show through */
+.dark-mode .l2__table .l2__col-station {
+    background-color: var(--dm-bg-2);
+    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .l2__table thead .l2__col-station {
+    background-color: var(--dm-bg-3);
+}
+
+/* Vertical column dividers in the lines table */
+.dark-mode .table--lines .table__header:not(:last-child),
+.dark-mode .table--lines .table__cell:not(:last-child) {
+    border-right-color: var(--dm-divider);
+}
+
+/* Override: no divider between col 1 (Line) and col 2 (Line name) — they share a block */
+.dark-mode .table--lines .table__head .table__row > th:nth-child(1),
+.dark-mode .table--lines .table__row > td:nth-child(1) {
+    border-right: none;
+}
+
+/* Lines table — editable inputs/dropdowns: transparent default + dark surface on hover */
+.dark-mode .table--lines .equip-input,
+.dark-mode .table--lines .equip-dropdown__trigger {
+    background-color: transparent;
+    color: var(--dm-text-1);
+    border-color: transparent;
+}
+
+.dark-mode .table--lines .equip-input::placeholder { color: var(--dm-text-3); }
+
+.dark-mode .table--lines .table__row:hover .equip-input,
+.dark-mode .table--lines .table__row:hover .equip-dropdown__trigger {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--lines .equip-input:focus,
+.dark-mode .table--lines .equip-dropdown__trigger:focus,
+.dark-mode .table--lines .equip-dropdown--open .equip-dropdown__trigger {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.24);
+}
+
+/* PCN group header rows (the "Consumable Application Name: Cons 2" / "Line: LIN3" / "Equipment: Equip 1" rows).
+   Source uses `!important` with #F3F3F3 — match it. */
+.dark-mode .pcn-group-header,
+.dark-mode .pcn-group-header__cell {
+    background-color: var(--dm-bg-3) !important;
+    border-bottom-color: var(--dm-divider) !important;
+    border-right-color: var(--dm-divider) !important;
+}
+
+/* PCN headers/cells use `!important` for border-bottom/border-right — override the same way */
+.dark-mode .table--pcn .table__header,
+.dark-mode .table--pcn .table__cell,
+.dark-mode .table--pcn .table__header--fixed-left,
+.dark-mode .table--pcn .table__header--fixed-right,
+.dark-mode .table--pcn .table__cell--fixed-left,
+.dark-mode .table--pcn .table__cell--fixed-right {
+    border-bottom-color: var(--dm-divider) !important;
+    border-right-color: var(--dm-divider) !important;
+}
+
+.dark-mode .pcn-group-title { color: var(--dm-text-1); }
+.dark-mode .pcn-group-count-label { color: var(--dm-text-3); }
+.dark-mode .pcn-group-toggle { color: var(--dm-accent); }
+
+/* Blue document icon — re-tint to lifted dark-mode accent */
+.dark-mode .pcn-group-icon {
+    filter: brightness(0) saturate(100%) invert(54%) sepia(89%) saturate(2104%) hue-rotate(192deg) brightness(102%) contrast(101%);
+}
+
+.dark-mode .pcn-group-count {
+    background-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+
+.dark-mode .pcn-group-separator { background-color: var(--dm-divider); }
+
+/* PCN header label / checkbox area */
+.dark-mode .pcn-header-label { color: var(--dm-text-2); }
+
+/* PCN bulk-action bar */
+.dark-mode .pcn-actions-bar {
+    background-color: var(--dm-bg-3);
+    border-bottom-color: var(--dm-divider);
+}
+.dark-mode .pcn-actions__count { color: var(--dm-text-2); }
+
+.dark-mode .pcn-actions__cancel {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+}
+.dark-mode .pcn-actions__cancel:hover { background-color: var(--dm-bg-4); }
+
+/* Approve / Reject keep their saturated colors so they stay legible on dark */
+.dark-mode .pcn-actions__approve { background-color: #34C759; }
+.dark-mode .pcn-actions__approve:hover { background-color: #2EB44E; }
+.dark-mode .pcn-actions__reject { background-color: var(--dm-danger); }
+.dark-mode .pcn-actions__reject:hover { background-color: #E03B30; }
+

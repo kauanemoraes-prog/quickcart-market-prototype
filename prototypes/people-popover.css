@@ -1,0 +1,112 @@
+/* Person name that opens the contact card (see people-popover.js) */
+.person-link {
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--color-base-accent);
+  text-align: left;
+  cursor: pointer;
+}
+
+.person-link:hover,
+.person-link[aria-expanded="true"] {
+  text-decoration: underline;
+}
+
+.person-popover {
+  position: absolute;
+  z-index: 2000;
+  width: 320px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  outline: none;
+}
+
+.person-popover__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 20px 16px;
+}
+
+.person-popover__avatar {
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #E6E6E6;
+  color: var(--color-glyph-gray-secondary);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.person-popover__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.person-popover__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-glyph-gray);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.person-popover__org {
+  font-size: 13px;
+  color: var(--color-glyph-gray-secondary);
+}
+
+.person-popover__contacts {
+  margin: 0;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--divider-color, #E0E0E4);
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.person-popover__contacts > div {
+  display: flex;
+  gap: 8px;
+}
+
+.person-popover__contacts dt {
+  width: 48px;
+  flex-shrink: 0;
+  color: var(--color-glyph-gray-secondary);
+}
+
+.person-popover__contacts dd {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.person-popover__contacts a {
+  color: var(--color-base-accent);
+  text-decoration: none;
+}
+
+.person-popover__contacts a:hover {
+  text-decoration: underline;
+}
+
+.person-popover__avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}

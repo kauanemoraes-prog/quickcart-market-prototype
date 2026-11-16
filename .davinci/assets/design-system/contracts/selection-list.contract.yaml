@@ -1,0 +1,27 @@
+component: selection-list
+summary: "A vertical list of selectable options where chosen items are marked, supporting single-select or multi-select."
+anatomy:
+  - {id: list, required: true, role: "the container grouping the selectable items"}
+  - {id: item, required: true, multiple: true, role: "one selectable option", capabilities: [select, deselect]}
+  - {id: item-label, required: true, multiple: true, role: "the text naming the option"}
+  - {id: check-indicator, required: true, multiple: true, role: "affordance that marks an item as selected"}
+states: [default, item-selected, hover?, focus?, disabled?]
+behaviors:
+  select: "activating an unselected item marks it selected; in single-select mode any previously selected item is deselected"
+  deselect: "in multi-select mode, activating a selected item clears its selection"
+a11y:
+  - "the list exposes list semantics and each item exposes an option role (or is a native interactive element such as button or anchor)"
+  - "selected items are conveyed programmatically via aria-selected (or aria-checked), not by the checkmark appearance alone"
+  - "single-select uses aria-selected on a single option; multi-select sets aria-multiselectable on the list"
+  - "items are keyboard operable: arrow keys move between options and Enter or Space toggles selection"
+  - "focus is managed within the list (roving tabindex or equivalent) with a visible focus indicator"
+  - "the checkmark image is decorative (empty alt / aria-hidden) since selection is exposed via ARIA"
+heuristics:
+  - {id: system-status, source: nielsen, rule: "the current selection is always visibly indicated", verify: [checklist, dom]}
+  - {id: not-color-only, source: wcag, rule: "selection is conveyed by an indicator and ARIA, not color alone", verify: [dom]}
+  - {id: keyboard-operable, source: wcag, rule: "every option is reachable and selectable via keyboard", verify: [dom]}
+  - {id: hit-target, source: apple-hig, rule: "each item meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: single-select, note: "at most one item may be selected at a time; selecting one clears the others"}
+  - {id: multi-select, note: "any number of items may be selected independently"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, checkmark glyph artwork, hover styling]

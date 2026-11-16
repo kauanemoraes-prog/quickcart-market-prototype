@@ -1,0 +1,127 @@
+/* Equipment Settings Drawer */
+
+#equip-settings-drawer.drawer-overlay {
+    z-index: 9500;
+}
+
+.equip-settings-drawer .drawer__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    padding-bottom: var(--space-m);
+}
+
+/* Generic row + section helpers */
+.equip-settings__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.equip-settings__row-label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+}
+
+.equip-settings__info-btn,
+.equip-settings__add-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-base-accent);
+    transition: opacity 0.15s ease;
+}
+
+.equip-settings__info-btn:hover,
+.equip-settings__add-btn:hover {
+    opacity: 0.7;
+}
+
+.equip-settings__info-btn img,
+.equip-settings__add-btn img {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.equip-settings__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.equip-settings__section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.equip-settings__section-title {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-glyph-gray);
+}
+
+/* Preset cards */
+.equip-settings__presets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.equip-preset-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-s) var(--space-m);
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--space-xs);
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.equip-preset-card:hover {
+    border-color: var(--color-glyph-gray-tertiary);
+}
+
+.equip-preset-card.is-selected {
+    border-color: var(--color-base-accent);
+    background-color: rgba(113, 128, 172, 0.04);
+}
+
+.equip-preset-card__icon {
+    flex-shrink: 0;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.equip-preset-card.is-selected .equip-preset-card__icon {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.equip-preset-card__label {
+    flex: 1;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-glyph-gray);
+}
+
+.equip-preset-card.is-selected .equip-preset-card__label {
+    color: var(--color-base-accent);
+}
+
+.equip-preset-card__check {
+    flex-shrink: 0;
+    display: none;
+}
+
+.equip-preset-card.is-selected .equip-preset-card__check {
+    display: inline-block;
+}
+

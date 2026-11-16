@@ -1,0 +1,174 @@
+/* Equipment table area */
+.equip-table-area {
+    background-color: var(--color-fill-white);
+}
+
+.equip-table-area .table-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 240px);
+}
+
+.table--equip-list {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-fill-white);
+}
+
+/* Match the Exhibitions table: sticky header, 2rem rows, xs/m padding, hairline row dividers */
+.table--equip-list .table__head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--color-fill-white);
+}
+
+.table--equip-list .table__head::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-fill-quaternary);
+}
+
+.table--equip-list .table__row { height: 2rem; }
+
+.table--equip-list .table__header {
+    padding: var(--space-xs) var(--space-m);
+    white-space: nowrap;
+    min-width: 100px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.table--equip-list .table__header--checkbox {
+    width: 32px;
+    min-width: 32px;
+    padding: var(--space-xs);
+}
+
+.table--equip-list .table__header--expand {
+    width: 32px;
+    min-width: 32px;
+    padding: var(--space-xs);
+}
+
+.table--equip-list > tbody > .table__row--data {
+    border-bottom: 1px solid #E8E8ED;
+}
+
+.table--equip-list > tbody > .table__row--data:hover { background-color: var(--color-fill-secondary); }
+
+.table--equip-list .table__cell {
+    padding: var(--space-xs) var(--space-m);
+    vertical-align: middle;
+}
+
+.table--equip-list .table__cell--checkbox {
+    width: 32px;
+    padding: var(--space-xs);
+}
+
+.table--equip-list .table__cell--expand {
+    width: 32px;
+    padding: var(--space-xs);
+    text-align: center;
+}
+
+/* Expand chevron */
+.row-chevron {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-base-accent);
+}
+
+.row-chevron:hover { opacity: 0.8; }
+
+.row-chevron svg { transition: transform 0.15s ease; }
+
+.row-chevron--expanded svg { transform: rotate(90deg); }
+
+/* Vendor DFM status cell */
+.vendor-dfm {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+}
+
+.vendor-dfm__count {
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-medium);
+}
+
+.vendor-dfm__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-base-accent);
+    font-size: 13px;
+}
+
+.vendor-dfm__status svg { width: 14px; height: 14px; }
+
+.vendor-dfm__info {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-base-accent);
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.vendor-dfm__info svg { width: 14px; height: 14px; }
+
+/* Process flow usage cell */
+.process-flow-usage {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.process-flow-usage__count {
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-semibold);
+    font-size: 13px;
+}
+
+.process-flow-usage__info {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-base-accent);
+    cursor: pointer;
+}
+
+.process-flow-usage__info svg { width: 14px; height: 14px; }
+
+/* Add column button */
+.add-col-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-base-accent);
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+.add-col-btn:hover { opacity: 0.7; }
+
+/* Checkbox in table */
+.table--equip-list .checkbox { margin: 0; }
+.table--equip-list .checkbox__label { display: none; }
+
+/* Sort indicator */
+.sort-indicator { margin-left: 2px; vertical-align: middle; }

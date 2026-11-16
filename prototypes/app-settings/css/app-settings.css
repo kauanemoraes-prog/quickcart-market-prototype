@@ -1,0 +1,24 @@
+/* Settings page: only the header for now, with the same look as the headers of Dashboard, Products and Finance */
+
+.content:has(.st-page) { background-color: #F6F7F9 !important; }
+html.dark-mode .content:has(.st-page) { background-color: var(--dm-bg-1) !important; }
+
+.st-page { margin-top: calc(var(--space-mp) * -1); padding-bottom: var(--space-mp); }
+
+.st-header {
+    position: sticky;
+    top: var(--nav-bottom, 8rem);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin: 0 calc(var(--space-mp) * -1) var(--space-m);
+    padding: var(--space-m) var(--space-mp);
+    background-color: var(--color-fill-white, #fff);
+    border-bottom: 1px solid var(--divider-color, #E0E0E4);
+}
+
+.st-header h1 { margin: 0; color: var(--color-glyph-gray); }
+html.dark-mode .st-header { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+html.dark-mode .st-header h1 { color: var(--dm-text-1); }

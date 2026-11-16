@@ -1,0 +1,79 @@
+@import url('drawer-layout.css');
+@import url('project-sections.css');
+@import url('mapping-table.css');
+@import url('stats-grid.css');
+
+/* Global page styles */
+.design-manager-mapping-page {
+    /* NO padding - canvas .content already has it */
+}
+
+.page-section {
+    margin-bottom: var(--space-l);
+}
+
+/* Action buttons */
+.btn-action {
+    background: none;
+    border: none;
+    padding: var(--space-xs);
+    border-radius: var(--space-xs);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.btn-action img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(89%);
+}
+
+.btn-edit-description {
+    background: none;
+    border: none;
+    padding: var(--space-xs);
+    margin-left: var(--space-xs);
+    border-radius: var(--space-xs);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.section-description-container:hover .btn-edit-description {
+    opacity: 1;
+}
+
+.btn-edit-description:hover {
+    background-color: var(--color-fill-tertiary);
+}
+
+.btn-edit-description img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(89%);
+}
+
+/* Locked state indicators */
+.locked-indicator {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.locked-indicator img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(89%);
+}
+
+.lock-icon {
+    margin-left: var(--space-xs);
+    filter: brightness(0) saturate(100%) invert(42%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(89%);
+}
+
+/* No actions placeholder */
+.no-actions {
+    color: var(--color-glyph-gray-secondary);
+    font-size: var(--font-size-xxs);
+}

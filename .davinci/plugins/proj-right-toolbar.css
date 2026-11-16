@@ -1,0 +1,121 @@
+/* proj-right-toolbar.css */
+/* Plugin component: Right Toolbar — fixed collapsible side panel */
+
+.proj-right-toolbar {
+    position: fixed;
+    top: 8.1rem;
+    right: 0;
+    height: calc(100vh - 11.3rem);
+    width: 40px;
+    z-index: 8999;
+    display: flex;
+    flex-direction: row;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+    background: #fff;
+    border-left: 0.1rem solid var(--color-fill-gray-quaternary);
+    box-shadow: rgb(232, 232, 237) 0px 0px 0.1rem 0.1rem;
+}
+
+.proj-right-toolbar--open {
+    width: 300px;
+}
+
+/* Toggle header — matches subheader height */
+.proj-right-toolbar__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5.9rem;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    border-bottom: 0.1rem solid var(--color-fill-gray-quaternary);
+}
+
+/* Toggle button */
+.proj-right-toolbar__toggle {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--color-glyph-gray-secondary);
+    flex-shrink: 0;
+}
+.proj-right-toolbar__toggle:hover {
+    color: var(--color-glyph-gray);
+}
+
+/* Chevron icon — rotates when open */
+.proj-right-toolbar__chevron {
+    transition: transform 0.3s ease-in-out;
+    filter: brightness(0) saturate(100%) invert(33%) sepia(100%) saturate(1500%) hue-rotate(200deg) brightness(100%);
+}
+.proj-right-toolbar--open .proj-right-toolbar__chevron {
+    transform: rotate(180deg);
+}
+
+/* Expandable panel — fixed width, clipped by parent overflow */
+.proj-right-toolbar__panel {
+    position: absolute;
+    top: 6rem;
+    right: 0;
+    width: 260px;
+    height: calc(100% - 6rem);
+}
+
+/* Scrollable content area */
+.proj-right-toolbar__content {
+    height: 100%;
+    overflow-y: auto;
+    padding: var(--space-m);
+}
+
+/* Nav items — always visible, stacked below header */
+.proj-right-toolbar__nav {
+    position: absolute;
+    top: 5.9rem;
+    left: 0;
+    width: 300px;
+    z-index: 1;
+}
+
+.proj-right-toolbar__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--color-glyph-blue);
+    font-size: var(--font-size-tiny);
+}
+.proj-right-toolbar__item:hover {
+    background: var(--color-fill-blue-secondary);
+}
+
+.proj-right-toolbar__item-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.proj-right-toolbar__item-icon img {
+    filter: brightness(0) saturate(100%) invert(33%) sepia(100%) saturate(1500%) hue-rotate(200deg) brightness(100%);
+}
+
+.proj-right-toolbar__item-label {
+    white-space: nowrap;
+    overflow: hidden;
+}

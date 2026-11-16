@@ -1,0 +1,113 @@
+<!-- TEXT INPUT -->
+<!-- Text inputs with label outside (small/default) or floating label inside (medium) -->
+
+<!-- METADATA
+Component: Text Input
+Category: Forms
+Complexity: Low-Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap input in form-group div
+- MUST pair label with input using matching for/id attributes
+- Size variants: Small (default - label outside), Medium (form-group--medium - floating label), Table cell (form-input--table-cell - 24px compact)
+- Error state: Add form-input--invalid class to input
+- Character count: Add char-count span sibling to label (medium size only)
+
+COMMON MISTAKES TO AVOID:
+❌ Missing form-group wrapper
+❌ Label without matching for/id attributes
+❌ Using wrong size class (form-group--medium vs form-input--table-cell)
+❌ Adding char-count to small size inputs (only for medium)
+❌ Forgetting form-input--invalid class for error states
+❌ Creating custom input styles instead of using MDS classes
+
+JAVASCRIPT INTEGRATION:
+- For character count: Update char-count span textContent on input event
+- Calculate remaining characters: maxlength - input.value.length
+- For validation: Toggle form-input--invalid class based on validation state
+- Consider adding error message element below input for accessibility
+
+CORRECT STRUCTURE TEMPLATES:
+
+Small (default):
+<div class="form-group">
+  <label class="form-label" for="input-id">Label</label>
+  <input type="text" id="input-id" class="form-input" placeholder="...">
+</div>
+
+Medium (floating label):
+<div class="form-group form-group--medium">
+  <label class="form-label" for="input-id">Label</label>
+  <span class="char-count">255</span>
+  <input type="text" id="input-id" class="form-input" placeholder="..." maxlength="255">
+</div>
+
+Table cell (compact):
+<div class="form-group">
+  <label class="form-label" for="input-id">Label</label>
+  <input type="text" id="input-id" class="form-input form-input--table-cell" placeholder="...">
+</div>
+
+When to prompt: Ask for size only if context doesn't make it clear (default: small)
+Variants: Small (default), Medium (48px with floating label), Table cell (24px compact)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- SMALL SIZE (DEFAULT) - LABEL OUTSIDE -->
+<div class="form-group">
+  <label class="form-label" for="input-small">Default Input</label>
+  <input type="text" id="input-small" class="form-input" placeholder="Enter text...">
+</div>
+
+<div class="form-group">
+  <label class="form-label" for="input-small-disabled">Disabled Input</label>
+  <input type="text" id="input-small-disabled" class="form-input" placeholder="Disabled" disabled>
+</div>
+
+<div class="form-group">
+  <label class="form-label" for="input-small-invalid">Invalid Input</label>
+  <input type="text" id="input-small-invalid" class="form-input form-input--invalid" placeholder="Invalid input" value="Invalid value">
+</div>
+
+<!-- MEDIUM SIZE (48px) - FLOATING LABEL INSIDE -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="input-medium">Name</label>
+  <input type="text" id="input-medium" class="form-input" placeholder="Enter your name">
+</div>
+
+<div class="form-group form-group--medium">
+  <label class="form-label" for="input-medium-char">Description</label>
+  <span class="char-count">255</span>
+  <input type="text" id="input-medium-char" class="form-input" placeholder="Enter a description" maxlength="255">
+</div>
+
+<div class="form-group form-group--medium">
+  <label class="form-label" for="input-medium-disabled">Disabled</label>
+  <input type="text" id="input-medium-disabled" class="form-input" placeholder="Disabled field" disabled>
+</div>
+
+<div class="form-group form-group--medium">
+  <label class="form-label" for="input-medium-invalid">Invalid Input</label>
+  <input type="text" id="input-medium-invalid" class="form-input form-input--invalid" placeholder="Invalid value" value="Invalid data">
+</div>
+
+<!-- TABLE CELL SIZE (24px) - FOR USE IN TABLES -->
+<div class="form-group">
+  <label class="form-label" for="input-table">Compact Input</label>
+  <input type="text" id="input-table" class="form-input form-input--table-cell" placeholder="Table cell input">
+</div>
+
+<div class="form-group">
+  <label class="form-label" for="input-table-invalid">Invalid Compact</label>
+  <input type="text" id="input-table-invalid" class="form-input form-input--table-cell form-input--invalid" placeholder="Error" value="Invalid">
+</div>
+
+<!-- USAGE:
+- Small size is the default with label outside the input
+- Medium size (form-group--medium) has floating label inside and is 48px tall
+- Table cell size (form-input--table-cell) is compact at 24px for use in tables
+- Add form-input--invalid class for error states
+- Use char-count span with medium inputs to show character limits
+- Always pair label with input using matching for/id attributes
+-->

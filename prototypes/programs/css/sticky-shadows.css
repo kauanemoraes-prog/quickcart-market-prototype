@@ -1,0 +1,80 @@
+/* Edge shadow of the fixed table columns, the same in every table (the one of the Requests tab).
+ * The last fixed column on the left casts a soft shadow to its right, a fixed column on the right casts it to its left.
+ * It is a gradient drawn outside the cell, so the cell must not clip itself (text that has to be cut is wrapped
+ * in .products-clip). */
+
+.table--products .table__header:nth-child(2),
+.table--products .table__cell:nth-child(2),
+.table--netfin--sticky2 .table__header:nth-child(2),
+.table--netfin--sticky2 .table__cell:nth-child(2),
+.table--equipment .table__header--sticky-short,
+.table--equipment .table__cell--sticky-short,
+.table--consumables .table__header--sticky-application,
+.table--consumables .table__cell--sticky-application,
+.l2__table .l2__col-station,
+.table--pcn .table__header--fixed-left,
+.table--pcn .table__cell--fixed-left,
+.pcn-group-header__cell--left,
+.table--pcn .table__header--fixed-right,
+.table--pcn .table__cell--fixed-right,
+.pcn-group-header__cell--right {
+    overflow: visible;
+}
+
+.table--products .table__header:nth-child(2)::after,
+.table--products .table__cell:nth-child(2)::after,
+.table--netfin--sticky2 .table__header:nth-child(2)::after,
+.table--netfin--sticky2 .table__cell:nth-child(2)::after,
+.table--equipment .table__header--sticky-short::after,
+.table--equipment .table__cell--sticky-short::after,
+.table--consumables .table__header--sticky-application::after,
+.table--consumables .table__cell--sticky-application::after,
+.l2__table .l2__col-station::after,
+.table--pcn .table__header--fixed-left::after,
+.table--pcn .table__cell--fixed-left::after,
+.pcn-group-header__cell--left::after,
+.table--pcn .table__header--fixed-right::before,
+.table--pcn .table__cell--fixed-right::before,
+.pcn-group-header__cell--right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 14px;
+    pointer-events: none;
+}
+
+.table--products .table__header:nth-child(2)::after,
+.table--products .table__cell:nth-child(2)::after,
+.table--netfin--sticky2 .table__header:nth-child(2)::after,
+.table--netfin--sticky2 .table__cell:nth-child(2)::after,
+.table--equipment .table__header--sticky-short::after,
+.table--equipment .table__cell--sticky-short::after,
+.table--consumables .table__header--sticky-application::after,
+.table--consumables .table__cell--sticky-application::after,
+.l2__table .l2__col-station::after,
+.table--pcn .table__header--fixed-left::after,
+.table--pcn .table__cell--fixed-left::after,
+.pcn-group-header__cell--left::after {
+    left: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0));
+}
+
+.table--pcn .table__header--fixed-right::before,
+.table--pcn .table__cell--fixed-right::before,
+.pcn-group-header__cell--right::before {
+    right: 100%;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0));
+}
+
+/* Long text of the second fixed column is cut inside this wrapper */
+.products-clip { display: block; overflow: hidden; text-overflow: ellipsis; }
+
+/* Products: the Purchase order column is fixed on the right and casts the same shadow to its left */
+.table--products .products-cell--order, .table--products .table__header.products-cell--order { position: sticky; right: 0; z-index: 2; background-color: #fff; overflow: visible; }
+.table--products .table__row:nth-child(even) > .products-cell--order { background-color: #F3F3F3; }
+.table--products .products-row:hover > .products-cell--order { background-color: var(--color-fill-secondary); }
+.table--products .products-cell--order::before { content: ''; position: absolute; top: 0; bottom: 0; right: 100%; width: 14px; pointer-events: none; background: linear-gradient(to left, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.025) 45%, rgba(0, 0, 0, 0)); }
+.table--products .products-cell--order { padding-right: 8px; }
+.dark-mode .table--products .products-cell--order, .dark-mode .table--products .table__header.products-cell--order { background-color: var(--dm-bg-2); }
+.dark-mode .table--products .table__row:nth-child(even) > .products-cell--order { background-color: var(--dm-bg-3); }

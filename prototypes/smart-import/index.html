@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Import - - Tools</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <!-- NOTE: Subheader is handled by canvas automatically via canvas-navigation-data.json -->
+        <!-- Do NOT add subheader HTML here - it will create duplicates -->
+        
+        <div class="smart-import-page">
+            <!-- Modal Overlay for Smart Import Wizard -->
+            <div class="modal-overlay modal-overlay--open" id="smart-import-modal">
+                <div class="modal" style="max-width: 80rem; width: 90vw;">
+                    <div class="modal__header">
+                        <h3 class="modal__title">Smart Import - Tools</h3>
+                        <button class="modal__close" id="close-modal" aria-label="Close">
+                            <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                        </button>
+                    </div>
+
+                    <!-- Wizard Steps Progress -->
+                    <div class="wizard-progress">
+                        <div class="wizard-step wizard-step--completed">
+                            <div class="wizard-step__icon">✓</div>
+                            <div class="wizard-step__label">Download cheat sheet/template</div>
+                        </div>
+                        <div class="wizard-step wizard-step--completed">
+                            <div class="wizard-step__icon">✓</div>
+                            <div class="wizard-step__label">Select file</div>
+                        </div>
+                        <div class="wizard-step wizard-step--active">
+                            <div class="wizard-step__icon">3</div>
+                            <div class="wizard-step__label">Validation</div>
+                        </div>
+                        <div class="wizard-step">
+                            <div class="wizard-step__icon">4</div>
+                            <div class="wizard-step__label">Import</div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Body with Step Content -->
+                    <div class="modal__body" style="max-height: 60vh; overflow-y: auto;">
+                        
+                        <!-- Step 1: Download Template -->
+                        <div class="wizard-step-content" id="step-1" style="display: none;">
+                            <div class="step-content-center">
+                                <h3>Download Template</h3>
+                                <p style="color: var(--color-glyph-gray-secondary); margin-bottom: var(--space-l);">
+                                    Download the tools import template to get started.
+                                </p>
+                                <button class="btn btn--primary btn--medium">
+                                    📥 Download Template
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Select File -->
+                        <div class="wizard-step-content" id="step-2" style="display: none;">
+                            <div class="step-content-center">
+                                <h3>Select File</h3>
+                                <div class="file-upload-area">
+                                    <p>Drag and drop your file here or click to browse</p>
+                                    <input type="file" accept=".xlsx,.xls,.csv" style="margin-top: var(--space-m);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Validation -->
+                        <div class="wizard-step-content" id="step-3">
+                            <!-- Summary Statistics -->
+                            <div class="validation-summary">
+                                <div class="summary-stats">
+                                    <div class="stat-card">
+                                        <div class="stat-card__value">17</div>
+                                        <div class="stat-card__label">Total Records</div>
+                                    </div>
+                                    <div class="stat-card stat-card--success">
+                                        <div class="stat-card__value">2</div>
+                                        <div class="stat-card__label">New</div>
+                                    </div>
+                                    <div class="stat-card stat-card--primary">
+                                        <div class="stat-card__value">3</div>
+                                        <div class="stat-card__label">Changed</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-card__value">12</div>
+                                        <div class="stat-card__label">Unchanged</div>
+                                    </div>
+                                    <div class="stat-card stat-card--danger">
+                                        <div class="stat-card__value">2</div>
+                                        <div class="stat-card__label">Errors</div>
+                                    </div>
+                                    <div class="stat-card stat-card--warning">
+                                        <div class="stat-card__value">1</div>
+                                        <div class="stat-card__label">Warnings</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Errors Section - Collapsible -->
+                            <details class="collapsible-section" open>
+                                <summary class="collapsible-header collapsible-header--error">
+                                    <span class="collapsible-icon">⚠️</span>
+                                    <span class="collapsible-title">Errors (2)</span>
+                                    <span class="collapsible-chevron">▼</span>
+                                </summary>
+                                <div class="collapsible-content">
+                                    <div class="notification notification--error">
+                                        <div class="notification__content">
+                                            <div class="notification__message">
+                                                <strong>Row 3 - EQ-ROBOT-001:</strong> Cycle Time - Invalid value: must be a positive number
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="notification notification--error">
+                                        <div class="notification__content">
+                                            <div class="notification__message">
+                                                <strong>Row 7 - EQ-CONVEYOR-05:</strong> Workstation - Referenced workstation "ST-999" does not exist
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <!-- Warnings Section - Collapsible -->
+                            <details class="collapsible-section">
+                                <summary class="collapsible-header collapsible-header--warning">
+                                    <span class="collapsible-icon">⚡</span>
+                                    <span class="collapsible-title">Warnings (1)</span>
+                                    <span class="collapsible-chevron">▼</span>
+                                </summary>
+                                <div class="collapsible-content">
+                                    <div class="notification notification--warning">
+                                        <div class="notification__content">
+                                            <div class="notification__message">
+                                                <strong>Row 5 - EQ-TESTER-03:</strong> Manufacturer - Manufacturer name differs from existing records
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <!-- Changed Records Section - Collapsible -->
+                            <details class="collapsible-section" open>
+                                <summary class="collapsible-header collapsible-header--changed">
+                                    <label class="checkbox" onclick="event.stopPropagation();">
+                                        <input type="checkbox" class="checkbox__input" id="select-all-changed" checked>
+                                        <span class="checkbox__box"></span>
+                                        <span class="checkbox__label">
+                                            <span class="collapsible-icon">📝</span>
+                                            <span class="collapsible-title">Changed Records (3/3 selected)</span>
+                                        </span>
+                                    </label>
+                                    <span class="collapsible-chevron">▼</span>
+                                </summary>
+                                <div class="collapsible-content">
+                                    <!-- Record with Conflict -->
+                                    <div class="record-card record-card--conflict">
+                                        <div class="record-card__header">
+                                            <label class="checkbox">
+                                                <input type="checkbox" class="checkbox__input record-checkbox" checked data-record="EQ-ROBOT-002">
+                                                <span class="checkbox__box"></span>
+                                                <span class="checkbox__label">
+                                                    <strong>EQ-ROBOT-002</strong>
+                                                    <span class="tag tag--tiny tag--warning">⚠️ Conflict</span>
+                                                    <span class="record-card__changes">2 field(s) changed</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="record-card__content">
+                                            <div class="notification notification--warning" style="margin-bottom: var(--space-m);">
+                                                <div class="notification__content">
+                                                    <div class="notification__message">
+                                                        <strong>⚠️ Conflict Detected:</strong> This record was modified after the template was downloaded.
+                                                        <br><small>Last modified: 2024-03-23 14:30 by john.doe@company.com</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Field Changes -->
+                                            <div class="field-changes">
+                                                <!-- Conflicted Field -->
+                                                <div class="field-change field-change--conflict">
+                                                    <div class="field-change__name">
+                                                        Cycle Time <span class="tag tag--tiny tag--warning">⚠️</span>
+                                                    </div>
+                                                    <div class="conflict-resolution">
+                                                        <label class="radio">
+                                                            <input type="radio" name="conflict-EQ-ROBOT-002-CycleTime" class="radio__input" value="database">
+                                                            <span class="radio__circle"></span>
+                                                            <span class="radio__label">
+                                                                <div class="conflict-option conflict-option--database">
+                                                                    <div class="conflict-option__label">Keep Database:</div>
+                                                                    <div class="conflict-option__value">43</div>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="conflict-EQ-ROBOT-002-CycleTime" class="radio__input" value="import" checked>
+                                                            <span class="radio__circle"></span>
+                                                            <span class="radio__label">
+                                                                <div class="conflict-option conflict-option--import">
+                                                                    <div class="conflict-option__label">Use Import:</div>
+                                                                    <div class="conflict-option__value">42</div>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Normal Field -->
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Status</div>
+                                                    <div class="field-change__comparison">
+                                                        <div class="field-value field-value--old">
+                                                            <div class="field-value__label">Old:</div>
+                                                            <div class="field-value__content">Active</div>
+                                                        </div>
+                                                        <div class="field-change__arrow">→</div>
+                                                        <div class="field-value field-value--new">
+                                                            <div class="field-value__label">New:</div>
+                                                            <div class="field-value__content">Maintenance</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Normal Changed Record -->
+                                    <div class="record-card">
+                                        <div class="record-card__header">
+                                            <label class="checkbox">
+                                                <input type="checkbox" class="checkbox__input record-checkbox" checked data-record="EQ-TESTER-01">
+                                                <span class="checkbox__box"></span>
+                                                <span class="checkbox__label">
+                                                    <strong>EQ-TESTER-01</strong>
+                                                    <span class="record-card__changes">3 field(s) changed</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="record-card__content">
+                                            <div class="field-changes">
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Model</div>
+                                                    <div class="field-change__comparison">
+                                                        <div class="field-value field-value--old">
+                                                            <div class="field-value__label">Old:</div>
+                                                            <div class="field-value__content">T-100</div>
+                                                        </div>
+                                                        <div class="field-change__arrow">→</div>
+                                                        <div class="field-value field-value--new">
+                                                            <div class="field-value__label">New:</div>
+                                                            <div class="field-value__content">T-100A</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Calibration Date</div>
+                                                    <div class="field-change__comparison">
+                                                        <div class="field-value field-value--old">
+                                                            <div class="field-value__label">Old:</div>
+                                                            <div class="field-value__content">2024-01-15</div>
+                                                        </div>
+                                                        <div class="field-change__arrow">→</div>
+                                                        <div class="field-value field-value--new">
+                                                            <div class="field-value__label">New:</div>
+                                                            <div class="field-value__content">2024-03-20</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Notes</div>
+                                                    <div class="field-change__comparison">
+                                                        <div class="field-value field-value--old">
+                                                            <div class="field-value__label">Old:</div>
+                                                            <div class="field-value__content">(empty)</div>
+                                                        </div>
+                                                        <div class="field-change__arrow">→</div>
+                                                        <div class="field-value field-value--new">
+                                                            <div class="field-value__label">New:</div>
+                                                            <div class="field-value__content">Updated firmware</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Another Normal Record -->
+                                    <div class="record-card">
+                                        <div class="record-card__header">
+                                            <label class="checkbox">
+                                                <input type="checkbox" class="checkbox__input record-checkbox" checked data-record="EQ-CONVEYOR-03">
+                                                <span class="checkbox__box"></span>
+                                                <span class="checkbox__label">
+                                                    <strong>EQ-CONVEYOR-03</strong>
+                                                    <span class="record-card__changes">1 field(s) changed</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="record-card__content">
+                                            <div class="field-changes">
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Speed</div>
+                                                    <div class="field-change__comparison">
+                                                        <div class="field-value field-value--old">
+                                                            <div class="field-value__label">Old:</div>
+                                                            <div class="field-value__content">1.5</div>
+                                                        </div>
+                                                        <div class="field-change__arrow">→</div>
+                                                        <div class="field-value field-value--new">
+                                                            <div class="field-value__label">New:</div>
+                                                            <div class="field-value__content">1.8</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <!-- New Records Section - Collapsible -->
+                            <details class="collapsible-section" open>
+                                <summary class="collapsible-header collapsible-header--new">
+                                    <label class="checkbox" onclick="event.stopPropagation();">
+                                        <input type="checkbox" class="checkbox__input" id="select-all-new" checked>
+                                        <span class="checkbox__box"></span>
+                                        <span class="checkbox__label">
+                                            <span class="collapsible-icon">➕</span>
+                                            <span class="collapsible-title">New Records (2/2 selected)</span>
+                                        </span>
+                                    </label>
+                                    <span class="collapsible-chevron">▼</span>
+                                </summary>
+                                <div class="collapsible-content">
+                                    <!-- New Equipment Record -->
+                                    <div class="record-card record-card--new">
+                                        <div class="record-card__header">
+                                            <label class="checkbox">
+                                                <input type="checkbox" class="checkbox__input record-checkbox" checked data-record="EQ-LASER-NEW-01">
+                                                <span class="checkbox__box"></span>
+                                                <span class="checkbox__label">
+                                                    <strong>EQ-LASER-NEW-01</strong>
+                                                    <span class="tag tag--tiny tag--success">New</span>
+                                                    <span class="record-card__changes">Tools</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="record-card__content">
+                                            <div class="notification notification--success" style="margin-bottom: var(--space-m);">
+                                                <div class="notification__content">
+                                                    <div class="notification__message">
+                                                        <strong>Creating new Tools record</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field-changes">
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Tools Name</div>
+                                                    <div class="field-value field-value--new field-value--single">
+                                                        <div class="field-value__label">Value:</div>
+                                                        <div class="field-value__content">EQ-LASER-NEW-01</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Short Name</div>
+                                                    <div class="field-value field-value--new field-value--single">
+                                                        <div class="field-value__label">Value:</div>
+                                                        <div class="field-value__content">Laser Cutter 01</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Workstation</div>
+                                                    <div class="field-value field-value--new field-value--single">
+                                                        <div class="field-value__label">Value:</div>
+                                                        <div class="field-value__content">ST-ASSEMBLY-03</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- New Vendor Record -->
+                                    <div class="record-card record-card--new">
+                                        <div class="record-card__header">
+                                            <label class="checkbox">
+                                                <input type="checkbox" class="checkbox__input record-checkbox" checked data-record="VENDOR-ACME-CORP">
+                                                <span class="checkbox__box"></span>
+                                                <span class="checkbox__label">
+                                                    <strong>VENDOR-ACME-CORP</strong>
+                                                    <span class="tag tag--tiny tag--success">New</span>
+                                                    <span class="record-card__changes">Tools Vendor</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="record-card__content">
+                                            <div class="notification notification--success" style="margin-bottom: var(--space-m);">
+                                                <div class="notification__content">
+                                                    <div class="notification__message">
+                                                        <strong>Creating new Tools Vendor record</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field-changes">
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Vendor Name</div>
+                                                    <div class="field-value field-value--new field-value--single">
+                                                        <div class="field-value__label">Value:</div>
+                                                        <div class="field-value__content">ACME Corporation</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field-change">
+                                                    <div class="field-change__name">Contact Email</div>
+                                                    <div class="field-value field-value--new field-value--single">
+                                                        <div class="field-value__label">Value:</div>
+                                                        <div class="field-value__content">sales@acme.com</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- Step 4: Import Complete -->
+                        <div class="wizard-step-content" id="step-4" style="display: none;">
+                            <div class="step-content-center">
+                                <h3>Import Complete</h3>
+                                <div class="notification notification--success" style="margin-bottom: var(--space-l);">
+                                    <div class="notification__content">
+                                        <div class="notification__message">
+                                            <strong>Success:</strong> Your tools data has been successfully imported!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="import-summary">
+                                    <div class="summary-stats">
+                                        <div class="stat-card stat-card--success">
+                                            <div class="stat-card__value">5</div>
+                                            <div class="stat-card__label">Items Imported</div>
+                                        </div>
+                                        <div class="stat-card stat-card--primary">
+                                            <div class="stat-card__value">3</div>
+                                            <div class="stat-card__label">Items Updated</div>
+                                        </div>
+                                        <div class="stat-card stat-card--success">
+                                            <div class="stat-card__value">2</div>
+                                            <div class="stat-card__label">Items Created</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal__footer">
+                        <button class="btn btn--secondary btn--medium" id="wizard-back">← Back</button>
+                        <div style="display: flex; gap: var(--space-s);">
+                            <button class="btn btn--secondary btn--medium" id="wizard-cancel">Cancel</button>
+                            <button class="btn btn--primary btn--medium" id="wizard-import" disabled>Import (0)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

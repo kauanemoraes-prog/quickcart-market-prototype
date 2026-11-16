@@ -1,0 +1,225 @@
+<!-- PROJ-STATION-SETTINGS-DRAWER -->
+<!-- Right-side drawer for updating a station's configuration (name, department, intents, reporting method, SOP file, etc.) -->
+
+<!-- METADATA
+Component: Station Settings Drawer
+Category: Overlays
+Complexity: High
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use MDS drawer-overlay + drawer--left + drawer--medium classes as the outer shell
+- MUST render drawer__header with a drawer__close button and a "Process Step" jump link
+- Title "Update Station" renders as the first element inside the body (below the header row), not inside drawer__header
+- Body uses .form-group / .form-group--medium wrappers for every field (MDS floating-label pattern)
+- Every select uses form-select--stylized (Monalisa dropdown) unless the field is intentionally native
+- Icons come from <lucide-icon> — no inline SVG, no legacy /assets/icons/regular/*.svg
+- Footer uses drawer__footer with a secondary Cancel + primary Update Station button
+- Section groupings are visually separated by 1px MDS separator lines (no custom colors)
+
+COMMON MISTAKES TO AVOID:
+❌ Nesting the "Update Station" heading inside drawer__title (screenshot places it below the header row)
+❌ Using plain <select> without form-select--stylized (breaks visual parity with the rest of the app)
+❌ Inline SVG for icons (Process Step chevron, upload cloud, chevron toggle for Upload history) — always <lucide-icon>
+❌ Custom padding on drawer body — MDS drawer already sets padding
+❌ Missing form-group wrapper around a form-input / form-select
+❌ Building a custom close X button — use drawer__close
+
+JAVASCRIPT INTEGRATION:
+- Global API: window.ProjStationSettingsDrawer.open({ stationName, stationId, lineId })
+  - stationName seeds the Station Name input
+  - stationId + lineId are stored on the drawer for downstream lookups
+- window.ProjStationSettingsDrawer.close() dismisses the drawer
+- Upload history section toggles open/closed via the chevron button in its heading
+- Cancel / drawer__close / backdrop click / Escape key all close the drawer
+- Update Station button is a stub in the mock — closes the drawer (real save is out of scope)
+
+COMPANION FILES:
+- CSS: proj-station-settings-drawer.css
+- JS:  proj-station-settings-drawer.js
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="drawer-overlay proj-station-settings-drawer drawer-overlay--open">
+  <div class="drawer drawer--left drawer--medium">
+    <div class="drawer__header proj-station-settings-drawer__header">
+      <button class="drawer__close" data-station-settings="close">
+        <lucide-icon name="xmark"></lucide-icon>
+      </button>
+      <a href="#" class="proj-station-settings-drawer__step-link">
+        <lucide-icon name="info.circle"></lucide-icon>
+        <span>Process Step</span>
+        <lucide-icon name="chevron.right"></lucide-icon>
+      </a>
+    </div>
+    <div class="drawer__body proj-station-settings-drawer__body">
+      <h2 class="proj-station-settings-drawer__title">Update Station</h2>
+
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-name">Station Name</label>
+        <input type="text" id="proj-station-settings-name" class="form-input" value="">
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- Additional field groups follow the same pattern. -->
+    </div>
+    <div class="drawer__footer proj-station-settings-drawer__footer">
+      <button class="btn btn--secondary btn--medium" data-station-settings="close">Cancel</button>
+      <button class="btn btn--primary btn--medium" data-station-settings="save">Update Station</button>
+    </div>
+  </div>
+</div>
+
+When to prompt: never — component has a fixed structure; ask only about which fields to prefill.
+Variants: none (single layout).
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- DEFAULT STATION SETTINGS DRAWER -->
+<div class="drawer-overlay proj-station-settings-drawer drawer-overlay--open">
+  <div class="drawer drawer--left drawer--medium">
+    <!-- Header: close button (left) + Process Step jump link (right). Title lives in the body below. -->
+    <div class="drawer__header proj-station-settings-drawer__header">
+      <button class="drawer__close" data-station-settings="close" aria-label="Close">
+        <lucide-icon name="xmark"></lucide-icon>
+      </button>
+      <a href="#" class="proj-station-settings-drawer__step-link" data-station-settings="process-step">
+        <lucide-icon name="info.circle"></lucide-icon>
+        <span>Process Step</span>
+        <lucide-icon name="chevron.right"></lucide-icon>
+      </a>
+    </div>
+
+    <div class="drawer__body proj-station-settings-drawer__body">
+      <h2 class="proj-station-settings-drawer__title">Update Station</h2>
+
+      <!-- Station identity -->
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-name">Station Name</label>
+        <input type="text" id="proj-station-settings-name" class="form-input" value="">
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- Key Part (Optional) with adjacent info icon -->
+      <div class="proj-station-settings-drawer__row">
+        <div class="form-group form-group--medium">
+          <label class="form-label" for="proj-station-settings-keypart">Key Part (Optional)</label>
+          <select id="proj-station-settings-keypart" class="form-select form-select--stylized" data-stylized-empty="true" data-empty-title="No key parts available" data-empty-subtitle="">
+            <option value="">Type custom key part</option>
+          </select>
+        </div>
+        <button type="button" class="proj-station-settings-drawer__info" aria-label="Key Part info">
+          <lucide-icon name="info.circle"></lucide-icon>
+        </button>
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- Department + CM Department -->
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-dept">Department</label>
+        <select id="proj-station-settings-dept" class="form-select form-select--stylized">
+          <option value="DFM">DFM</option>
+          <option value="AE">AE</option>
+          <option value="ME">ME</option>
+          <option value="TE">TE</option>
+        </select>
+      </div>
+
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-cm-dept">CM Department (Optional)</label>
+        <select id="proj-station-settings-cm-dept" class="form-select form-select--stylized" data-stylized-empty="true" data-empty-title="No CM departments available" data-empty-subtitle="">
+          <option value="">Type custom cm department</option>
+        </select>
+      </div>
+
+      <!-- Intents -->
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-eng-intent">ENG Intent</label>
+        <select id="proj-station-settings-eng-intent" class="form-select form-select--stylized">
+          <option value="POR">POR</option>
+          <option value="DOE">DOE</option>
+          <option value="MP Evaluation">MP Evaluation</option>
+        </select>
+      </div>
+
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-mp-intent">MP Intent</label>
+        <select id="proj-station-settings-mp-intent" class="form-select form-select--stylized">
+          <option value="POR">POR</option>
+          <option value="DOE">DOE</option>
+          <option value="MP Evaluation">MP Evaluation</option>
+        </select>
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- Reporting Method — clearable -->
+      <div class="proj-station-settings-drawer__row">
+        <div class="form-group form-group--medium">
+          <label class="form-label" for="proj-station-settings-reporting">Reporting Method (Optional)</label>
+          <select id="proj-station-settings-reporting" class="form-select form-select--stylized">
+            <option value="Non-reporting">Non-reporting</option>
+            <option value="Reporting">Reporting</option>
+          </select>
+        </div>
+        <button type="button" class="proj-station-settings-drawer__clear" data-station-settings="clear-reporting" aria-label="Clear reporting method">
+          <lucide-icon name="xmark"></lucide-icon>
+        </button>
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- Environment -->
+      <div class="form-group form-group--medium">
+        <label class="form-label" for="proj-station-settings-env">Environment (Optional)</label>
+        <select id="proj-station-settings-env" class="form-select form-select--stylized" data-stylized-empty="true" data-empty-title="No environments available" data-empty-subtitle="">
+          <option value="">Type custom environment</option>
+        </select>
+      </div>
+
+      <hr class="proj-station-settings-drawer__sep">
+
+      <!-- SOP file upload -->
+      <p class="proj-station-settings-drawer__sop-label">SOP file upload (Optional):</p>
+      <div class="proj-station-settings-drawer__dropzone" data-station-settings="dropzone">
+        <lucide-icon name="square.and.arrow.up"></lucide-icon>
+        <span>Drag and drop a file (.png, .jpeg or .pdf) here or</span>
+        <button type="button" class="btn btn--link btn--medium" data-station-settings="browse">browse</button>
+      </div>
+
+      <!-- Upload history (collapsible) -->
+      <div class="proj-station-settings-drawer__history" data-history-open="true">
+        <button type="button" class="proj-station-settings-drawer__history-toggle" data-station-settings="toggle-history">
+          <lucide-icon name="chevron.up"></lucide-icon>
+          <span>Upload history</span>
+        </button>
+        <ul class="proj-station-settings-drawer__history-list">
+          <li class="proj-station-settings-drawer__history-item">
+            <div class="proj-station-settings-drawer__history-body">
+              <a href="#" class="proj-station-settings-drawer__history-name">JSON Schemas.png</a>
+              <p class="proj-station-settings-drawer__history-meta">Uploaded by Johnny Appleseed on 09/04/2026</p>
+            </div>
+            <button type="button" class="proj-station-settings-drawer__history-download" aria-label="Download file">
+              <lucide-icon name="square.and.arrow.down"></lucide-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer__footer proj-station-settings-drawer__footer">
+      <button class="btn btn--secondary btn--medium" data-station-settings="close">Cancel</button>
+      <button class="btn btn--primary btn--medium" data-station-settings="save">Update Station</button>
+    </div>
+  </div>
+</div>
+
+<!-- USAGE:
+- Open via window.ProjStationSettingsDrawer.open({ stationName: 'RF Calibration', stationId: 'st-3-3', lineId: '3' })
+- The drawer is auto-mounted into <body> on first open — no per-prototype HTML required
+- All form fields are prefilled with mock defaults; only Station Name is seeded from the open() call
+- All icons come from SF Symbols — do not swap for inline SVG
+- Update Station button is a stub — real persistence lives in the prototype
+-->

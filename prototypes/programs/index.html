@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stores - QuickCart Market</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="styles.css?v=67">
+    <link rel="stylesheet" href="pi-drawer-content.css">
+    <link rel="stylesheet" href="pi-drawer-tables.css">
+    <link rel="stylesheet" href="pi-drawer-pcn.css">
+    <link rel="stylesheet" href="pi-build-schedule.css">
+    <link rel="stylesheet" href="pi-proj-select.css">
+    <link rel="stylesheet" href="dark-mode.css?v=2">
+    <link rel="stylesheet" href="theme.css?v=2">
+    <link rel="stylesheet" href="../shared-borders.css?v=4">
+    <link rel="stylesheet" href="../shared-accent.css?v=4">
+    <link rel="stylesheet" href="../shared-chrome.css?v=79">
+    <link rel="stylesheet" href="../ai-assistant.css?v=9">
+    <link rel="stylesheet" href="../shared-font.css">
+    <link rel="stylesheet" href="../dark-mode-pages.css?v=2">
+    <link rel="stylesheet" href="../people-popover.css?v=3">
+    <script src="../lucide-icons.js?v=6"></script>
+    <script src="../sentence-case.js?v=3"></script>
+    <script src="../button-motion.js?v=40"></script>
+    <script src="../navbar-tools.js?v=22"></script>
+    <script src="../presence.js?v=13"></script>
+    <script src="../tab-loading.js?v=30"></script>
+    <script src="../active-nav.js"></script>
+    <script src="../people-avatars.js?v=2"></script>
+    <script src="../people-popover.js?v=3"></script>
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <div class="programs-page">
+            <div class="programs-header">
+                <div class="programs-header__line">
+                    <h1>Stores</h1>
+                    <div class="programs-header__items" id="programs-header-items"></div>
+                </div>
+                <div class="add-program-hover">
+                    <button type="button" class="btn btn--primary btn--medium add-program-hover__trigger" aria-haspopup="menu">
+                        <lucide-icon name="plus" style="font-size:16px"></lucide-icon>
+                        <span>Add Store</span>
+                    </button>
+                    <div class="add-program-hover__menu">
+                        <button type="button" class="add-program-hover__item" data-add-program-action="scratch">From scratch</button>
+                        <button type="button" class="add-program-hover__item" data-add-program-action="existing">From existing</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search and filter toolbar -->
+            <div class="programs-toolbar">
+                <div class="programs-search-group">
+                    <div class="programs-search">
+                        <lucide-icon name="search" class="programs-search__icon" style="font-size:16px"></lucide-icon>
+                        <input type="text" class="programs-search__input" placeholder="Filter by city, state, region, store, neighborhood or manager" id="programs-search">
+                        <span class="programs-search__shortcut">⌘K</span>
+                    </div>
+                    
+                    <div class="form-group programs-state-filter">
+                        <select id="programs-region-filter" class="form-select form-select--stylized" aria-label="Filter by region">
+                            <option value="">All regions</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group programs-state-filter">
+                        <select id="programs-state-filter" class="form-select form-select--stylized" aria-label="Filter by state">
+                            <option value="">All states</option>
+                        </select>
+                    </div>
+
+                    <label class="switch programs-favorites-switch">
+                        <input type="checkbox" class="switch__input" id="favorites-only">
+                        <span class="switch__slider"></span>
+                        <span class="switch__label">Favorites only</span>
+                    </label>
+                </div>
+                
+                <div class="programs-toolbar__actions">
+                <div class="view-toggle" role="group" aria-label="Switch view">
+                    <button type="button" class="view-toggle__btn view-toggle__btn--active" data-view="list" aria-pressed="true" aria-label="List view" title="List view">
+                        <lucide-icon name="list" style="font-size:18px"></lucide-icon>
+                    </button>
+                    <button type="button" class="view-toggle__btn" data-view="card" aria-pressed="false" aria-label="Card view" title="Card view">
+                        <lucide-icon name="layout-grid" style="font-size:18px"></lucide-icon>
+                    </button>
+                </div>
+                <div class="form-group programs-group-by">
+                    <select id="programs-group-by" class="form-select form-select--stylized" aria-label="Group by">
+                        <option value="exhibition" selected>View by city</option>
+                        <option value="museum">View by store</option>
+                    </select>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Add Program Drawer -->
+            <div class="drawer-overlay" id="add-program-drawer">
+                <div class="drawer drawer--right">
+                    <div class="drawer__header">
+                        <button class="drawer__close" id="close-drawer-btn">×</button>
+                        <h3 class="drawer__title">Add New Exhibition</h3>
+                    </div>
+                    <div class="drawer__body">
+                        <!-- Program details section -->
+                        <div class="drawer-section">
+                            <h4 class="drawer-section__title">Exhibition details</h4>
+                            
+                            <div class="drawer-form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="program-code">Exhibition Code</label>
+                                    <div class="form-input-with-icon">
+                                        <input type="text" id="program-code" class="form-input" placeholder="Search for Exhibition Code">
+                                        <lucide-icon name="search" class="form-input-icon" style="font-size:16px"></lucide-icon>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="program-name">Exhibition Name (Optional)</label>
+                                    <input type="text" id="program-name" class="form-input" placeholder="Type Exhibition Name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="program-admin">Exhibition Admin</label>
+                                    <input type="text" id="program-admin" class="form-input" value="Johnny Doe">
+                                </div>
+                            </div>
+                            
+                            <div class="drawer-form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="line-of-business">Line of Business</label>
+                                    <select id="line-of-business" class="form-select">
+                                        <option value="">Select Line of Business</option>
+                                        <option value="lob1">Line of Business 1</option>
+                                        <option value="lob2">Line of Business 2</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="product-line">Collection</label>
+                                    <select id="product-line" class="form-select">
+                                        <option value="">Select Collection</option>
+                                        <option value="pl1">Collection 1</option>
+                                        <option value="pl2">Collection 2</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="program-architecture">Exhibition Architecture</label>
+                                    <select id="program-architecture" class="form-select">
+                                        <option value="">Select Exhibition Architecture</option>
+                                        <option value="arch1">Architecture 1</option>
+                                        <option value="arch2">Architecture 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabs section -->
+                        <div class="drawer-tabs">
+                            <div class="tabs__nav">
+                                <button class="tabs__tab tabs__tab--active" data-drawer-tab="sites">Sites</button>
+                                <button class="tabs__tab" data-drawer-tab="program-users">Exhibition Users</button>
+                                <button class="tabs__tab" data-drawer-tab="pcn-settings">PCR Settings</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sites tab content -->
+                        <div class="drawer-tab-content drawer-tab-content--active" id="drawer-sites">
+                            <div class="drawer-table-header">
+                                <span>Site</span>
+                                <span>Exhibition Alias <lucide-icon name="info" style="font-size:12px"></lucide-icon></span>
+                                <span>Preparation Schedule (Optional)</span>
+                                <span>Site Users</span>
+                            </div>
+                            
+                            <button class="add-site-btn">
+                                <lucide-icon name="circle-plus" style="font-size:16px"></lucide-icon>
+                                Add new site
+                            </button>
+                        </div>
+                        
+                        <!-- Program Users tab content -->
+                        <div class="drawer-tab-content" id="drawer-program-users">
+                            <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">Exhibition Users content</p>
+                        </div>
+                        
+                        <!-- PCN Settings tab content -->
+                        <div class="drawer-tab-content" id="drawer-pcn-settings">
+                            <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">PCR Settings content</p>
+                        </div>
+                    </div>
+                    <div class="drawer__footer">
+                        <button class="btn btn--secondary btn--medium" id="cancel-drawer-btn">Cancel</button>
+                        <button class="btn btn--primary btn--medium">Add Exhibition</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program (Index) Drawer — copied from Index tab, opens on "Add Program → From scratch" -->
+            <div class="drawer-overlay" id="program-drawer">
+                <div class="drawer drawer--right drawer--large program-drawer">
+                    <div class="drawer__header">
+                        <button class="drawer__close" id="program-drawer-close" aria-label="Close drawer">
+                            <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                        </button>
+                        <h3 class="drawer__title">Add Exhibition from scratch</h3>
+                    </div>
+
+                    <div class="drawer__body">
+                        <div class="drawer-section">
+                            <p class="drawer-section__label">Exhibition details</p>
+                            <div class="drawer-form-row">
+                                <div class="form-group form-group--medium form-input-with-icon">
+                                    <label class="form-label" for="pgm-code">Exhibition Code</label>
+                                    <input type="text" id="pgm-code" class="form-input" value="D54" placeholder="Search for Exhibition Code">
+                                    <lucide-icon name="search" class="form-input-icon" style="font-size:16px"></lucide-icon>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="pgm-name">Exhibition Name (Optional)</label>
+                                    <input type="text" id="pgm-name" class="form-input" placeholder="Type Exhibition Name">
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="pgm-admin">Exhibition Admin</label>
+                                    <input type="text" id="pgm-admin" class="form-input" value="Kauane de Moraes Rodrigues da Cruz">
+                                </div>
+                            </div>
+                            <div class="drawer-form-row">
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="pgm-lob">Line of Business</label>
+                                    <input type="text" id="pgm-lob" class="form-input" value="LOB-004" readonly>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="pgm-pl">Collection</label>
+                                    <input type="text" id="pgm-pl" class="form-input" value="LOB-04 - Studio Pen" readonly>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="pgm-arch">Exhibition Architecture</label>
+                                    <input type="text" id="pgm-arch" class="form-input" value="v1.0" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="drawer-tabs-row">
+                            <div class="drawer-tabs">
+                                <button class="drawer-tab drawer-tab--active" data-drawer-tab="sites">Sites</button>
+                                <button class="drawer-tab" data-drawer-tab="users">Exhibition Users</button>
+                                <button class="drawer-tab" data-drawer-tab="pcn">PCR Settings</button>
+                            </div>
+                            <label class="drawer-color-toggle">
+                                <input type="checkbox" id="color-code-dept" checked>
+                                <span class="drawer-color-toggle__slider"></span>
+                                <span class="drawer-color-toggle__label">Color-code Departments</span>
+                            </label>
+                        </div>
+
+                        <div class="drawer-tab-content drawer-tab-content--active" id="drawer-sites">
+                            <p class="drawer-sites-note"><strong>Note:</strong> The Index <strong>copies selected</strong> Workstations, Tools, Materials and more information from an existing exhibition and can be performed only <strong>once</strong> per site.</p>
+                            <div class="sites-table">
+                                <div class="sites-table__head">
+                                    <div class="sites-table__cell sites-table__cell--site">
+                                        Site
+                                        <button class="sites-table__add" aria-label="Add new site">
+                                            <lucide-icon name="plus.circle"></lucide-icon>
+                                        </button>
+                                    </div>
+                                    <div class="sites-table__cell sites-table__cell--alias">
+                                        Exhibition Alias
+                                        <lucide-icon name="info.circle" class="sites-table__info"></lucide-icon>
+                                    </div>
+                                    <div class="sites-table__cell sites-table__cell--build">
+                                        Preparation Schedule (Optional)
+                                    </div>
+                                    <div class="sites-table__cell sites-table__cell--users">
+                                        Site Users
+                                    </div>
+                                </div>
+                                <div id="drawer-sites-body"></div>
+                            </div>
+                        </div>
+
+                        <div class="drawer-tab-content" id="drawer-users">
+                            <div class="users-toolbar">
+                                <div class="form-group users-toolbar__filter">
+                                    <input type="text" class="form-input" placeholder="Filter by name or ID">
+                                    <lucide-icon name="magnifyingglass" class="users-toolbar__icon"></lucide-icon>
+                                </div>
+                                <select class="form-select">
+                                    <option>All accesses</option>
+                                </select>
+                                <select class="form-select">
+                                    <option>All departments</option>
+                                </select>
+                            </div>
+                            <div class="users-table">
+                                <div class="users-table__head">
+                                    <div class="users-table__cell users-table__cell--name">
+                                        Name
+                                        <button class="users-table__add" aria-label="Add user">
+                                            <lucide-icon name="plus.circle"></lucide-icon>
+                                        </button>
+                                    </div>
+                                    <div class="users-table__cell">ID</div>
+                                    <div class="users-table__cell">Company</div>
+                                    <div class="users-table__cell">Access</div>
+                                    <div class="users-table__cell">User Department</div>
+                                    <div class="users-table__cell users-table__cell--remove"></div>
+                                </div>
+                                <div id="drawer-users-body"></div>
+                            </div>
+                        </div>
+
+                        <div class="drawer-tab-content" id="drawer-pcn">
+                            <div class="pcn-layout">
+                                <aside class="pcn-sidebar">
+                                    <button class="pcn-sidebar__item pcn-sidebar__item--active">Exhibition Level</button>
+                                    <button class="pcn-sidebar__item">
+                                        <span>ABCE</span>
+                                    </button>
+                                    <button class="pcn-sidebar__item">
+                                        <span>ABCD</span>
+                                        <lucide-icon name="lock.fill" class="pcn-sidebar__lock"></lucide-icon>
+                                    </button>
+                                </aside>
+                                <div class="pcn-main">
+                                    <div class="pcn-main__head">
+                                        <span class="pcn-main__title">Sites</span>
+                                        <div class="pcn-main__locks">
+                                            <label class="pcn-toggle">
+                                                <input type="checkbox" class="pcn-toggle__input">
+                                                <span class="pcn-toggle__slider"></span>
+                                                <lucide-icon name="lock.fill" class="pcn-toggle__icon"></lucide-icon>
+                                                <span class="pcn-toggle__label">CM Lock</span>
+                                                <lucide-icon name="info.circle" class="pcn-toggle__info"></lucide-icon>
+                                            </label>
+                                            <label class="pcn-toggle">
+                                                <input type="checkbox" class="pcn-toggle__input">
+                                                <span class="pcn-toggle__slider"></span>
+                                                <lucide-icon name="lock.fill" class="pcn-toggle__icon"></lucide-icon>
+                                                <span class="pcn-toggle__label">General Lock</span>
+                                                <lucide-icon name="info.circle" class="pcn-toggle__info"></lucide-icon>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="pcn-main__body">
+                                        <div class="pcn-row">ABCE</div>
+                                        <div class="pcn-row">ABCD</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="drawer__footer program-drawer__footer">
+                        <button class="btn btn--secondary btn--medium" id="program-drawer-close-btn">Cancel</button>
+                        <button class="btn btn--primary btn--medium" id="program-drawer-add-btn">Add Exhibition</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perform Index confirm modal — opens on "Add Program" click inside the From-scratch drawer -->
+            <div class="modal-overlay" id="perform-index-modal">
+                <div class="modal modal--medium perform-index-modal">
+                    <div class="modal__header perform-index-modal__header">
+                        <h3 class="modal__title">Perform the Index?</h3>
+                    </div>
+                    <div class="modal__body perform-index-modal__body">
+                        <p class="perform-index-modal__text">The Index copies <strong>selected</strong> Workstations, Tools, Materials and more information from an existing exhibition and can be performed only <strong>once</strong> per site.</p>
+                        <div class="perform-index-modal__options">
+                            <label class="radio">
+                                <input type="radio" name="perform-index-choice" value="add" class="radio__input" checked>
+                                <span class="radio__circle"></span>
+                                <span class="radio__label">Add Exhibition Only</span>
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="perform-index-choice" value="index" class="radio__input">
+                                <span class="radio__circle"></span>
+                                <span class="radio__label">Index</span>
+                            </label>
+                            <div class="perform-index-modal__site-picker" id="perform-index-site-picker" hidden>
+                                <div class="form-group form-group--medium">
+                                    <select class="form-select form-select--stylized" id="perform-index-site-select">
+                                        <option value="ABCE" selected>ABCE</option>
+                                        <option value="DEFG">DEFG</option>
+                                        <option value="HIJK">HIJK</option>
+                                    </select>
+                                    <label class="form-label" for="perform-index-site-select">Select Site to Index</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal__footer perform-index-modal__footer">
+                        <button class="btn btn--primary btn--medium" id="perform-index-proceed-btn">Proceed</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Build Schedule Drawer (drawer-on-drawer) -->
+            <div class="drawer-overlay" id="build-schedule-drawer">
+                <div class="drawer drawer--right drawer--large build-schedule-drawer">
+                    <div class="drawer__header build-schedule-drawer__header">
+                        <button class="drawer__close" id="build-schedule-close" aria-label="Close preparation schedule">
+                            <lucide-icon name="x" style="font-size:24px"></lucide-icon>
+                        </button>
+                        <h3 class="drawer__title" id="build-schedule-title">Preparation schedule for ABCE</h3>
+                        <div class="build-schedule-drawer__actions">
+                            <lucide-icon name="info.circle" class="build-schedule-drawer__info" data-proj-tooltip="The Index copies selected Stations, Equipment, Consumables and more information from an existing program. The first Build Event must be empty to perform the Index." data-proj-tooltip-placement="left"></lucide-icon>
+                            <button class="btn btn--primary btn--medium build-schedule-drawer__index" id="build-schedule-index-btn">Index</button>
+                        </div>
+                    </div>
+                    <div class="drawer__body">
+                        <div class="bs-table">
+                            <div class="bs-table__head">
+                                <div class="bs-table__cell bs-table__cell--handle"></div>
+                                <div class="bs-table__cell bs-table__cell--name">Phase Name</div>
+                                <div class="bs-table__cell bs-table__cell--status"></div>
+                                <div class="bs-table__cell">Start Date</div>
+                                <div class="bs-table__cell">End Date</div>
+                                <div class="bs-table__cell">REIHD <lucide-icon name="info.circle" class="bs-table__info"></lucide-icon></div>
+                                <div class="bs-table__cell">CIH <lucide-icon name="info.circle" class="bs-table__info"></lucide-icon></div>
+                                <div class="bs-table__cell">UPH Target</div>
+                                <div class="bs-table__cell">Assembly Plan Status</div>
+                                <div class="bs-table__cell bs-table__cell--gear"></div>
+                            </div>
+                            <div id="build-schedule-body"></div>
+                            <button class="bs-table__add">
+                                <lucide-icon name="plus.circle"></lucide-icon>
+                                Add new project phase
+                            </button>
+                        </div>
+                    </div>
+                    <div class="drawer__footer">
+                        <button class="btn btn--secondary btn--medium" id="build-schedule-close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Program from existing — Wizard Modal -->
+            <div class="modal-overlay wizard-modal-overlay" id="wizard-modal">
+                <div class="modal modal--large wizard-modal">
+                    <div class="modal__header wizard-modal__header">
+                        <button class="wizard-modal__minimize" id="wizard-minimize-btn" type="button" aria-label="Minimize">
+                            <lucide-icon name="minus" style="font-size:18px"></lucide-icon>
+                        </button>
+                        <h3 class="modal__title" data-wizard-title>Add Exhibition from existing</h3>
+                        <button class="modal__close" id="wizard-close-btn" type="button" aria-label="Close">
+                            <lucide-icon name="x" style="font-size:20px"></lucide-icon>
+                        </button>
+                    </div>
+                    <div class="modal__body wizard-modal__body">
+                        <!-- Step indicator -->
+                        <ol class="wizard-steps">
+                            <li class="wizard-step wizard-step--active" data-step="1">
+                                <span class="wizard-step__badge">1</span>
+                                <span class="wizard-step__label">New Exhibition</span>
+                            </li>
+                            <li class="wizard-step" data-step="2">
+                                <span class="wizard-step__badge">2</span>
+                                <span class="wizard-step__label">Source</span>
+                            </li>
+                            <li class="wizard-step" data-step="3">
+                                <span class="wizard-step__badge">3</span>
+                                <span class="wizard-step__label">Assembly areas + Workstations</span>
+                            </li>
+                            <li class="wizard-step" data-step="4">
+                                <span class="wizard-step__badge">4</span>
+                                <span class="wizard-step__label">Tools</span>
+                            </li>
+                            <li class="wizard-step" data-step="5">
+                                <span class="wizard-step__badge">5</span>
+                                <span class="wizard-step__label">Material</span>
+                            </li>
+                            <li class="wizard-step" data-step="6">
+                                <span class="wizard-step__badge">6</span>
+                                <span class="wizard-step__label">Review</span>
+                            </li>
+                            <li class="wizard-step" data-step="7">
+                                <span class="wizard-step__badge">7</span>
+                                <span class="wizard-step__label">Add</span>
+                            </li>
+                        </ol>
+
+                        <!-- Step 1 content -->
+                        <div class="wizard-step-panel wizard-step-panel--active" data-step-panel="1">
+                            <div class="wizard-intro">
+                                <p>Add exhibition from existing allows to copy selected workstations, tools, and materials from an existing exhibition to a new one.</p>
+                                <p><strong>Note:</strong> All relevant relationships will be created automatically.</p>
+                                <p><strong>To start:</strong> Enter the information for the <strong>NEW</strong> exhibition.</p>
+                            </div>
+
+                            <h4 class="wizard-section-title">New Exhibition details</h4>
+                            <div class="wizard-form-grid">
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-program-code">Exhibition Code</label>
+                                    <input type="text" id="wizard-program-code" class="form-input" value="D52" placeholder=" ">
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-program-name">Exhibition Name (Optional)</label>
+                                    <input type="text" id="wizard-program-name" class="form-input" placeholder="Type Exhibition Name">
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-program-admin">Exhibition Admin</label>
+                                    <input type="text" id="wizard-program-admin" class="form-input" value="Isaac Newton" placeholder=" ">
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-line-of-business">Line of business</label>
+                                    <select id="wizard-line-of-business" class="form-select form-select--stylized">
+                                        <option value="paintings" selected>Paintings</option>
+                                        <option value="sculpture">Sculpture</option>
+                                        <option value="photography">Photography</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-product-line">Collection</label>
+                                    <select id="wizard-product-line" class="form-select form-select--stylized">
+                                        <option value="pl-b" selected>Product lline B</option>
+                                        <option value="pl-a">Collection A</option>
+                                        <option value="pl-c">Collection C</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-program-architecture">Exhibition Architecture</label>
+                                    <select id="wizard-program-architecture" class="form-select form-select--stylized">
+                                        <option value="v1" selected>Version 1</option>
+                                        <option value="v2">Version 2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <p class="wizard-sites-note">Only the <strong>first project phase</strong> will receive the content from the source exhibition. This action can only be performed <strong>once</strong>.</p>
+                            <div class="wizard-sites-table">
+                                <table class="table">
+                                    <colgroup>
+                                        <col style="width: 36px;">
+                                        <col style="width: 22%;">
+                                        <col style="width: 26%;">
+                                        <col>
+                                    </colgroup>
+                                    <thead class="table__head">
+                                        <tr class="table__row">
+                                            <th class="table__header" aria-hidden="true"></th>
+                                            <th class="table__header">
+                                                <span class="wizard-th">
+                                                    Sites
+                                                    <button type="button" class="wizard-th-icon" data-add-site aria-label="Add site">
+                                                        <lucide-icon name="circle-plus" style="font-size:16px"></lucide-icon>
+                                                    </button>
+                                                </span>
+                                            </th>
+                                            <th class="table__header">
+                                                <span class="wizard-th">
+                                                    Exhibition Alias (Optional)
+                                                    <span class="wizard-th-icon wizard-th-icon--info" aria-hidden="true">
+                                                        <lucide-icon name="info" style="font-size:14px"></lucide-icon>
+                                                    </span>
+                                                </span>
+                                            </th>
+                                            <th class="table__header">Preparation Schedule</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table__body" data-sites-body>
+                                        <tr class="table__row wizard-site-row">
+                                            <td class="table__cell wizard-drag-cell">
+                                                <span class="wizard-drag-handle" aria-label="Drag to reorder" role="button" tabindex="-1">
+                                                    <lucide-icon name="line.3.horizontal"></lucide-icon>
+                                                </span>
+                                            </td>
+                                            <td class="table__cell">
+                                                <input type="text" class="form-input form-input--table-cell wizard-site-input" value="Aurelian Museum" aria-label="Site name">
+                                            </td>
+                                            <td class="table__cell">
+                                                <input type="text" class="form-input form-input--table-cell wizard-site-input" value="Dolor emet" aria-label="Exhibition alias">
+                                            </td>
+                                            <td class="table__cell">
+                                                <div class="wizard-build-schedule" data-build-schedule>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">Preparation</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <span class="wizard-chip-arrow" aria-hidden="true">&rarr;</span>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">Opening</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <span class="wizard-chip-arrow" aria-hidden="true">&rarr;</span>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">Dismantling</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <button type="button" class="wizard-chip-add" aria-label="Add project phase">
+                                                        <lucide-icon name="plus.circle"></lucide-icon>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table__row wizard-site-row">
+                                            <td class="table__cell wizard-drag-cell">
+                                                <span class="wizard-drag-handle" aria-label="Drag to reorder" role="button" tabindex="-1">
+                                                    <lucide-icon name="line.3.horizontal"></lucide-icon>
+                                                </span>
+                                            </td>
+                                            <td class="table__cell">
+                                                <input type="text" class="form-input form-input--table-cell wizard-site-input" value="Halcyon Gallery" aria-label="Site name">
+                                            </td>
+                                            <td class="table__cell">
+                                                <input type="text" class="form-input form-input--table-cell wizard-site-input" value="Lorem ipsum" aria-label="Exhibition alias">
+                                            </td>
+                                            <td class="table__cell">
+                                                <div class="wizard-build-schedule" data-build-schedule>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">Preparation</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <span class="wizard-chip-arrow" aria-hidden="true">&rarr;</span>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">Installation</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <span class="wizard-chip-arrow" aria-hidden="true">&rarr;</span>
+                                                    <span class="wizard-chip-wrap">
+                                                        <span class="wizard-chip" contenteditable="true" spellcheck="false">P3</span>
+                                                        <button type="button" class="wizard-chip-remove" aria-label="Remove stage">&times;</button>
+                                                    </span>
+                                                    <button type="button" class="wizard-chip-add" aria-label="Add project phase">
+                                                        <lucide-icon name="plus.circle"></lucide-icon>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Step 2 content -->
+                        <div class="wizard-step-panel" data-step-panel="2">
+                            <p class="wizard-source-intro">Allows to copy selected workstations, tools, and materials from an existing exhibition to a new one.</p>
+                            <h4 class="wizard-section-title">Source details</h4>
+                            <p class="wizard-source-note">Select a previous generation exhibition and a published version &mdash; <strong>drafts cannot be used as a source.</strong></p>
+
+                            <div class="wizard-source-form">
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-source-program">Exhibition</label>
+                                    <select id="wizard-source-program" class="form-select form-select--stylized">
+                                        <option value="">Select Exhibition</option>
+                                        <option value="ex01" selected>EX01</option>
+                                        <option value="d52">D52</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-source-site">Site</label>
+                                    <select id="wizard-source-site" class="form-select form-select--stylized">
+                                        <option value="">Select Site</option>
+                                        <option value="aurelian-museum" selected>Aurelian Museum</option>
+                                        <option value="halcyon-gallery">Halcyon Gallery</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-source-build-stage">Project Phase</label>
+                                    <select id="wizard-source-build-stage" class="form-select form-select--stylized">
+                                        <option value="">Select Project Phase</option>
+                                        <option value="planning">Planning</option>
+                                        <option value="preparation">Preparation</option>
+                                        <option value="installation" selected>Installation</option>
+                                        <option value="opening">Opening</option>
+                                        <option value="dismantling">Dismantling</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group--medium">
+                                    <label class="form-label" for="wizard-source-version">Version</label>
+                                    <select id="wizard-source-version" class="form-select form-select--stylized">
+                                        <option value="">Select Version</option>
+                                        <option value="v1" selected>Version 1</option>
+                                        <option value="v2">Version 2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <p class="wizard-source-groups-intro">Select the groups to index. Individual items will be available to review in the next steps.</p>
+                            <a href="#" class="wizard-select-all" data-select-all>Select all</a>
+
+                            <div class="wizard-checkbox-grid">
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span><span class="checkbox__label">Assembly areas + Workstations</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">TPM DRIs</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Safety Data Sheets</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span><span class="checkbox__label">Tools</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">CM DRIs</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Technical Data Sheets</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span><span class="checkbox__label">Materials</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Vendor DRIs</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Installed images</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Project Phase in-hand dates</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">PD DRIs</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Spec Attachments</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Project Phase due dates</span></label>
+                                <label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span><span class="checkbox__label">Equipkment DRIs</span></label>
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 content -->
+                        <div class="wizard-step-panel" data-step-panel="3">
+                            <p class="wizard-step3-note">Select items to bring forward and classify each one as <strong>carry over</strong> or <strong>retrofit</strong>.</p>
+
+                            <div class="wizard-search">
+                                <span class="wizard-search__icon">
+                                    <lucide-icon name="magnifyingglass"></lucide-icon>
+                                </span>
+                                <input type="text" class="wizard-search__input" placeholder="Type keywords...">
+                                <span class="wizard-search__shortcut">&#8984;K</span>
+                            </div>
+
+                            <div class="wizard-lines-wrap">
+                                <table class="wizard-lines">
+                                    <colgroup>
+                                        <col style="width: 36px;">
+                                        <col style="width: 18%;">
+                                        <col style="width: 12%;">
+                                        <col style="width: 10%;">
+                                        <col style="width: 12%;">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr class="wizard-lines__head">
+                                            <th><label class="checkbox"><input type="checkbox" class="checkbox__input" data-line-select-all><span class="checkbox__box"></span></label></th>
+                                            <th>Assembly area Name</th>
+                                            <th>Assembly area Group</th>
+                                            <th>Status</th>
+                                            <th>Museum Area</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-lines-body>
+                                        <tr class="wizard-lines__row wizard-lines__row--expanded" data-line="A">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>
+                                                <button type="button" class="wizard-line-chevron wizard-line-chevron--open" data-chevron aria-label="Collapse"><lucide-icon name="chevron.right"></lucide-icon></button>
+                                                <span class="wizard-line-name">Assembly area A</span>
+                                            </td>
+                                            <td>Group X</td>
+                                            <td>Online</td>
+                                            <td>FATP</td>
+                                            <td>Lorem ipsum dolor sit emet.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__nested" data-nested-for="A">
+                                            <td colspan="6" class="wizard-lines__nested-cell">
+                                                <table class="wizard-stations">
+                                                    <colgroup>
+                                                        <col style="width: 36px;">
+                                                        <col style="width: 20%;">
+                                                        <col style="width: 12%;">
+                                                        <col style="width: 12%;">
+                                                        <col style="width: 12%;">
+                                                        <col style="width: 14%;">
+                                                        <col>
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr class="wizard-stations__head">
+                                                            <th><label class="checkbox"><input type="checkbox" class="checkbox__input"><span class="checkbox__box"></span></label></th>
+                                                            <th>Workstation name</th>
+                                                            <th>Department</th>
+                                                            <th>ENG Intent</th>
+                                                            <th>MP Intent</th>
+                                                            <th>Reporting Method</th>
+                                                            <th>Revision Category</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span></label></td>
+                                                            <td>Workstation 01</td>
+                                                            <td><span class="tag tag--success">AE</span></td>
+                                                            <td><span class="tag tag--gray">POR</span></td>
+                                                            <td><span class="tag tag--gray">POR</span></td>
+                                                            <td>Insight</td>
+                                                            <td>
+                                                                <select class="form-select form-select--stylized form-select--table-cell wizard-revision">
+                                                                    <option value="carry-over" selected>Carry-over</option>
+                                                                    <option value="retrofit">Retrofit</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span></label></td>
+                                                            <td>Workstation 03</td>
+                                                            <td><span class="tag tag--success">ME</span></td>
+                                                            <td><span class="tag tag--gray">POR</span></td>
+                                                            <td><span class="tag tag--gray">POR</span></td>
+                                                            <td>Insight</td>
+                                                            <td>
+                                                                <select class="form-select form-select--stylized form-select--table-cell wizard-revision">
+                                                                    <option value="carry-over">Carry-over</option>
+                                                                    <option value="retrofit" selected>Retrofit</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked><span class="checkbox__box"></span></label></td>
+                                                            <td>Workstation 03</td>
+                                                            <td><span class="tag tag--success">ME</span></td>
+                                                            <td>N/A</td>
+                                                            <td>N/A</td>
+                                                            <td>Insight</td>
+                                                            <td>
+                                                                <select class="form-select form-select--stylized form-select--table-cell wizard-revision">
+                                                                    <option value="carry-over" selected>Carry-over</option>
+                                                                    <option value="retrofit">Retrofit</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="B">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area B</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Lorem ipsum dolor sit emet, consectur adipiscing elit.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="C">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area C</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="D">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area D</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Lorem ipsum dolor sit emet.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="E">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area E</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Duis aute irure dolor in reprehenderit.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="F">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area F</span></td>
+                                            <td>Group X</td><td>Offline</td><td>FATP</td>
+                                            <td>Lorem ipsum dolor sit emet, consectur adipiscing elit.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="G">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area G</span></td>
+                                            <td>Group X</td><td>Offline</td><td>FATP</td>
+                                            <td>in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="H">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area H</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Consectur adipiscing elit.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="I">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area I</span></td>
+                                            <td>Group X</td><td>Offline</td><td>FATP</td>
+                                            <td>Sunt in culpa qui officia.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="J">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area J</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Lorem ipsum dolor sit emet, consectur adipiscing elit.</td>
+                                        </tr>
+                                        <tr class="wizard-lines__row" data-line="K">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-line-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td><button type="button" class="wizard-line-chevron" data-chevron aria-label="Expand"><lucide-icon name="chevron.right"></lucide-icon></button><span class="wizard-line-name">Assembly area K</span></td>
+                                            <td>Group X</td><td>Online</td><td>FATP</td>
+                                            <td>Deserunt mollit anim id est laborum.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 content — Equipment -->
+                        <div class="wizard-step-panel" data-step-panel="4">
+                            <p class="wizard-step3-note">Select items to bring forward and classify each one as <strong>carry over</strong> or <strong>retrofit</strong>.</p>
+
+                            <div class="wizard-search-row">
+                                <div class="wizard-search">
+                                    <span class="wizard-search__icon"><lucide-icon name="magnifyingglass"></lucide-icon></span>
+                                    <input type="text" class="wizard-search__input" placeholder="Type keywords...">
+                                    <span class="wizard-search__shortcut">&#8984;K</span>
+                                </div>
+                                <div class="wizard-mark-actions">
+                                    <a href="#" class="wizard-mark-link" data-mark-all="retrofit">Mark all as retrofit</a>
+                                    <span class="wizard-mark-sep">|</span>
+                                    <a href="#" class="wizard-mark-link" data-mark-all="carry-over">Mark all as carry-over</a>
+                                </div>
+                            </div>
+
+                            <div class="wizard-equipment-wrap">
+                                <table class="wizard-equipment">
+                                    <colgroup>
+                                        <col style="width: 36px;">
+                                        <col style="width: 18%;">
+                                        <col style="width: 10%;">
+                                        <col style="width: 8%;">
+                                        <col style="width: 8%;">
+                                        <col>
+                                        <col style="width: 14%;">
+                                    </colgroup>
+                                    <thead>
+                                        <tr class="wizard-equipment__head">
+                                            <th><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-select-all><span class="checkbox__box"></span></label></th>
+                                            <th>Tools Name</th>
+                                            <th>Shot Name</th>
+                                            <th>ENG Intent</th>
+                                            <th>MP Intent</th>
+                                            <th>Description</th>
+                                            <th>Revision Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-equipment-body>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Speaker Press 1200</td><td>SP1200</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>Lorem ipsum dolor sit.</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Acoustic Test Chamber</td><td>ATC04</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>Ipsum dolor sit emet.</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>PCB Pick and Place</td><td>PCB-PP</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>Lorem ipsum dolor sit emet.</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over">Carry-over</option><option value="retrofit" selected>Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Solder Pste Printer</td><td>SPP2</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>SPP2</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Reflow Oven</td><td>R09</td>
+                                            <td>N/A</td><td>N/A</td>
+                                            <td>Sed ut perspiciatis unde omnis</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Speaker Press 1200</td><td>SP1200</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>SP1200</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over">Carry-over</option><option value="retrofit" selected>Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Acoustic Test Chamber</td><td>ATC04</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>ATC04</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>PCB Pick and Place</td><td>PCB-PP</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>PCB-PP</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over">Carry-over</option><option value="retrofit" selected>Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Solder Pste Printer</td><td>SPP2</td>
+                                            <td>DOE</td><td>DOE</td>
+                                            <td>Iste natus error sit voluptatem doloremque laudantium</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Reflow Oven</td><td>R09</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>R09</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Reflow Oven</td><td>R09</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>R09</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Speaker Press 1200</td><td>SP1200</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>Totam rem aperiam</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over">Carry-over</option><option value="retrofit" selected>Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Acoustic Test Chamber</td><td>ATC04</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>ATC04</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>PCB Pick and Place</td><td>PCB-PP</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>PCB-PP</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over">Carry-over</option><option value="retrofit" selected>Retrofit</option></select></td>
+                                        </tr>
+                                        <tr class="wizard-equipment__row">
+                                            <td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-equip-checkbox><span class="checkbox__box"></span></label></td>
+                                            <td>Solder Pste Printer</td><td>SPP2</td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td><span class="tag tag--gray">POR</span></td>
+                                            <td>SPP2</td>
+                                            <td><select class="form-select form-select--stylized form-select--table-cell wizard-revision"><option value="carry-over" selected>Carry-over</option><option value="retrofit">Retrofit</option></select></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 content — Consumable -->
+                        <div class="wizard-step-panel" data-step-panel="5">
+                            <p class="wizard-step3-note">Select items to bring forward.</p>
+
+                            <div class="wizard-search">
+                                <span class="wizard-search__icon"><lucide-icon name="magnifyingglass"></lucide-icon></span>
+                                <input type="text" class="wizard-search__input" placeholder="Type keywords...">
+                                <span class="wizard-search__shortcut">&#8984;K</span>
+                            </div>
+
+                            <div class="wizard-equipment-wrap">
+                                <table class="wizard-equipment">
+                                    <colgroup>
+                                        <col style="width: 36px;">
+                                        <col style="width: 22%;">
+                                        <col style="width: 16%;">
+                                        <col style="width: 10%;">
+                                        <col style="width: 10%;">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr class="wizard-equipment__head">
+                                            <th><label class="checkbox"><input type="checkbox" class="checkbox__input" data-cons-select-all><span class="checkbox__box"></span></label></th>
+                                            <th>Application Name</th>
+                                            <th>Material Name</th>
+                                            <th>ENG Intent</th>
+                                            <th>MP Intent</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-consumables-body>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Instant Adhesive</td><td>IA09</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Lorem ipsum.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Solder Paste</td><td>SP3</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Dolor emet.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Flux</td><td>Flux2</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Dolor emet.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Contact Cleaner</td><td>CC003</td><td>DOE</td><td>DOE</td><td>Eaque ipsa quae ab illo inventore veritatis.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Reflow Inspection Cam</td><td>RIC12</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Lorem ipsum.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Instant Adhesive</td><td>IA09</td><td>N/A</td><td>N/A</td><td>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Solder Paste</td><td>SP3</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Lorem ipsum.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Flux</td><td>Flux2</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Neque porro quisquam est, qui dolorem</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Contact Cleaner</td><td>CC003</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Dolor emet.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Reflow Inspection Cam</td><td>RIC12</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Lorem ipsum.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Instant Adhesive</td><td>IA09</td><td>DOE</td><td>DOE</td><td>Dolor emet.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Solder Paste</td><td>SP3</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Lorem ipsum.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Flux</td><td>Flux2</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Dolor emet.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Contact Cleaner</td><td>CC003</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Ipsum quia dolor sit amet, consectetur, adipisci velit.</td></tr>
+                                        <tr class="wizard-equipment__row"><td><label class="checkbox"><input type="checkbox" class="checkbox__input" checked data-cons-checkbox><span class="checkbox__box"></span></label></td><td>Reflow Inspection Cam</td><td>RIC12</td><td><span class="tag tag--gray">POR</span></td><td><span class="tag tag--gray">POR</span></td><td>Dolor emet.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 content — Review -->
+                        <div class="wizard-step-panel" data-step-panel="6">
+                            <p class="wizard-step3-note">Confirm the information below.</p>
+
+                            <div class="wizard-review-source">
+                                <div>
+                                    <h4 class="wizard-review-title">Source</h4>
+                                    <p class="wizard-review-text">D32 - FXZZ - Preparation - V2</p>
+                                </div>
+                                <div>
+                                    <h4 class="wizard-review-title">New Exhibition - Target</h4>
+                                    <p class="wizard-review-text">D42 - Halcyon Gallery - Preparation - V1 Draft</p>
+                                </div>
+                            </div>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">Assembly areas + Workstations</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-4">
+                                    <div class="wizard-stat">12 Assembly areas selected</div>
+                                    <div class="wizard-stat">8 group X / 4group Y</div>
+                                    <div class="wizard-stat">10 online / 2 offline</div>
+                                    <div class="wizard-stat">20 Dolor emet / 5 Lorem ipsum</div>
+                                    <div class="wizard-stat">25 Workstations selected</div>
+                                    <div class="wizard-stat">15 AE / 5 ME / 5 DFM</div>
+                                    <div class="wizard-stat">25 ENG Intent POR</div>
+                                    <div class="wizard-stat">20 MP Intent POR</div>
+                                </div>
+                            </section>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">Tools</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-3">
+                                    <div class="wizard-stat wizard-stat--tall">24 Items selected</div>
+                                    <div class="wizard-stat">20 ENG Intent POR</div>
+                                    <div class="wizard-stat">20 MP Intent POR</div>
+                                    <div class="wizard-stat">20 Carry-over</div>
+                                    <div class="wizard-stat">4 Retrofit</div>
+                                </div>
+                            </section>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">Materials</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-3">
+                                    <div class="wizard-stat">12 Items selected</div>
+                                    <div class="wizard-stat">9 ENG Intent POR</div>
+                                    <div class="wizard-stat">9 MP Intent POR</div>
+                                </div>
+                            </section>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">Dates</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-2 wizard-stat-grid--narrow">
+                                    <div class="wizard-stat">12 in-hand dates</div>
+                                    <div class="wizard-stat">12 due dates</div>
+                                </div>
+                            </section>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">DRIs</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-5">
+                                    <div class="wizard-stat">15 TPM DRI</div>
+                                    <div class="wizard-stat">12 CM DRI</div>
+                                    <div class="wizard-stat">10 Vendor DRI</div>
+                                    <div class="wizard-stat">10 PD DRI</div>
+                                    <div class="wizard-stat">10 Tools DRI</div>
+                                </div>
+                            </section>
+
+                            <section class="wizard-review-section">
+                                <h4 class="wizard-review-title">Data Sheets/ Attachments</h4>
+                                <div class="wizard-stat-grid wizard-stat-grid--cols-4">
+                                    <div class="wizard-stat">12 Safety Data Sheets</div>
+                                    <div class="wizard-stat">20 Technical Data Sheets</div>
+                                    <div class="wizard-stat">12 Installed images</div>
+                                    <div class="wizard-stat">15 Spec Attachments</div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Step 7 content — Add (indexing progress) -->
+                        <div class="wizard-step-panel" data-step-panel="7">
+                            <p class="wizard-progress-note">The process of creating an exhibition from an existing one may take a few moments to complete.</p>
+                            <div class="wizard-progress">
+                                <div class="wizard-progress__track">
+                                    <div class="wizard-progress__fill" data-progress-fill></div>
+                                </div>
+                                <span class="wizard-progress__value" data-progress-value>0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal__footer wizard-modal__footer">
+                        <button type="button" class="wizard-back-btn" id="wizard-back-btn" aria-label="Back" hidden>
+                            <lucide-icon name="chevron.left"></lucide-icon>
+                        </button>
+                        <div class="wizard-footer-counters" data-wizard-counters hidden>
+                            <span data-lines-count>0 assembly areas selected</span>
+                            <span data-stations-count>0 workstations selected</span>
+                            <span data-items-count>0 items selected</span>
+                        </div>
+                        <div class="wizard-footer-actions">
+                            <button class="btn btn--secondary btn--medium" id="wizard-cancel-btn" type="button">Cancel</button>
+                            <button class="btn btn--primary btn--medium" id="wizard-next-btn" type="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimized wizard drawer (bottom-center) -->
+            <div class="wizard-mini-drawer" id="wizard-mini-drawer" hidden>
+                <span class="wizard-mini-drawer__icon" aria-hidden="true">
+                    <lucide-icon name="chevron.left"></lucide-icon>
+                </span>
+                <span class="wizard-mini-drawer__text" data-mini-text>Creation of exhibition is in progress.</span>
+                <button type="button" class="wizard-mini-drawer__restore" id="wizard-mini-restore-btn" aria-label="Restore wizard">
+                    <lucide-icon name="arrow.up.right.square"></lucide-icon>
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="table table--expandable">
+                    <thead class="table__head table__head--sticky">
+                        <tr class="table__row">
+                            <th class="table__header table__header--chevron"></th>
+                            <th class="table__header sortable" data-column="name">
+                                City
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="state">
+                                State
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="region">
+                                Region
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="admin">
+                                Admin
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="museumCount">
+                                Stores
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="atRiskCount">
+                                Need attention
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header sortable" data-column="lastUpdate">
+                                Last Updated
+                                <span class="sort-icon">⇅</span>
+                            </th>
+                            <th class="table__header table__cell--center">
+                                Favorite
+                            </th>
+                            <th class="table__header table__cell--center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__body" id="programs-table-body">
+                        <!-- Table rows will be generated by Handlebars -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+    <!-- Handlebars template for table rows -->
+    <script id="programs-table-template" type="text/x-handlebars-template">
+        {{#each programs}}
+        <tr class="table__row table__row--parent" data-program-id="{{code}}">
+            <td class="table__cell table__cell--chevron">
+                <button class="chevron-btn" data-id="{{code}}" aria-label="Expand row">
+                    <lucide-icon name="chevron-right" style="font-size:16px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell">
+                <a href="program-detail.html?code={{code}}" class="program-code-link">{{name}}</a>
+            </td>
+            <td class="table__cell">{{state}}</td>
+            <td class="table__cell">{{region}}</td>
+            <td class="table__cell"><button type="button" class="person-link" data-person="{{admin}}" data-role="Exhibition Admin" aria-haspopup="dialog" aria-expanded="false">{{admin}}</button></td>
+            <td class="table__cell">{{museumCount}}</td>
+            <td class="table__cell">{{atRiskCount}}</td>
+            <td class="table__cell">{{lastUpdate}}</td>
+            <td class="table__cell table__cell--center">
+                <button class="favorite-btn {{#if favorite}}favorite-btn--active{{/if}}" data-id="{{code}}" aria-label="Toggle favorite">
+                    <lucide-icon name="star" style="font-size:20px"></lucide-icon>
+                </button>
+            </td>
+            <td class="table__cell table__cell--center">
+                <button class="action-btn" data-id="{{code}}" aria-label="Actions">
+                    <lucide-icon name="ellipsis-vertical" style="font-size:20px"></lucide-icon>
+                </button>
+            </td>
+        </tr>
+        <tr class="table__row table__row--expanded" data-parent-id="{{code}}" style="display: none;">
+            <td colspan="10" class="table__cell--expanded">
+                <table class="table table--nested">
+                    <colgroup>
+                        <col class="nested-col nested-col--1"><col class="nested-col nested-col--2"><col class="nested-col nested-col--3"><col class="nested-col nested-col--4"><col class="nested-col nested-col--5"><col class="nested-col nested-col--6"><col class="nested-col nested-col--7"><col class="nested-col nested-col--8"><col class="nested-col nested-col--9"><col class="nested-col nested-col--10">
+                    </colgroup>
+                    <thead class="table__head">
+                        <tr class="table__row">
+                            <th class="table__header table__header--nested-spacer"></th>
+                            <th class="table__header table__header--nested">Store</th>
+                            <th class="table__header table__header--nested" colspan="2">Address</th>
+                            <th class="table__header table__header--nested">Store Manager</th>
+                            <th class="table__header table__header--nested">Low stock</th>
+                            <th class="table__header table__header--nested">Overdue tasks</th>
+                            <th class="table__header table__header--nested">Last Updated</th>
+                            <th class="table__header table__header--nested">Status</th>
+                            <th class="table__header table__header--nested"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__body">
+                        {{#each sites}}
+                        <tr class="table__row">
+                            <td class="table__cell table__cell--nested-spacer"></td>
+                            <td class="table__cell table__cell--nested"><a href="program-detail.html?code={{../code}}&site={{site}}" class="program-code-link">{{storeName}}</a> <span class="store-code">{{storeCode}}</span></td>
+                            <td class="table__cell table__cell--nested" colspan="2">{{address}}</td>
+                            <td class="table__cell table__cell--nested"><button type="button" class="person-link" data-person="{{lead}}" data-role="Store Manager" aria-haspopup="dialog" aria-expanded="false">{{lead}}</button></td>
+                            <td class="table__cell table__cell--nested"><span class="metric-count{{#if lowStock}} metric-count--warn{{/if}}">{{lowStock}}</span></td>
+                            <td class="table__cell table__cell--nested"><span class="metric-count{{#if overdueTasks}} metric-count--bad{{/if}}">{{overdueTasks}}</span></td>
+                            <td class="table__cell table__cell--nested">{{lastUpdate}}</td>
+                            <td class="table__cell table__cell--nested"><span class="status-badge" data-status="{{status}}">{{statusLabel}}</span></td>
+                            <td class="table__cell table__cell--nested"></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <!-- Handlebars templates for the Index-style drawer (sites / users / build-schedule rows) -->
+    <script id="sites-row-template" type="text/x-handlebars-template">
+        {{#each sites}}
+        <div class="sites-table__row{{#if indexed}} sites-table__row--indexed{{/if}}" data-site-id="{{id}}">
+            <div class="sites-table__cell sites-table__cell--site">
+                <div class="site-autocomplete">
+                    <input type="text" class="site-autocomplete__input" data-site-input value="{{code}}" placeholder="Search sites..." autocomplete="off">
+                    <ul class="site-autocomplete__menu" data-site-menu hidden></ul>
+                </div>
+            </div>
+            <div class="sites-table__cell sites-table__cell--alias">
+                <input type="text" class="site-alias-input" data-site-alias value="{{alias}}" placeholder="Add alias">
+            </div>
+            <div class="sites-table__cell sites-table__cell--build">
+                {{#if buildEvents.length}}
+                <span class="build-flow">
+                    {{#each buildEvents}}<span class="build-flow__event{{#if locked}} build-flow__event--locked{{/if}}">{{name}}</span>{{#unless @last}}<lucide-icon name="arrow.right" class="build-flow__arrow"></lucide-icon>{{/unless}}{{/each}}
+                </span>
+                <button class="edit-link" data-edit-build-schedule="{{code}}">
+                    <lucide-icon name="pencil" class="edit-link__icon"></lucide-icon>
+                    {{#if indexed}}Indexed{{else}}Edit{{/if}}
+                </button>
+                {{else}}
+                <button class="edit-link edit-link--add" data-edit-build-schedule="{{code}}">
+                    <lucide-icon name="plus.circle" class="edit-link__icon"></lucide-icon>
+                    Add Preparation Schedule
+                </button>
+                {{/if}}
+                <span class="build-cell__divider" aria-hidden="true"></span>
+                <button class="edit-link edit-link--index{{#if indexed}} edit-link--disabled{{/if}}" data-index-site="{{code}}"{{#if indexed}} disabled{{/if}}>
+                    <lucide-icon name="arrow.triangle.2.circlepath" class="edit-link__icon"></lucide-icon>
+                    Index
+                </button>
+            </div>
+            <div class="sites-table__cell sites-table__cell--users">
+                <span class="site-users__count">{{userCount}}</span>
+                <button class="edit-link">
+                    <lucide-icon name="pencil" class="edit-link__icon"></lucide-icon> Edit
+                </button>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="users-row-template" type="text/x-handlebars-template">
+        {{#each users}}
+        <div class="users-table__row">
+            <div class="users-table__cell users-table__cell--name"><a href="#" class="user-link">{{name}}</a></div>
+            <div class="users-table__cell">{{userId}}</div>
+            <div class="users-table__cell">{{company}}</div>
+            <div class="users-table__cell users-table__cell--access">
+                {{access}}
+                {{#if accessInfo}}<lucide-icon name="info.circle" class="users-table__info"></lucide-icon>{{/if}}
+            </div>
+            <div class="users-table__cell users-table__cell--dept"><span class="users-dept-select">{{userDept}}</span></div>
+            <div class="users-table__cell users-table__cell--remove">
+                {{#if removable}}<button class="users-remove-btn" aria-label="Remove user"><lucide-icon name="minus.circle.fill"></lucide-icon></button>{{else}}<lucide-icon name="info.circle" class="users-table__info"></lucide-icon>{{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="bs-row-template" type="text/x-handlebars-template">
+        {{#each events}}
+        <div class="bs-table__row{{#if locked}} bs-table__row--locked{{/if}}">
+            <div class="bs-table__cell bs-table__cell--handle">
+                {{#if locked}}<lucide-icon name="lock.fill"></lucide-icon>{{else}}<lucide-icon name="line.3.horizontal" class="bs-table__handle"></lucide-icon>{{/if}}
+            </div>
+            <div class="bs-table__cell bs-table__cell--name">
+                <input type="text" class="form-input form-input--table-cell bs-input" value="{{name}}" {{#if locked}}readonly placeholder="{{name}}"{{/if}}>
+            </div>
+            <div class="bs-table__cell bs-table__cell--status">
+                {{#if active}}<span class="bs-status-tag">Active</span>{{/if}}
+            </div>
+            <div class="bs-table__cell"><input type="date" class="form-input form-input--table-cell bs-input bs-input--date" placeholder="TBD"></div>
+            <div class="bs-table__cell"><input type="date" class="form-input form-input--table-cell bs-input bs-input--date" placeholder="TBD"></div>
+            <div class="bs-table__cell"><input type="date" class="form-input form-input--table-cell bs-input bs-input--date" placeholder="TBD"></div>
+            <div class="bs-table__cell"><input type="date" class="form-input form-input--table-cell bs-input bs-input--date" placeholder="TBD"></div>
+            <div class="bs-table__cell"><input type="date" class="form-input form-input--table-cell bs-input bs-input--date" placeholder="TBD"></div>
+            <div class="bs-table__cell bs-table__cell--pf">
+                <span class="bs-pf-tag bs-pf-tag--{{lowercase pfStatus}}">{{pfStatus}}</span>
+            </div>
+            <div class="bs-table__cell bs-table__cell--gear">
+                {{#if locked}}<lucide-icon name="info.circle" class="bs-table__info"></lucide-icon>{{else}}<lucide-icon name="gearshape" class="bs-table__gear"></lucide-icon>{{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript - Modular Structure -->
+    <script src="js/data.js?v=35"></script>
+    <script src="js/table-renderer.js"></script>
+    <script src="js/table-sort.js"></script>
+    <script src="js/row-expander.js"></script>
+    <script src="js/favorites.js?v=18"></script>
+    <script src="js/action-buttons.js"></script>
+    <script src="js/drawer.js"></script>
+    <script src="js/programs-columns.js?v=43"></script>
+    <script src="js/programs-view.js?v=60"></script>
+    <script src="js/programs-search.js?v=22"></script>
+    <script src="js/program-add-menu.js?v=2"></script>
+    <script src="js/program-wizard.js"></script>
+    <script src="js/pi-data.js"></script>
+    <script src="js/pi-drawer.js"></script>
+    <script src="js/pi-build-schedule-drawer.js"></script>
+    <script src="js/main.js"></script>
+    <script src="../ai-assistant.js?v=13"></script>
+</body>
+</html>

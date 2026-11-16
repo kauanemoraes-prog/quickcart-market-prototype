@@ -1,0 +1,203 @@
+/* Dark mode overrides for programs/program-detail.html */
+/* Active when <html class="dark-mode">. Tokens defined in plugins/proj-dark-mode.css. */
+
+/* ========================================
+   Page wrapper / chrome
+   Note: base.css uses `!important` for .content and a hard #fff for
+   .program-detail-page; we match that here.
+   ======================================== */
+.dark-mode .content {
+    background-color: var(--dm-bg-2) !important;
+}
+
+.dark-mode .program-detail-page {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+/* The actual program-detail header bar — full row uses #1F2024 (same as timeline) */
+.dark-mode .program-detail-header {
+    background-color: #1F2024;
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .program-detail-header__nav {
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .equip-page,
+.dark-mode .equip-content {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+}
+
+.dark-mode .equip-header {
+    background-color: #1F2024;
+    border-bottom: 1px solid var(--dm-divider);
+}
+
+/* Header dropdowns (Program / Site selectors) */
+.dark-mode .header-dropdown {
+    border-left-color: var(--dm-divider);
+}
+.dark-mode .header-dropdown__label { color: var(--dm-text-3); }
+.dark-mode .header-dropdown__select {
+    color: var(--dm-text-1);
+    background-color: transparent;
+}
+.dark-mode .header-dropdown__select:hover { color: var(--dm-accent); }
+.dark-mode .header-dropdown__chevron { color: var(--dm-text-3); }
+
+/* Build stages timeline section dividers + bg */
+.dark-mode #program-timeline {
+    background-color: #1F2024;
+    border-left-color: var(--dm-divider);
+    border-right-color: var(--dm-divider);
+}
+
+/* Build stages stepper */
+.dark-mode .build-stages { border-left-color: var(--dm-divider); }
+.dark-mode .build-stage__circle {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+.dark-mode .build-stage__circle--active,
+.dark-mode .build-stage__circle--completed {
+    background-color: var(--dm-accent);
+    border-color: var(--dm-accent);
+}
+.dark-mode .build-stage__connector { background-color: var(--dm-bg-5); }
+.dark-mode .build-stage__connector--active { background-color: var(--dm-accent); }
+.dark-mode .build-stage__dot { background-color: var(--dm-bg-1); }
+.dark-mode .build-stage__label { color: var(--dm-accent); }
+.dark-mode .build-stage:not(.build-stage--active):not(.build-stage--completed) .build-stage__label { color: var(--dm-text-3); }
+.dark-mode .build-stage__sublabel { color: var(--dm-text-3); }
+
+.dark-mode .version-badge {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .uph-target { color: var(--dm-text-1); }
+.dark-mode .reihd-info { color: var(--dm-text-3); }
+.dark-mode .edit-btn { color: var(--dm-accent); }
+.dark-mode .back-btn { color: var(--dm-accent); }
+
+/* ========================================
+   Tabs (Process Flow / Equipment / Consumables / PCN)
+   ======================================== */
+.dark-mode .program-tabs {
+    background-color: #191A1A;
+    border-bottom: 1px solid var(--dm-divider);
+}
+.dark-mode .program-tabs .tabs__tab { color: var(--dm-text-3); }
+.dark-mode .program-tabs .tabs__tab:hover { color: var(--dm-text-1); }
+.dark-mode .program-tabs .tabs__tab--active {
+    color: var(--dm-accent);
+    border-bottom-color: var(--dm-accent);
+}
+.dark-mode .tabs-actions .btn--secondary {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+.dark-mode .tabs-actions .btn--secondary:hover { background-color: var(--dm-bg-4); }
+.dark-mode .tabs-actions .btn--primary {
+    background-color: var(--dm-accent);
+    color: #FFFFFF;
+}
+
+/* ========================================
+   Process toolbar (search + actions)
+   ======================================== */
+.dark-mode .process-toolbar {
+    background-color: var(--dm-bg-2);
+    border-bottom: 1px solid var(--dm-divider);
+}
+.dark-mode .search-bar__input {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+.dark-mode .search-bar__input::placeholder { color: var(--dm-text-3); }
+.dark-mode .search-bar__input:focus {
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 2px rgba(113, 128, 172, 0.2);
+}
+.dark-mode .search-bar__icon,
+.dark-mode .search-bar__shortcut { color: var(--dm-text-3); }
+
+.dark-mode .toolbar-btn {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+.dark-mode .toolbar-btn:hover { background-color: var(--dm-bg-4); }
+.dark-mode .toolbar-btn svg,
+.dark-mode .toolbar-btn img { filter: invert(1) brightness(1.4); opacity: 0.85; }
+
+.dark-mode .tag-btn {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-2);
+    border-color: var(--dm-divider);
+}
+.dark-mode .tag-btn:hover { background-color: var(--dm-bg-4); }
+
+/* Equip restore group (custom view + chevron paired buttons) */
+.dark-mode .equip-restore-group {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .equip-restore-group.is-active {
+    border-color: var(--dm-accent);
+}
+
+.dark-mode .equip-restore-group__btn:hover {
+    background-color: var(--dm-bg-4);
+}
+
+.dark-mode .equip-restore-group__btn img {
+    filter: brightness(0) saturate(100%) invert(80%);
+}
+
+/* Active state — slider icon turns to lifted accent blue */
+.dark-mode .equip-restore-group.is-active .equip-restore-group__btn--custom img {
+    /* #7180AC (lifted accent) */
+    filter: brightness(0) saturate(100%) invert(54%) sepia(89%) saturate(2104%) hue-rotate(192deg) brightness(102%) contrast(101%);
+}
+
+.dark-mode .equip-restore-group__divider {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .equip-restore-group.is-active .equip-restore-group__divider {
+    background-color: var(--dm-accent);
+}
+
+.dark-mode .equip-restore-group__btn--chevron svg {
+    color: var(--dm-text-2);
+}
+
+/* Equip restore menu (chevron popover) */
+.dark-mode .equip-restore-menu {
+    background-color: var(--dm-bg-4);
+    border-color: var(--dm-divider);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .equip-restore-menu__item:hover {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .equip-restore-menu__title { color: var(--dm-text-1); }
+.dark-mode .equip-restore-menu__subtitle { color: var(--dm-text-3); }
+.dark-mode .equip-restore-menu__divider { background-color: var(--dm-divider); }
+
+
+.dark-mode .program-detail-header .program-tabs {
+    background-color: transparent;
+    border-bottom: 0;
+    border-left-color: var(--dm-divider);
+}

@@ -1,0 +1,154 @@
+<!-- SELECT DROPDOWN -->
+<!-- DaVinci default = Stylized Select. Use the Simple variant only when designers explicitly opt out. -->
+<!-- Copy the exact HTML you need -->
+
+<!-- METADATA
+Component: Select
+Category: Forms
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST wrap <select> in a .form-group (or .form-group--medium for floating label)
+- Label paired with select via matching for/id
+- Default variant: add `form-select--stylized` modifier (renders custom Monalisa-style dropdown panel)
+- Simple variant (opt-out): omit the modifier — renders the browser-native dropdown
+- Always include a placeholder <option value=""> as the first child
+- Stylized variant supports: single-line items (default), title-text items, avatar items, empty state
+
+VARIANTS / FLAVORS:
+- Sizes: small (default, label outside), medium (form-group--medium, 48px with floating label), table-cell (form-select--table-cell, 24px)
+- Layout (Stylized only, via data-stylized-variant on <select>):
+  - omitted → single-line items
+  - "title-text" → each option renders title + caption (per-option `data-text="..."`)
+  - "avatar" → each option renders avatar + title + caption (`data-text`, plus `data-avatar-initials` or `data-avatar-image`)
+- States: default, disabled, invalid (form-select--invalid)
+- Empty: set `data-stylized-empty="true"` to force the canonical empty state inside the panel; customize copy with `data-empty-title` and `data-empty-subtitle` (set `data-empty-subtitle=""` to hide line 2)
+
+COMMON MISTAKES TO AVOID:
+❌ Using the Simple (native) variant by default — DaVinci default is Stylized
+❌ Forgetting the placeholder <option value="">
+❌ Hand-building a custom dropdown when MDS already provides Stylized Select
+❌ Using `form-select--stylized` with `<select multiple>` — multi-select is not supported yet (use the Simple variant)
+
+JAVASCRIPT INTEGRATION:
+- Stylized Select auto-initializes via `initStylizedSelects()` (runs on DOMContentLoaded and `davinci:canvas:ready`)
+- Custom panel is built from <option>s on open, appended to <body>, and removed on close
+- Selection writes back to the underlying <select>.value and dispatches a `change` event
+- Listen with: select.addEventListener('change', ...)
+
+When to prompt: if designer doesn't specify size, default to Small (label outside). For multi-line option content (description, avatar), ask which variant. For empty/loading states, confirm copy.
+-->
+
+<!-- DEFAULT: STYLIZED — SINGLE-LINE ITEMS (small size, label outside) -->
+<div class="form-group">
+  <label class="form-label" for="select-small">Choose an option</label>
+  <select id="select-small" class="form-select form-select--stylized">
+    <option value="">Select an option…</option>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+    <option value="3">Option 3</option>
+  </select>
+</div>
+
+<!-- STYLIZED — MEDIUM (48px, floating label) -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-medium">Category</label>
+  <select id="select-medium" class="form-select form-select--stylized">
+    <option value=""></option>
+    <option value="electronics">Electronics</option>
+    <option value="clothing">Clothing</option>
+    <option value="home">Home & Garden</option>
+    <option value="sports">Sports</option>
+  </select>
+</div>
+
+<!-- STYLIZED — TITLE + TEXT ITEMS -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-plan">Plan</label>
+  <select id="select-plan" class="form-select form-select--stylized" data-stylized-variant="title-text">
+    <option value=""></option>
+    <option value="starter" data-text="Up to 5 projects, community support, basic analytics.">Starter</option>
+    <option value="growth" data-text="Up to 50 projects, email support, advanced analytics.">Growth</option>
+    <option value="enterprise" data-text="Unlimited projects, 24/7 support, custom integrations.">Enterprise</option>
+  </select>
+</div>
+
+<!-- STYLIZED — TITLE + TEXT + AVATAR ITEMS -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-assignee">Assignee</label>
+  <select id="select-assignee" class="form-select form-select--stylized" data-stylized-variant="avatar">
+    <option value=""></option>
+    <option value="me-1" data-text="Software Engineer" data-avatar-initials="ME">Marshall Eriksen</option>
+    <option value="me-2" data-text="Product Designer" data-avatar-image="../../assets/avatars/avatar-3.jpg">Lily Aldrin</option>
+    <option value="me-3" data-text="Engineering Manager" data-avatar-initials="TM">Ted Mosby</option>
+  </select>
+</div>
+
+<!-- STYLIZED — EMPTY STATE -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-tags">Tags</label>
+  <select id="select-tags" class="form-select form-select--stylized"
+          data-stylized-empty="true"
+          data-empty-title="No tags yet"
+          data-empty-subtitle="Create one from the Settings panel.">
+    <option value=""></option>
+  </select>
+</div>
+
+<!-- STYLIZED — TABLE CELL (24px) -->
+<div class="form-group">
+  <label class="form-label" for="select-table">Status</label>
+  <select id="select-table" class="form-select form-select--stylized form-select--table-cell">
+    <option value="">Select…</option>
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+    <option value="pending">Pending</option>
+  </select>
+</div>
+
+<!-- STYLIZED — INVALID STATE -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-medium-invalid">Required field</label>
+  <select id="select-medium-invalid" class="form-select form-select--stylized form-select--invalid">
+    <option value=""></option>
+    <option value="invalid" selected>Invalid Option</option>
+  </select>
+</div>
+
+<!-- STYLIZED — DISABLED -->
+<div class="form-group form-group--medium">
+  <label class="form-label" for="select-medium-disabled">Disabled</label>
+  <select id="select-medium-disabled" class="form-select form-select--stylized" disabled>
+    <option value="">Select an option…</option>
+    <option value="1">Option 1</option>
+  </select>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!-- SIMPLE (NATIVE) VARIANT — opt-out only, when designers explicitly want the    -->
+<!-- browser's native dropdown. Same markup minus the `form-select--stylized` class. -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<!-- SIMPLE — SMALL -->
+<div class="form-group">
+  <label class="form-label" for="select-simple-small">Choose an option</label>
+  <select id="select-simple-small" class="form-select">
+    <option value="">Select an option...</option>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+  </select>
+</div>
+
+<!-- USAGE:
+- DEFAULT = Stylized. Add `form-select--stylized` to the native <select> and let the canvas-injected JS handle the rest.
+- Use the Simple (native) variant ONLY when the designer explicitly asks for the browser's native dropdown.
+- Sizes: Small (label outside, default), Medium (form-group--medium, 48px floating label), Table Cell (form-select--table-cell, 24px).
+- Stylized layouts:
+  · Default → single-line items (just <option> text)
+  · `data-stylized-variant="title-text"` → title + caption per option (per-option `data-text="..."`)
+  · `data-stylized-variant="avatar"` → avatar + title + caption (per-option `data-text` and `data-avatar-initials` OR `data-avatar-image`)
+- Empty state: trigger via `data-stylized-empty="true"` (or by leaving the <select> with no real options). Customize via `data-empty-title` / `data-empty-subtitle`. Set `data-empty-subtitle=""` to hide line 2.
+- Always include a placeholder <option value=""> for floating-label medium variants.
+- Pair every <select> with a <label for="..."> using matching ids.
+- Multi-select (`<select multiple>`) is not yet supported by the Stylized variant — use Simple for now.
+-->

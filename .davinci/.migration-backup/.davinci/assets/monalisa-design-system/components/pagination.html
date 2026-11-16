@@ -1,0 +1,258 @@
+<!-- PAGINATION -->
+<!-- Pagination controls for navigating through large data sets -->
+
+<!-- METADATA
+Component: Pagination
+Category: Navigation/Data Display
+Complexity: Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use <nav> wrapper with class="pagination"
+- MUST have TWO main groups: pagination__controls (left) and pagination__navigation (right)
+- MUST use <ul> and <li> for page numbers (semantic HTML)
+- MUST use <a> tags with pagination__link class for page numbers (NOT buttons)
+- MUST use <button> tags with pagination__nav class for prev/next
+- Per-page selector MUST use pagination__per-page-select class
+- Total count MUST be wrapped in pagination__total-number span
+
+COMMON MISTAKES TO AVOID:
+❌ Using <div> instead of <nav> wrapper
+❌ Using buttons for page numbers instead of <a> tags in <li>
+❌ Creating custom structure without the two-group layout
+❌ Missing pagination__controls and pagination__navigation divs
+❌ Using custom class names instead of MDS classes
+❌ Adding custom CSS to override MDS styles
+
+JAVASCRIPT INTEGRATION:
+- Use event delegation on pagination__link clicks (they are <a> tags)
+- Add preventDefault() to link clicks
+- Toggle pagination__nav--disabled class + disabled attribute for prev/next
+- Toggle pagination__link--active class + aria-current="page" for active page
+- Update pagination__total-number textContent for total count
+- Listen to pagination__per-page-select change event for items per page
+
+CORRECT STRUCTURE TEMPLATE:
+<nav class="pagination">
+  <div class="pagination__controls">
+    <div class="pagination__per-page">
+      <select class="pagination__per-page-select">...</select>
+      <span class="pagination__per-page-label">/ page</span>
+    </div>
+    <div class="pagination__total">
+      Total: <span class="pagination__total-number">###</span>
+    </div>
+  </div>
+  <div class="pagination__navigation">
+    <button class="pagination__nav">< Prev</button>
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">1</a>
+      </li>
+    </ul>
+    <button class="pagination__nav">Next ></button>
+  </div>
+</nav>
+
+When to prompt: Never - structure is fixed, only content varies (page numbers, total count)
+Variants: First page (prev disabled), Last page (next disabled), Middle page (both enabled)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- BASIC PAGINATION -->
+<nav class="pagination" aria-label="Pagination">
+  <!-- Group 1: Controls (Left) -->
+  <div class="pagination__controls">
+    <div class="pagination__per-page">
+      <select class="pagination__per-page-select" aria-label="Items per page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="pagination__per-page-label">/ page</span>
+    </div>
+    <div class="pagination__total">
+      Total: <span class="pagination__total-number">1394</span>
+    </div>
+  </div>
+  
+  <!-- Group 2: Navigation (Right) -->
+  <div class="pagination__navigation">
+    <button class="pagination__nav" aria-label="Previous page">
+      &lt; Prev
+    </button>
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        <a href="#" class="pagination__link pagination__link--active" aria-current="page">1</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">2</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">3</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">4</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">5</a>
+      </li>
+      <li class="pagination__item">
+        <span class="pagination__ellipsis">...</span>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">70</a>
+      </li>
+    </ul>
+    <button class="pagination__nav" aria-label="Next page">
+      Next &gt;
+    </button>
+  </div>
+</nav>
+
+<!-- FIRST PAGE (PREV DISABLED) -->
+<nav class="pagination" aria-label="Pagination - First page">
+  <div class="pagination__controls">
+    <div class="pagination__per-page">
+      <select class="pagination__per-page-select" aria-label="Items per page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="pagination__per-page-label">/ page</span>
+    </div>
+    <div class="pagination__total">
+      Total: <span class="pagination__total-number">1394</span>
+    </div>
+  </div>
+  <div class="pagination__navigation">
+    <button class="pagination__nav pagination__nav--disabled" disabled aria-label="Previous page">
+      &lt; Prev
+    </button>
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        <a href="#" class="pagination__link pagination__link--active" aria-current="page">1</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">2</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">3</a>
+      </li>
+      <li class="pagination__item">
+        <span class="pagination__ellipsis">...</span>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">70</a>
+      </li>
+    </ul>
+    <button class="pagination__nav" aria-label="Next page">
+      Next &gt;
+    </button>
+  </div>
+</nav>
+
+<!-- LAST PAGE (NEXT DISABLED) -->
+<nav class="pagination" aria-label="Pagination - Last page">
+  <div class="pagination__controls">
+    <div class="pagination__per-page">
+      <select class="pagination__per-page-select" aria-label="Items per page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="pagination__per-page-label">/ page</span>
+    </div>
+    <div class="pagination__total">
+      Total: <span class="pagination__total-number">1394</span>
+    </div>
+  </div>
+  <div class="pagination__navigation">
+    <button class="pagination__nav" aria-label="Previous page">
+      &lt; Prev
+    </button>
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">1</a>
+      </li>
+      <li class="pagination__item">
+        <span class="pagination__ellipsis">...</span>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">68</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">69</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link pagination__link--active" aria-current="page">70</a>
+      </li>
+    </ul>
+    <button class="pagination__nav pagination__nav--disabled" disabled aria-label="Next page">
+      Next &gt;
+    </button>
+  </div>
+</nav>
+
+<!-- MIDDLE PAGE -->
+<nav class="pagination" aria-label="Pagination - Middle page">
+  <div class="pagination__controls">
+    <div class="pagination__per-page">
+      <select class="pagination__per-page-select" aria-label="Items per page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="pagination__per-page-label">/ page</span>
+    </div>
+    <div class="pagination__total">
+      Total: <span class="pagination__total-number">1394</span>
+    </div>
+  </div>
+  <div class="pagination__navigation">
+    <button class="pagination__nav" aria-label="Previous page">
+      &lt; Prev
+    </button>
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">1</a>
+      </li>
+      <li class="pagination__item">
+        <span class="pagination__ellipsis">...</span>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">34</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link pagination__link--active" aria-current="page">35</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">36</a>
+      </li>
+      <li class="pagination__item">
+        <span class="pagination__ellipsis">...</span>
+      </li>
+      <li class="pagination__item">
+        <a href="#" class="pagination__link">70</a>
+      </li>
+    </ul>
+    <button class="pagination__nav" aria-label="Next page">
+      Next &gt;
+    </button>
+  </div>
+</nav>
+
+<!-- USAGE:
+- Pagination has two groups: controls (left) and navigation (right)
+- Controls include per-page selector and total count
+- Navigation includes prev/next buttons and page numbers
+- Use pagination__link--active for current page
+- Use pagination__nav--disabled with disabled attribute for disabled nav buttons
+- Use pagination__ellipsis for page number gaps
+- Always include proper aria-label attributes for accessibility
+- Typically placed below tables or content lists
+-->

@@ -1,0 +1,110 @@
+<!-- NOTIFICATIONS -->
+<!-- Contextual feedback messages - inline (static) or toast (top center) -->
+
+<!-- METADATA
+Component: Notification
+Category: Feedback
+Complexity: Low-Medium
+
+CRITICAL STRUCTURE REQUIREMENTS:
+- MUST use notification wrapper div with variant class
+- MUST include three sections: notification__icon, notification__content, notification__close
+- Variant classes: notification--info, notification--success, notification--warning, notification--error
+- MUST include semantic SVG icon in notification__icon
+- MUST include notification__message in notification__content
+- MUST include notification__close button
+
+COMMON MISTAKES TO AVOID:
+❌ Missing variant class (notification--info, etc.)
+❌ Omitting notification__icon, notification__content, or notification__close
+❌ Using generic icons instead of semantic SVGs provided
+❌ Missing notification__message wrapper inside notification__content
+❌ Creating custom notification structure instead of using MDS classes
+
+JAVASCRIPT INTEGRATION:
+Static notifications (inline):
+- Add click handler to notification__close to remove notification from DOM
+- Consider fade-out animation before removal
+
+Toast notifications (top center, auto-dismiss):
+- Use MDS function: showNotification(type, message)
+- Types: 'success', 'error', 'warning', 'info'
+- Message is optional - uses default if not provided
+- Automatically positioned at top center and auto-dismisses after 3 seconds
+
+CORRECT STRUCTURE TEMPLATE:
+<div class="notification notification--success">
+  <div class="notification__icon">
+    <svg># Semantic icon SVG #</svg>
+  </div>
+  <div class="notification__content">
+    <div class="notification__message">
+      <strong>Success:</strong> Your message here
+    </div>
+  </div>
+  <button class="notification__close" aria-label="Close">×</button>
+</div>
+
+When to prompt: Ask for type only if context doesn't make it clear (success/error/warning/info)
+Variants: Info (blue), Success (green), Warning (orange), Error (red)
+-->
+
+<!-- Copy the exact HTML you need -->
+
+<!-- STATIC NOTIFICATIONS (INLINE) -->
+
+<!-- INFO NOTIFICATION -->
+<div class="notification notification--info">
+  <div class="notification__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M29.6069941,59.5508318 C45.7791327,59.5508318 59.2059447,46.1546139 59.2059447,29.9824753 C59.2059447,13.8102773 45.7484199,0.414059407 29.5762218,0.414059407 C13.4285584,0.414059407 0.0386138615,13.8102773 0.0386138615,29.9824753 C0.0386138615,46.1546139 13.4592713,59.5508318 29.6069941,59.5508318 Z M29.6069941,54.6394397 C15.952004,54.6394397 5.00521189,43.6681783 5.00521189,29.9824753 C5.00521189,16.2967129 15.9212317,5.32544555 29.5762218,5.32544555 C43.2619842,5.32544555 54.2639644,16.2967129 54.2639644,29.9824753 C54.2639644,43.6681783 43.2926971,54.6394397 29.6069941,54.6394397 Z M24.5413307,46.2286397 L36.3489743,46.2286397 C37.5309743,46.2286397 38.4727367,45.3728615 38.4727367,44.1663565 C38.4727367,43.027604 37.5309743,42.1348516 36.3489743,42.1348516 L32.7471327,42.1348516 L32.7471327,27.3706931 C32.7471327,25.8015446 31.9591129,24.7857624 30.5003406,24.7857624 L25.0213307,24.7857624 C23.8392713,24.7857624 22.9282812,25.6785149 22.9282812,26.7927921 C22.9282812,27.9930297 23.8392713,28.8550694 25.0213307,28.8550694 L28.1431723,28.8550694 L28.1431723,42.1348516 L24.5413307,42.1348516 C23.3530337,42.1348516 22.4175684,43.027604 22.4175684,44.1663565 C22.4175684,45.3728615 23.3530337,46.2286397 24.5413307,46.2286397 Z M29.3610535,19.9448911 C31.479707,19.9448911 33.1428951,18.2697624 33.1428951,16.1510495 C33.1428951,14.0323367 31.479707,12.3691485 29.3610535,12.3691485 C27.2731129,12.3691485 25.5791525,14.0323367 25.5791525,16.1510495 C25.5791525,18.2697624 27.2731129,19.9448911 29.3610535,19.9448911 Z" transform="translate(2.297 2)"/></svg></div>
+  <div class="notification__content">
+    <div class="notification__message">
+      <strong>Info:</strong> This is an informational message to provide context or additional details.
+    </div>
+  </div>
+  <button class="notification__close" aria-label="Close">×</button>
+</div>
+
+<!-- SUCCESS NOTIFICATION -->
+<div class="notification notification--success">
+  <div class="notification__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M23.0257412,59.1307272 C24.5026589,59.1307272 25.6648942,58.4873366 26.4984,57.2080166 L59.0437413,5.97056472 C59.6946354,4.96856471 59.9212236,4.1790353 59.9212236,3.38950589 C59.9212236,1.51757647 58.6852236,0.244941177 56.7766589,0.244941177 C55.4093648,0.244941177 54.641506,0.705670589 53.8154824,2.02898824 L22.8721412,51.3199977 L6.81741178,30.2898353 C5.94741177,29.1126353 5.10649413,28.6154118 3.84134118,28.6154118 C1.92536471,28.6154118 0.550588236,29.9536236 0.550588236,31.8621177 C0.550588236,32.6665412 0.894282354,33.5440236 1.55258824,34.3849412 L19.421153,57.1349507 C20.4887294,58.5022377 21.5414118,59.1307272 23.0257412,59.1307272 Z" transform="translate(2 2.353)"/></svg></div>
+  <div class="notification__content">
+    <div class="notification__message">
+      <strong>Success:</strong> Your action was completed successfully!
+    </div>
+  </div>
+  <button class="notification__close" aria-label="Close">×</button>
+</div>
+
+<!-- WARNING NOTIFICATION -->
+<div class="notification notification--warning">
+  <div class="notification__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M7.76688351,54.1104467 L51.8532525,54.1104467 C56.6832525,54.1104467 59.6145147,50.7374214 59.6145147,46.3800816 C59.6145147,45.0556428 59.227136,43.6586156 58.5013108,42.3883282 L36.4373884,3.95708739 C34.95667,1.39427185 32.4239709,0.083300971 29.8131554,0.083300971 C27.1961651,0.083300971 24.6333496,1.39427185 23.1827476,3.95708739 L1.11865049,42.3883282 C0.362592234,43.6887612 0.00582524273,45.0556428 0.00582524273,46.3800816 C0.00582524273,50.7374214 2.93717476,54.1104467 7.76688351,54.1104467 Z M7.80317477,49.6260409 C5.82195147,49.6260409 4.59294176,48.0759403 4.59294176,46.373936 C4.59294176,45.8099185 4.73257282,45.1370214 5.04195146,44.5668583 L27.0697573,6.11778642 C27.6633496,5.08194176 28.7533107,4.60398059 29.8131554,4.60398059 C30.8367088,4.60398059 31.8965535,5.08194176 32.5202622,6.11778642 L54.5483011,44.5970098 C54.8576215,45.1671671 54.9968448,45.8099185 54.9968448,46.373936 C54.9968448,48.0759403 53.7683011,49.6260409 51.7867865,49.6260409 L7.80317477,49.6260409 Z M29.8069806,34.925534 C31.153136,34.925534 31.9381457,34.1584078 31.9682622,32.6670874 L32.3909418,17.6636505 C32.4210583,16.2326214 31.2681263,15.1400389 29.7768641,15.1400389 C28.2252525,15.1400389 27.1627865,16.2025049 27.1929612,17.6334758 L27.5552913,32.6670874 C27.5854661,34.1282331 28.3704758,34.925534 29.8069806,34.925534 Z M29.8069806,44.17027 C31.4563399,44.17027 32.851602,42.8771476 32.851602,41.2160972 C32.851602,39.5427962 31.4865146,38.2619418 29.8069806,38.2619418 C28.1336797,38.2619418 26.7322428,39.5729127 26.7322428,41.2160972 C26.7322428,42.847002 28.1637962,44.17027 29.8069806,44.17027 Z" transform="translate(2 4.913)"/></svg></div>
+  <div class="notification__content">
+    <div class="notification__message">
+      <strong>Warning:</strong> Please review this information before proceeding.
+    </div>
+  </div>
+  <button class="notification__close" aria-label="Close">×</button>
+</div>
+
+<!-- ERROR NOTIFICATION -->
+<div class="notification notification--error">
+  <div class="notification__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg></div>
+  <div class="notification__content">
+    <div class="notification__message">
+      <strong>Error:</strong> An error occurred. Please try again or contact support.
+    </div>
+  </div>
+  <button class="notification__close" aria-label="Close">×</button>
+</div>
+
+<!-- USAGE:
+- Static notifications are displayed inline within content flow
+- Four variants: notification--info, notification--success, notification--warning, notification--error
+- Each notification includes icon, content, and close button
+- notification__icon contains the semantic SVG icon
+- notification__message contains the message text
+- notification__close button allows users to dismiss
+- For toast notifications (top center, auto-dismiss), use JavaScript: showNotification(type, message)
+- Toast types: 'success', 'error', 'warning', 'info'
+- Toast message is optional - uses default if not provided
+-->

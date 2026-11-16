@@ -1,0 +1,90 @@
+/* Progress Drawer — bottom-anchored drawer for long-running operations.
+ * Shown via window.ProjProgressDrawer.show(config). */
+
+.proj-progress-drawer {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  width: min(72rem, 90vw);
+  background-color: var(--color-fill);
+  border-radius: var(--space-s) var(--space-s) 0 0;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 2147483647;
+  opacity: 1;
+  font-family: var(--font-family-main);
+  transform: translateX(-50%) translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.proj-progress-drawer--open {
+  transform: translateX(-50%) translateY(0);
+}
+
+.proj-progress-drawer__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-m) var(--space-l);
+}
+
+.proj-progress-drawer__spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 2px solid var(--color-fill-gray-quaternary);
+  border-top-color: var(--color-base-accent);
+  border-radius: 50%;
+  animation: proj-progress-drawer-spin 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes proj-progress-drawer-spin {
+  to { transform: rotate(360deg); }
+}
+
+.proj-progress-drawer__message {
+  flex: 1;
+  font-size: var(--font-size-xxs);
+  color: var(--color-glyph-gray);
+}
+
+.proj-progress-drawer__chevron {
+  flex-shrink: 0;
+  color: var(--color-base-accent);
+}
+
+.proj-progress-drawer__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-s) var(--space-l);
+  border-top: 1px solid var(--color-fill-gray-quaternary);
+  background-color: var(--color-fill-secondary);
+}
+
+.proj-progress-drawer__step-label {
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  flex: 1;
+}
+
+.proj-progress-drawer__bar {
+  width: 16rem;
+  height: 0.4rem;
+  background-color: var(--color-fill-gray-quaternary);
+  border-radius: 99rem;
+  overflow: hidden;
+}
+
+.proj-progress-drawer__bar-fill {
+  height: 100%;
+  background-color: var(--color-base-accent);
+  width: 0;
+}
+
+.proj-progress-drawer__step-counter {
+  font-size: var(--font-size-tiny);
+  color: var(--color-glyph-gray-secondary);
+  min-width: 3rem;
+  text-align: right;
+}

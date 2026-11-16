@@ -1,0 +1,20 @@
+component: badge-counter
+summary: "A small numeric badge overlaid on an anchor element to convey a count such as unread or pending items."
+anatomy:
+  - {id: anchor, required: true, role: "positioning wrapper containing the host control (button, checkbox, icon) and the badge, establishing the badge's overlay position"}
+  - {id: host, required: true, role: "the element the count refers to (e.g. a button or checkbox); remains fully interactive"}
+  - {id: badge, required: true, role: "the counter element displaying the numeric value"}
+states: [default, zero-hidden?]
+behaviors:
+  update: "changing the count updates the badge value in place"
+  hide-when-zero: "when the count is zero the badge is hidden (removed or not displayed) rather than shown as an empty or 0 badge"
+a11y:
+  - "the badge conveys a meaningful accessible label describing what the count represents, not just the bare number (e.g. \"3 unread notifications\")"
+  - "the count is associated with its host control so the host's accessible name reflects the count, or the badge is announced together with the host"
+  - "the badge does not intercept pointer or keyboard interaction intended for the host control"
+  - "when the count changes in response to activity, the update is communicated to assistive tech (e.g. via a live region) where relevant"
+heuristics:
+  - {id: system-status, source: nielsen, rule: "the badge reflects the current count and disappears at zero so users are not shown a stale or meaningless indicator", verify: [checklist, dom]}
+  - {id: recognition, source: nielsen, rule: "the count is paired with a label that states what it counts, not a naked number", verify: [dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, shape, position offset, min-width, overflow formatting]

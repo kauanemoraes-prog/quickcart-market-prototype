@@ -1,0 +1,276 @@
+/* Dark mode — Equipment + vendor sub-table + actions/delete/popover/comparison/settings drawer */
+/* Active when <html class="dark-mode">. Split from dark-mode.css. */
+
+/* ========================================
+   Equipment table (the main one — all white surfaces → dark)
+   ======================================== */
+.dark-mode .equipment-table-container,
+.dark-mode .equipment-table-container .table-container {
+    background-color: var(--dm-bg-2);
+}
+
+.dark-mode .equipment-table-container .table-container::-webkit-scrollbar-thumb {
+    background-color: var(--dm-bg-5);
+}
+
+.dark-mode .table--equipment { background-color: transparent; }
+
+.dark-mode .table--equipment .table__head { background-color: var(--dm-bg-2); }
+
+.dark-mode .table--equipment .table__header {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+    border-right-color: var(--dm-divider);
+}
+
+.dark-mode .table--equipment .table__row {
+    background-color: var(--dm-bg-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table--equipment .table__row:hover {
+    background-color: var(--dm-row-hover);
+}
+
+.dark-mode .table--equipment .table__row:hover .table__cell--sticky-name,
+.dark-mode .table--equipment .table__row:hover .table__cell--sticky-short {
+    background-color: var(--dm-row-hover);
+}
+
+.dark-mode .table--equipment .table__cell {
+    color: var(--dm-text-1);
+    border-bottom-color: var(--dm-divider);
+    border-right-color: var(--dm-divider);
+}
+
+/* Sticky columns (equip-name, equip-short) need their own dark bg */
+.dark-mode .table--equipment .table__header--sticky-name,
+.dark-mode .table--equipment .table__header--sticky-short,
+.dark-mode .table--equipment .table__cell--sticky-name,
+.dark-mode .table--equipment .table__cell--sticky-short {
+    background-color: var(--dm-bg-2);
+}
+
+/* Equipment name input "pill" style — transparent by default, editable on row hover.
+ * The .table--equipment scope is REQUIRED so this rule beats the global
+ * `.dark-mode input[type="text"]` defined in plugins/proj-dark-mode.css. */
+.dark-mode .table--equipment .equip-input {
+    background-color: transparent;
+    color: var(--dm-text-1);
+    border-color: transparent;
+}
+
+.dark-mode .table--equipment .equip-input::placeholder { color: var(--dm-text-3); }
+
+.dark-mode .table--equipment .table__row:hover .equip-input {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--equipment .equip-input:focus {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.24);
+    color: var(--dm-text-1);
+}
+
+/* Custom dropdown trigger — transparent by default, editable on row hover */
+.dark-mode .table--equipment .equip-dropdown__trigger {
+    background-color: transparent;
+    color: var(--dm-text-1);
+    border-color: transparent;
+}
+
+.dark-mode .table--equipment .table__row:hover .equip-dropdown__trigger {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table--equipment .equip-dropdown__trigger:focus,
+.dark-mode .table--equipment .equip-dropdown--open .equip-dropdown__trigger {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.24);
+}
+
+.dark-mode .equip-dropdown__chevron { color: var(--dm-text-3); }
+
+.dark-mode .equip-dropdown__menu {
+    background-color: var(--dm-bg-4);
+    border-color: var(--dm-divider);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .equip-dropdown__option { color: var(--dm-text-1); }
+.dark-mode .equip-dropdown__option:hover { background-color: var(--dm-bg-5); }
+.dark-mode .equip-dropdown__option--selected {
+    color: var(--dm-accent);
+    background-color: var(--dm-accent-soft);
+}
+
+/* Equipment add-row button */
+.dark-mode .equip-add-row-btn { color: var(--dm-accent); }
+.dark-mode .equip-add-row-btn:hover { background-color: var(--dm-bg-3); }
+
+/* Custom checkboxes used inside tables (.equip-checkbox, .cons-checkbox) —
+ * dark surface + subtle divider border, blue accent when checked/indeterminate */
+.dark-mode .equip-checkbox,
+.dark-mode .cons-checkbox {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+.dark-mode .equip-checkbox:checked,
+.dark-mode .cons-checkbox:checked,
+.dark-mode .equip-checkbox--indeterminate,
+.dark-mode .cons-checkbox--indeterminate {
+    background-color: var(--dm-accent);
+    border-color: var(--dm-accent);
+}
+
+/* Equipment chevron (expand row) */
+.dark-mode .equip-chevron { color: var(--dm-text-2); }
+.dark-mode .equip-chevron:hover { color: var(--dm-accent); }
+
+/* Equipment description button (plus-bubble icon) */
+.dark-mode .equip-desc-btn { color: var(--dm-accent); }
+
+/* Vendor DFM status indicators inside cells */
+.dark-mode .vendor-dfm__count { color: var(--dm-text-1); }
+.dark-mode .vendor-dfm__status,
+.dark-mode .vendor-dfm__info,
+.dark-mode .process-flow-usage__count,
+.dark-mode .process-flow-usage__info,
+.dark-mode .add-col-btn { color: var(--dm-accent); }
+
+/* Equipment expanded row (vendor sub-table inside) */
+.dark-mode .table__row--equip-expanded > td,
+.dark-mode .table__cell--equip-expanded {
+    background-color: var(--dm-bg-3);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .table__row--equip-expanded-active {
+    background-color: var(--dm-bg-3);
+}
+
+/* ========================================
+   Vendor sub-table (nested inside expanded equipment row)
+   ======================================== */
+.dark-mode .table--vendors {
+    background-color: transparent;
+    color: var(--dm-text-1);
+}
+
+.dark-mode .table--vendors .table__head { background-color: var(--dm-bg-4); }
+
+.dark-mode .table--vendors .table__header {
+    background-color: var(--dm-bg-4);
+    color: var(--dm-text-2);
+    border-bottom-color: var(--dm-divider);
+}
+
+.dark-mode .table--vendors .table__row {
+    border-bottom-color: var(--dm-divider);
+    background-color: transparent;
+}
+
+.dark-mode .table--vendors .table__row:hover { background-color: var(--dm-row-hover); }
+
+.dark-mode .table--vendors .table__cell { color: var(--dm-text-1); }
+
+.dark-mode .vendor-input {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-input:focus {
+    border-color: var(--dm-accent);
+    box-shadow: 0 0 0 3px rgba(113, 128, 172, 0.24);
+}
+
+.dark-mode .vendor-select__trigger {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-select__menu {
+    background-color: var(--dm-bg-4);
+    border-color: var(--dm-divider);
+}
+
+.dark-mode .vendor-select__option { color: var(--dm-text-1); }
+.dark-mode .vendor-select__option:hover { background-color: var(--dm-bg-5); }
+.dark-mode .vendor-select__option--selected { color: var(--dm-accent); }
+
+.dark-mode .vendor-add-row-btn { color: var(--dm-accent); }
+.dark-mode .vendor-add-row-btn:hover { background-color: var(--dm-bg-5); }
+
+.dark-mode .vendor-add-btn { color: var(--dm-accent); }
+.dark-mode .vendor-add-btn:hover { background-color: var(--dm-bg-5); }
+
+/* ========================================
+   Equipment actions bar (delete/duplicate row)
+   ======================================== */
+.dark-mode .table__row--actions-bar { background-color: var(--dm-bg-2) !important; }
+.dark-mode .table__cell--actions-bar { border-bottom-color: var(--dm-divider); }
+.dark-mode .equip-actions__count { color: var(--dm-text-2); }
+
+/* ========================================
+   Equipment delete confirmation modal
+   ======================================== */
+.dark-mode #equip-delete-modal { background-color: rgba(0, 0, 0, 0.6); }
+.dark-mode #equip-delete-modal .modal {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+}
+.dark-mode #equip-delete-modal .modal__body p { color: var(--dm-text-2); }
+.dark-mode .equip-delete-warning { color: var(--dm-danger) !important; }
+
+/* ========================================
+   Equipment - List tab popover (Equipment - List / Equipment - Comparison)
+   ======================================== */
+.dark-mode .equip-tab-menu {
+    background-color: var(--dm-bg-4);
+    border-color: var(--dm-divider);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .equip-tab-menu__item { color: var(--dm-text-1); }
+
+.dark-mode .equip-tab-menu__item:hover { background-color: var(--dm-bg-5); }
+
+.dark-mode .equip-tab-menu__item--active {
+    background-color: var(--dm-accent-soft);
+    color: var(--dm-accent);
+}
+
+.dark-mode .equip-tab-menu__check { color: var(--dm-accent); }
+
+/* ========================================
+   Equipment comparison drawer / dialog
+   ======================================== */
+.dark-mode .equipment-comparison,
+.dark-mode .equip-compare-modal,
+.dark-mode .equip-compare__container,
+.dark-mode .equip-compare__column,
+.dark-mode .equip-compare__cell {
+    background-color: var(--dm-bg-3);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+
+/* ========================================
+   Equipment settings drawer
+   ======================================== */
+.dark-mode .equip-settings-drawer,
+.dark-mode .equip-settings-drawer .drawer__body,
+.dark-mode .equip-settings-drawer .drawer__header,
+.dark-mode .equip-settings-drawer .drawer__footer {
+    background-color: var(--dm-bg-2);
+    color: var(--dm-text-1);
+    border-color: var(--dm-divider);
+}
+

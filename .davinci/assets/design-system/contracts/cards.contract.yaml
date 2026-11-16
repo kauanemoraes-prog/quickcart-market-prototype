@@ -1,0 +1,19 @@
+component: cards
+summary: "A flexible container that groups related content and actions about a single subject."
+anatomy:
+  - {id: card, required: true, role: "the container grouping one subject's content"}
+  - {id: header, required: false, role: "top region carrying the card title"}
+  - {id: title, required: "if header is present", role: "names the subject of the card"}
+  - {id: body, required: true, role: "the main content region"}
+  - {id: footer, required: false, role: "region holding the card's actions or links", capabilities: [actions]}
+states: [default]
+behaviors: {}
+a11y:
+  - "the title uses a heading element at a level consistent with the surrounding document outline"
+  - "when the whole card is clickable, it is a single semantic control (link or button) with an accessible name; do not nest interactive controls inside a clickable card"
+  - "actions in the footer are real buttons or links, each with its own accessible name"
+heuristics:
+  - {id: recognition, source: nielsen, rule: "a card groups content about one subject and, when titled, the title identifies that subject", verify: [checklist, dom]}
+  - {id: hit-target, source: apple-hig, rule: "actions in the footer meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics: []
+excludes: [class names, tokens, spacing, color, typography, borders, shape, shadow, elevation, size variants, grid layout]

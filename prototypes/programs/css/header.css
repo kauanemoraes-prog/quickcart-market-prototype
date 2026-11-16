@@ -1,0 +1,237 @@
+/* Program Detail Header */
+.program-detail-header {
+    position: sticky;
+    top: var(--nav-bottom, 8rem);
+    z-index: 100;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E8E8ED;
+    margin: 0 calc(var(--space-mp) * -1);
+    padding: 0 var(--space-mp);
+}
+
+.program-detail-header__nav {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    min-height: 48px;
+    border-bottom: 1px solid #E8E8ED;
+    margin: 0 calc(var(--space-mp) * -1);
+    padding-left: var(--space-mp);
+    padding-right: var(--space-mp);
+}
+
+/* Back button */
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 32px;
+    height: 32px;
+    text-decoration: none;
+    transition: var(--transition-basic);
+    flex-shrink: 0;
+}
+
+.back-btn img {
+    filter: brightness(0) saturate(100%) invert(30%) sepia(95%) saturate(2000%) hue-rotate(200deg) brightness(100%);
+}
+
+.back-btn + .header-dropdown {
+    border-left: none;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+}
+
+/* Header dropdown */
+.header-dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
+    min-width: 120px;
+    border-left: 1px solid #E8E8ED;
+    padding: 4px var(--space-m);
+}
+
+.header-dropdown__label {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.header-dropdown__select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.header-dropdown__select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: var(--space-xs) var(--space-l) var(--space-xs) 0;
+    font-family: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-regular, 400);
+    cursor: pointer;
+    outline: none;
+    min-width: 80px;
+}
+
+.header-dropdown__select:hover {
+    color: var(--color-base-accent);
+}
+
+.header-dropdown__chevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-glyph-gray-secondary);
+}
+
+/* Timeline */
+#program-timeline {
+    display: flex;
+    align-items: center;
+    padding: 4px var(--space-m);
+    border-left: 1px solid #E8E8ED;
+    border-right: 1px solid #E8E8ED;
+}
+
+#program-timeline .proj-timeline__milestones {
+    gap: 24px;
+}
+
+#program-timeline .proj-timeline__label,
+#program-timeline .proj-timeline__value {
+    font-size: var(--font-size-xxs);
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-xs);
+}
+
+/* Header info section */
+.header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 4px var(--space-m);
+}
+
+.header-info__item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.header-info__label {
+    font-size: 13px;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.uph-target {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.uph-target__label {
+    font-size: 13px;
+    color: var(--color-glyph-gray-secondary);
+}
+
+.uph-target__value {
+    font-size: 13px;
+    color: var(--color-glyph-gray);
+    font-weight: var(--font-weight-semibold);
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: var(--transition-basic);
+}
+
+.edit-btn:hover {
+    color: var(--color-base-accent);
+}
+
+/* The store has no build-phase timeline (planning to dismantling); the header shows its status tag instead */
+#program-timeline {
+    display: none;
+}
+
+/* Tabs live in the header, to the right of the Store selector; the page actions sit at its far right */
+.program-detail-header .program-tabs {
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-start;
+    padding: 0 var(--space-m);
+    border-left: 1px solid #E8E8ED;
+    background: transparent;
+}
+
+.program-detail-header .program-tabs .tabs,
+.program-detail-header .program-tabs .tabs__nav {
+    height: 100%;
+}
+
+.program-detail-header .program-tabs .tabs__nav {
+    align-items: stretch;
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
+/* The active underline sits on the bottom edge of the header row */
+.program-detail-header .program-tabs .tabs__tab {
+    height: 100%;
+    margin-bottom: -1px;
+}
+
+.program-detail-header .tabs-actions {
+    align-self: center;
+    flex-shrink: 0;
+    padding-left: var(--space-m);
+}
+
+/* City / Store selectors: the label sits right above the value */
+.program-detail-header .header-dropdown { gap: 0; }
+
+.program-detail-header .header-dropdown__label { margin: 0; line-height: 1.2; }
+
+.program-detail-header .header-dropdown__select-wrapper { display: block; line-height: 0; }
+
+.program-detail-header .header-dropdown__select {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1.4;
+}
+
+/* The toolbar on the right of the page: the line under its chevron lines up with the bottom line of the page header.
+ * js/toolbar-align.js measures the page header and sets --toolbar-header-h; 5.5rem is the value before it runs. */
+.proj-right-toolbar .proj-right-toolbar__header { border-bottom: 0 !important; box-sizing: border-box; height: var(--toolbar-header-h, 5.5rem) !important; }
+.proj-right-toolbar .proj-right-toolbar__nav { top: var(--toolbar-header-h, 5.5rem) !important; }
+.proj-right-toolbar .proj-right-toolbar__panel { top: calc(var(--toolbar-header-h, 5.5rem) + 0.1rem) !important; height: calc(100% - var(--toolbar-header-h, 5.5rem) - 0.1rem) !important; }
+
+/* Only the City / Store captions are small; the selected values and every tab (also the ones inside the tabs) share one size and font */
+.program-detail-header .program-tabs .tabs__tab {
+    font-family: inherit;
+    font-size: var(--font-size-xxs);
+}
+
+/* The last thing of a tab (a table or its note) ends 16px above the footer: 8px from the tab and 8px from the page */
+main.content:has(.program-detail-page) { padding-bottom: 8px; }

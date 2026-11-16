@@ -1,0 +1,24 @@
+component: pills
+summary: "A compact label representing a discrete value or selection, optionally dismissible and optionally in a selected state."
+anatomy:
+  - {id: pill, required: true, role: "the label container"}
+  - {id: label, required: true, role: "the text naming the value"}
+  - {id: close, required: false, role: "control that removes the pill", capabilities: [dismiss]}
+states: [default, selected?, hover?, focus?, disabled?]
+behaviors:
+  dismiss: "activating the close control removes this pill from its group and returns focus to a sensible sibling or the group"
+  select: "toggling the selected state marks this pill as chosen without removing it"
+a11y:
+  - "the close control is a real button with an accessible name that identifies which pill it removes (for example 'Remove Label')"
+  - "the close control is keyboard operable and reachable in the tab order"
+  - "the selected state is conveyed programmatically (for example aria-pressed or aria-selected), not by appearance alone"
+  - "the pill's decorative icon is aria-hidden so only the label and close name are announced"
+heuristics:
+  - {id: user-control, source: nielsen, rule: "a dismissible pill provides an obvious, reversible way to remove it", verify: [dom]}
+  - {id: status-programmatic, source: wcag, rule: "selected state is exposed to assistive tech, not color alone", verify: [dom]}
+  - {id: hit-target, source: apple-hig, rule: "the close control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: info, note: "an info/primary pill conveys a neutral informational value"}
+  - {id: warning, note: "a warning pill conveys a caution or attention-needed value"}
+  - {id: danger, note: "a danger pill conveys an error or destructive value"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, color variants, glyph artwork]

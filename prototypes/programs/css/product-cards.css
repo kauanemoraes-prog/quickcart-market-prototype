@@ -1,0 +1,106 @@
+/* Card view of the Products tabs */
+.pc-toggle { display: inline-flex; padding: 4px; gap: 4px; border: 1px solid var(--color-fill-quaternary); border-radius: 12px; background: #fff; }
+.pc-toggle__btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 8px;
+    background: transparent; font: inherit; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); cursor: pointer;
+}
+.pc-toggle__btn:hover { background: var(--color-fill-secondary); }
+.pc-toggle__btn--active, .pc-toggle__btn--active:hover { background: color-mix(in srgb, var(--color-base-accent) 14%, #fff); color: var(--color-base-accent); font-weight: var(--font-weight-semibold); }
+
+.pc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-m); padding: 6px; align-content: start; }
+@media (max-width: 1000px) { .pc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 780px) { .pc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .pc-grid { grid-template-columns: minmax(0, 1fr); } }
+.pc-empty { padding: var(--space-l); text-align: center; color: var(--color-glyph-gray-secondary); grid-column: 1 / -1; }
+
+/* Compact horizontal card: the package on the left, the data on the right, the stock line at the bottom */
+.pc-card {
+    display: flex; flex-direction: column; overflow: hidden; cursor: pointer;
+    border: 1px solid var(--color-fill-quaternary); border-radius: 12px; background: #fff;
+    transition: box-shadow .15s ease, border-color .15s ease;
+}
+/* Same hover as the indicators of the Overview: soft outline, tint and lift. The card of the open drawer keeps it. */
+.pc-card { box-shadow: inset 0 0 0 2px transparent; transition: box-shadow .15s ease, background-color .15s ease, transform .15s ease; }
+.pc-card:hover, .pc-card:focus-visible, .pc-card--open {
+    background-color: #F7F8FB;
+    box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 6px 16px rgba(113, 128, 172, 0.16);
+    transform: translateY(-1px);
+    outline: none;
+}
+.pc-card__main { display: flex; gap: var(--space-m); padding: var(--space-m) var(--space-m) 0; flex: 1; min-width: 0; }
+.pc-card__photo { position: relative; flex: 0 0 11rem; width: 11rem; align-self: stretch; min-height: 11rem; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #F3F3F5; overflow: hidden; }
+.pc-card__photo svg { height: 9rem; width: auto; }
+.pc-card__body { flex: 1; min-width: 0; }
+.pc-card__name { margin: 0; font-size: var(--font-size-xs, 15px); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray); overflow-wrap: anywhere; }
+.pc-card__brand { margin: 2px 0 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.pc-card__meta { margin: 2px 0 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); }
+.pc-card__price { margin: 2px 0 0; font-size: var(--font-size-xs, 15px); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; color: var(--color-glyph-gray); }
+.pc-card__price s { margin-right: 4px; font-size: var(--font-size-xxs); font-weight: var(--font-weight-regular); color: var(--color-glyph-gray-tertiary); }
+.pc-card__price em { margin-left: 6px; font-style: normal; font-size: var(--font-size-tiny); color: #B3261E; }
+.pc-card__exp { margin: 2px 0 0; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.pc-card__exp--warning { color: #8A5A00; font-weight: var(--font-weight-medium); }
+.pc-card__exp--danger { color: #B3261E; font-weight: var(--font-weight-medium); }
+.pc-card__code { margin: 2px 0 0; font-size: var(--font-size-tiny); font-variant-numeric: tabular-nums; color: var(--color-glyph-gray-secondary); line-height: 1.5; overflow-wrap: anywhere; }
+.pc-card__code span { display: inline-block; min-width: 3ch; font-weight: var(--font-weight-medium); color: var(--color-glyph-gray-tertiary); }
+
+.pc-card__stock { display: flex; align-items: center; gap: var(--space-s) var(--space-m); flex-wrap: wrap; padding: var(--space-s) var(--space-m) var(--space-m); border-top: 0; }
+.pc-card__status { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: var(--font-size-xxs); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+.pc-card__qty { flex: 1; min-width: 0; font-size: var(--font-size-xxs); font-variant-numeric: tabular-nums; color: var(--color-glyph-gray-secondary); }
+.pc-card__qty strong { color: var(--color-glyph-gray); }
+.pc-card__stock--success .pc-card__status { background: #DDF3E4; color: #1B6B3A; }
+.pc-card__stock--warning .pc-card__status { background: #FFF1CC; color: #7A5200; }
+.pc-card__stock--info .pc-card__status { background: #DCE7FD; color: #1B3F9A; }
+.pc-card__stock--danger .pc-card__status { background: #FBDDDA; color: #9A1F18; }
+/* The buttons share the width of the card, under a divider */
+.pc-card__footer { flex: 0 0 calc(100% + 2 * var(--space-m)); display: flex; gap: var(--space-s); margin: var(--space-xs) calc(-1 * var(--space-m)) calc(-1 * var(--space-m)); padding: var(--space-s) var(--space-m); border-top: 1px solid var(--color-fill-quaternary); }
+.pc-card__footer .btn { flex: 1 1 0; min-width: 0; justify-content: center; max-height: none; padding: 0.8rem 1.2rem; }
+
+.dark-mode .pc-toggle, .dark-mode .pc-card { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .pc-toggle__btn { color: var(--dm-text-2); }
+.dark-mode .pc-toggle__btn:hover { background: var(--dm-bg-3); }
+.dark-mode .pc-toggle__btn--active, .dark-mode .pc-toggle__btn--active:hover { background: var(--dm-accent-soft); color: var(--dm-accent); }
+.dark-mode .pc-card:hover, .dark-mode .pc-card:focus-visible, .dark-mode .pc-card--open { background-color: var(--dm-bg-3); box-shadow: inset 0 0 0 2px var(--dm-accent), 0 6px 16px rgba(0, 0, 0, .35); }
+.dark-mode .pc-card__photo { background: var(--dm-bg-3); }
+.dark-mode .pc-card__name, .dark-mode .pc-card__meta, .dark-mode .pc-card__price { color: var(--dm-text-1); }
+.dark-mode .pc-card__exp--warning { color: #FFD36B; }
+.dark-mode .pc-card__exp--danger { color: #FF9A92; }
+.dark-mode .pc-card__brand, .dark-mode .pc-card__code, .dark-mode .pc-card__qty { color: var(--dm-text-2); }
+.dark-mode .pc-card__stock { border-color: var(--dm-divider); }
+.dark-mode .pc-card__footer { border-color: var(--dm-divider); }
+.dark-mode .pc-card__qty strong { color: var(--dm-text-1); }
+.dark-mode .pc-card__stock--success .pc-card__status { background: rgba(48, 180, 100, .18); color: #7FE0A4; }
+.dark-mode .pc-card__stock--warning .pc-card__status { background: rgba(255, 190, 40, .18); color: #FFD36B; }
+.dark-mode .pc-card__stock--danger .pc-card__status { background: rgba(255, 90, 80, .20); color: #FF9A92; }
+
+.pc-grid[hidden] { display: none; }
+/* In a store the List / Cards switch sits under the Add product button. The filters keep their place: search and area on the
+ * first line, the chips (All SKUs, Low stock...) on the second, and the right column holds Add product over the switch. */
+.products-toolbar--stacked:has(> .pc-toggle) {
+    display: grid;
+    grid-template-columns: minmax(0, 44rem) auto 1fr auto;
+    align-items: center;
+}
+.products-toolbar--stacked:has(> .pc-toggle) > .products-search { grid-column: 1; grid-row: 1; }
+.products-toolbar--stacked:has(> .pc-toggle) > .products-area { grid-column: 2; grid-row: 1; }
+.products-toolbar--stacked:has(> .pc-toggle) > .toolbar-add { grid-column: 4; grid-row: 1; margin-left: 0; justify-self: end; }
+.products-toolbar--stacked:has(> .pc-toggle) > .products-chips { grid-column: 1 / 4; grid-row: 2; }
+.products-toolbar--stacked:has(> .pc-toggle) > .pc-toggle { grid-column: 4; grid-row: 2; justify-self: end; }
+.products-container[hidden] { display: none; }
+/* A real photo covers the drawn package */
+.pc-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.dark-mode .pc-card__img { background: #fff; }
+.dark-mode .pc-card__stock--info .pc-card__status { background: rgba(80, 130, 240, .20); color: #9DBBFF; }
+.pd-table .pd-num, .pd-table th.pd-num { text-align: right; padding-right: 16px; font-variant-numeric: tabular-nums; }
+/* The drawers of the network Products page have no backdrop either */
+#np-drawer.drawer-overlay { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; z-index: 9500; }
+
+/* Discount menu of a card */
+.pc-menu { position: fixed; z-index: 9800; min-width: 20rem; padding: var(--space-xs); border: 1px solid var(--color-fill-quaternary); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+.pc-menu__title { margin: 0; padding: 6px 10px 4px; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.pc-menu__item { display: flex; justify-content: space-between; gap: var(--space-m); width: 100%; padding: 8px 10px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: var(--font-size-xxs); font-variant-numeric: tabular-nums; color: var(--color-glyph-gray); text-align: left; cursor: pointer; }
+.pc-menu__item:hover, .pc-menu__item:focus-visible { background: var(--color-fill-secondary); outline: none; }
+.pc-menu__item--on { font-weight: var(--font-weight-semibold); color: var(--color-base-accent); }
+.pc-menu__item--remove { color: #B3261E; }
+.dark-mode .pc-menu { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .pc-menu__item { color: var(--dm-text-1); }
+.dark-mode .pc-menu__item:hover, .dark-mode .pc-menu__item:focus-visible { background: var(--dm-bg-3); }

@@ -1,0 +1,46 @@
+/* Help Landing Page — Main Entry
+ *
+ * MDS handles typography — never override h1-h6 or font tokens on headings.
+ * Canvas .content provides outer padding; never add padding to the page wrapper.
+ */
+
+@import url('hero.css');
+@import url('bento.css');
+@import url('categories.css');
+@import url('split.css');
+@import url('videos.css');
+@import url('cta.css');
+
+/* ===== LAYOUT RHYTHM ===== */
+.help-landing-page > section {
+    margin-bottom: var(--space-xxl);
+}
+
+.help-landing-page > section:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== SHARED SECTION HEAD ===== */
+.help-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-m);
+}
+
+.help-section-head__title {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.help-section-head__link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: var(--font-size-tiny);
+}
+
+.help-section-head__link:hover {
+    text-decoration: underline;
+}

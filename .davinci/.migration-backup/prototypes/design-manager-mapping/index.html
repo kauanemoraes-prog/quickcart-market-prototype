@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Manager Mapping - DaVinci</title>
+    <script>try{if(localStorage.getItem('davinci:dark-mode')==='1')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
+    <!-- The framework will automatically load all CSS from assets -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- App container where the canvas will be injected -->
+    <div id="app"></div>
+
+    <!-- Define your page-specific content here -->
+    <script id="page-content" type="text/html">
+        <!-- NOTE: Subheader is handled by canvas automatically via canvas-navigation-data.json -->
+        <!-- Do NOT add subheader HTML here - it will create duplicates -->
+        
+        <div class="design-manager-mapping-page">
+            <!-- Main content area with button to open drawer -->
+            <div class="page-section">
+                <h1 style="margin-bottom: var(--space-m); color: var(--color-glyph-gray);">Design Manager Mapping</h1>
+                <p style="margin-bottom: var(--space-l); color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs);">
+                    Manage the mapping between Design Managers and Apple Core Vendors organized by Incline Projects.
+                </p>
+
+                <button class="btn btn--primary btn--medium" id="open-mapping-drawer">
+                    <img src="../../.davinci/assets/icons/regular/list-bullet-clipboard.svg" alt="" width="16" height="16" style="filter: brightness(0) invert(1); margin-right: var(--space-xs);">
+                    Open Design Manager Mapping
+                </button>
+            </div>
+
+            <!-- Summary stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card__value" id="total-projects">3</div>
+                    <div class="stat-card__label">Incline Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="total-managers">12</div>
+                    <div class="stat-card__label">Design Managers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="mapped-count">8</div>
+                    <div class="stat-card__label">Mapped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__value" id="unmapped-count">4</div>
+                    <div class="stat-card__label">Unmapped</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Manager Mapping Drawer -->
+        <div class="drawer-overlay" id="mapping-drawer">
+            <div class="drawer drawer--right drawer--large">
+                <div class="drawer__header">
+                    <button class="drawer__close" id="close-mapping-drawer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+                    </button>
+                    <h3 class="drawer__title">Design Manager Mapping</h3>
+                    <div class="drawer__actions">
+                        <button class="btn btn--secondary btn--small" id="import-csv-btn">
+                            <img src="../../.davinci/assets/icons/regular/square-and-arrow-down-on-square.svg" alt="" width="14" height="14" style="margin-right: var(--space-xs);">
+                            Import CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="drawer__body">
+                    <!-- Incline Projects Sections -->
+                    <div id="incline-projects-container">
+                        <!-- Projects will be dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Import CSV Modal -->
+        <div class="modal-overlay" id="import-modal">
+            <div class="modal modal--medium">
+                <div class="modal__header">
+                    <h3 class="modal__title">Import Design Managers</h3>
+                    <button class="modal__close" id="close-import-modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64" fill="currentColor"><path d="M1.60500048,58.4772309 C2.91892453,59.7518284 5.05097517,59.7518284 6.33360808,58.4772309 L30.041279,34.7222663 L53.7962664,58.4772309 C55.0315828,59.7518284 57.2029752,59.7518284 58.4856081,58.4772309 C59.7601904,57.1553155 59.7601904,55.0232284 58.4856081,53.7799221 L34.7305448,30.0329246 L58.4856081,6.32525365 C59.7601904,5.04262074 59.7994563,2.87122833 58.4856081,1.59664605 C57.1636335,0.353354908 55.0315828,0.353354908 53.7962664,1.59664605 L30.041279,25.3436587 L6.33360808,1.59664605 C5.05097517,0.353354908 2.87958276,0.314013136 1.60500048,1.59664605 C0.361709338,2.9105701 0.361709338,5.04262074 1.60500048,6.32525365 L25.3519372,30.0329246 L1.60500048,53.7799221 C0.361709338,55.0232284 0.322367566,57.1946223 1.60500048,58.4772309 Z" transform="translate(2 2)"/></svg>
+                    </button>
+                </div>
+                <div class="modal__body">
+                    <div class="form-group" style="margin-bottom: var(--space-m);">
+                        <label class="form-label" for="target-project">Target Incline Project</label>
+                        <select id="target-project" class="form-select">
+                            <option value="">Select Incline Project</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="csv-file">CSV File</label>
+                        <input type="file" id="csv-file" class="form-input" accept=".csv" />
+                        <p style="color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxxs); margin-top: var(--space-xs);">
+                            Expected format: name, description (optional)
+                        </p>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button class="btn btn--secondary btn--medium" id="cancel-import">Cancel</button>
+                    <button class="btn btn--primary btn--medium" id="confirm-import" disabled>Import</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Handlebars Templates -->
+        <script id="incline-project-template" type="text/x-handlebars-template">
+            {{#each projects}}
+            <div class="incline-project-section" data-project-id="{{inclineId}}">
+                <div class="section-header" data-project-id="{{inclineId}}">
+                    <div class="section-header__content">
+                        <div class="section-header__info">
+                            <h4 class="section-title">{{inclineId}}</h4>
+                            <div class="section-description-container">
+                                <span class="section-description {{#unless description}}section-description--empty{{/unless}}" data-project-id="{{inclineId}}">
+                                    {{#if description}}{{description}}{{else}}No description{{/if}}
+                                </span>
+                                <button class="btn-edit-description" data-project-id="{{inclineId}}" title="Edit description">
+                                    <img src="../../.davinci/assets/icons/regular/pencil.svg" alt="" width="12" height="12">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="section-header__controls">
+                            <span class="section-stats">{{designManagers.length}} managers</span>
+                            <button class="section-toggle" data-project-id="{{inclineId}}">
+                                <img src="../../.davinci/assets/icons/regular/chevron-down.svg" alt="" width="16" height="16" class="chevron-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content" data-project-id="{{inclineId}}" style="display: none;">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead class="table__head">
+                                <tr class="table__row">
+                                    <th class="table__header">Design Manager</th>
+                                    <th class="table__header">Mapping Status</th>
+                                    <th class="table__header table__cell--center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table__body">
+                                {{#each designManagers}}
+                                <tr class="table__row {{#if isAutoMatched}}table__row--locked{{/if}}" data-manager-id="{{id}}">
+                                    <td class="table__cell">
+                                        <div class="manager-info">
+                                            <div class="manager-name">{{name}}</div>
+                                            {{#if description}}
+                                            <div class="manager-description">{{description}}</div>
+                                            {{/if}}
+                                        </div>
+                                    </td>
+                                    <td class="table__cell">
+                                        {{#if mappedVendor}}
+                                            <div class="mapping-status mapping-status--mapped">
+                                                <span class="tag tag--medium tag--success">{{mappedVendor}}</span>
+                                                {{#if isAutoMatched}}
+                                                <img src="../../.davinci/assets/icons/regular/lock.svg" alt="Auto-matched" width="12" height="12" class="lock-icon" title="Auto-matched">
+                                                {{/if}}
+                                            </div>
+                                        {{else}}
+                                            <div class="mapping-status mapping-status--unmapped">
+                                                <select class="form-select form-select--table-cell vendor-select" data-manager-id="{{id}}" data-project-id="{{../inclineId}}">
+                                                    <option value="">Select Vendor</option>
+                                                    <!-- Options populated dynamically -->
+                                                </select>
+                                            </div>
+                                        {{/if}}
+                                    </td>
+                                    <td class="table__cell table__cell--center">
+                                        {{#if mappedVendor}}
+                                            {{#unless isAutoMatched}}
+                                            <div class="action-controls">
+                                                <button class="btn-action btn-edit" data-manager-id="{{id}}" title="Edit mapping">
+                                                    <img src="../../.davinci/assets/icons/regular/square-and-pencil.svg" alt="" width="12" height="12">
+                                                </button>
+                                                <button class="btn-action btn-remove" data-manager-id="{{id}}" title="Remove mapping">
+                                                    <img src="../../.davinci/assets/icons/regular/trash.svg" alt="" width="12" height="12">
+                                                </button>
+                                            </div>
+                                            {{else}}
+                                            <span class="locked-indicator" title="Auto-matched - cannot be edited">
+                                                <img src="../../.davinci/assets/icons/regular/lock.svg" alt="Locked" width="12" height="12">
+                                            </span>
+                                            {{/unless}}
+                                        {{else}}
+                                        <span class="no-actions">—</span>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+    </script>
+
+    <!-- Load the DaVinci Canvas Framework -->
+    <script src="../../.davinci/assets/canvas/davinci-canvas.js"></script>
+    
+    <!-- Page-specific JavaScript modules -->
+    <script src="js/drawer-manager.js"></script>
+    <script src="js/project-sections.js"></script>
+    <script src="js/mapping-controls.js"></script>
+    <script src="js/csv-import.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

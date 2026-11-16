@@ -1,0 +1,22 @@
+component: loaders
+summary: "Indicators that communicate an in-progress asynchronous operation, as a spinner with optional text or as content-shaped skeleton placeholders."
+anatomy:
+  - {id: spinner, required: "if variant is spinner", role: "animated indicator that an operation is running", capabilities: [indeterminate]}
+  - {id: spinner-text, required: false, role: "optional message naming what is loading"}
+  - {id: skeleton, required: "if variant is skeleton", multiple: true, role: "placeholder mimicking the shape of content being loaded"}
+states: [default, loading, indeterminate, determinate?]
+behaviors:
+  progress: "when the operation reports measurable progress, a determinate indicator reflects the current value; otherwise it stays indeterminate"
+a11y:
+  - "a spinner exposes role=status (or role=progressbar for determinate progress) with an accessible label describing what is loading"
+  - "a determinate progressbar sets aria-valuenow, aria-valuemin, and aria-valuemax; an indeterminate one omits aria-valuenow"
+  - "the loading state is announced via a live region so assistive tech is informed without stealing focus"
+  - "skeleton placeholders are marked aria-hidden or aria-busy on their container so the shapes are not read as content"
+  - "purely decorative animation carries no independent meaning conveyed by motion alone"
+heuristics:
+  - {id: system-status, source: nielsen, rule: "an in-progress operation must be visibly indicated so users know the system is working", verify: [checklist, dom]}
+  - {id: status-labelled, source: wcag, rule: "the loading indicator exposes a programmatic status with an accessible name", verify: [dom]}
+semantics:
+  - {id: spinner, note: "an animated indeterminate (or determinate) indicator for an operation of unknown or short duration; requires the spinner part"}
+  - {id: skeleton, note: "content-shaped placeholders that mimic the layout being loaded; requires the skeleton part(s). Exactly one variant applies per usage — pick spinner or skeleton, never both"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, spinner size variants, skeleton shape variants, skeleton width]

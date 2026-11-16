@@ -1,0 +1,274 @@
+/* PCN Table Styles */
+.pcn-table-container {
+    position: relative;
+    margin-top: 0;
+    background-color: #FFFFFF;
+    margin: 0 calc(var(--space-mp) * -1);
+    padding: 0;
+}
+
+/* Sticky-column shadow overlays — sit OUTSIDE the scroll container, anchored to its edges */
+.pcn-fixed-shadow-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.pcn-fixed-shadow-overlay--left {
+    left: 148px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+}
+
+.pcn-fixed-shadow-overlay--right {
+    right: 184px;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+}
+
+/* Header-only overlays — only cover the column-header band (top 43px), with z-index above the sticky thead so the shadow shows on the column header too. Group headers below this band are still covered by the lower z-index overlays. */
+.pcn-fixed-shadow-overlay--header-left,
+.pcn-fixed-shadow-overlay--header-right {
+    bottom: auto;
+    height: 43px;
+    z-index: 80;
+}
+
+.pcn-fixed-shadow-overlay--header-left {
+    left: 148px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+}
+
+.pcn-fixed-shadow-overlay--header-right {
+    right: 184px;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+}
+
+.table-wrapper {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 260px);
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-fill-gray-quaternary);
+    border-radius: var(--space-xs);
+}
+
+.table--pcn {
+    width: max-content;
+    border-collapse: separate;
+    border-spacing: 0;
+    position: relative;
+    table-layout: fixed;
+}
+
+.table--pcn .table__head {
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    background-color: #FFFFFF;
+}
+
+.table--pcn .table__header {
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    padding: 0 var(--space-m);
+    height: 42px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary) !important;
+    border-right: 1px solid var(--color-fill-gray-quaternary) !important;
+    white-space: nowrap;
+    min-width: 150px;
+    vertical-align: middle;
+}
+
+/* PCN header: checkbox + label aligned with body cells */
+.table--pcn .table__header--fixed-left {
+    text-align: left;
+}
+
+.pcn-header-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+.pcn-header-checkbox {
+    flex-shrink: 0;
+}
+
+.pcn-header-label {
+    flex-shrink: 0;
+}
+
+/* Select-all + group indeterminate state (MDS doesn't ship one) */
+#pcn-select-all:indeterminate ~ .checkbox__box,
+input.checkbox__input[data-group-checkbox]:indeterminate ~ .checkbox__box {
+    background-color: var(--color-base-accent);
+    border-color: var(--color-base-accent);
+}
+
+#pcn-select-all:indeterminate ~ .checkbox__box::after,
+input.checkbox__input[data-group-checkbox]:indeterminate ~ .checkbox__box::after {
+    content: "";
+    position: absolute;
+    left: 0.3rem;
+    right: 0.3rem;
+    top: 50%;
+    height: 0.2rem;
+    background-color: #FFFFFF;
+    transform: translateY(-50%);
+    border: none;
+}
+
+/* Fixed left column - PCN */
+.table--pcn .table__header--fixed-left,
+.table--pcn .table__cell--fixed-left {
+    position: sticky !important;
+    left: 0;
+    z-index: 20;
+    background-color: #FFFFFF;
+    min-width: 148px;
+    max-width: 148px;
+    width: 148px;
+    overflow: visible;
+    padding-left: var(--space-mp);
+}
+
+.table--pcn .table__header--fixed-left {
+    z-index: 30;
+}
+
+/* Fixed right column - Approval */
+.table--pcn .table__header--fixed-right,
+.table--pcn .table__cell--fixed-right {
+    position: sticky;
+    right: 0;
+    z-index: 20;
+    background-color: #FFFFFF;
+    min-width: 184px;
+    max-width: 184px;
+    width: 184px;
+    padding-left: var(--space-s);
+    padding-right: var(--space-s);
+    overflow: visible;
+}
+
+.table--pcn .table__header--fixed-right {
+    z-index: 30;
+}
+
+.table--pcn .table__row,
+.table--pcn .table__row:nth-child(even) {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+}
+
+.table--pcn .table__row:hover {
+    background-color: #E8EBF3 !important;
+}
+
+.table--pcn .table__row:hover .table__cell--fixed-left,
+.table--pcn .table__row:hover .table__cell--fixed-right {
+    background-color: #E8EBF3 !important;
+}
+
+.table--pcn .table__cell {
+    padding: var(--space-s) var(--space-m);
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-fill-gray-quaternary);
+    border-right: 1px solid var(--color-fill-gray-quaternary);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray);
+    min-width: 150px;
+}
+
+.table--pcn .table__cell--fixed-left {
+    padding-left: var(--space-mp);
+}
+
+/* Description column — wider default */
+.table--pcn .table__head .table__row .table__header:nth-child(2),
+.table--pcn .table__body .table__row .table__cell:nth-child(2) {
+    min-width: 215px;
+    width: 215px;
+}
+
+/* Before / After columns — wider default */
+.table--pcn .table__head .table__row .table__header:nth-child(3),
+.table--pcn .table__body .table__row .table__cell:nth-child(3),
+.table--pcn .table__head .table__row .table__header:nth-child(4),
+.table--pcn .table__body .table__row .table__cell:nth-child(4) {
+    width: 190px;
+}
+
+/* Justification File / Created By / Implementation Date — defaults */
+.table--pcn .table__head .table__row .table__header:nth-child(6),
+.table--pcn .table__body .table__row .table__cell:nth-child(6),
+.table--pcn .table__head .table__row .table__header:nth-child(8),
+.table--pcn .table__body .table__row .table__cell:nth-child(8),
+.table--pcn .table__head .table__row .table__header:nth-child(9),
+.table--pcn .table__body .table__row .table__cell:nth-child(9) {
+    width: 150px;
+}
+
+/* Needed By column — wider default */
+.table--pcn .table__head .table__row .table__header:nth-child(7),
+.table--pcn .table__body .table__row .table__cell:nth-child(7) {
+    width: 210px;
+}
+
+/* Justification column — wider default */
+.table--pcn .table__head .table__row .table__header:nth-child(5),
+.table--pcn .table__body .table__row .table__cell:nth-child(5) {
+    min-width: 232px;
+    width: 232px;
+}
+
+/* PCN Action column styling */
+.pcn-action-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+}
+
+/* AC number row (below the action wrapper) */
+.pcn-ac-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.pcn-ac-copy {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+}
+
+.pcn-ac-copy:hover {
+    opacity: 0.7;
+}
+
+.pcn-ac-copy img {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(89%) saturate(1792%) hue-rotate(203deg) brightness(92%) contrast(101%);
+}
+
+.pcn-ac-copy--copied img {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(95%) saturate(800%) hue-rotate(95deg) brightness(95%) contrast(101%);
+}
+
+.pcn-ac-number {
+    font-size: 11px;
+    color: var(--color-glyph-gray-secondary);
+    white-space: nowrap;
+}
+

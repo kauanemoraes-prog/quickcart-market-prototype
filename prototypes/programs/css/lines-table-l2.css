@@ -1,0 +1,112 @@
+/* Process Flow — Lines table L2 (station-level sub-table). Split from lines-table.css. */
+
+/* L2 cells inherit `padding-left: 8px` from the L1 unified rule (`.table--lines .table__cell`).
+ * That's too tight against the left divider — bump to 16px specifically for L2 cells. */
+.l2__table .table__header,
+.l2__table .table__cell {
+    padding-left: var(--space-m);
+    padding-right: var(--space-m);
+}
+
+/* Station-info cell: kill the left padding so the colored bar (first child of
+ * .l2__station-cell) hugs the cell's left border. Padding on the RIGHT side
+ * stays so the metrics don't crash into the divider. */
+.l2__table td.l2__col-station {
+    padding-left: 0;
+}
+
+/* L2 header — fixed 34px height with centered text on every column */
+.proj-nested-table .l2__table .table__header {
+    height: 34px;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Station info is the row-title column — keep it left-aligned even though
+ * the rest of the L2 header is centered. */
+.proj-nested-table .l2__table .table__header.l2__col-station {
+    text-align: left;
+}
+
+/* Sticky first column in the L2 sub-table — "Station info" stays in place
+ * when the user scrolls horizontally through the metric/dropdown columns.
+ * Solid bg + subtle right-edge shadow signal the column is pinned. */
+.l2__table .l2__col-station {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: #FFFFFF;
+}
+
+.l2__table thead .l2__col-station {
+    z-index: 3;
+    background-color: var(--color-fill-tertiary);
+}
+.l2__col-metric {
+    white-space: nowrap;
+    padding: var(--space-s) var(--space-m);
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    vertical-align: middle;
+}
+
+td.l2__col-metric {
+    color: var(--color-glyph-gray);
+}
+
+/* Make the L2 sub-table scroll horizontally INSIDE its own container,
+ * without forcing the parent L1 table to grow.
+ * Trick: collapse the colspan td (`width: 0`) so it doesn't propagate inner content
+ * width upwards, then let the .l2 wrapper fill 100% with overflow-x: auto.
+ * The inner .l2__table sizes to its natural max-content and scrolls when wider. */
+.proj-nested-table__detail-row > td {
+    width: 0;
+}
+
+.l2 {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* L2 table inherits border-spacing: 0 8px from the .proj-nested-table base rule
+ * (meant for L1 card-style rows). Zero it out for L2 so cells touch normally.
+ * NOTE: must use `.proj-nested-table .l2__table` (specificity 0,2,0) to beat the
+ * `.proj-nested-table .table` rule from the plugin CSS. */
+.proj-nested-table .l2__table {
+    border-spacing: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.l2__table {
+    width: max-content;
+}
+
+/* Header suffix in muted color (e.g., "(sec)", "(%)", "(Planned)") */
+.l2__col-metric .l2__col-suffix {
+    color: var(--color-glyph-gray-tertiary);
+    font-weight: var(--font-weight-regular);
+    margin-left: 2px;
+}
+
+/* Inline info icon button next to a header label */
+.l2-info-btn {
+    background: none;
+    border: none;
+    padding: 0 0 0 4px;
+    cursor: pointer;
+    color: var(--color-glyph-blue);
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+.l2-info-btn:hover { opacity: 0.7; }
+
+
+/* Station-row action icons — sized to match the legacy 12px img weight. */
+.l2__action-icon { font-size: 12px; }

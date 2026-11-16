@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "name": "Kauane Moraes",
+      "role": "Administrator",
+      "avatarInitials": "KM",
+      "avatarImage": "files/kauane-avatar.png",
+      "isDefault": true,
+      "permissions": {
+        "hide": [],
+        "disable": [],
+        "readonly": []
+      }
+    }
+  ]
+}

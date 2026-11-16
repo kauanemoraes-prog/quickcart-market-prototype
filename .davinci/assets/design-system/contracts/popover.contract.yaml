@@ -1,0 +1,34 @@
+component: popover
+summary: "A floating container anchored to a trigger that displays rich content (text, a menu, or a form) on demand."
+anatomy:
+  - {id: trigger-wrapper, required: true,  role: "positioning context that contains the trigger and the popover as siblings"}
+  - {id: trigger,         required: true,  role: "the control that opens the popover", capabilities: [open]}
+  - {id: popover,         required: true,  role: "the floating container, carrying its preferred placement"}
+  - {id: content,         required: true,  role: "wraps header, body and optional footer"}
+  - {id: header,          required: false, role: "optional title region"}
+  - {id: body,            required: true,  role: "the popover content"}
+  - {id: footer,          required: false, role: "optional action region"}
+  - {id: menu,            required: "if the popover is an action menu", multiple: false, role: "list of selectable actions"}
+  - {id: menu-item,       required: "if a menu is present", multiple: true, role: "one selectable action per row", capabilities: [dismiss]}
+  - {id: arrow,           required: true,  role: "pointer indicating which trigger the popover belongs to; must be the last child of the popover"}
+states: [closed, open, flipped?]
+behaviors:
+  open:    "activating the trigger opens the popover positioned relative to the trigger per its preferred placement"
+  place:   "placement is a preferred side (top, bottom, leading, trailing); the runtime flips to the opposite side when viewport space is insufficient, and the arrow follows the resolved side"
+  dismiss: "closes on Esc, on a click outside the popover, and (for menu items and footer actions) on activating an item"
+a11y:
+  - "the trigger exposes aria-haspopup and aria-expanded reflecting the open state, and references the popover via aria-controls"
+  - "when the popover is a menu, it uses role=menu with role=menuitem children; a plain-content popover is a labelled region or dialog"
+  - "focus moves into the popover on open for interactive content (menu or form) and returns to the trigger on close"
+  - "Esc closes the popover and returns focus to the trigger"
+  - "decorative arrow and icon glyphs are aria-hidden; menu items expose their action name as text"
+heuristics:
+  - {id: user-control,   source: nielsen,   rule: "the popover is dismissible via Esc and outside click, never a trap", verify: [dom]}
+  - {id: match-context,  source: apple-hig, rule: "the popover points at its trigger via the arrow on the resolved side", verify: [dom, visual]}
+  - {id: no-overflow,    source: apple-hig, rule: "placement flips to keep the popover within the viewport", verify: [visual]}
+  - {id: hit-target,     source: apple-hig, rule: "the trigger and any menu items meet the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: action-menu,  note: "a menu popover carries selectable actions; a destructive action (for example delete) is marked as destructive"}
+  - {id: context-help, note: "a help or tooltip-style popover carries read-only explanatory content and no interactive controls"}
+  - {id: inline-form,  note: "a form popover carries input controls whose submit and cancel actions dismiss the popover"}
+excludes: [class names, tokens, spacing, color, typography, borders, animation, arrow artwork, placement styling, min-width overrides, icon artwork]

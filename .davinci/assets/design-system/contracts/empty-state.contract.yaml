@@ -1,0 +1,23 @@
+component: empty-state
+summary: "The canonical placeholder shown when a surface has no content, giving context and an optional next step."
+anatomy:
+  - {id: container, required: true, role: "wrapper that holds the empty-state content and centers it in the surface"}
+  - {id: icon, required: true, role: "glyph indicating the nature of the emptiness (defaults to a generic tray; context-specific glyph for search or filter)"}
+  - {id: title, required: true, role: "line 1: the primary message stating that there is nothing to show"}
+  - {id: subtitle, required: false, role: "line 2: supporting detail explaining why it is empty or what to do next"}
+  - {id: action, required: false, multiple: true, role: "primary next-step control (a real button or link) guiding the user out of the empty state", capabilities: [navigate, create]}
+states: [default, no-subtitle?, search-empty?, filter-empty?]
+behaviors:
+  act: "activating an action control performs its next-step (e.g. create the first item, clear the filter, or navigate elsewhere)"
+a11y:
+  - "the title is real text (not an image) so the empty message is available to assistive tech"
+  - "the icon is decorative and marked aria-hidden since the title already conveys the meaning"
+  - "any action is a genuine button or link with a clear accessible name describing the next step, keyboard operable and focusable"
+heuristics:
+  - {id: next-step, source: nielsen, rule: "an empty state gives a clear next step (an action or guidance), it never leaves the user at a dead end", verify: [checklist, dom]}
+  - {id: help-users, source: nielsen, rule: "the message explains why the surface is empty in plain language rather than showing a blank area", verify: [checklist, dom]}
+  - {id: match-context, source: nielsen, rule: "the icon and copy match the context (empty search vs empty filter vs no data yet)", verify: [checklist]}
+  - {id: hit-target, source: apple-hig, rule: "the action control meets the platform minimum hit target", threshold: "{profile.platform.minHitTarget}", verify: [dom]}
+semantics:
+  - {id: empty-vs-error, note: "an empty state means there is legitimately no content; it is distinct from an error state and must not be used to signal a load failure"}
+excludes: [class names, tokens, spacing, color, typography, borders, background, padding variants, icon artwork, icon size]

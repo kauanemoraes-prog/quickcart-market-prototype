@@ -1,0 +1,96 @@
+/* Consumables table — delete confirmation modal, actions bar label, inline editable fields. Split from consumables-table.css. */
+
+/* Delete confirmation modal */
+#cons-delete-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+#cons-delete-modal.modal-overlay--open {
+    display: flex;
+}
+
+#cons-delete-modal .modal {
+    background-color: #FFFFFF;
+    border-radius: var(--space-s);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+    width: 440px;
+    max-width: 90vw;
+    opacity: 1;
+}
+
+#cons-delete-modal .modal__body {
+    padding: var(--space-l) var(--space-l) var(--space-m);
+}
+
+#cons-delete-modal .modal__body h3 {
+    margin-bottom: var(--space-m);
+}
+
+#cons-delete-modal .modal__body p {
+    margin-bottom: var(--space-s);
+    color: var(--color-glyph-gray-secondary);
+}
+
+#cons-delete-modal .modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l) var(--space-l);
+}
+
+.cons-delete-warning {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-base-danger) !important;
+    margin-top: var(--space-m) !important;
+}
+
+.cons-delete-warning__icon {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(95%) saturate(1500%) hue-rotate(3deg) brightness(100%) contrast(95%);
+}
+
+/* Actions bar selected-count label */
+.cons-actions__count {
+    font-size: var(--font-size-tiny);
+    color: var(--color-glyph-gray-secondary);
+    font-weight: var(--font-weight-semibold);
+    margin-right: var(--space-xs);
+}
+
+.cons-actions__delete img,
+.cons-actions__duplicate img {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* Inline editable fields — appear styled on row hover */
+.table--consumables .form-input--table-cell,
+.table--consumables-simple .form-input--table-cell {
+    border-color: transparent;
+    background-color: transparent;
+    font-size: var(--font-size-xxs);
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.table--consumables .table__row:hover .form-input--table-cell,
+.table--consumables-simple .table__row:hover .form-input--table-cell {
+    border-color: var(--color-fill-gray-tertiary);
+    background-color: #FFFFFF;
+}
+
+.table--consumables .form-input--table-cell:focus,
+.table--consumables-simple .form-input--table-cell:focus {
+    border-color: var(--color-base-accent);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 0.2rem rgba(113, 128, 172, 0.1);
+}

@@ -1,0 +1,170 @@
+/* Dark mode of the pages of the prototypes: one place for the cards, tables, chips, inputs, drawers and indicators drawn by the
+ * pages (Dashboard, store tabs, Products, Finance). The design system and the plugins already darken the top bar, the footer and
+ * the toolbar on the right; the colors come from the same --dm-* variables. Loaded last, so it wins over the light styles. */
+
+html.dark-mode body,
+html.dark-mode .content:has(.np-page),
+html.dark-mode .content:has(.nf-page),
+html.dark-mode .content:has(.dashboard-page),
+html.dark-mode .content:has(.program-detail-page),
+html.dark-mode .content:has(.programs-page),
+html.dark-mode .program-detail-page { background-color: var(--dm-bg-1) !important; }
+
+/* Page headers and the header of the store */
+html.dark-mode .np-header, html.dark-mode .nf-header, html.dark-mode .dashboard-header, html.dark-mode .programs-header,
+html.dark-mode .program-detail-header { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+html.dark-mode .np-header h1, html.dark-mode .nf-header h1, html.dark-mode .dashboard-header h1, html.dark-mode .programs-header h1,
+html.dark-mode .ov-header__title { color: var(--dm-text-1); }
+html.dark-mode .np-header__item, html.dark-mode .nf-header__item, html.dark-mode .dashboard-header__item, html.dark-mode .ov-header__item, html.dark-mode .ov-header__meta,
+html.dark-mode .ov-scope, html.dark-mode .dashboard-header__subtitle, html.dark-mode .ov-period, html.dark-mode .nf-access, html.dark-mode .nf-compare { color: var(--dm-text-2); }
+html.dark-mode .np-header__item, html.dark-mode .nf-header__item, html.dark-mode .dashboard-header__item, html.dark-mode .ov-header__item { border-color: var(--dm-divider); }
+
+/* Cards */
+html.dark-mode .fin-card, html.dark-mode .nf-card, html.dark-mode .ov-card, html.dark-mode .dashboard-card, html.dark-mode .kpi-card,
+html.dark-mode .ov-kpi, html.dark-mode .fin-kpi, html.dark-mode .ad-add, html.dark-mode .tt-card, html.dark-mode .products-container,
+html.dark-mode .nf-lock, html.dark-mode .store-map__canvas { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+html.dark-mode .fin-card__title, html.dark-mode .ov-card__title, html.dark-mode .dashboard-card__title, html.dark-mode .ad-add__title,
+html.dark-mode .kpi-card__value, html.dark-mode .ov-kpi__value, html.dark-mode .fin-kpi__value, html.dark-mode .ov-row__title, html.dark-mode .nf-lock h3,
+html.dark-mode .dashboard-link, html.dark-mode .ov-stat strong, html.dark-mode .ov-sale__value { color: var(--dm-text-1); }
+html.dark-mode .ov-card__subtitle, html.dark-mode .dashboard-card__subtitle, html.dark-mode .nf-card__sub, html.dark-mode .kpi-card__label, html.dark-mode .kpi-card__note,
+html.dark-mode .ov-kpi__label, html.dark-mode .ov-kpi__note, html.dark-mode .fin-kpi__label, html.dark-mode .fin-kpi__note, html.dark-mode .ov-row__meta,
+html.dark-mode .ov-empty, html.dark-mode .nf-empty, html.dark-mode .ov-note, html.dark-mode .ov-subhead, html.dark-mode .ov-stat, html.dark-mode .ov-sale__label,
+html.dark-mode .ov-sale__note, html.dark-mode .store-code, html.dark-mode .update-row__meta, html.dark-mode .opening-row__meta, html.dark-mode .nf-lock p,
+html.dark-mode .np-form-note, html.dark-mode .pd-note { color: var(--dm-text-2); }
+html.dark-mode .ov-row, html.dark-mode .ov-attn, html.dark-mode .ov-note, html.dark-mode .update-row, html.dark-mode .opening-row,
+html.dark-mode .phase-row, html.dark-mode .dashboard-table td { border-color: var(--dm-divider); }
+html.dark-mode .ov-stat { background-color: var(--dm-bg-3); }
+html.dark-mode .ov-attn__icon, html.dark-mode .kpi-card__icon, html.dark-mode .ov-kpi__icon { background-color: var(--dm-bg-4); }
+html.dark-mode .ov-attn__icon--danger, html.dark-mode .kpi-card--danger .kpi-card__icon, html.dark-mode .ov-kpi--danger .ov-kpi__icon { background-color: rgba(229, 143, 132, 0.18); color: var(--dm-danger); }
+html.dark-mode .ov-attn__icon--warning, html.dark-mode .kpi-card--warning .kpi-card__icon, html.dark-mode .ov-kpi--warning .ov-kpi__icon { background-color: rgba(230, 194, 122, 0.18); color: var(--dm-warning); }
+html.dark-mode .nf-callout { background-color: rgba(230, 194, 122, 0.16); color: var(--dm-warning); }
+
+/* Indicators that filter: default, hover, selected */
+html.dark-mode button.kpi-card:hover, html.dark-mode button.kpi-card:focus-visible, html.dark-mode button.ov-kpi:hover, html.dark-mode button.ov-kpi:focus-visible,
+html.dark-mode button.nf-kpi:hover, html.dark-mode button.nf-kpi:focus-visible { background-color: var(--dm-bg-3); box-shadow: inset 0 0 0 2px rgba(143, 156, 200, 0.5), 0 6px 16px rgba(0, 0, 0, 0.4); }
+html.dark-mode button.kpi-card.kpi-card--active, html.dark-mode button.ov-kpi.ov-kpi--active, html.dark-mode button.nf-kpi.nf-kpi--active,
+html.dark-mode button.kpi-card.kpi-card--active:hover, html.dark-mode button.ov-kpi.ov-kpi--active:hover, html.dark-mode button.nf-kpi.nf-kpi--active:hover { background-color: var(--dm-accent-soft); box-shadow: inset 0 0 0 2px var(--dm-accent); }
+html.dark-mode button.kpi-card.kpi-card--active .kpi-card__icon, html.dark-mode button.ov-kpi.ov-kpi--active .ov-kpi__icon { background: var(--dm-accent); color: #fff; }
+html.dark-mode button.kpi-card.kpi-card--active .kpi-card__value, html.dark-mode button.ov-kpi.ov-kpi--active .ov-kpi__value, html.dark-mode button.nf-kpi.nf-kpi--active .fin-kpi__value { color: var(--dm-accent); }
+html.dark-mode button.nf-kpi:not([data-go]):hover { background-color: var(--dm-bg-2); box-shadow: inset 0 0 0 2px transparent; }
+html.dark-mode .fin-delta--flat { color: var(--dm-text-2); }
+html.dark-mode .fin-delta--watch { color: var(--dm-warning); }
+html.dark-mode .fin-delta--good { color: var(--dm-success); }
+html.dark-mode .fin-delta--bad { color: var(--dm-danger); }
+
+/* Filter chips: same three states */
+html.dark-mode .products-chip { background-color: var(--dm-bg-2); color: var(--dm-text-2); border-color: transparent; }
+html.dark-mode .products-chip strong { color: var(--dm-text-1); }
+html.dark-mode .products-chip:hover, html.dark-mode .products-chip:focus-visible { background-color: var(--dm-bg-3); box-shadow: inset 0 0 0 2px rgba(143, 156, 200, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4); }
+html.dark-mode .products-chip--active, html.dark-mode .products-chip--active:hover { background-color: var(--dm-accent-soft); box-shadow: inset 0 0 0 2px var(--dm-accent); color: var(--dm-accent); }
+html.dark-mode .products-chip--active strong { color: var(--dm-accent); }
+html.dark-mode .products-search, html.dark-mode .nf-search { background-color: var(--dm-bg-2); }
+html.dark-mode .products-search__input { color: var(--dm-text-1); }
+html.dark-mode .products-search__input::placeholder { color: var(--dm-text-3); }
+html.dark-mode .nf-legend__item { background-color: var(--dm-bg-2); color: var(--dm-text-2); border-color: var(--dm-divider); }
+html.dark-mode .nf-legend__item.is-on { color: var(--dm-text-1); border-color: var(--dm-accent); }
+
+/* Tables */
+html.dark-mode .table--products, html.dark-mode .table--netfin, html.dark-mode .table--finance, html.dark-mode .table--requests, html.dark-mode .table--employees,
+html.dark-mode .tt-table, html.dark-mode .dashboard-table { background-color: transparent; color: var(--dm-text-1); }
+html.dark-mode .table--products .table__header, html.dark-mode .table--netfin .table__header, html.dark-mode .table--finance .table__header,
+html.dark-mode .table--requests .table__header, html.dark-mode .table--employees .table__header, html.dark-mode .tt-head,
+html.dark-mode .dashboard-table th { background-color: var(--dm-bg-2); color: var(--dm-text-2); border-color: var(--dm-divider); }
+html.dark-mode .table--products .table__cell, html.dark-mode .table--netfin .table__cell, html.dark-mode .table--finance .table__cell,
+html.dark-mode .table--requests .rq-cell, html.dark-mode .table--employees .table__cell, html.dark-mode .tt-cell, html.dark-mode .fin-cell,
+html.dark-mode .dashboard-table td { color: var(--dm-text-1); border-color: var(--dm-divider); }
+html.dark-mode .table--products .table__row > .table__cell, html.dark-mode .table--netfin .table__row > .table__cell, html.dark-mode .table--finance .table__row > .fin-cell,
+html.dark-mode .table--requests .table__row > .rq-cell, html.dark-mode .table--employees .table__row > .table__cell { background-color: var(--dm-bg-2); }
+html.dark-mode .table--products .table__row:nth-child(even) > .table__cell, html.dark-mode .table--netfin .table__row:nth-child(even) > .table__cell,
+html.dark-mode .table--finance .table__row:nth-child(even) > .fin-cell, html.dark-mode .table--requests .table__row:nth-child(even) > .rq-cell,
+html.dark-mode .table--employees .table__row:nth-child(even) > .table__cell { background-color: var(--dm-bg-3); }
+html.dark-mode .table--products .table__row:nth-child(even) > .table__cell:nth-child(1), html.dark-mode .table--products .table__row:nth-child(even) > .table__cell:nth-child(2),
+html.dark-mode .table--netfin--sticky2 .table__row:nth-child(even) > .table__cell:nth-child(1), html.dark-mode .table--netfin--sticky2 .table__row:nth-child(even) > .table__cell:nth-child(2) { background-color: var(--dm-bg-3); }
+html.dark-mode .table--requests .rq-cell--actions, html.dark-mode .table--requests .table__header.rq-cell--actions { background-color: var(--dm-bg-2); }
+html.dark-mode .table--requests .table__row:nth-child(even) > .rq-cell--actions { background-color: var(--dm-bg-3); }
+html.dark-mode .products-cell--mono, html.dark-mode .rq-cell--mono, html.dark-mode .fin-cell--mono, html.dark-mode .products-none, html.dark-mode .tt-muted, html.dark-mode .rq-two small { color: var(--dm-text-2); }
+html.dark-mode .products-cell--name { color: var(--dm-accent); }
+html.dark-mode .fin-row--child .fin-cell, html.dark-mode .fin-row--total .fin-cell { background-color: var(--dm-bg-3); }
+html.dark-mode .tt-row--l2 > .tt-cell, html.dark-mode .tt-row--l3 > .tt-cell { background-color: var(--dm-bg-3); }
+html.dark-mode .tt-row--l1 > .tt-cell { background-color: var(--dm-bg-2); }
+html.dark-mode .tt-head--num, html.dark-mode .tt-hint { color: var(--dm-text-3); }
+html.dark-mode .products-sort { color: var(--dm-text-3); }
+html.dark-mode .products-sort--active { color: var(--dm-accent); }
+html.dark-mode .nf-hot { color: var(--dm-danger); }
+html.dark-mode .nf-warm { color: var(--dm-warning); }
+html.dark-mode .np-cell--edited, html.dark-mode .table--products .table__row .np-cell--edited, html.dark-mode .tt-cell.ad-edited,
+html.dark-mode .tt-row.ad-new > .tt-cell { background-color: var(--dm-accent-soft); }
+/* The shadow of the fixed columns: darker, so it shows on a dark table */
+html.dark-mode .table--products .table__header:nth-child(2)::after, html.dark-mode .table--products .table__cell:nth-child(2)::after,
+html.dark-mode .table--netfin--sticky2 .table__header:nth-child(2)::after, html.dark-mode .table--netfin--sticky2 .table__cell:nth-child(2)::after { background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.14) 45%, rgba(0, 0, 0, 0)); }
+html.dark-mode .table--requests .rq-cell--actions::before, html.dark-mode .table--requests .table__header.rq-cell--actions::before { background: linear-gradient(to left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.14) 45%, rgba(0, 0, 0, 0)); }
+
+/* Badges */
+html.dark-mode .ov-badge--success { background-color: rgba(134, 201, 160, 0.16); color: var(--dm-success); }
+html.dark-mode .ov-badge--warning { background-color: rgba(230, 194, 122, 0.16); color: var(--dm-warning); }
+html.dark-mode .ov-badge--danger { background-color: rgba(229, 143, 132, 0.18); color: var(--dm-danger); }
+html.dark-mode .ov-badge--info { background-color: var(--dm-accent-soft); color: var(--dm-accent); }
+html.dark-mode .ov-badge--muted { background-color: var(--dm-bg-4); color: var(--dm-text-2); }
+html.dark-mode .issue-badge--danger { background-color: rgba(229, 143, 132, 0.18); color: var(--dm-danger); }
+html.dark-mode .issue-badge--warning { background-color: rgba(230, 194, 122, 0.16); color: var(--dm-warning); }
+html.dark-mode .issue-more { color: var(--dm-text-2); }
+html.dark-mode .tt-chip { background-color: var(--dm-bg-4); color: var(--dm-text-1); }
+
+/* Inputs, dropdowns, drawers */
+html.dark-mode .ms__trigger, html.dark-mode .ms__panel, html.dark-mode .form-input, html.dark-mode .form-select, html.dark-mode .form-textarea { background-color: var(--dm-bg-3); color: var(--dm-text-1); border-color: var(--dm-divider); }
+html.dark-mode .ms__panel { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+html.dark-mode .ms__item { color: var(--dm-text-2); }
+html.dark-mode .ms__item--on { color: var(--dm-text-1); }
+html.dark-mode .ms__item:hover { background-color: var(--dm-bg-4); }
+html.dark-mode .ms__box { background-color: var(--dm-bg-2); border-color: var(--dm-text-3); }
+html.dark-mode .ms__item--on .ms__box { background-color: var(--dm-accent); border-color: var(--dm-accent); }
+html.dark-mode .ms__actions { border-color: var(--dm-divider); }
+html.dark-mode .np-input, html.dark-mode .ad-input { background: var(--dm-bg-4); color: var(--dm-text-1); border-bottom-color: var(--dm-accent); }
+html.dark-mode .np-input:hover, html.dark-mode .np-input:focus, html.dark-mode .ad-input:hover { background: var(--dm-bg-5); }
+html.dark-mode .table--products .np-cell--editing, html.dark-mode .tt-cell.ad-editing { background-color: var(--dm-accent-soft); }
+html.dark-mode .drawer, html.dark-mode .drawer__header { background-color: var(--dm-bg-2); color: var(--dm-text-1); border-color: var(--dm-divider); }
+html.dark-mode .drawer__title, html.dark-mode .pd-section__title, html.dark-mode .pd-grid dd, html.dark-mode .pd-table td { color: var(--dm-text-1); }
+html.dark-mode .pd-grid dt, html.dark-mode .pd-table th, html.dark-mode .area-drawer .drawer__title .ad-sub { color: var(--dm-text-2); }
+html.dark-mode .pd-section, html.dark-mode .pd-table td { border-color: var(--dm-divider); }
+html.dark-mode .rq-subtabs { border-color: var(--dm-divider); }
+html.dark-mode .rq-subtab { color: var(--dm-text-2); }
+html.dark-mode .rq-subtab--active { color: var(--dm-accent); border-bottom-color: var(--dm-accent); }
+html.dark-mode .rq-subtab__count { background-color: var(--dm-bg-4); color: var(--dm-text-2); }
+html.dark-mode .np-toast { background: var(--dm-bg-5); }
+
+/* Finance: period bar, bars, stacks, tooltips */
+html.dark-mode .fin-seg, html.dark-mode .fin-nav__btn { background-color: var(--dm-bg-2); border-color: var(--dm-divider); color: var(--dm-text-1); }
+html.dark-mode .fin-seg__btn { color: var(--dm-text-2); }
+html.dark-mode .fin-seg__btn--active { background-color: var(--dm-accent-soft); color: var(--dm-accent); }
+html.dark-mode .fin-nav__label { color: var(--dm-text-1); }
+html.dark-mode .nf-bar { color: var(--dm-text-1); }
+html.dark-mode .nf-bar:hover:not(:disabled) { background-color: var(--dm-bg-3); }
+html.dark-mode .nf-bar__share { color: var(--dm-text-2); }
+html.dark-mode .nf-bar__track { background-color: var(--dm-bg-4); }
+html.dark-mode .nf-grid { stroke: var(--dm-divider); }
+html.dark-mode .nf-axis { fill: var(--dm-text-2); }
+html.dark-mode .nf-svg circle { fill: var(--dm-bg-2); }
+html.dark-mode .nf-inline { color: var(--dm-text-1); }
+html.dark-mode .nf-inline:hover { color: var(--dm-accent); }
+html.dark-mode .np-pager, html.dark-mode .nf-format { color: var(--dm-text-2); }
+
+/* Dashboard */
+html.dark-mode .phase-row__step, html.dark-mode .update-row__icon, html.dark-mode .opening-row__date { background-color: var(--dm-bg-4); color: var(--dm-text-2); }
+html.dark-mode .phase-row__bar { background-color: var(--dm-bg-4); }
+html.dark-mode .phase-row__name, html.dark-mode .phase-row__count, html.dark-mode .opening-row__date strong { color: var(--dm-text-1); }
+html.dark-mode .phase-row__count small { color: var(--dm-text-2); }
+html.dark-mode a.phase-row__code, html.dark-mode .phase-row__code { background-color: var(--dm-bg-4); color: var(--dm-text-2); }
+html.dark-mode a.phase-row__code:hover { background-color: var(--dm-accent-soft); color: var(--dm-accent); }
+html.dark-mode .next-opening { background-color: var(--dm-bg-3); }
+html.dark-mode .next-opening strong { color: var(--dm-text-1); }
+html.dark-mode .dashboard-card__link, html.dark-mode .ov-card__link, html.dark-mode .ov-attn__action { color: var(--dm-accent); }
+html.dark-mode .ov-attn__action:hover { background-color: var(--dm-accent-soft); }
+
+/* Dropdowns in dark mode: no bright outline, they always look like they do under the mouse (subtle border, no ring) */
+html.dark-mode .form-select, html.dark-mode .ms__trigger, html.dark-mode .form-select:hover, html.dark-mode .ms__trigger:hover,
+html.dark-mode .form-select:focus, html.dark-mode .ms__trigger:focus, html.dark-mode .form-select:focus-visible, html.dark-mode .ms__trigger:focus-visible,
+html.dark-mode .ms--open .ms__trigger, html.dark-mode .ms__trigger[aria-expanded="true"] {
+    border-color: var(--dm-divider) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}

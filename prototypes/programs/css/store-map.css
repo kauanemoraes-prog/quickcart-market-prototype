@@ -1,0 +1,344 @@
+/* Areas tab: List / Map toggle and the isometric store map (js/store-map.js) */
+
+.areas-view-toggle {
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.areas-view-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    font: inherit;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+    cursor: pointer;
+}
+
+.areas-view-toggle__btn:hover { background: var(--color-fill-secondary); }
+
+.areas-view-toggle__btn--active,
+.areas-view-toggle__btn--active:hover {
+    background: var(--color-base-accent-lighter-1);
+    color: var(--color-base-accent);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* In map view the tree table is replaced by the map, except for the toolbar's List / Map toggle */
+#process-flow.areas--map .areas-toolbar > .products-chips,
+#process-flow.areas--map .areas-toolbar > .products-count,
+#process-flow.areas--map .areas-view .products-chips,
+#process-flow.areas--map .areas-view .tt-card {
+    display: none;
+}
+
+#process-flow.areas--map .areas-toolbar .areas-view-toggle { margin-left: auto; }
+
+/* The old list, kept in the page but never shown */
+.areas-legacy { display: none !important; }
+
+/* In map view the List / Map toggle sits exactly 8px above the drawing */
+.store-map { margin-top: 8px; }
+#process-flow.areas--map .areas-view { padding-bottom: 0; }
+#process-flow.areas--map .areas-toolbar { margin-bottom: 0; }
+
+.store-map__canvas {
+    padding: var(--space-m);
+    border-radius: 20px;
+    background: #E8EDF3;
+    overflow-x: auto;
+}
+
+/* The store is drawn at a readable size: on narrow screens the map scrolls instead of shrinking */
+.store-map__svg {
+    display: block;
+    width: 100%;
+    min-width: 1200px;
+    max-width: 1800px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.store-map__area { cursor: pointer; outline: none; transition: filter 0.15s ease; }
+.store-map__area:hover,
+.store-map__area.is-hover,
+.store-map__area:focus-visible { filter: brightness(1.07) drop-shadow(0 0 4px rgba(43, 163, 232, 0.8)); }
+.store-map__area.is-selected { filter: drop-shadow(0 0 5px var(--color-base-accent)) drop-shadow(0 0 2px var(--color-base-accent)); }
+
+/* Shoppers, carts and gates are scenery: clicks go through them to the areas */
+.store-map__prop { pointer-events: none; }
+
+.store-map__label { pointer-events: none; }
+.store-map__label rect { fill: #2B3441; stroke: none; }
+.store-map__post { stroke: #2B3441; stroke-width: 2.4; stroke-linecap: round; }
+.store-map__label text { fill: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; font-family: inherit; }
+.store-map__label--entrance rect { fill: #2BA3E8; stroke: #2BA3E8; }
+.store-map__label--entrance text { fill: #fff; }
+
+.store-map__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding: var(--space-s) var(--space-m) 0;
+}
+
+.store-map__legend {
+    display: flex;
+    gap: var(--space-m);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-xxs);
+    color: var(--color-glyph-gray-secondary);
+}
+
+.store-map__legend li { display: inline-flex; align-items: center; gap: 6px; }
+.store-map__legend span { width: 10px; height: 10px; border-radius: 3px; }
+
+.store-map__caption { margin: 0; font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+.store-map__caption strong { color: var(--color-glyph-gray); }
+
+.dark-mode .areas-view-toggle,
+.dark-mode .store-map__canvas { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .areas-view-toggle__btn { color: var(--dm-text-2); }
+.dark-mode .areas-view-toggle__btn--active { background-color: var(--dm-accent-soft); color: var(--dm-accent); }
+.dark-mode .store-map__label rect { fill: #3A4556; }
+.dark-mode .store-map__post { stroke: #3A4556; }
+.dark-mode .store-map__label text,
+.dark-mode .store-map__caption strong { fill: var(--dm-text-1); color: var(--dm-text-1); }
+.dark-mode .store-map__legend,
+.dark-mode .store-map__caption { color: var(--dm-text-2); }
+
+/* Area drawer: the products of the clicked area */
+#area-drawer.drawer-overlay { z-index: 9500; }
+
+/* The map has its own veil (everything but the clicked area), so the drawer adds no backdrop of its own: it would dim the
+ * clicked area too. The overlay lets clicks through, so another area can be clicked while the drawer is open. */
+#area-drawer.drawer-overlay {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    pointer-events: none;
+}
+
+#area-drawer .area-drawer { pointer-events: auto; }
+
+/* The drawer takes 70% of the screen and the zoomed map the other 30% */
+#area-drawer .area-drawer { width: max(70vw, 48rem); max-width: 100%; }
+
+.ad-sub { margin: 0 0 var(--space-m); font-size: var(--font-size-xxs); color: var(--color-glyph-gray-secondary); }
+
+.ad-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-m); margin-bottom: var(--space-s); }
+.ad-toolbar .products-search { flex: 0 1 44rem; max-width: none; }
+.ad-toolbar .products-chips { margin-bottom: 0; order: 1; flex: 0 0 100%; flex-wrap: wrap; }
+.ad-toolbar .products-chip { height: 4rem; box-sizing: border-box; display: inline-flex; align-items: center; flex-direction: row; gap: 4px; padding-top: 0; padding-bottom: 0; }
+.ad-toolbar .products-chip strong { margin-left: 0; }
+.ad-toolbar .ad-toolbar__link { margin-left: auto; }
+.ad-toolbar > .btn--primary { order: 0; }
+
+/* Clicking an area zooms the drawing to it (it ends up on the left of the open drawer) and veils everything else */
+.store-map__scene {
+    transform-origin: 0 0;
+    transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+.store-map__focus-layer {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.15s;
+}
+
+.store-map__focus-layer.is-on { opacity: 1; }
+
+.store-map__veil { fill: rgba(255, 255, 255, 0.74); }
+
+.store-map__clone { filter: drop-shadow(0 0 6px var(--color-base-accent)); }
+
+.dark-mode .store-map__veil { fill: rgba(25, 26, 26, 0.74); }
+
+@media (prefers-reduced-motion: reduce) {
+    .store-map__scene,
+    .store-map__focus-layer { transition: none; }
+}
+
+/* Areas that do not match the search of the toolbar */
+.store-map__area,
+.store-map__label { transition: opacity 0.3s ease, filter 0.3s ease; }
+
+.store-map__area.is-dim { opacity: 0.25; filter: grayscale(0.7); }
+.store-map__label.is-dim { opacity: 0.25; }
+
+/* "Show issues": a pin over the name of each area that has open issues, with their number inside and a soft pulse on the floor */
+.store-map__alert { display: none; cursor: help; pointer-events: all; outline: none; }
+.store-map--issues .store-map__alert { display: inline; }
+
+/* The pin sits on a round white base a little bigger than itself, like a floating button with its shadow; hover tints it and shows an accent ring */
+.store-map__pin-bg { fill: #fff; stroke: transparent; stroke-width: 2; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); transition: fill 0.15s ease, stroke 0.15s ease; }
+.store-map__alert:hover .store-map__pin-bg,
+.store-map__alert:focus-visible .store-map__pin-bg { fill: #F7F8FB; stroke: var(--color-base-accent); }
+.store-map__alert.is-open .store-map__pin-bg { fill: var(--color-base-accent-lighter-1); stroke: var(--color-base-accent); }
+
+.store-map__pin { fill: #F5B400; stroke: #fff; stroke-width: 2; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25)); }
+.store-map__alert text { fill: #4A3000; font-size: 13px; font-weight: 700; font-family: inherit; pointer-events: none; }
+.store-map__pulse { fill: #F5B400; opacity: 0; transform-box: fill-box; transform-origin: center; animation: store-map-pulse 2s ease-out infinite; pointer-events: none; }
+.store-map__alert--urgent .store-map__pin { fill: #D93025; }
+.store-map__alert--urgent .store-map__pulse { fill: #D93025; }
+.store-map__alert--urgent text { fill: #fff; }
+
+
+@keyframes store-map-pulse {
+    0% { transform: scale(0.6); opacity: 0.55; }
+    100% { transform: scale(2.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .store-map__pulse { animation: none; opacity: 0.3; }
+}
+
+/* The popover with the details of the issues of an area */
+.store-map__popover {
+    position: fixed;
+    z-index: 9400;
+    width: 36rem;
+    max-width: calc(100vw - 16px);
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: var(--space-m);
+    border: 1px solid var(--color-fill-quaternary);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.store-map__popover[hidden] { display: none; }
+
+.store-map__popover-title { margin: 0 0 var(--space-s); font-size: var(--font-size-xxs); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray); }
+.store-map__popover ul { margin: 0; padding: 0; list-style: none; }
+.store-map__popover li { padding: var(--space-s) 0; border-top: 1px solid var(--color-fill-quaternary); }
+.store-map__popover li:first-child { border-top: 0; padding-top: 0; }
+.store-map__popover-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.store-map__popover-head strong { margin-right: 4px; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); }
+.store-map__popover p { margin: 4px 0 2px; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.store-map__popover small { font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.store-map__popover .store-map__popover-foot { margin: var(--space-s) 0 0; padding-top: var(--space-s); border-top: 1px solid var(--color-fill-quaternary); }
+
+.dark-mode .store-map__popover { background-color: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .store-map__popover-title,
+.dark-mode .store-map__popover-head strong { color: var(--dm-text-1); }
+.dark-mode .store-map__popover p,
+.dark-mode .store-map__popover small { color: var(--dm-text-2); }
+.dark-mode .store-map__popover li,
+.dark-mode .store-map__popover .store-map__popover-foot { border-color: var(--dm-divider); }
+.dark-mode .ad-sub { color: var(--dm-text-2); }
+
+/* Area drawer: the title and the section of the area on one row */
+.area-drawer .drawer__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-m); }
+.area-drawer .drawer__title .ad-sub { margin: 0; font-size: var(--font-size-xxs); font-weight: 400; color: var(--color-glyph-gray-secondary); }
+
+/* Area drawer: price, stock and shelf location are edited in place; a new product is added with a small form above the list */
+.tt-cell.ad-editable { cursor: text; transition: box-shadow 0.15s ease; }
+.tt-cell.ad-editable:hover { box-shadow: inset 0 0 0 1px var(--color-base-accent-lighter-3); }
+.tt-cell.ad-edited { background-color: var(--color-base-accent-lighter-1); }
+.tt-cell.ad-editing { box-shadow: inset 0 0 0 2px var(--color-base-accent); }
+.tt-row.ad-new > .tt-cell { background-color: var(--color-base-accent-lighter-1); }
+
+.ad-input { width: 100%; height: 3.2rem; box-sizing: border-box; padding: 0 8px; border: 1px solid var(--color-base-accent); border-radius: 6px; background: #fff; font: inherit; font-size: var(--font-size-xxs); color: var(--color-glyph-gray); outline: none; }
+.ad-input--num { text-align: right; }
+.ad-pair { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.ad-pair .ad-input { width: 6.4rem; }
+.ad-error { display: block; margin-top: 2px; font-size: var(--font-size-tiny); color: #B3261E; white-space: normal; }
+
+.ad-add { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-s) var(--space-m); margin-bottom: var(--space-m); padding: var(--space-m); border-radius: 16px; background: #fff; }
+.ad-add[hidden] { display: none; }
+.ad-add label { display: flex; flex-direction: column; gap: 2px; font-size: var(--font-size-tiny); color: var(--color-glyph-gray-secondary); }
+.ad-add .form-input, .ad-add .form-select { margin: 0; }
+.ad-add__title { grid-column: 1 / -1; margin: 0; font-size: var(--font-size-xxs); font-weight: var(--font-weight-semibold); color: var(--color-glyph-gray); }
+.ad-add__title small { margin-left: 8px; font-weight: 400; color: var(--color-glyph-gray-secondary); }
+.ad-add__error { grid-column: 1 / -1; margin: 0; font-size: var(--font-size-xxs); color: #B3261E; }
+.ad-add__error[hidden] { display: none; }
+.ad-add__actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: var(--space-s); }
+
+/* Editing a cell of the area drawer, as in the Material Design data tables: a filled text field with a line under it */
+.tt-cell.ad-editing { padding-top: 0; padding-bottom: 0; box-shadow: none; background-color: var(--color-base-accent-lighter-1); }
+.tt-cell.ad-editing:hover { box-shadow: none; }
+.ad-input {
+    height: 4rem;
+    padding: 0 10px;
+    border: 0;
+    border-bottom: 2px solid var(--color-base-accent);
+    border-radius: 4px 4px 0 0;
+    background: #DEE3EF;
+    caret-color: var(--color-base-accent);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.ad-input::selection { background: rgba(113, 128, 172, 0.3); }
+
+/* The Show issues button carries the same pin as the map */
+.issues-pin { flex-shrink: 0; margin-right: 6px; vertical-align: -4px; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25)); }
+
+/* The store floats above the backdrop: a long soft shadow under the slab */
+.store-map__scene { filter: drop-shadow(0 16px 18px rgba(40, 52, 70, 0.22)); }
+
+
+/* The little person: a floating button at the top right of the map. Click it, then click an area to look inside it. */
+.store-map { position: relative; }
+.store-map__peg-wrap { height: 0; }
+.store-map__peg {
+    position: fixed; top: 0; left: 0; z-index: 85; width: 44px; height: 44px; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--color-fill-quaternary); border-radius: 10px; background: #fff;
+    box-shadow: 0 4px 14px rgba(40, 52, 70, .22); cursor: grab;
+    transition: background-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.store-map__full { cursor: pointer; }
+.store-map__peg:hover, .store-map__peg:focus-visible { background: #F7F8FB; box-shadow: inset 0 0 0 2px var(--color-base-accent-lighter-3), 0 6px 16px rgba(113, 128, 172, .26); transform: translateY(-1px); outline: none; }
+.store-map__peg[aria-pressed="true"] { background: var(--color-base-accent-lighter-1); box-shadow: inset 0 0 0 2px var(--color-base-accent); }
+.store-map__peg-hint {
+    position: fixed; top: 0; left: 0; z-index: 85; padding: 6px 12px; border-radius: 8px; background: #1D1D1F; color: #fff;
+    font-size: var(--font-size-tiny); white-space: nowrap; box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+}
+.store-map__peg-hint[hidden] { display: none; }
+.store-map__peg-hint kbd { margin-left: 6px; padding: 1px 5px; border-radius: 4px; background: rgba(255, 255, 255, .2); font: inherit; }
+.store-map--peg .store-map__area { cursor: crosshair; }
+.store-map--peg .store-map__area.is-hover { filter: brightness(1.08); }
+
+.store-map__closeup {
+    position: fixed; inset: 0; z-index: 9450; display: flex; align-items: center; justify-content: center; padding: 32px;
+    background: rgba(29, 29, 31, .45);
+}
+.store-map__closeup-card {
+    display: flex; flex-direction: column; width: min(1000px, 100%); max-height: 100%; overflow: hidden;
+    border-radius: 16px; background: #fff; box-shadow: 0 24px 64px rgba(0, 0, 0, .35);
+}
+.store-map__closeup-head { display: flex; align-items: center; gap: var(--space-s); padding: var(--space-m) var(--space-mp); border-bottom: 1px solid var(--color-fill-quaternary); }
+.store-map__closeup-head h3 { margin: 0; }
+.store-map__closeup-dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+.store-map__closeup-sec { color: var(--color-glyph-gray-secondary); font-size: var(--font-size-xxs); }
+.store-map__closeup-close { margin-left: auto; width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: var(--color-glyph-gray); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.store-map__closeup-close:hover { background: var(--color-fill-secondary); }
+.store-map__closeup-art { flex: 1; min-height: 0; padding: var(--space-m); background: #E8EDF3; overflow: auto; }
+.store-map__closeup-art svg { display: block; width: 100%; height: auto; max-height: 62vh; }
+.store-map__closeup-foot { display: flex; justify-content: flex-end; gap: var(--space-s); padding: var(--space-m) var(--space-mp); border-top: 1px solid var(--color-fill-quaternary); }
+.dark-mode .store-map__peg, .dark-mode .store-map__closeup-card { background: var(--dm-bg-2); border-color: var(--dm-divider); }
+.dark-mode .store-map__peg[aria-pressed="true"] { background: var(--dm-accent-soft); box-shadow: inset 0 0 0 2px var(--dm-accent); }
+.dark-mode .store-map__closeup-head, .dark-mode .store-map__closeup-foot { border-color: var(--dm-divider); }
+.dark-mode .store-map__closeup-head h3 { color: var(--dm-text-1); }
+.dark-mode .store-map__closeup-art { background: var(--dm-bg-3); }
+
+/* Full screen: the map covers the window (the drawers, the close-up and the footer stay above it) */
+.store-map--full {
+    position: fixed; inset: 0; z-index: 9400; display: flex; flex-direction: column; margin: 0;
+    padding: var(--space-m); background: #E8EDF3; overflow: auto;
+}
+.store-map--full .store-map__canvas { flex: 1; min-height: 0; display: flex; align-items: center; overflow: auto; }
+.store-map--full .store-map__svg { width: 100%; min-width: 0; max-width: none; max-height: calc(100vh - 8rem); }
+.store-map--full .store-map__footer { flex: 0 0 auto; padding-bottom: 3.6rem; }
+.dark-mode .store-map--full { background: var(--dm-bg-1, #1C1C1E); }
+html.has-map-full, html.has-map-full body { overflow: hidden; }
